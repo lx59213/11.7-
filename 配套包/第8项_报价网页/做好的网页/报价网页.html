@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>批发报价 · 猫狗家外贸销售部</title>
+<style>html,body{margin:0;background:#e9e7e1}.wrap{max-width:1120px;margin:0 auto;padding:24px 20px}.wrap .qt{border-radius:16px;box-shadow:0 18px 50px rgba(23,21,19,.12);min-height:680px;height:auto}.wrap .qt .q-fu,.wrap .qt .q-lw{max-height:16em}@media(max-width:760px){.qt-m,.qt-l{grid-template-columns:1fr}}</style>
+<style>
+.qt{--q-ink:#1f1f1d;--q-sub:#6b6a66;--q-faint:#a3a19b;--q-line:#e4e2dc;--q-bg:#f6f6f3;--q-ok:#2f6f8f;--q-okd:#1f5670;--q-oks:#e3eff5;--q-warn:#b7791f;--q-warns:#fbf1dc;--q-bad:#c2410c;--q-bads:#fde8e1;
+  font-family:"Inter","PingFang SC","Noto Sans SC","Microsoft YaHei",system-ui,sans-serif;font-size:18px;color:var(--q-ink);background:var(--q-bg);
+  display:flex;flex-direction:column;gap:.5em;padding:.7em .8em;width:100%;height:100%;text-align:left;line-height:1.35;word-break:keep-all;overflow-wrap:anywhere}
+.qt *{box-sizing:border-box}
+.qt.s-pane{font-size:17px}.qt.s-demo{font-size:18px}.qt.s-hero{font-size:20px}
+.qt-h{display:flex;align-items:center;gap:.6em;padding:0 .2em;flex:none}
+.qt-h .lg{width:1.7em;height:1.7em;border-radius:.45em;background:var(--q-ok);color:#fff;display:grid;place-items:center;font-weight:800}
+.qt-h b{font-size:1.15em}
+.qt-h>span{color:var(--q-sub)}
+.qt-h .q-val{margin-left:auto;font-size:.9em;color:var(--q-faint);white-space:nowrap}
+.qt-m{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:.6em;flex:none}
+.qt-f,.qt-q,.qt-p,.qt-g{background:#fff;border:1px solid var(--q-line);border-radius:.7em;padding:.55em .8em;min-width:0}
+.qt-f{display:flex;flex-direction:column;gap:.35em}
+.qt label{display:flex;flex-direction:column;gap:.1em;font-size:.9em;color:var(--q-sub);margin:0}
+.qt input,.qt select{font:inherit;font-size:1.05em;color:var(--q-ink);border:1.5px solid var(--q-line);border-radius:.45em;padding:.1em .5em;background:#fff;width:100%;min-width:0;height:1.9em;margin:0}
+.qt select:disabled{background:#f1f0ec;color:var(--q-faint)}
+.qt input:focus,.qt select:focus{outline:2px solid #9cc0d3;border-color:#7aa9c2}
+.qt-r2{display:grid;grid-template-columns:1fr 1fr;gap:.5em}
+.qt-r2.w{grid-template-columns:1.25fr .75fr}
+.qt .q-cu{display:flex;align-items:center;gap:.9em;font-size:.9em;color:var(--q-sub);min-height:1.9em}
+.qt .q-cu label.ck{flex-direction:row;align-items:center;gap:.3em;font-size:1.05em;color:var(--q-ink);cursor:pointer;white-space:nowrap}
+.qt .q-cu input{width:1.05em;height:1.05em;margin:0;accent-color:var(--q-ok)}
+.qt button{font:inherit;cursor:pointer;border:0;border-radius:.5em;padding:.3em 1em;font-weight:700}
+.qt .q-go{background:var(--q-ink);color:#fff;font-size:1.05em;height:2em;margin-top:.1em}
+.qt-q{display:flex;flex-direction:column;gap:.2em}
+.qt-qh{display:flex;justify-content:space-between;align-items:baseline;gap:.8em}
+.qt-qh b{font-size:1.1em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}.qt-qh span{color:var(--q-sub);font-size:.9em;white-space:nowrap}
+.qt-row{display:flex;justify-content:space-between;gap:1em;font-size:.92em;color:var(--q-sub)}
+.qt-row b{color:var(--q-ink);font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.qt-row b i{font-style:normal;color:var(--q-sub);font-weight:400;margin-right:.5em}
+.qt-tot{display:flex;align-items:baseline;justify-content:space-between;border-top:1px dashed var(--q-line);padding-top:.25em;margin-top:.1em;gap:.6em}
+.qt-tot>span{color:var(--q-sub);font-size:.92em;white-space:nowrap}
+.qt-tot>span b{color:var(--q-ink);font-size:1.15em;margin-left:.3em;font-variant-numeric:tabular-nums}
+.qt-tot>b{font-size:1.6em;font-variant-numeric:tabular-nums;line-height:1.1;white-space:nowrap}
+.qt-tot>b i{font-style:normal;font-size:.55em;margin-right:.2em;font-weight:600;color:var(--q-sub)}
+.qt-st{padding:.25em .6em;border-radius:.5em;font-weight:700;font-size:.92em;line-height:1.3}
+.qt-st.ok{background:var(--q-oks);color:var(--q-okd)}.qt-st.warn{background:var(--q-warns);color:#7a5410}.qt-st.bad{background:var(--q-bads);color:var(--q-bad)}
+.qt-nt{margin:0;font-size:.82em;color:var(--q-sub);line-height:1.35}
+.qt-l{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:.6em;flex:1;min-height:0}
+.qt-p,.qt-g{display:flex;flex-direction:column;min-height:0;overflow:hidden}
+.qt h4{margin:0 0 .3em;font-size:.92em;color:var(--q-sub);font-weight:600;letter-spacing:.04em;display:flex;align-items:center;gap:.5em}
+.qt h4 i{font-style:normal;background:var(--q-warn);color:#fff;border-radius:999px;min-width:1.5em;text-align:center;font-size:1em;padding:0 .35em}
+.qt h4 i.zero{background:var(--q-line);color:var(--q-sub)}
+.q-fu{list-style:none;margin:0;padding:0;overflow:auto;display:flex;flex-direction:column;gap:.4em}
+.q-fu li{background:var(--q-warns);border:1px solid #ecd9a8;border-radius:.55em;padding:.35em .6em;font-size:.92em;line-height:1.3}
+.q-fu li b{display:block;font-weight:600}.q-fu li b span{white-space:nowrap}
+.q-fu li small{display:block;color:#7a5410;font-size:.92em}
+.q-fu li.q-none{background:none;border:0;padding:0;color:var(--q-faint)}
+.q-lw{overflow:auto;min-height:0;flex:1}
+.q-log{border-collapse:collapse;width:100%;font-size:.92em;table-layout:fixed}
+.q-log col.ct{width:3.2em}.q-log col.cp{width:5.6em}.q-log col.cr{width:5.4em}
+.q-log td{padding:.22em .35em;border-top:1px solid var(--q-line);vertical-align:baseline;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.q-log tr:first-child td{border-top:0}
+.q-log .t{color:var(--q-faint);white-space:nowrap;width:3em}
+.q-log .p{white-space:nowrap;text-align:right;font-variant-numeric:tabular-nums}
+.q-log small{color:var(--q-sub);font-size:.88em;margin-left:.5em}
+.q-log .k-ok{color:var(--q-okd);font-weight:700;white-space:nowrap}.q-log .k-warn{color:#7a5410;font-weight:700;white-space:nowrap}.q-log .k-bad{color:var(--q-bad);font-weight:700;white-space:nowrap}
+.q-log tr.new td{animation:qtnew .8s ease-out}
+@keyframes qtnew{from{background:#fff3c4}}
+</style></head><body><div class="wrap"><div class="qt s-demo"><div class="qt-h"><span class="lg">猫</span><b>批发报价</b><span>猫狗家 · 外贸销售部 · 业务员和经销商都能用</span><span class="q-val">价格有效到 12 月 31 日</span></div><div class="qt-m"><div class="qt-f"><div class="qt-r2 w"><label>客户<input class="q-c" type="text" placeholder="经销商名"></label><label>数量（件）<input class="q-n" type="number" min="1" step="1" value="300"></label></div><label>产品<select class="q-m"><option value="MG-W25">MG-W25 · 智能饮水机 2.5 升</option><option value="CL-300">CL-300 · 复古露营灯（黑色）</option></select></label><div class="qt-r2"><label>插头<select class="q-pg"><option value="欧规">欧规（标配）</option><option value="英规">英规（同价）</option><option value="">露营灯不用选</option></select></label><label>报法<select class="q-po"><option value="">FOB 深圳盐田</option><option value="汉堡">到汉堡（德国）</option><option value="鹿特丹">到鹿特丹（荷兰）</option><option value="费利克斯托">到费利克斯托（英国）</option><option value="杰贝阿里">到杰贝阿里（阿联酋）</option><option value="其他港口">其他港口</option></select></label></div><div class="q-cu"><span>定制</span><label class="ck"><input type="checkbox" class="q-logo">贴 logo</label><label class="ck"><input type="checkbox" class="q-box">定制彩盒</label></div><button type="button" class="q-go">出报价</button></div><div class="qt-q"><div class="qt-qh"><b class="q-cn"></b><span class="q-mn"></span></div><div class="q-rows"></div><div class="qt-tot"><span>单价<b class="q-un"></b></span><b class="q-tot"></b></div><div class="qt-st q-st"></div><p class="qt-nt q-nt"></p></div></div><div class="qt-l"><div class="qt-p"><h4>要人跟进<i class="q-pn zero">0</i></h4><ul class="q-fu"></ul></div><div class="qt-g"><h4>报价记录</h4><div class="q-lw"><table class="q-log"></table></div></div></div></div></div>
+<script>
+function qtQty(n){return Number(n).toLocaleString('en-US')}
+function qtUsd(c){c=Math.round(c);return Math.floor(c/100).toLocaleString('en-US')+'.'+('0'+(c%100)).slice(-2)}
+function qtAmt(c){return Math.floor(c/100)+'.'+('0'+(c%100)).slice(-2)}
+function qtPlus(c){return '+'+Math.floor(c/100)+'.'+('0'+(c%100)).slice(-2)}
+function qtCalc(R,o){
+  var n=o.n,why=[],who='业务员',P=R.products[o.m],r;
+  if(!(n>0))n=0;
+  if(n<R.min)why.push('不到 '+qtQty(R.min)+' 件，起订 '+qtQty(R.min)+' 件');
+  else if(n>=R.boss){why.push(qtQty(R.boss)+' 件及以上，价格由销售主管谈');who='销售主管'}
+  else ['logo','box'].forEach(function(k){var cu=R.custom[k];if(o[k]&&n<cu.moq)why.push(cu.name+' '+qtQty(cu.moq)+' 件起，这单 '+qtQty(n)+' 件')});
+  r={kind:why.length?'no':'ok',ok:false,why:why,who:who,parts:[],adds:[]};
+  if(why.length)return r;
+  var t=n<R.breaks[1]?0:(n<R.breaks[2]?1:2);
+  var base=P.price[t];r.tier=R.tiers[t];r.base=base;
+  r.parts.push(['数量档',r.tier,base]);
+  r.parts.push(['插头',P.plug?o.plug+'，同价':'不用选',0]);
+  var cn=[],ca=0;['logo','box'].forEach(function(k){if(o[k]){var cu=R.custom[k];cn.push(cu.name);ca+=cu.add;r.adds.push(cu.name+' '+qtAmt(cu.add))}});
+  r.parts.push(['定制',cn.join('、')||'不定制',ca]);
+  if(o.port&&R.ports[o.port]){var f=R.ports[o.port].fee[o.m];r.parts.push(['运费','到'+o.port,f]);r.adds.push('到'+o.port+'运费 '+qtAmt(f))}
+  else if(o.port){r.kind='fob';r.why=['运费表里没有'+(o.port==='其他港口'?'这个港口':o.port)+'，到港价不报，转业务员问货代'];r.parts.push(['运费','只报 FOB',0])}
+  else r.parts.push(['运费','FOB 深圳盐田，不含',0]);
+  r.ok=r.kind==='ok';
+  r.unit=r.parts.reduce(function(s,p){return s+p[2]},0);r.total=r.unit*n;
+  return r}
+
+(function(){
+var R={"min": 300, "boss": 10000, "boss_name": "郑凯", "tiers": ["300–999 件", "1,000–2,999 件", "3,000 件以上"], "breaks": [300, 1000, 3000], "products": {"MG-W25": {"name": "智能饮水机 2.5 升", "short": "饮水机", "price": [1280, 1190, 1120], "plug": true}, "CL-300": {"name": "复古露营灯（黑色）", "short": "露营灯", "price": [960, 890, 830], "plug": false}}, "plugs": ["欧规", "英规"], "custom": {"logo": {"name": "贴 logo", "add": 50, "moq": 1000}, "box": {"name": "定制彩盒", "add": 40, "moq": 1000}}, "ports": {"汉堡": {"fee": {"MG-W25": 85, "CL-300": 45}}, "鹿特丹": {"fee": {"MG-W25": 80, "CL-300": 42}}, "费利克斯托": {"fee": {"MG-W25": 90, "CL-300": 48}}, "杰贝阿里": {"fee": {"MG-W25": 60, "CL-300": 32}}}};
+function pad(n){return (n<10?'0':'')+n}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function init(root){
+  if(root._qt)return;
+  var $=function(s){return root.querySelector(s)};
+  var st;
+  function reset(){st={log:[],fu:[],last:null,clock:16*60+5,fake:root.dataset.clock==='fake'};
+    $('.q-c').value='';$('.q-m').value=Object.keys(R.products)[0];$('.q-n').value=R.min;$('.q-pg').value=R.plugs[0];$('.q-po').value='';
+    $('.q-logo').checked=false;$('.q-box').checked=false;render()}
+  function now(){if(st.fake){var t=st.clock;st.clock+=3;return pad(Math.floor(t/60))+':'+pad(t%60)}var d=new Date();return pad(d.getHours())+':'+pad(d.getMinutes())}
+  function plugUi(){var P=R.products[$('.q-m').value],s=$('.q-pg');s.disabled=!P.plug;s.querySelector('option[value=""]').hidden=!!P.plug;if(!P.plug)s.value='';else if(!s.value)s.value=R.plugs[0]}
+  function read(){var P=R.products[$('.q-m').value];return {c:$('.q-c').value.trim(),m:$('.q-m').value,n:Math.max(0,parseInt($('.q-n').value,10)||0),plug:P.plug?$('.q-pg').value:'',
+    logo:$('.q-logo').checked,box:$('.q-box').checked,port:$('.q-po').value}}
+  function key(o){return [o.c,o.m,o.n,o.plug,o.logo,o.box,o.port].join('|')}
+  function render(){
+    plugUi();
+    var o=read(),r=qtCalc(R,o),P=R.products[o.m],no=r.kind==='no';
+    $('.q-cn').textContent=o.c||'（还没填客户）';
+    $('.q-mn').textContent=o.m+' '+P.short+' × '+qtQty(o.n)+' 件';
+    $('.q-rows').innerHTML=!no?r.parts.map(function(p){return '<div class="qt-row"><span>'+p[0]+'</span><b><i>'+esc(p[1])+'</i>'+(p[0]==='数量档'?qtUsd(p[2]):(p[2]?qtPlus(p[2]):'—'))+'</b></div>'}).join('')
+      :'<div class="qt-row"><span>数量档</span><b>—</b></div><div class="qt-row"><span>插头</span><b><i>'+esc(o.plug||'不用选')+'</i>—</b></div><div class="qt-row"><span>定制</span><b>—</b></div><div class="qt-row"><span>运费</span><b>—</b></div>';
+    $('.q-un').textContent=no?'—':'US$'+qtUsd(r.unit)+(r.kind==='fob'?'（FOB）':'');
+    $('.q-tot').innerHTML=no?'<i>总价</i>不报':'<i>总价 US$</i>'+qtUsd(r.total);
+    var s=$('.q-st'),txt,kind;
+    if(st.last&&st.last.key===key(o)){txt=st.last.text;kind=st.last.kind}
+    else if(r.kind==='ok'){txt='能报，可以发给经销商';kind='ok'}
+    else if(r.kind==='fob'){txt='只报 FOB：'+r.why.join('；');kind='warn'}
+    else{txt='不报：'+r.why.join('；');kind='bad'}
+    s.className='qt-st q-st '+kind;s.textContent=txt;
+    $('.q-nt').textContent='备注：'+(no?'':r.tier+'档，'+(r.adds.length?'加了'+r.adds.join('、'):'不加价')+'；'+(P.plug?o.plug+'插头同价；':''))+'交期由业务员确认；运费有效到 11 月 30 日';
+    var pn=$('.q-pn');pn.textContent=st.fu.length;pn.className='q-pn'+(st.fu.length?'':' zero');
+    $('.q-fu').innerHTML=st.fu.length?st.fu.map(function(x){return '<li><b><span>'+esc(x.c)+'</span> · <span>'+x.m+' × '+qtQty(x.n)+' 件</span></b><small>'+esc(x.why)+'</small></li>'}).join(''):'<li class="q-none">没有要跟进的单</li>';
+    $('.q-log').innerHTML=st.log.length?'<colgroup><col class="ct"><col><col class="cp"><col class="cr"></colgroup>'+st.log.map(function(x){return '<tr class="'+(x.fresh?'new':'')+'"><td class="t">'+x.t+'</td><td class="c">'+esc(x.c)+'<small>'+esc(x.d)+'</small></td>'
+      +'<td class="p">'+(x.unit?'US$'+x.unit:'—')+'</td><td class="k-'+x.k+'">'+esc(x.res)+'</td></tr>'}).join(''):'<tr><td style="color:#a3a19b">还没有记录</td></tr>';
+    st.log.forEach(function(x){x.fresh=false});
+  }
+  function submit(){
+    var o=read();if(!o.c){st.last={key:key(o),text:'先填客户名',kind:'bad'};render();return}
+    var r=qtCalc(R,o),t=now(),P=R.products[o.m],d=P.short+' '+qtQty(o.n)+' 件',w=r.why.join('；');
+    if(r.kind==='ok'){st.log.unshift({t:t,c:o.c,d:d,unit:qtUsd(r.unit),res:'已报价',k:'ok',fresh:true});
+      st.last={key:key(o),text:'已报价，记录里留了一行',kind:'ok'}}
+    else if(r.kind==='fob'){st.fu.unshift({c:o.c,m:o.m,n:o.n,why:'到港价：'+w});
+      st.log.unshift({t:t,c:o.c,d:d,unit:qtUsd(r.unit),res:'只报 FOB',k:'warn',fresh:true});
+      st.last={key:key(o),text:'已报 FOB 价；到港价已转给业务员问货代',kind:'warn'}}
+    else{var to=r.who==='销售主管'?'销售主管'+R.boss_name:'业务员';st.fu.unshift({c:o.c,m:o.m,n:o.n,why:(r.who==='销售主管'?'转'+to+'：':'')+w});
+      st.log.unshift({t:t,c:o.c,d:d,unit:'',res:'不报',k:'bad',fresh:true});
+      st.last={key:key(o),text:'不报：'+w+'。已转给'+to,kind:'bad'}}
+    render()}
+  function fill(o){$('.q-c').value=o.c;$('.q-m').value=o.m;plugUi();if(o.plug)$('.q-pg').value=o.plug;$('.q-n').value=o.n;$('.q-po').value=o.port||'';
+    $('.q-logo').checked=!!o.logo;$('.q-box').checked=!!o.box;render()}
+  root.addEventListener('input',function(ev){if(ev.target.matches('input,select'))render()});
+  root.addEventListener('change',function(ev){if(ev.target.matches('select')){ev.target.blur()}render()});
+  root.addEventListener('click',function(ev){var b=ev.target.closest('button');if(!b)return;if(b.classList.contains('q-go'))submit()});
+  root.addEventListener('keydown',function(ev){if(ev.key==='Enter'&&ev.target.tagName==='INPUT'&&ev.target.type!=='checkbox'&&ev.target.closest('.qt-f')){ev.preventDefault();submit();ev.target.blur()}});
+  var OS=[{"c": "Brackley Camping Supplies", "m": "CL-300", "n": 2500, "plug": "", "logo": true, "box": false, "port": ""}, {"c": "Kesselwald Tierbedarf", "m": "MG-W25", "n": 800, "plug": "欧规", "logo": false, "box": false, "port": "汉堡"}, {"c": "Al Waha Pet Supplies", "m": "MG-W25", "n": 12000, "plug": "英规", "logo": false, "box": false, "port": "杰贝阿里"}];
+  root._qt={reset:reset,fill:fill,submit:submit,
+    // k：0 填好第一单；1 第一单已报；2 第二单已报；3 第三单不报、转销售主管；9 开场用：一、三、二的顺序，结果栏停在第二单
+    script:function(k){reset();fill(OS[0]);if(k<1)return;submit();if(k===9){fill(OS[2]);submit();fill(OS[1]);submit();return}if(k<2)return;fill(OS[1]);submit();if(k<3)return;fill(OS[2]);submit()}};
+  var pre=root.dataset.preset;
+  reset();
+  var K={A0:0,A:1,AB:2,ABC:3,ACB:9};if(pre in K)root._qt.script(K[pre]);
+}
+document.querySelectorAll('.qt').forEach(init);
+})();
+</script></body></html>

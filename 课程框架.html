@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>组织 AI 技能提升实操训练营 · 课程框架</title>
+<style>
+.bq{margin:6px 0 10px}.bq p{font-size:14px;line-height:1.55;color:var(--soft);margin:3px 0;display:flex;gap:10px}.bq i{flex:0 0 3em;font-style:normal;color:#fff;font-weight:600}.bq p span{flex:1}
+.bq p.bq2{display:block;margin-top:8px}
+.pbox.bp{gap:10px}.bpd{grid-template-columns:repeat(10,15px)!important;gap:5px!important}.bpd i{width:15px!important;height:15px!important}
+
+.bset{font-size:15px;line-height:1.6;color:var(--soft);margin:-8px 0 12px;max-width:62em}
+
+.pbox.bp{display:flex;flex-direction:column;justify-content:center;align-items:stretch;gap:18px;width:100%}
+.bpr{display:grid;grid-template-columns:64px 1fr 64px;align-items:center;gap:12px}.bpr span{font-size:15px;color:var(--soft)}
+.bpr b{font-size:24px;font-weight:300;color:var(--gray);text-align:right}.bpr b.o{color:var(--acc)}
+.bpd{display:grid;grid-template-columns:repeat(10,18px);gap:7px 7px}.bpd i{display:block;width:18px;height:18px;border-radius:50%;border:1px solid #555}
+.bpd i.g{background:#8a8a88;border-color:#8a8a88}.bpd i.o{background:var(--acc);border-color:var(--acc)}
+.bpk{font-size:17px;color:#fff;margin:4px 0 0}
+
+.vz{height:96px;margin:14px 0 12px;display:flex;flex-direction:column;justify-content:center;gap:10px}
+.vhrs{display:grid;grid-template-columns:repeat(15,1fr);gap:4px}.vhrs i{height:34px;background:#3a3a38;border-radius:2px}.vhrs i.on{background:var(--acc)}
+.vcap{font-size:13px;color:var(--soft);margin:0}.tk .vcap b{display:inline;color:var(--acc);font-size:13px;font-weight:500;margin:0 0 0 8px}
+.vflow{display:flex;align-items:center;gap:6px;flex-wrap:nowrap}.vflow span{border:1px solid var(--acc);color:#fff;font-size:15px;padding:6px 9px;border-radius:3px;white-space:nowrap}.vflow em{color:var(--acc);font-style:normal}
+.vloop{border:1px dashed #555;border-top:0;height:16px;margin:0 14px;position:relative}.vloop span{position:absolute;left:50%;top:18px;transform:translateX(-50%);font-size:13px;color:var(--soft);white-space:nowrap}
+.vshare{display:flex;align-items:center;gap:0}.vpk{background:var(--acc);color:#0a0a0a;font-weight:600;font-size:15px;padding:8px 12px;border-radius:3px;white-space:nowrap}
+.vln{width:26px;height:1px;background:var(--acc)}.vps{display:flex;gap:12px;border-left:1px solid var(--acc);padding-left:12px}
+.vp{display:flex;flex-direction:column;align-items:center;font-size:12px;color:var(--soft);gap:3px}.vp i{width:22px;height:22px;border-radius:50%;border:1.5px solid #fff}
+.vver{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--soft)}.vver em{font-style:normal;color:var(--acc)}.vver .on{color:#fff}.tk .vver b{display:inline;font-size:13px;margin:0 0 0 6px;color:var(--acc);font-weight:500;margin-left:6px}
+.vex{margin-top:22px;border-top:1px solid var(--line2);padding-top:16px}.vex .who{font-size:13px;color:var(--soft);margin:0 0 10px}
+.vexr{display:grid;grid-template-columns:44px 1fr 70px;align-items:center;gap:14px;margin:6px 0}.vexr span{font-size:15px;color:var(--soft)}.vexr.on span{color:var(--acc)}
+.vexr b{font-size:18px;text-align:right;color:var(--soft);font-weight:500}.vexr.on b{color:var(--acc)}
+.vd{display:grid;grid-template-columns:repeat(20,1fr);gap:6px}.vd i{height:16px;border-radius:50%;aspect-ratio:1;border:1px solid #555;max-width:16px}
+.vd.a i.f{background:#9a9a96;border-color:#9a9a96}.vd.a i.h{background:#4a4a48;border-color:#4a4a48}.vd.b i.f{background:var(--acc);border-color:var(--acc)}
+@media (max-width:900px){.vflow span{font-size:13px;padding:5px 6px}.vd{gap:3px}}
+
+.pmap{display:grid;grid-template-columns:28px 1fr;grid-template-rows:1fr auto;gap:8px 10px;margin-top:6px}
+.py{grid-row:1;display:flex;flex-direction:column;justify-content:space-between;align-items:center;font-size:13px;color:var(--mute);border-right:1px solid var(--line2);padding:4px 6px 4px 0}
+.py span{writing-mode:vertical-rl;text-orientation:upright;letter-spacing:2px}.py span:first-child{color:var(--ink);font-weight:600}
+.px{grid-column:2;display:flex;justify-content:space-between;font-size:13px;color:var(--mute);border-top:1px solid var(--line2);padding-top:6px}
+.px span:last-child{color:var(--ink);font-weight:600}
+.pg{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:10px}
+.pq{position:relative;border:1px solid var(--line2);border-radius:4px;padding:14px 18px}
+.pq b{display:block;font-size:20px;font-weight:600;margin-bottom:6px}.pq p{margin:0;font-size:14px;line-height:1.6;color:var(--mute)}
+.pq i{position:absolute;top:12px;right:14px;font-style:normal;font-size:12px;color:var(--mute);border:1px solid var(--line2);border-radius:10px;padding:1px 8px}
+.pq.rt{border:2px solid var(--acc)}.pq.rt b,.pq.rt i{color:var(--acc)}.pq.rt i{border-color:var(--acc)}
+@media (max-width:560px){.pg{grid-template-columns:1fr;grid-template-rows:none}.pmap{grid-template-columns:1fr}.py{display:none}}
+.prs.g3{grid-template-columns:repeat(3,1fr)}.pr.on b{color:var(--acc)}
+.tr3{display:grid;grid-template-columns:30px 82px 1.15fr 1.15fr 120px 64px 64px;align-items:baseline;gap:12px;padding:4px 0;border-top:1px solid var(--line2)}
+.tr3.th{border-top:0;padding-bottom:4px}.tr3.th span{font-size:14px;font-weight:600;color:var(--soft)}.tr3.th .d.b{color:var(--acc)}
+.tr3 b{font-size:17px;font-weight:600}.te{font-size:15px;color:var(--soft)}.tt{font-size:15px}.tm{font-size:13px;color:var(--soft)}
+.tr3 .d{font-size:18px;text-align:right}
+@media (max-width:900px){.prs.g3{grid-template-columns:1fr}.tr3{grid-template-columns:26px 1fr 56px 56px}.tr3 .te,.tr3 .tt,.tr3 .tm{grid-column:2/5}.tr3.th .te,.tr3.th .tt{display:none}}
+
+
+.adw{display:grid;grid-template-columns:1.5fr 1fr;gap:0 28px;margin:-6px 0 14px;font-size:14px;line-height:1.55;color:var(--mute)}
+.adw p{margin:0}.adw b{margin-right:8px;color:var(--ink)}.adw p.on b{color:var(--acc)}
+@media (max-width:760px){.adw{grid-template-columns:1fr;gap:6px}}
+
+.zmx{margin:-2px 0 12px;font-size:14px;line-height:1.5;color:var(--ink)}
+.zmk{margin:8px 0 0;display:flex;gap:28px;font-size:20px}.zmk b{font-weight:500;color:var(--acc)}
+
+.zmhow{display:grid;grid-template-columns:1fr 1.6fr;gap:0 32px;margin:-6px 0 4px;font-size:14px;line-height:1.55;color:var(--mute)}
+.zmhow p{margin:0}.zmhow b{margin-right:8px;color:var(--ink)}.zmhow p.on b{color:var(--acc)}
+.zmw{margin:0 0 10px 112px;font-size:13px;line-height:1.55;color:var(--mute)}
+.zmw.on{color:var(--mute)}
+@media (max-width:760px){.zmhow{grid-template-columns:1fr;gap:6px}.zmw{margin-left:0}}
+
+.case h3{font-size:clamp(20px,2.1vw,27px)!important;margin:6px 0 12px!important}
+.cs{display:grid;grid-template-columns:1fr;gap:12px;font-size:14px;line-height:1.5}
+.cg p{margin:0 0 4px;color:var(--mute)}
+.cs i{font-style:normal;display:inline-block;min-width:4.2em;font-weight:600;color:var(--soft);margin-right:6px}
+.cw{display:grid;grid-template-columns:1fr 1.25fr;gap:0 24px}
+.cl{border-top:1px solid var(--line2);padding-top:8px}
+.cl.on{border-top-color:var(--acc)}
+.ch{margin:0 0 4px;font-weight:600;color:var(--mute)}
+.cl.on .ch{color:var(--acc)}
+.cl ol{margin:0;padding-left:1.3em}
+.cl li{margin:1px 0}
+.cks{margin:0 0 4px;color:var(--mute);font-size:13px}
+.cfx{display:grid;grid-template-columns:1.3fr 1fr;gap:0 24px;align-items:start}
+.crs{border-top:1px solid var(--line2)}
+.cr{display:grid;grid-template-columns:1fr 120px 120px;gap:8px;padding:4px 0;border-bottom:1px solid var(--line)}
+.cr span{color:var(--mute)}
+.cr b{font-weight:500;text-align:right}
+.cr b.a{color:var(--mute)}.cr b.b{color:var(--acc)}
+.cr.th span,.cr.th b{font-size:12px;font-weight:600}
+.cy p{margin:0 0 6px;color:var(--ink)}
+@media (max-width:900px){.cw,.cfx{grid-template-columns:1fr;gap:10px}.cr{grid-template-columns:1fr 80px 80px}}
+
+.prs{display:grid;grid-template-columns:repeat(4,1fr);gap:0 24px;margin-top:4px}
+.pr{border-top:1px solid var(--line2);padding-top:12px}
+.pr b{display:block;font-size:19px;font-weight:500;margin:4px 0 8px}
+.pr p{margin:0;font-size:14px;line-height:1.6;color:var(--mute)}
+.pr .prx{margin-top:10px;padding-top:8px;border-top:1px dashed var(--line2);color:var(--acc);font-size:13px}
+@media (max-width:900px){.prs{grid-template-columns:1fr 1fr;gap:18px}}
+@media (max-width:560px){.prs{grid-template-columns:1fr}}
+
+.tks{display:grid;grid-template-columns:repeat(3,1fr);gap:0 32px;margin-top:6px}
+.tk{border-top:1px solid var(--line2);padding-top:14px}
+.tkn{font-size:30px;font-weight:300;color:var(--acc)}
+.tk b{display:block;font-size:21px;font-weight:500;margin:6px 0 8px}
+.tk p{margin:0;font-size:15px;line-height:1.6;color:var(--mute)}
+.tkm{margin-top:26px}
+@media (max-width:760px){.tks{grid-template-columns:1fr;gap:18px}}
+
+.f4{list-style:none;margin:30px 0 0;padding:0}
+.f4 li{display:grid;grid-template-columns:56px 1fr;align-items:baseline;padding:20px 0;border-top:1px solid var(--line);font-size:24px;line-height:1.45}
+.f4 li:last-child{border-bottom:1px solid var(--line)}
+.f4n{font-size:34px;font-weight:300;color:var(--acc)}
+@media (max-width:760px){.f4 li{font-size:18px;grid-template-columns:36px 1fr}.f4n{font-size:24px}}
+
+.zmt{display:grid;grid-template-columns:1fr 1.25fr;gap:0 48px;margin-top:22px}
+.zmp{border-top:1px solid var(--line2);padding-top:14px}
+.zmh{margin:0 0 8px;font-size:14px;font-weight:600;letter-spacing:.06em;color:var(--mute)}
+.zmbig{margin-bottom:14px;margin:0;font-size:72px;font-weight:300;line-height:1.05;letter-spacing:-.03em}
+.zmbig em{font-weight:300}
+.zml{margin:8px 0 22px;font-size:16px;color:var(--mute)}
+.zmr{display:grid;grid-template-columns:100px 1fr;gap:12px;padding:10px 0;border-top:1px solid var(--line);font-size:17px}
+.zmr span{font-size:14px;color:var(--mute);padding-top:2px}
+.zmr b{font-weight:500;color:var(--mute)}
+.zmr.on span,.zmr.on b{color:var(--acc)}
+.zmsub{margin:16px 0 6px;font-size:16px}
+.zmb{display:grid;grid-template-columns:100px 1fr 120px;align-items:center;gap:12px;padding:6px 0}
+.zmb span{font-size:14px;color:var(--mute)}
+.zmbt i{display:block;height:22px;background:var(--gray)}
+.zmb b{font-size:22px;font-weight:400;text-align:right;color:var(--mute);white-space:nowrap}
+.zmb.on span,.zmb.on b{color:var(--acc)}
+.zmb.on .zmbt i{background:var(--acc)}
+@media (max-width:760px){.zmt{grid-template-columns:1fr;gap:20px}.zmbig{margin-bottom:14px;font-size:52px}}
+:root{--bg:#f0f0ee;--ink:#0a0a0a;--mute:#737373;--soft:#8a8a88;--line:#d4d4d2;--line2:#b5b5b2;--acc:#FF6B35;--gray:#b5b5b2;--gl:#ececea;--pe:#e4e4e2;--dtb:#d4d4d2;
+  --sans:"Inter","Helvetica Neue","PingFang SC","Noto Sans SC","Microsoft YaHei",system-ui,sans-serif}
+*{box-sizing:border-box}
+.nb{display:inline!important;font-size:inherit!important;color:inherit!important;margin:0!important;font-weight:inherit!important;letter-spacing:inherit!important}
+html,body{background:var(--bg)}
+body{margin:0;color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6;
+  background-image:radial-gradient(rgba(10,10,10,.05) 1px,transparent 1px);background-size:24px 24px}
+.wrap{max-width:1160px;margin:0 auto;padding:72px 32px 120px}
+h1,h2,h3{margin:0;letter-spacing:-.02em}
+em{font-style:normal;color:var(--acc)}
+a{color:var(--mute);text-underline-offset:3px}
+.kk,.kk2{margin:0;font-size:13px;font-weight:600;letter-spacing:.14em;color:var(--soft)}
+.kk2{letter-spacing:.06em;margin-bottom:14px}
+header h1{font-size:clamp(48px,7vw,96px);font-weight:200;line-height:1;margin:18px 0 18px}
+.q{font-size:22px;font-weight:300;color:var(--mute);margin:0}
+section{margin-top:120px}
+.hd{display:flex;align-items:baseline;gap:20px;border-top:1px solid var(--line2);padding-top:22px;margin-bottom:36px}
+.hd .num{font-size:clamp(44px,5vw,72px);font-weight:200;color:var(--acc);line-height:1}
+.hd h2{font-size:clamp(26px,3vw,40px);font-weight:300}
+.flow{list-style:none;padding:0;margin:0 0 36px;display:flex;flex-wrap:wrap;gap:8px 0;font-size:14px;font-weight:500;color:var(--mute);counter-reset:f}
+.flow li{counter-increment:f;white-space:nowrap}
+.flow li::before{content:counter(f,decimal-leading-zero) "  ";color:var(--acc);font-weight:600}
+.flow li+li::before{content:"　/　" counter(f,decimal-leading-zero) "  "}
+.blk{aspect-ratio:16/9;display:flex;flex-direction:column;justify-content:center;--ink:#fafaf8;--mute:#a3a3a3;--soft:#8a8a88;--line:#262626;--line2:#3d3d3d;--acc:#FF6B35;--gray:#5c5c5a;--gl:#1c1c1c;--pe:#262626;--dtb:#3a3a3a;color:var(--ink);background:#0a0a0a;border:1px solid var(--line);border-radius:4px;padding:28px 40px 22px;margin-bottom:28px}
+.blk.wt{--ink:#0a0a0a;--mute:#737373;--soft:#8a8a88;--line:#e4e4e2;--line2:#d4d4d2;--acc:#FF6B35;--gray:#b5b5b2;--gl:#efefed;--pe:#e4e4e2;--dtb:#d4d4d2;background:#fafaf8;border-color:#d4d4d2}
+.blk h3{font-size:clamp(22px,2.6vw,34px);font-weight:300;line-height:1.35;margin:10px 0 22px}
+.src{margin:26px 0 0;padding-top:12px;border-top:1px solid var(--line);font-size:13px;font-weight:500;color:var(--soft)}
+.src a{margin-left:8px}
+/* 点名与定义 */
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.v{padding:6px 36px 10px 0}.v+.v{padding-left:36px;border-left:1px solid var(--line2)}
+.vh{margin:0 0 14px;font-size:15px;font-weight:600;letter-spacing:.1em}
+.v.g .vh{color:var(--soft)}.v.o .vh{color:var(--acc)}
+.vb{margin:0;font-size:clamp(24px,2.6vw,36px);font-weight:300;line-height:1.4}
+.v.g .vb{color:var(--mute)}.v.o .vb{color:var(--acc)}
+.dfs{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line2)}
+.df{padding:18px 22px 4px 0}.df+.df{padding-left:22px;border-left:1px solid var(--line)}
+.df .no{display:block;font-size:44px;font-weight:200;color:var(--acc);line-height:1;margin-bottom:12px}
+.df b{display:block;font-size:22px;font-weight:500}
+.nx{margin:24px 0 0;font-size:18px;color:var(--mute)}
+.blk.tx{padding-left:72px;padding-right:72px}
+.blk.tx h3{font-size:clamp(34px,4.4vw,60px);font-weight:300;margin-bottom:34px}
+.blk.tx .raw{font-size:clamp(22px,2.4vw,32px)}
+.blk.tx .nx{font-size:clamp(17px,1.6vw,21px);margin-top:30px}
+.raw{margin:0;font-size:clamp(20px,2vw,26px);font-weight:300;line-height:1.6;max-width:880px}
+/* 举手 */
+.hands{display:grid;gap:10px}
+.hr2{display:grid;grid-template-columns:260px 1fr 48px;align-items:center;gap:16px}
+.hr2 span{font-size:16px;font-weight:500;color:var(--mute)}
+.bt{height:30px}
+.hr2 b{font-size:30px;font-weight:200;text-align:right}
+.hr2:not(.lo) .bt i{background:var(--gray)} .hr2.lo .bt i{background:var(--acc)} .hr2.lo b,.hr2.lo span{color:var(--acc)}
+.gw{display:block;height:100%;width:0;border-radius:2px;transition:width 1.1s cubic-bezier(.2,.7,.2,1)}
+.in .gw{width:var(--w)}
+/* 象限 */
+.sx{overflow-x:auto}
+.qsvg{display:block;width:100%;min-width:620px;height:auto;max-height:390px}
+.qsvg .qd{fill:rgba(255,107,53,.08)}
+.qsvg .gl{stroke:var(--gl);stroke-width:1}
+.qsvg .ax{stroke:var(--line2);stroke-width:1.5}
+.qsvg .dg{stroke:var(--mute);stroke-width:1.5;stroke-dasharray:6 6}
+.qsvg .t{fill:var(--mute);font-family:var(--sans)}
+.qsvg .s{font-size:15px;font-weight:500;fill:var(--soft)}
+.qsvg .q{font-size:15px;font-weight:600;letter-spacing:.06em;fill:var(--soft)}
+.qsvg .q.o{fill:var(--acc)}
+.qsvg .pg{fill:var(--gray)}
+.qsvg .hol{fill:none;stroke:var(--mute);stroke-width:2;stroke-dasharray:3 3}
+.qsvg .po{fill:var(--acc)}
+.qsvg .gap{stroke:var(--acc);stroke-width:2.5;stroke-dasharray:5 4}
+.qsvg .ah{fill:var(--acc)}
+.qsvg .lb{font-size:18px;font-weight:600}
+.qsvg .o{fill:var(--acc)}
+.qsvg .big{font-size:34px;font-weight:200;fill:var(--acc)}
+.qsvg .dw{opacity:0;transition:opacity .6s ease .5s}
+.in .qsvg .dw{opacity:1}
+.in .qsvg .gap{animation:dash 1.2s ease .4s both}
+@keyframes dash{from{stroke-dashoffset:120}to{stroke-dashoffset:0}}
+/* BCG */
+.bcg{display:grid;grid-template-columns:1fr 1fr}
+.pp2{padding-right:44px}
+.pp2+.pp2{padding:0 0 0 44px;border-left:1px solid var(--line2)}
+.ph{margin:0;font-size:28px;font-weight:400}
+.pd{margin:4px 0 12px;font-size:16px;color:var(--mute)}
+.pbox{display:flex;align-items:flex-end;gap:28px}
+.pcs{display:flex;align-items:flex-end;gap:18px;height:120px;flex:0 0 50%;border-bottom:1px solid var(--line2)}
+.pc{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;position:relative}
+.pc i{display:block;width:100%}
+.pc.g i{background:var(--gray)}.pc.o i{background:var(--acc)}
+.pc b{font-size:30px;font-weight:300;margin-bottom:6px;white-space:nowrap}
+.pc.g b{color:var(--mute)}.pc.o b{color:var(--acc)}
+.pc span{position:absolute;top:100%;margin-top:10px;font-size:16px;font-weight:600;color:var(--mute);white-space:nowrap}
+.dl{padding-bottom:30px}
+.dl em{display:block;font-size:56px;line-height:1;font-weight:200}
+.dl b{display:block;font-size:clamp(28px,2.8vw,42px);font-weight:300;line-height:1.1;white-space:nowrap}
+.dl.up em,.dl.up b{color:var(--acc)}
+.dl.dn em,.dl.dn b{color:var(--ink)}
+.pn{margin:36px 0 0;font-size:16px;color:var(--mute)}
+.pp2:last-child .pbox{margin-bottom:0}
+.ppl{display:grid;gap:22px;margin-top:6px}
+.plr{display:grid;grid-template-columns:70px 1fr 90px;align-items:center;gap:12px}
+.pl{font-size:16px;font-weight:600;color:var(--mute)}
+.pes{display:flex;gap:6px}
+.pe{position:relative;width:24px;height:40px;flex:none}
+.pe svg{width:24px;height:40px;display:block}
+.pe .e svg{fill:var(--pe)}
+.pe .f{position:absolute;left:0;top:0;height:100%;overflow:hidden}
+.pe.g .f svg{fill:var(--mute)}.pe.o .f svg{fill:var(--acc)}
+.plr b{font-size:30px;font-weight:300;text-align:right;white-space:nowrap}
+.plr b.g{color:var(--mute)}.plr b.o{color:var(--acc)}
+.pp2 .dl.dn{padding:22px 0 0}
+.bcg+.src{margin-top:22px}
+.lgd{margin:44px 0 0;display:flex;align-items:center;gap:10px;font-size:15px;font-weight:600;color:var(--mute)}
+.lgd i{width:16px;height:16px;display:inline-block;border-radius:2px}.lgd i.g{background:var(--gray)}.lgd i.o{background:var(--acc);margin-left:18px}
+.gh{height:0;transition:height 1.1s cubic-bezier(.2,.7,.2,1)}
+.in .gh{height:var(--h)}
+/* 我们真跑 */
+.mets{display:grid;gap:14px}
+.met{border-top:1px solid var(--line2);padding-top:10px}
+.mq{margin:0 0 4px;font-size:18px;font-weight:500;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.mq span{font-size:13px;font-weight:600;letter-spacing:.1em;color:var(--soft)}
+.mr{display:grid;grid-template-columns:96px 1fr 150px;align-items:center;gap:18px;margin:2px 0}
+.mn{font-size:15px;font-weight:600;color:var(--mute)}
+.mr.b .mn{color:var(--acc)}
+.dt{display:flex;flex-wrap:wrap;gap:7px}
+.dt i{width:17px;height:17px;border-radius:50%;border:1.5px solid var(--dtb);transform:scale(.4);opacity:0;transition:transform .4s ease,opacity .4s ease}
+.in .dt i{transform:none;opacity:1}
+.mr.a .dt i.f{background:var(--mute);border-color:var(--mute)}
+.mr.a .dt i.p{background:rgba(163,163,163,.35);border-color:rgba(163,163,163,.35)}
+.mr.b .dt i.f{background:var(--acc);border-color:var(--acc)}
+.mr.b .dt i.p{background:rgba(255,107,53,.4);border-color:rgba(255,107,53,.4)}
+.mr b{white-space:nowrap;font-size:clamp(30px,2.8vw,38px);font-weight:200;line-height:1;text-align:right;color:var(--mute)}
+.mr.b b{color:var(--acc)}
+/* 正课 */
+.route{display:flex;flex-wrap:wrap;gap:28px 18px}
+.sts{display:flex;flex-wrap:wrap;row-gap:18px}
+.st{border-top:1px solid var(--line2);padding:14px 14px 0 0;min-width:80px;position:relative}
+.st::before{content:"";position:absolute;top:-4px;left:0;width:7px;height:7px;border-radius:50%;background:var(--line2)}
+.st span{display:block;font-size:13px;font-weight:600;color:var(--soft)}
+.st b{display:block;font-size:20px;font-weight:400;margin:2px 0}
+.st em{display:block;font-size:15px;font-weight:500}
+.st.on{border-top:2px solid var(--acc)}.st.on::before{background:var(--acc);width:9px;height:9px;top:-5px}
+.st.on b{color:var(--acc)}
+.adb{position:relative;display:flex;align-items:flex-end;gap:4px;height:280px;border-bottom:1px solid var(--line2)}
+.adb i{flex:1;min-width:0;background:var(--gray)}
+.adb i.hot{background:var(--acc)}
+.adb i.ty{align-self:stretch;height:auto;background:none;border:1px dashed var(--line2);border-bottom:0}
+.adb .avl{position:absolute;left:0;right:0;bottom:calc(313.6/1350*100%);border-top:1px dashed var(--mute)}
+.adb .avg{position:absolute;left:0;bottom:calc(313.6/1350*100% + 6px);font-size:13px;font-weight:600;color:var(--soft)}
+.adb .hotl{position:absolute;right:13%;top:4%;text-align:right;font-size:15px;font-weight:600;color:var(--acc);line-height:1.5}
+.adb .hotl b{display:block;font-size:clamp(56px,6vw,88px);font-weight:200;line-height:1}
+.adb .hotl small{font-size:.35em;margin-left:4px}
+.adx{display:flex;justify-content:space-between;font-size:13px;font-weight:500;color:var(--soft);margin-top:10px}
+.sub{margin:56px 0 18px;font-size:22px;font-weight:300}
+.four{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line2)}
+.four>div{padding:18px 20px 6px 0}
+.four>div+div{padding-left:20px;border-left:1px solid var(--line)}
+.four .no{display:block;font-size:44px;font-weight:200;color:var(--acc);line-height:1}
+.fn{margin:12px 0 8px;font-size:13px;font-weight:600;letter-spacing:.12em;color:var(--acc)}
+.four b{display:block;font-size:18px;font-weight:500;line-height:1.45}
+.fd{display:block;font-size:15px;color:var(--mute);margin-top:6px;line-height:1.55}
+.kin{margin:0 0 10px;font-size:16px;color:var(--mute);max-width:960px}
+.kn{font-size:13px;font-weight:600;color:var(--soft)}
+.ks{font-size:14px;font-weight:600;color:var(--ink)}
+.kc{font-size:14px;color:var(--mute);margin-top:6px;line-height:1.45}
+/* 成果 */
+.tenw{display:grid;grid-template-columns:180px 1fr;gap:36px;align-items:center}
+.tot{display:flex;flex-direction:column;gap:28px;margin:0}
+.tot b{display:block;font-size:clamp(64px,7vw,104px);font-weight:200;line-height:.9;color:var(--mute)}
+.tot span{display:block;font-size:16px;font-weight:600;color:var(--mute);margin-bottom:4px}
+.tot .o b,.tot .o span{color:var(--acc)}
+.tn{font-size:13px;font-weight:600;color:var(--soft)}
+.kgs{border-top:1px solid var(--line2)}
+.kab h3{margin:4px 0 8px}.blk.kab{padding-top:18px;padding-bottom:16px}.kab .src{margin-top:12px;padding-top:8px}.nw{white-space:nowrap}
+.kg{display:grid;grid-template-columns:190px 1fr;gap:16px;border-bottom:1px solid var(--line2);padding:4px 0}
+.kgh b{display:block;font-size:22px;font-weight:500;color:var(--ink)}
+.kgh span{display:block;font-size:14px;color:var(--mute);margin-top:4px;line-height:1.45}
+.kgc{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.ka{display:flex;flex-direction:column;border-left:2px solid var(--line2);padding:2px 0 2px 12px}
+.ka.on{border-left-color:var(--acc)}
+.kn{font-size:14px;font-weight:600;letter-spacing:.06em;color:var(--soft)}
+.ka b span{white-space:nowrap}
+.kq{font-size:14px;color:var(--ink);margin-top:3px;white-space:nowrap;line-height:1.4}
+.kt{font-size:12px;color:var(--mute);margin-top:1px;white-space:nowrap;line-height:1.4}
+.ka b{font-size:18px;font-weight:500;color:var(--acc);line-height:1.28;margin:3px 0 2px}
+.kc{font-size:13px;color:var(--mute);line-height:1.45}
+.tr2{display:grid;grid-template-columns:34px 100px 1fr 150px 150px;align-items:baseline;gap:10px;padding:2px 0;border-top:1px solid var(--line)}
+.tr2.th{border-top:0;padding-bottom:2px}
+.tr2.th .d{font-size:15px;font-weight:600}
+.tn{font-size:13px;color:var(--soft);font-weight:600}
+.tr2 b{font-size:16px;font-weight:500}
+.tw{font-size:15px;color:var(--mute)}
+.d{font-size:20px;font-weight:300;white-space:nowrap;text-align:right}
+.d.a{color:var(--mute)}.d.b{color:var(--acc);font-weight:500}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.two2{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.pks{display:grid;grid-template-columns:1fr 1fr;gap:16px 20px}
+.pk{display:grid;grid-template-columns:30px 1fr;column-gap:12px;align-items:center}
+.pk i{grid-row:span 2;width:28px;height:22px;background:var(--gray);border-radius:2px;position:relative}
+.pk i::before{content:"";position:absolute;left:0;top:-5px;width:12px;height:6px;background:var(--gray);border-radius:2px 2px 0 0}
+.pk b{font-size:16px;font-weight:500}.pk span{font-size:13px;font-weight:500;color:var(--soft)}
+.msg{border-left:2px solid var(--acc);padding:2px 0 2px 18px}
+.msg .who{font-size:13px;font-weight:600;color:var(--soft);margin:0 0 8px}
+.msg p{margin:8px 0;font-size:16px;line-height:1.6}
+.msg b{color:var(--acc);font-weight:600;margin-right:12px}
+/* 入场 */
+.rv{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+.rv.in{opacity:1;transform:none}
+@media print{.rv{opacity:1;transform:none}.gw{width:var(--w)}.gh{height:var(--h)}.dt i{transform:none;opacity:1}.qsvg .dw{opacity:1}}
+@media (max-width:900px){.blk{aspect-ratio:auto}.tr2{grid-template-columns:28px 1fr 90px 90px}.tr2 .tw{grid-column:2/5;grid-row:2}.tr2.th .tw{display:none}.kg{grid-template-columns:1fr}.kgc{grid-template-columns:repeat(3,1fr)}.two2{grid-template-columns:1fr}.bcg,.two{grid-template-columns:1fr}.pp2{padding-right:0}.pp2+.pp2{padding:28px 0 0;border-left:0;border-top:1px solid var(--line2);margin-top:44px}.four{grid-template-columns:1fr 1fr}.four>div:nth-child(3){padding-left:0;border-left:0}}
+@media (max-width:600px){
+  .vs,.dfs{grid-template-columns:1fr}.v,.df{padding:14px 0}.v+.v,.df+.df{padding-left:0;border-left:0;border-top:1px solid var(--line2)}
+  .wrap{padding:48px 16px 80px}.blk{padding:24px 18px 18px}.blk h3 br{display:none}
+  .hr2{grid-template-columns:1fr 40px;row-gap:4px}.hr2 .bt{grid-column:1/3;grid-row:2;height:18px}
+  .kpis{grid-template-columns:repeat(3,1fr)}
+  .mr{grid-template-columns:1fr auto;row-gap:8px}.mr .dt{grid-column:1/3;grid-row:2}.dt i{width:13px;height:13px}.dt{gap:4px}
+  .four{grid-template-columns:1fr}.four>div+div{padding-left:0;border-left:0;border-top:1px solid var(--line)}
+  .adb{height:200px;gap:1px}.adb .hotl{font-size:12px;right:8%}.adx span:nth-child(2){display:none}
+  .flow{display:block}.flow li{white-space:normal;margin:4px 0}.flow li+li::before{content:counter(f,decimal-leading-zero) "  "}
+  .tot{gap:36px;flex-direction:row}.tenw{grid-template-columns:1fr}
+  .pcs{height:200px}.pc b{font-size:22px}.dl em{font-size:40px}.plr{grid-template-columns:52px 1fr 64px;gap:6px}.pes{gap:2px}.pe,.pe svg{width:16px;height:27px}.plr b{font-size:20px}
+}
+</style>
+</head>
+<body>
+<div class="wrap"><header class="rv"><p class="kk">组织 AI 技能提升实操训练营 · 11 月 7 日至 8 日 · 深圳</p><h1>课程框架</h1><p class="q">来的老板和骨干，觉得值，回去用得上，下次还来。</p></header><section><div class="hd rv"><span class="num">01</span><h2>开篇：用 AI，<em>“技能”</em>重要吗？</h2></div><ol class="flow"><li>一问：用 AI，技能重要吗？</li><li>先说结论：技能是重中之重</li><li>外面的研究两张图</li><li>举手：平时怎么用</li><li>两天结束，让各位都用上、用好</li></ol><div class="blk tx rv"><p class="kk">先说结论</p><h3><em>“技能”</em>是 AI 时代的重中之重</h3><p class="raw">技能直接决定 AI 能不能从很虚的概念，落地到我们真实业务中靠谱地运转起来，带来直接的利润增长和成本减免。如果技能没练好，加了 AI 也会赔钱，或者没有效果。</p><p class="nx">接下来几个案例，展示技能能产生多大的效果：同样的 AI，在不同人手里用法不同，差距到底有多大。</p></div><div class="blk  rv"><p class="kk">METR · 2025 年 7 月 · 16 位资深程序员 · 246 个真实任务</p><h3>以为用 AI 快了 20%，<em>实际慢了 19%</em></h3><div class="sx"><svg class="qsvg" viewBox="80 140 790 330"><rect x="470.0" y="300.0" width="380.0" height="150.0" class="qd"/><line x1="90.0" x2="90.0" y1="150.0" y2="450.0" class="gl"/><line x1="90.0" x2="850.0" y1="450.0" y2="450.0" class="gl"/><line x1="166.0" x2="166.0" y1="150.0" y2="450.0" class="gl"/><line x1="90.0" x2="850.0" y1="420.0" y2="420.0" class="gl"/><line x1="242.0" x2="242.0" y1="150.0" y2="450.0" class="gl"/><line x1="90.0" x2="850.0" y1="390.0" y2="390.0" class="gl"/><line x1="318.0" x2="318.0" y1="150.0" y2="450.0" class="gl"/><line x1="90.0" x2="850.0" y1="360.0" y2="360.0" class="gl"/><line x1="394.0" x2="394.0" y1="150.0" y2="450.0" class="gl"/><line x1="90.0" x2="850.0" y1="330.0" y2="330.0" class="gl"/><line x1="470.0" x2="470.0" y1="150.0" y2="450.0" class="gl"/><line x1="90.0" x2="850.0" y1="300.0" y2="300.0" class="gl"/><line x1="546.0" x2="546.0" y1="150.0" y2="450.0" class="gl"/><line x1="90.0" x2="850.0" y1="270.0" y2="270.0" class="gl"/><line x1="622.0" x2="622.0" y1="150.0" y2="450.0" class="gl"/><line x1="90.0" x2="850.0" y1="240.0" y2="240.0" class="gl"/><line x1="698.0" x2="698.0" y1="150.0" y2="450.0" class="gl"/><line x1="90.0" x2="850.0" y1="210.0" y2="210.0" class="gl"/><line x1="774.0" x2="774.0" y1="150.0" y2="450.0" class="gl"/><line x1="90.0" x2="850.0" y1="180.0" y2="180.0" class="gl"/><line x1="850.0" x2="850.0" y1="150.0" y2="450.0" class="gl"/><line x1="90.0" x2="850.0" y1="150.0" y2="150.0" class="gl"/><line x1="90.0" x2="850.0" y1="300.0" y2="300.0" class="ax"/><line x1="470.0" x2="470.0" y1="150.0" y2="450.0" class="ax"/><line x1="90.0" y1="450.0" x2="850.0" y2="150.0" class="dg"/><text x="834.8" y="156.0" class="t q" text-anchor="end" dy="-6"></text><text x="827.2" y="438.0" class="t q o" text-anchor="end">以为快，其实慢</text><line x1="622.0" y1="240.0" x2="622.0" y2="371.0" class="gap dw" /><polygon points="614.0,373.0 630.0,373.0 622.0,361.0" class="ah dw"/><circle cx="622.0" cy="240.0" r="7" class="hol"/><text x="638.0" y="261.0" class="t big dw">差 39 个点</text><circle cx="766.4" cy="357.0" r="7" class="pg"/><circle cx="758.8" cy="357.0" r="7" class="pg"/><circle cx="652.4" cy="357.0" r="7" class="pg"/><text x="762.5999999999999" y="391.0" class="t s" text-anchor="middle">专家预测</text><text x="652.4" y="391.0" class="t s" text-anchor="middle">开工前以为</text><circle cx="622.0" cy="357.0" r="13" class="po dw"/><text x="600.0" y="363.0" class="t s o dw" text-anchor="end">做完以为</text><text x="850.0" y="288.0" class="t s" text-anchor="end">以为用 AI 更快 →</text><text x="460.0" y="442.0" class="t s" text-anchor="end">实际更慢 ↓</text></svg></div><p class="src">每个任务随机定能不能用 AI，按实际用时比。<a href="https://arxiv.org/abs/2507.09089" target="_blank" rel="noopener">原文</a></p></div><div class="blk  rv"><p class="kk">外面的研究 · 2023</p><h3>同样用 AI：拿手的事分数涨，不拿手的事做对的人反而少</h3><p class="bset">哈佛商学院和咨询公司 BCG 的实验：758 名顾问随机分组，一部分用 AI（GPT-4），一部分不用，做同样两道题。</p><div class="bcg"><div class="pp2"><p class="ph">AI 拿手的：想新品方案</p><div class="bq"><p><i>题目</i><span>给一个新产品想点子、分市场、写文案</span></p><p><i>怎么判</i><span>评委打分，10 分制</span></p></div><div class="pbox"><div class="pcs"><div class="pc g"><b>4.1 分</b><i class="gh" style="--h:41%"></i><span>不用 AI</span></div><div class="pc o"><b>5.8 分</b><i class="gh" style="--h:58%"></i><span>用 AI</span></div></div><div class="dl up"><em>↑</em><b>多 1.7 分</b></div></div></div><div class="pp2"><p class="ph">AI 不拿手的：押哪个品牌</p><div class="bq"><p><i>题目</i><span>一家公司有几个品牌，看销售表和几份内部访谈，建议老板押哪个</span></p><p><i>陷阱</i><span>光看表会押错，答案藏在访谈里一句不起眼的话</span></p><p><i>AI</i><span>照表给了个像样的错答案，不少人跟着押错</span></p><p class="bq2">20 个人里，押对几个</p></div><div class="pbox bp"><div class="bpr"><span>不用 AI</span><div class="bpd"><i class="g"></i><i class="g"></i><i class="g"></i><i class="g"></i><i class="g"></i><i class="g"></i><i class="g"></i><i class="g"></i><i class="g"></i><i class="g"></i><i class="g"></i><i class="g"></i><i class="g"></i><i class="g"></i><i class="g"></i><i class="g"></i><i class="g"></i><i class=""></i><i class=""></i><i class=""></i></div><b>17 个</b></div><div class="bpr"><span>用 AI</span><div class="bpd"><i class="o"></i><i class="o"></i><i class="o"></i><i class="o"></i><i class="o"></i><i class="o"></i><i class="o"></i><i class="o"></i><i class="o"></i><i class="o"></i><i class="o"></i><i class="o"></i><i class="o"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div><b class="o">13 个</b></div><p class="bpk">用了 AI，押对的反而少了 4 个</p></div></div></div><p class="src">用 AI 两组：做方案 5.66、5.85 分，押对品牌 70%、60%；不用 AI 84.5%。<a href="https://mitsloan.mit.edu/sites/default/files/2023-10/SSRN-id4573321.pdf" target="_blank" rel="noopener">原文</a></p></div><div class="blk  rv"><p class="kk">先举手 · 在座 30 人</p><h3>在座 30 人，<em>4 人</em>用 AI 时装了技能包</h3><div class="hands"><div class="hr2"><span>直接问一句，拿到结果就用</span><div class="bt"><i class="gw" style="--w:72%"></i></div><b>9</b></div><div class="hr2"><span>把文件都丢进去，再问一句</span><div class="bt"><i class="gw" style="--w:64%"></i></div><b>8</b></div><div class="hr2"><span>问一句，不对就追问几轮</span><div class="bt"><i class="gw" style="--w:48%"></i></div><b>6</b></div><div class="hr2"><span>自己存了一段话，每次贴进去</span><div class="bt"><i class="gw" style="--w:24%"></i></div><b>3</b></div><div class="hr2 lo"><span>装上做好的技能包或知识库再问</span><div class="bt"><i class="gw" style="--w:32%"></i></div><b>4</b></div></div><p class="nx">装了技能包和用好技能，差别极其巨大：既要把业务的本质拆透，也要清楚 AI 的能力边界，知道该交给它什么任务、给它准备什么基础设施。</p><p class="src">示意，课前卡收齐后换成在座各位的真实分布</p></div><div class="blk tx rv"><p class="kk">这两天</p><h3>两天结束，<br>让在座各位<em>都用上、用好技能</em></h3><p class="raw">同一件工作，当场比给各位看：快了多少、错少了多少。回到公司接着用，变成实实在在的收益。</p></div></section><section><div class="hd rv"><span class="num">02</span><h2>正课：用 AI 用不好的十大卡点</h2></div><div class="blk tx rv"><p class="kk">正课开头 · 什么是技能</p><h3>什么是技能</h3><p class="raw">这次课讲的技能，是用好 AI 的一整套东西：业务怎么拆、任务怎么交代、给 AI 准备什么材料、做出来怎么核对、怎么变成每天照着做的流程。</p><p class="nx">写成文件、装进 AI 的那一份叫技能包（skill），是技能的一部分。前面真跑里“用好技能”那一边，用的就是技能包。</p></div><div class="blk  rv"><p class="kk">用好技能的前提</p><h3>只装技能包用不好，<em>这四样两天里一起讲透</em></h3><div class="prs"><div class="pr"><span class="tkn">01</span><b>用什么 AI</b><p>哪类工作用哪家模型，电脑上装哪个 Agent 软件，账号怎么开、钱怎么花。课上统一装好，回去照着配。</p></div><div class="pr"><span class="tkn">02</span><b>公司要备好什么</b><p>资料放在一处、能导出：日报、订单、聊天记录；价格表、退换规则、起订量这些规矩写下来；谁能看什么、谁能改什么。</p></div><div class="pr"><span class="tkn">03</span><b>人怎么跟 AI 说话</b><p>交代任务先说全；让它不清楚就先问；交回来让它写明出处，人对着核；错了改技能包，不只改这一次。</p></div><div class="pr"><span class="tkn">04</span><b>技能包怎么写、怎么养</b><p>做法写成一步一步，重复的算数交给写好的几行程序，换个行业只换一张表；用一次改一次，越用越准。</p></div></div></div><div class="blk kab rv"><p class="kk">FDE 入企实战和调研</p><h3>用 AI 用不好，卡在十个地方，分三类原因</h3><p class="kin">我们进企业做 FDE 实战和调研时发现，用 AI 用不好，多半卡在这十处。</p><div class="kgs"><div class="kg"><div class="kgh"><b>业务没拆透</b><span>人没想清楚的，AI 也做不对</span></div><div class="kgc" style="--n:3"><div class="ka"><span class="kn">01 挑工作</span><b><span>AI 分不清</span><br><span>该先交哪件事</span></b><span class="kq">先交了交不了的事</span></div><div class="ka"><span class="kn">08 走流程</span><b><span>AI 不知道</span><br><span>哪一步该停下</span></b><span class="kq">该停线没停</span></div><div class="ka"><span class="kn">10 给同事用</span><b><span>规矩只在嘴上，</span><br><span>AI 不知道</span></b><span class="kq">该拒的 11 单报了价</span></div></div></div><div class="kg"><div class="kgh"><b>给 AI 的东西不够</b><span>没交代清楚、没给记录，它就自己猜</span></div><div class="kgc" style="--n:2"><div class="ka"><span class="kn">02 交代任务</span><b><span>话没说全，</span><br><span>AI 就自己猜着补</span></b><span class="kq">报出做不了的单</span></div><div class="ka"><span class="kn">09 每天跑</span><b><span>AI 不记得</span><br><span>昨天做过什么</span></b><span class="kq">重复发面试邀请</span></div></div></div><div class="kg"><div class="kgh"><b>没摸清 AI 的毛病</b><span>它会照着抄、看个大概、不懂装懂</span></div><div class="kgc" style="--n:5"><div class="ka"><span class="kn">03 找资料</span><b><span>AI 照网上说，</span><br><span>不查出处</span></b><span class="kq">拿虚证据做决定</span></div><div class="ka"><span class="kn">04 写</span><b><span>AI 写顺了，</span><br><span>限制条件丢了</span></b><span class="kq">卖点说过了头</span></div><div class="ka on"><span class="kn">05 看报表</span><b><span>表一长，</span><br><span>AI 只看个大概</span></b><span class="kq">多花 2,251 美元没发现</span></div><div class="ka"><span class="kn">06 看图</span><b><span>AI 看图</span><br><span>只凭印象</span></b><span class="kq">设计改了又改</span></div><div class="ka"><span class="kn">07 答问题</span><b><span>资料里没有，</span><br><span>AI 也硬答</span></b><span class="kq">替公司许诺保修</span></div></div></div></div><p class="src">白字：只附上材料说一句要什么时，AI 出的后果。</p></div><div class="blk  rv"><p class="kk">用 AI 的四种样子</p><h3>同样用 AI，差在两样：<em>做不做得完，懂不懂规矩</em></h3><div class="pmap"><div class="py"><span>懂这一行的做法</span><span>不懂</span></div><div class="pg"><div class="pq lt"><b>提示词模板</b><p>市面上的课教的：把这一句写长、写全。还是一问一答，做不完一件工作。</p></div><div class="pq rt"><i>我们教的</i><b>用好技能</b><p>通用 Agent，加上这件工作的做法、检查清单和几行程序。做得完，也做得对。</p></div><div class="pq lb"><i>平时多在这里</i><b>聊天问答</b><p>豆包、DeepSeek 这类，问一句、答一段话。不懂规矩，也做不完。</p></div><div class="pq rb"><i>平时多在这里</i><b>通用 Agent</b><p>WorkBuddy、codex 这类，能读文件、写程序、交回结果。照自己的习惯做，不懂这一行的规矩。</p></div></div><div class="px"><span>问一句，答一段话</span><span>能把一件工作做完交回来</span></div></div><p class="nx">下面十件事，同一个 AI、同一份材料，两种用法各跑 3 遍：直接问 AI，和用好技能。</p></div><div class="blk  rv"><p class="kk">十件事 · 各跑 3 遍</p><h3>十件事，直接问 AI 件件出错；<em>用好技能件件做对</em></h3><div class="tens"><div class="tr3 th"><span></span><b></b><span class="te">直接问 AI，出的错</span><span class="tt">我们教的做法</span><span class="tm"></span><span class="d a">直接问 AI</span><span class="d b">用好技能</span></div><div class="tr3"><span class="tn">01</span><b>挑工作</b><span class="te">每件都写“要人工核对”，分不出先交哪件</span><span class="tt">每件问：有记录吗、规矩清吗、错了代价小吗</span><span class="tm">21 道判断答对</span><span class="d a">9–12</span><span class="d b">19–21</span></div><div class="tr3"><span class="tn">02</span><b>交代任务</b><span class="te">来信缺的信息，AI 自己补上</span><span class="tt">缺的一律先问，价格交给写好的计算表</span><span class="tm">缺的 6 项问到</span><span class="d a">1</span><span class="d b">6</span></div><div class="tr3"><span class="tn">03</span><b>找资料</b><span class="te">两篇转述同一份调研，当成两个证据</span><span class="tt">每句话追到最早是谁说的</span><span class="tm">认出转述</span><span class="d a">0 遍</span><span class="d b">3 遍</span></div><div class="tr3"><span class="tn">04</span><b>写</b><span class="te">卖点写顺了，丢掉“不能长时间淋雨”</span><span class="tt">限制条件紧跟在卖点后面</span><span class="tm">漏掉限制</span><span class="d a">3 遍</span><span class="d b">0 遍</span></div><div class="tr3"><span class="tn">05</span><b>看报表</b><span class="te">只比每站一周合计，漏掉多花的 2,251 美元</span><span class="tt">每款每天和前 5 周同一天比</span><span class="tm">20 处找到</span><span class="d a">3–5</span><span class="d b">20</span></div><div class="tr3"><span class="tn">06</span><b>看图</b><span class="te">只说“偏灰、偏小”，说不出差多少</span><span class="tt">背景、占比、色差写几行程序测出数</span><span class="tm">3 处说出数</span><span class="d a">0</span><span class="d b">3</span></div><div class="tr3"><span class="tn">07</span><b>答问题</b><span class="te">资料里没有的，也编个答案</span><span class="tt">先查规定改没改，每个答案写出处</span><span class="tm">5 道编了</span><span class="d a">2–3</span><span class="d b">0</span></div><div class="tr3"><span class="tn">08</span><b>走流程</b><span class="te">只写“停”，没写找谁、谁说可以再继续</span><span class="tt">每处停下，写清找谁、谁说可以才继续</span><span class="tm">9 处写清</span><span class="d a">0</span><span class="d b">9</span></div><div class="tr3"><span class="tn">09</span><b>每天跑</b><span class="te">上周约过面的人，又发一遍邀请</span><span class="tt">先对上周记录，邀请放“等我确认”</span><span class="tm">4 位又被邀请</span><span class="d a">0–4</span><span class="d b">0</span></div><div class="tr3"><span class="tn">10</span><b>给同事用</b><span class="te">299 件、1 万件也照常报价</span><span class="tt">按每个分界线造单子试一遍</span><span class="tm">11 单该拒的出了价</span><span class="d a">11</span><span class="d b">0</span></div></div></div><div class="blk  rv"><p class="kk">每件事</p><h3>每件事都这样学，<em>以“看报表”为例</em></h3><ol class="f4"><li><span class="f4n">1</span><span>先用一个词说清 AI 的毛病：这件事叫“看不全”，门店、工厂、客服都会碰到</span></li><li><span class="f4n">2</span><span>先猜 AI 会错在哪，再看它真错的 5 处</span></li><li><span class="f4n">3</span><span>两种做法并排看结果，再跟着做三步</span></li><li><span class="f4n">4</span><span>重复的算数交给 2 段写好的程序；换个行业，只换一张表</span></li></ol></div></section><section><div class="hd rv"><span class="num">03</span><h2>成果：带回公司三样</h2></div><div class="blk  rv"><p class="kk">带回去</p><h3>两天结束，<em>带回公司三样</em></h3><div class="tks"><div class="tk"><span class="tkn">01</span><b>自己的工作，已经做成</b><div class="vz"><div class="vhrs"><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div><p class="vcap">两天约 15 小时<b>其中约 5 小时做自己公司的工作</b></p></div><p>跟着做一遍，再换成自己公司的真工作，当场做出能用的结果。</p></div><div class="tk"><span class="tkn">02</span><b>一套会用的方法</b><div class="vz"><div class="vflow"><span>拆业务</span><em>›</em><span>交代</span><em>›</em><span>备材料</span><em>›</em><span>核对</span></div><div class="vloop"><span>错了，改做法，再来一遍</span></div></div><p>碰到没练过的工作，也知道怎么拆、怎么交代、怎么核。</p></div><div class="tk"><span class="tkn">03</span><b>同事也能照着用的做法</b><div class="vz"><div class="vshare"><span class="vpk">技能包</span><span class="vln"></span><div class="vps"><span class="vp"><i></i>同事</span><span class="vp"><i></i>同事</span><span class="vp"><i></i>同事</span></div></div><div class="vver"><span>第 1 版</span><em>›</em><span>第 2 版</span><em>›</em><span class="on">第 N 版</span><b>越用越准</b></div></div><p>做对的写进技能包，同事照着用。</p></div></div><div class="vex"><p class="who">例：看报表 · 日报里埋了 20 处不对劲，找到几处</p><div class="vexr"><span>以前</span><div class="vd a"><i class="f"></i><i class="f"></i><i class="f"></i><i class="h"></i><i class="h"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div><b>3–5 处</b></div><div class="vexr on"><span>这次</span><div class="vd b"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i></div><b>20 处</b></div></div></div></section></div>
+<script>
+document.querySelectorAll('p,li,h1,h2,h3,.four b,.fd,.tw,.kc,.ka b,.kgh span').forEach(function(el){
+  var tw=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),n,last=null;
+  while(n=tw.nextNode()){if(n.data.trim())last=n;}
+  if(!last)return;
+  var s=last.data.replace(/\s+$/,''),tail=last.data.slice(s.length);
+  if(s.length<5)return;
+  var sp=document.createElement('span');sp.className='nb';sp.style.whiteSpace='nowrap';sp.textContent=s.slice(-3);
+  last.data=s.slice(0,-3);last.parentNode.insertBefore(sp,last.nextSibling);
+  if(tail)sp.parentNode.insertBefore(document.createTextNode(tail),sp.nextSibling);
+});
+// 点阵一颗颗出
+document.querySelectorAll('.dt').forEach(function(d){d.querySelectorAll('i').forEach(function(i,k){i.style.transitionDelay=(k*35)+'ms';});});
+document.querySelectorAll('.adb i').forEach(function(i,k){i.style.transitionDelay=(k*18)+'ms';});
+var els=document.querySelectorAll('.rv');
+if('IntersectionObserver' in window){
+  var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target);}});},{threshold:.18});
+  els.forEach(function(el){io.observe(el);});
+}else{els.forEach(function(el){el.classList.add('in');});}
+</script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>课前准备 · 组织 AI 技能提升实操训练营</title>
+<style>
+:root{
+  --clay:#a94b3d;--clay-deep:#8d3a2e;--clay-soft:#f4e5e0;
+  --paper:#f7f4eb;--paper-2:#ebe6d8;--card:#fffdf7;
+  --ink:#171513;--muted:#5d554a;--soft:#8a7d6d;--line:#d8d0bf;
+  --moss:#536944;
+  --serif:"Noto Serif SC","Songti SC",Georgia,serif;
+  --sans:"Inter","PingFang SC","Noto Sans SC","Microsoft YaHei",system-ui,sans-serif;
+  --num:Georgia,"Times New Roman",serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.7 var(--sans);
+  background-image:radial-gradient(rgba(23,21,19,.028) 1px,transparent 1px);background-size:5px 5px}
+.wrap{max-width:900px;margin:0 auto;padding:56px 24px 64px}
+h1,h2,h3{font-family:var(--serif);letter-spacing:-.025em;text-wrap:balance;word-break:auto-phrase;margin:0}
+p{margin:0}
+
+/* 头 */
+.eyebrow{font-size:14px;color:var(--soft);letter-spacing:.06em}
+h1{font-size:46px;line-height:1.15;margin:14px 0 18px}
+.meta{display:flex;flex-wrap:wrap;gap:8px 10px}
+.meta span{font-size:15px;padding:5px 14px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--muted)}
+.meta span.k{background:var(--ink);border-color:var(--ink);color:#fff}
+
+section{margin-top:52px}
+.sh{display:flex;align-items:baseline;gap:14px;padding-bottom:12px;border-bottom:2px solid var(--ink);margin-bottom:22px}
+.sh h2{font-size:28px;line-height:1.25}
+.sh small{font-size:15px;color:var(--soft)}
+
+/* 必须准备 */
+.must{display:grid;gap:14px}
+.m{display:grid;grid-template-columns:72px 1fr;gap:4px 18px;align-items:start;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px 24px}
+.m .n{font:italic 300 52px/1 var(--num);color:var(--clay);opacity:.85;grid-row:span 2}
+.m h3{font-size:22px;line-height:1.35}
+.m p{color:var(--muted);font-size:16px}
+.m .dl{grid-column:2;margin-top:10px;display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.m .dl b{display:inline-block;background:var(--clay);color:#fff;font-weight:600;padding:8px 16px;border-radius:8px;font-size:16px}
+.m .dl i{font-style:normal;font-size:14px;color:var(--soft)}
+.files{grid-column:2;margin-top:12px;display:flex;flex-wrap:wrap;gap:6px}
+.files code{font:14px/1.5 var(--sans);background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:2px 9px;color:var(--muted)}
+
+/* 最好准备 */
+.lead{color:var(--muted);margin-bottom:18px}
+.grid8{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.c{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.c .t{display:flex;align-items:baseline;gap:10px;margin-bottom:4px}
+.c .t em{font:italic 300 24px/1 var(--num);color:var(--soft);font-style:italic}
+.c .t b{font-size:16px}
+.c p{font-size:16px;color:var(--ink)}
+.c p small{display:block;color:var(--soft);font-size:14px}
+.note{margin-top:16px;padding:14px 18px;border-left:3px solid var(--line);color:var(--muted);font-size:15px;background:rgba(255,253,247,.6)}
+
+/* 我们备好的 */
+.ready{display:grid;grid-template-columns:repeat(2,1fr);gap:0 28px}
+.r{display:grid;grid-template-columns:28px 1fr;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
+.r svg{width:24px;height:24px;margin-top:3px;color:var(--moss)}
+.r b{display:block;font-size:17px}
+.r span{color:var(--muted);font-size:15px}
+
+/* 到场 */
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:0;counter-reset:s}
+.f{position:relative;padding:0 14px 0 0}
+.f:before{content:"";position:absolute;left:12px;right:0;top:12px;border-top:1px dashed var(--line)}
+.f:last-child:before{display:none}
+.f i{position:relative;display:block;width:26px;height:26px;border-radius:50%;background:var(--ink);color:#fff;font:600 14px/26px var(--sans);text-align:center;font-style:normal}
+.f.go i{background:var(--clay)}
+.f time{display:block;min-height:24px;margin-top:12px;font:italic 400 20px/1.2 var(--num);color:var(--ink)}
+.f b{display:block;font-size:17px;margin-top:4px}
+.f span{display:block;font-size:15px;color:var(--muted)}
+
+footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(3,auto);justify-content:space-between;gap:12px 24px;font-size:15px;color:var(--muted)}
+footer b{display:block;color:var(--ink);font-weight:600}
+
+@media (max-width:640px){
+  .wrap{padding:36px 18px 48px}
+  h1{font-size:34px}
+  .m{grid-template-columns:48px 1fr;padding:18px}
+  .m .n{font-size:38px}
+  .m h3{font-size:20px}
+  .grid8,.ready{grid-template-columns:1fr}
+  .flow{grid-template-columns:1fr;gap:18px}
+  .f{padding:0 0 0 40px}
+  .f i{position:absolute;left:0;top:2px}
+  .f:before{left:12px;right:auto;top:30px;bottom:-18px;border-top:0;border-left:1px dashed var(--line)}
+  .f time{margin-top:0}
+  .f time:empty{display:none}
+  footer{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<p class="eyebrow">创业黑马 · 组织 AI 技能提升实操训练营</p>
+<h1>来上课前，要准备的三件事</h1>
+<div class="meta"><span class="k">11 月 7 日至 8 日</span><span>深圳 · 科兴科学园国际会议中心 3 号厅</span><span>两天都是上手做</span></div>
+
+<section>
+  <div class="sh"><h2>必须准备</h2><small>少一样，课上就跟不上</small></div>
+  <div class="must">
+    <div class="m"><span class="n">01</span><h3>笔记本电脑和充电器</h3>
+      <p>Mac 优先，Windows 也能用，留出 2 GB 空间。</p></div>
+    <div class="m"><span class="n">02</span><h3>装好 WorkBuddy，并登录</h3>
+      <p>课上用它和 AI 一起做事，第 7 项的定时任务也在它里面设。装不上的，装 Codex 备用。</p></div>
+    <div class="m"><span class="n">03</span><h3>提前下载两个包</h3>
+      <p>现场网速会慢，请在家下好、解压好。两个包都在班级群里。</p>
+      <div class="dl"><b>实操课学员资料.zip</b><i>7 MB · 学员页和八项配套包</i></div>
+      <div class="dl"><b>AI中台.zip</b><i>308 MB · 中台安装包</i></div></div>
+  </div>
+</section>
+
+<section>
+  <div class="sh"><h2>最好准备：自己岗位上的材料</h2></div>
+  <p class="lead">八项每项最后都留了时间，拿自己的事做一遍。带得越全，带回去能直接用的越多。</p>
+  <div class="grid8">
+    <div class="c"><div class="t"><em>1</em><b>回询盘</b></div><p>一类常回的来信<small>加上价格表或回复规则</small></p></div>
+    <div class="c"><div class="t"><em>2</em><b>资料研究</b></div><p>一件最近要拍板的事<small>比如上不上新品、换不换供应商</small></p></div>
+    <div class="c"><div class="t"><em>3</em><b>数据分析</b></div><p>一张自己常看的表<small>销售、广告、退货、库存都行</small></p></div>
+    <div class="c"><div class="t"><em>4</em><b>写文案</b></div><p>一份产品参数单<small>或一段要对外发的话</small></p></div>
+    <div class="c"><div class="t"><em>5</em><b>图片和视频</b></div><p>产品实拍图<small>加上出图要求或品牌规范</small></p></div>
+    <div class="c"><div class="t"><em>6</em><b>岗位问答</b></div><p>新人常问的问题<small>加上相关的制度、话术</small></p></div>
+    <div class="c"><div class="t"><em>7</em><b>工作流</b></div><p>一件每周都要重复做的事<small>写清每一步怎么做</small></p></div>
+    <div class="c"><div class="t"><em>8</em><b>给同事用的工具</b></div><p>价格表或报价规则<small>或其他同事常来问的规则</small></p></div>
+  </div>
+  <p class="note">客户名、手机号、真实金额，换成代号再带来。哪一项没带，就用配套包里的练习材料，一样能做完。</p>
+</section>
+
+<section>
+  <div class="sh"><h2>我们已经备好，不用操心</h2></div>
+  <div class="ready">
+    <div class="r"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12.5l5 5L20 6.5"/></svg><div><b>外网专线</b><span>现场能直接用海外的 AI</span></div></div>
+    <div class="r"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12.5l5 5L20 6.5"/></svg><div><b>大模型和生图模型</b><span>用我们的账号，不用自己充值</span></div></div>
+    <div class="r"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12.5l5 5L20 6.5"/></svg><div><b>AI 中台和激活码</b><span>安装包在群里，激活码现场发</span></div></div>
+    <div class="r"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12.5l5 5L20 6.5"/></svg><div><b>学员页和八项配套包</b><span>要发给 AI 的话点复制就能用；每项配好练习材料和做好的样子</span></div></div>
+  </div>
+</section>
+
+<section>
+  <div class="sh"><h2>第一天到场，先做这几步</h2></div>
+  <div class="flow">
+    <div class="f"><i>1</i><time>08:30</time><b>签到入座</b><span>插上电源，连上现场网络</span></div>
+    <div class="f"><i>2</i><time></time><b>启动中台</b><span>解压 AI中台.zip，双击“启动中台”</span></div>
+    <div class="f"><i>3</i><time></time><b>粘贴激活码</b><span>浏览器里按提示粘贴</span></div>
+    <div class="f go"><i>4</i><time>09:00</time><b>开课</b><span>打开学员页，跟着做第 1 项</span></div>
+  </div>
+</section>
+
+<footer>
+  <div><b>11 月 7 日 周六</b>09:00–18:00</div>
+  <div><b>11 月 8 日 周日</b>09:30–18:30</div>
+  <div><b>有问题</b>在班级群里问班主任</div>
+</footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>初筛流程</title><style>:root{
+  --clay:#a94b3d;--clay-deep:#8d3a2e;--clay-soft:#f4e5e0;
+  --paper:#f7f4eb;--paper-2:#ebe6d8;--card:#fffdf7;
+  --ink:#171513;--muted:#5d554a;--soft:#8a7d6d;--line:#d8d0bf;
+  --moss:#536944;--ocean:#285b74;--gold:#9b8238;
+  --moss-soft:color-mix(in srgb,var(--moss) 14%,var(--card));
+  --gold-soft:color-mix(in srgb,var(--gold) 16%,var(--card));
+  --shadow-sm:0 2px 8px rgba(23,21,19,.05);--shadow:0 18px 50px rgba(23,21,19,.10);--shadow-lg:0 32px 80px rgba(23,21,19,.16);
+  --font-serif:"Noto Serif SC","Songti SC","STSong","SimSun",Georgia,serif;
+  --font-sans:"Inter","PingFang SC","Noto Sans SC","Microsoft YaHei",system-ui,sans-serif;
+  --font-num:Georgia,"Times New Roman",serif;
+  --font-mono:"JetBrains Mono","SF Mono",ui-monospace,Menlo,monospace;
+  --ease-out:cubic-bezier(0.22,1,0.36,1);--duration:200ms;
+  /* 仿真软件界面用的中性色（真软件是白底灰线，不是纸面色；记入 gaps.log） */
+  --ui-bg:#ffffff;--ui-side:#f6f6f3;--ui-line:#e4e2dc;--ui-text:#1f1f1d;--ui-sub:#6b6a66;--ui-faint:#a3a19b;--ui-hover:#efeee9;
+  --ui-ok:#2f8f5b;--ui-ok-soft:#e5f3ea;--ui-warn:#b7791f;--ui-warn-soft:#fbf1dc;--ui-bad:#c2410c;--ui-bad-soft:#fde8e1;--ui-link:#2563a8;
+}html,body{margin:0;background:#f6f6f3;font-family:var(--font-sans)}.wrap{padding:30px;display:grid;place-items:center}h1{font-size:22px;margin:0 0 24px;font-weight:700}
+.u09cv{position:relative;margin:0 auto;font-family:var(--font-sans);color:var(--ui-text)}
+.u09ns{position:absolute;inset:0}
+.u09ns>*{position:absolute}
+.u09n{background:#fff;border:1.5px solid var(--ui-line);border-radius:12px;box-shadow:var(--shadow-sm);padding:10px 12px 8px;display:flex;flex-direction:column;gap:4px;overflow:hidden}
+.u09n b{font-size:19px;line-height:1.2}
+.u09n p{margin:0;font-size:17px;color:var(--ui-sub);line-height:1.25}
+.u09tg{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:700;padding:1px 8px;border-radius:999px;background:var(--ui-side);color:var(--ui-sub)}
+.u09tg.tg-a{background:var(--ui-ok-soft);color:var(--ui-ok)}
+.u09tg.tg-p{background:var(--ui-warn-soft);color:var(--ui-warn)}
+.u09tg.tg-t{background:#e6eef9;color:var(--ui-link)}
+.u09tg.tg-c{background:#e6f4e3;color:#3d7a35}
+.u09e{height:3px;background:var(--ui-faint)}
+.u09e::after{content:"";position:absolute;right:-1px;top:-5px;border-left:11px solid var(--ui-faint);border-top:6.5px solid transparent;border-bottom:6.5px solid transparent}
+.u09ev{width:14px;background:linear-gradient(var(--ui-faint),var(--ui-faint)) center/3px 100% no-repeat}
+.u09ev::before{content:"";position:absolute;left:0;top:-1px;border-bottom:11px solid var(--ui-faint);border-left:7px solid transparent;border-right:7px solid transparent}
+.u09el{position:absolute;top:-30px;text-align:center;font-size:17px;color:var(--ui-sub);white-space:nowrap}
+.u09cv .u09ev .u09el.v{top:50%;transform:translateY(-50%);left:auto;right:22px;text-align:right}
+.u09dot{width:2px;background:repeating-linear-gradient(to bottom,var(--ui-faint) 0 4px,transparent 4px 9px)}
+.u09tr{border:2px dashed var(--ui-line);border-radius:12px;background:rgba(255,255,255,.55)}
+.u09tr span{position:absolute;left:0;right:0;bottom:8px;text-align:center;font-size:17px;color:var(--ui-sub);font-weight:600}
+.u09tr.t-y{border-color:color-mix(in srgb,var(--ui-ok) 55%,#fff);background:var(--ui-ok-soft)}.u09tr.t-y span{color:var(--ui-ok)}
+.u09tr.t-m{border-color:color-mix(in srgb,var(--ui-warn) 55%,#fff);background:var(--ui-warn-soft)}.u09tr.t-m span{color:var(--ui-warn)}
+.u09chat{justify-content:center;gap:6px;background:#f3f9f1;border-color:#cfe5c9}
+.u09chat b{font-size:17px}
+/* 灯 */
+.u09gate{border:2px solid var(--ui-warn);background:var(--ui-warn-soft)}
+.u09lamp{width:14px;height:14px;border-radius:50%;background:var(--ui-faint);display:inline-block}
+.u09gate b{color:#7a5410}
+.u09gate p span{display:none}
+.u09cv.idle .u09gate p .gi{display:inline}
+.u09cv.bare .u09gate p .gi{display:inline}
+.u09cv.done .u09gate p .gw,.u09cv.run .u09gate p .gw{display:inline}
+.u09cv.ok .u09gate p .go{display:inline}.u09cv.ok .u09gate p .gw{display:none}
+.u09cv.idle .u09gate{background:#fff;border-color:var(--ui-line)}
+.u09cv.idle .u09gate b{color:var(--ui-text)}
+.u09cv.done .u09lamp,.u09cv.run .u09lamp,.u09cv.bare .u09lamp{background:var(--ui-warn);box-shadow:0 0 0 4px rgba(183,121,31,.22);animation:u09lp 1.6s ease-in-out infinite}
+.u09cv.ok .u09lamp{background:var(--ui-ok);box-shadow:0 0 0 4px rgba(47,143,91,.22);animation:none}
+.u09cv.ok .u09gate{background:var(--ui-ok-soft);border-color:var(--ui-ok)}.u09cv.ok .u09gate b{color:#1f6b43}
+@keyframes u09lp{50%{box-shadow:0 0 0 9px rgba(183,121,31,.05)}}
+.u09 .chip{font-size:17px}
+.u09 .fl-with{margin:12px 0 0;font-size:17px;color:var(--soft)}
+/* 简历小纸片 */
+.u09tk{position:absolute;inset:0;pointer-events:none}
+.u09t{position:absolute;left:0;top:0;z-index:3;background:#fff;border:1.5px solid #cfcbc1;border-radius:4px;box-shadow:0 2px 6px rgba(23,21,19,.14);transform:translate(var(--x0),var(--y0));overflow:hidden;will-change:transform}
+.u09t::after{content:"";position:absolute;left:18%;right:18%;top:42%;height:30%;background:repeating-linear-gradient(to bottom,#d9d5cb 0 2px,transparent 2px 6px)}
+.u09t b{position:absolute;left:0;right:0;top:0;height:24%;background:var(--ui-faint);opacity:0}
+.u09t.y b{background:var(--ui-ok)}.u09t.m b{background:var(--ui-warn)}.u09t.n b{background:#8b8a85}
+.u09cv.run .u09t{animation:u09fly 1.05s cubic-bezier(.45,0,.25,1) calc(var(--i)*.075s) both}
+.u09cv.run .u09t b{animation:u09bd .25s calc(var(--i)*.075s + .4s) both}
+.u09cv.done .u09t,.u09cv.ok .u09t{transform:translate(var(--x3),var(--y3))}
+.u09cv.done .u09t b,.u09cv.ok .u09t b{opacity:1}
+.u09cv.ok .u09t.y{transform:translate(var(--x4),var(--y4));opacity:0;transition:transform .55s cubic-bezier(.5,0,.3,1) calc(var(--j)*.07s),opacity .15s calc(var(--j)*.07s + .42s)}
+@keyframes u09fly{0%{transform:translate(var(--x0),var(--y0))}35%{transform:translate(var(--x1),var(--y1))}68%{transform:translate(var(--x2),var(--y2))}100%{transform:translate(var(--x3),var(--y3))}}
+@keyframes u09bd{to{opacity:1}}
+/* 开场里一直循环：停在黄灯前的样子是第一帧 */
+.u09cv.loop .u09t{animation:u09loop 9s linear infinite;animation-delay:calc(var(--i)*.09s - 5s)}
+.u09cv.loop .u09t b{animation:u09bl 9s linear infinite;animation-delay:calc(var(--i)*.09s - 5s)}
+@keyframes u09loop{0%{transform:translate(var(--x0),var(--y0));opacity:0}2%{opacity:1}9%{transform:translate(var(--x0),var(--y0))}17%{transform:translate(var(--x1),var(--y1))}25%{transform:translate(var(--x2),var(--y2))}33%{transform:translate(var(--x3),var(--y3))}92%{transform:translate(var(--x3),var(--y3));opacity:1}97%{transform:translate(var(--x3),var(--y3));opacity:0}100%{transform:translate(var(--x0),var(--y0));opacity:0}}
+@keyframes u09bl{0%,12%{opacity:0}19%,100%{opacity:1}}
+.u09cv.u09w .u09n{padding:10px 12px 8px;gap:6px}.u09cv.u09w .u09n b{font-size:25px}.u09cv.u09w .u09n p{font-size:18px}.u09cv.u09w .u09tr span{font-size:17px}</style><div class="wrap"><div><h1>招聘初筛流程</h1><div class="u09cv done u09w" data-g="u09w" style="width:910px;height:472px"><div class="u09ns"><div class="u09n " style="left:0px;top:6px;width:150px;height:150px"><span class="u09tg tg-f">文件夹</span><b>待筛</b><p>新简历放这里</p></div><div class="u09e" style="left:150px;top:79.5px;width:40px"></div><div class="u09n " style="left:190px;top:6px;width:150px;height:150px"><span class="u09tg tg-a">Agent</span><b>初筛打分</b><p>按要求打分</p></div><div class="u09e" style="left:340px;top:79.5px;width:40px"></div><div class="u09n " style="left:380px;top:6px;width:150px;height:150px"><span class="u09tg tg-a">Agent</span><b>约面草稿</b><p>写约面草稿</p></div><div class="u09e" style="left:530px;top:79.5px;width:40px"></div><div class="u09n u09gate" style="left:570px;top:6px;width:150px;height:150px"><span class="u09tg tg-p"><i class="u09lamp"></i>招聘专员</span><b>人确认</b><p><span class="gi">等草稿</span><span class="gw">4 份等专员确认</span><span class="go">4 份已确认</span></p></div><div class="u09e" style="left:720px;top:79.5px;width:40px"></div><div class="u09n " style="left:760px;top:6px;width:150px;height:150px"><span class="u09tg tg-t">表格</span><b>汇总表</b><p>每份简历一行</p></div><div class="u09tr " style="left:0px;top:216px;width:150px;height:250px"><span>新简历</span></div><div class="u09dot" style="left:74.0px;top:156px;height:60px"></div><div class="u09tr t-n" style="left:190px;top:216px;width:150px;height:250px"><span>不约 · 写原因</span></div><div class="u09dot" style="left:264.0px;top:156px;height:60px"></div><div class="u09tr t-m" style="left:380px;top:216px;width:150px;height:250px"><span>待定 · 专员自己看</span></div><div class="u09dot" style="left:454.0px;top:156px;height:60px"></div><div class="u09tr t-y" style="left:570px;top:216px;width:150px;height:250px"><span>约面 · 等确认</span></div><div class="u09dot" style="left:644.0px;top:156px;height:60px"></div><div class="u09n u09chat" style="left:760px;top:382px;width:150px;height:84px"><span class="u09tg tg-c">群消息</span><b>反馈群</b></div><div class="u09ev" style="left:828.0px;top:156px;height:226px"></div></div><div class="u09tk"><i class="u09t y" style="width:36px;height:46px;--i:0;--j:0;--x0:11px;--y0:230px;--x1:247px;--y1:69px;--x2:437px;--y2:69px;--x3:580px;--y3:230px;--x4:817px;--y4:81px"><b></b></i><i class="u09t y" style="width:36px;height:46px;--i:1;--j:1;--x0:21px;--y0:230px;--x1:247px;--y1:69px;--x2:437px;--y2:69px;--x3:624px;--y3:230px;--x4:817px;--y4:81px"><b></b></i><i class="u09t m" style="width:36px;height:46px;--i:2;--j:0;--x0:31px;--y0:230px;--x1:247px;--y1:69px;--x2:437px;--y2:89px;--x3:390px;--y3:230px;--x4:817px;--y4:81px"><b></b></i><i class="u09t m" style="width:36px;height:46px;--i:3;--j:0;--x0:42px;--y0:230px;--x1:247px;--y1:69px;--x2:437px;--y2:89px;--x3:434px;--y3:230px;--x4:817px;--y4:81px"><b></b></i><i class="u09t y" style="width:36px;height:46px;--i:4;--j:2;--x0:52px;--y0:230px;--x1:247px;--y1:69px;--x2:437px;--y2:69px;--x3:668px;--y3:230px;--x4:817px;--y4:81px"><b></b></i><i class="u09t m" style="width:36px;height:46px;--i:5;--j:0;--x0:62px;--y0:230px;--x1:247px;--y1:69px;--x2:437px;--y2:89px;--x3:478px;--y3:230px;--x4:817px;--y4:81px"><b></b></i><i class="u09t n" style="width:36px;height:46px;--i:6;--j:0;--x0:72px;--y0:230px;--x1:247px;--y1:69px;--x2:247px;--y2:99px;--x3:200px;--y3:230px;--x4:817px;--y4:81px"><b></b></i><i class="u09t n" style="width:36px;height:46px;--i:7;--j:0;--x0:83px;--y0:230px;--x1:247px;--y1:69px;--x2:247px;--y2:99px;--x3:244px;--y3:230px;--x4:817px;--y4:81px"><b></b></i><i class="u09t y" style="width:36px;height:46px;--i:8;--j:3;--x0:93px;--y0:230px;--x1:247px;--y1:69px;--x2:437px;--y2:69px;--x3:580px;--y3:284px;--x4:817px;--y4:81px"><b></b></i><i class="u09t n" style="width:36px;height:46px;--i:9;--j:0;--x0:103px;--y0:230px;--x1:247px;--y1:69px;--x2:247px;--y2:99px;--x3:288px;--y3:230px;--x4:817px;--y4:81px"><b></b></i></div></div></div></div>
