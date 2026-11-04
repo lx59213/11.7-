@@ -207,7 +207,7 @@ SUB = {
  },
  "m2": {
   "技能：把一件事的做法<em>固定下来</em>": "把做法写成一份文件，AI 每次照着做",
-  "同一份草稿，两个技能<em>各改一遍</em>": "一家跨境汽配店的商品页草稿：通用规矩两个都懂；店里自己的 6 条，广场的技能不知道",
+  "通用规矩两边都懂，差在<em>店里自己的写法</em>": "一家跨境汽配店的商品页草稿：店里的写法是吃过亏才定的，广场的技能不可能知道",
   "一位员工做了 <em>80 多个技能</em>": "一家汽配卖家：常用的就那几个；后来技能放到一处，别人能看、能改、能评分",
   "三个帮着做技能的<em>技能</em>": "包里带了；丢了，在技能广场搜名字",
   "动手：<em>包 2</em>": "挑一件常做、规矩说得清、错了改得了的事",
@@ -495,7 +495,23 @@ def compare(ua, ub, need_l, need_r, tl='广场现成的', tr='用包做的'):
               f'<div class="sc"><span>{ua}</span><i>？</i><span>{ub}</span></div>'
               f'<div class="snip"><p>待放：{need}</p></div></div>')
     return h + '</div>'
-sk_cmp = compare('改完还剩', '处问题', '现成技能改出来的一小段，标出没改掉的坑（真截图）', '用包 2 做的技能改出来的一小段（真截图）', '技能广场装得最多的', '用包 2 做的')
+# 11-05 C1 真结果：同一份草稿、同一句指令、同一模型；评分在 给codex/1105夜/交付/C1/
+def compare_res(cols, foot):
+    h = '<div class="sx-res">'
+    for i, c in enumerate(cols):
+        h += (f'<div class="{c["cls"]} pop" style="--d:{.2+i*.6:.1f}s"><b>{c["tag"]}</b>'
+              f'<div class="sc"><span>改完还差</span><i>{c["n"]}</i><span>处</span></div>'
+              f'<ul><li><em>通用规矩</em><strong>{c["a"]}</strong></li><li><em>店里写法</em><strong>{c["b"]}</strong>{c.get("bn", "")}</li></ul>'
+              f'<div class="ex"><small>五点第一条</small><p lang="en">{c["en"]}</p><span>{c["zh"]}</span></div></div>')
+    return h + f'</div><div class="sx-src pop" style="--d:1.6s">{foot}</div>'
+sk_cmp = compare_res([
+    dict(cls='l', tag='技能广场下载最多的', n=6, a=2, b=4,
+         en='MEASURED LIGHT OUTPUT: Each 6500K cool white LED bulb delivers 5,000 lumens, for 10,000 lumens per pair…',
+         zh='第一条先讲亮度'),
+    dict(cls='r', tag='用包 2 做的', n=1, a=0, b=1, bn='<small>从严判</small>',
+         en='Check Your Bulb Size First – Read the size marked on your existing bulb’s base or check your owner’s manual. Add your vehicle to Amazon Garage…',
+         zh='第一条先教买家核对灯泡型号，减少买错'),
+], '同一份草稿、同一句指令、同一模型')
 
 sk_case = f'<g style="transform-box:view-box;transform-origin:0 0" transform="translate(20 130) scale(.62)">{t84}</g>'
 sk_case += '<path class="drw" style="--d:2.8s;--L:200" d="M640 410 H760" stroke="var(--m-mute)" stroke-width="3" fill="none" marker-end="url(#sxar)"/>'
@@ -523,11 +539,12 @@ def lib():
 def nxt(items, d0=1.4):
     return '<div class="sx-next"><b>回去这样做</b>' + ''.join(f'<p class="pop" style="--d:{d0+i*.2:.1f}s">{t}</p>' for i, t in enumerate(items)) + '</div>'
 sk_after2 = lib() + nxt(['再做一个：挑常做、规矩说得清的事', '每出一次错，改一句，再考一遍，记版本', '每月看一次清单，没人用的删掉'])
+sk_after2 += '<div class="sx-try pop" style="--d:2.2s"><b>换一款产品也能用</b><p>拿做好的技能改脚垫的商品页，试了一次，6 处坑全改好</p></div>'
 
 m2_pages = [
     ('先请几位上台，讲讲上午做的<em>知识库</em>', stage_show(3, '每组抽一位'), None, ''),
     ('技能：把一件事的做法<em>固定下来</em>', svg(sk_what) + poster(lit_of('技能')), 0, ''),
-    ('同一份草稿，两个技能<em>各改一遍</em>', sk_cmp, 1, ''),
+    ('通用规矩两边都懂，差在<em>店里自己的写法</em>', sk_cmp, 1, ''),
     ('一位员工做了 <em>80 多个技能</em>', sk_case, 1, ''),
     ('三个帮着做技能的<em>技能</em>', sk_k3, 2, ''),
     ('动手：<em>包 2</em>', sk_do, 2, ''),
@@ -538,11 +555,11 @@ beats('m2', '技能', [
     '第二块，技能。',
     '下午先花一小时，看看上午做的知识库。每组抽一位上台，大约三位，当场找逻辑问题，当场改；我们也从里面找大家共同的问题。',
     '先问一下：自己开发过 skill 的，举一下手。很多人以前这样用 AI：对话里写一堆提示词，做完就没了；新任务再开一个对话，旧对话越聊越偏。做成技能，就固定下来了：每次调用上下文干净，能复用，用一次改一次。技能分三层：课上做到第一层，能做出一个好用的；第二层可维护，要更新，坏的淘汰；第三层可进化，但要盯着，堆了没用的上下文反而变差。没做过的先做第一层，做过的我们下去带着往第二层走。这一块用到了海报上的提示词与上下文设计、AI 数据分析、AI 文案与多语言、多模态内容创作。',
-    '先看一个对比。同一份 listing 草稿，同一句话，左边用技能广场里装得最多的那个改，右边用包 2 做出来的技能改，数一数改完还剩几处问题。评分里有十处通用的坑，还有这家店自己的六条规矩：通用规矩两个都懂，店里自己的规矩，广场的技能不知道。',
+    '先看一个对比。一家跨境汽配店的商品页草稿，同一句指令、同一个模型，左边用技能广场下载最多的那个改，右边用包 2 做出来的技能改。左边还差 6 处：通用规矩只差 2 处，店里自己的写法 4 条没做到；右边还差 1 处，是店里写法的一条，按严的算。通用规矩广场的几乎全懂；差在这家店吃过亏才定的写法，比如五点第一条要先教买家核对灯泡型号，它不可能知道。',
     '我们入企的一家亚马逊汽配卖家，公司觉得有一位员工特别懂 skill，他一个人做了 80 多个。只有他自己会用，真正常用的还是那几个。开发得多，用乱了，光做好一次没用。后来我们给他们做了一个技能仓库：不同岗位的人把技能传上来，别人看得到，能改、能接着迭代，还能评分。',
     '包里放了三个帮做 skill 的 skill：grill-me 管追问，一次问一个，把做法问出来；skill-creator 管写成技能，再带技能和不带技能各做一遍比一比；达尔文管打分，改扣分最多的一处，再打分。规矩都写进了包的提示词，装不上也照样能做，装上更顺。丢了搜名字就找得到。',
     '动手。发包 2，把总提示词复制给 AI，〖〗里换成自己的，回车。六步：挑一件常做、规矩说得清、错了改得了的事，贴一份上次做的真实成品；AI 读完追问几处没说清的判断；写成技能和评分标准，各位逐条标对不对；同一份新材料，带技能和不带技能各做一份，比一比；新开对话按评分标准打分，只改扣分最多的一句；最后出技能卡网页。聊不完就说收尾，它先把网页做出来。',
-    '技能多了，要管起来。这是我们自己的技能库：常驻二十个，放在一处，几个 AI 共用。回去先再做一个；每出一次错，改一句，再考一遍，记版本；每月看一次清单，没人用的删掉。细的文档会发到群里。',
+    '技能多了，要管起来。这是我们自己的技能库：常驻二十个，放在一处，几个 AI 共用。回去先再做一个；每出一次错，改一句，再考一遍，记版本；每月看一次清单，没人用的删掉。做好的技能换一款产品也能用：我们拿它改脚垫的商品页，试了一次，6 处坑全改好。详细文档会发到群里。',
 ])
 
 # ======================= 03 智能体 =======================
@@ -929,6 +946,29 @@ CSS = r'''
 /* 海报八项 */
 .sx-pst{position:absolute;left:96px;right:96px;bottom:110px;display:flex;flex-direction:column;align-items:center;gap:6px}
 .sx-pst small{font-size:16px;color:var(--m-mute)}
+.sx-res{position:absolute;left:96px;right:96px;top:206px;bottom:206px;display:grid;grid-template-columns:1fr 1fr;gap:30px}
+.sx-res>div{background:var(--m-card);border:1.5px solid var(--m-line2);border-radius:22px;padding:24px 32px;display:flex;flex-direction:column;gap:14px}
+.sx-res>div.r{border:2.5px solid var(--c)}
+.sx-res b{font-size:26px;font-weight:800;color:var(--m-mute)}
+.sx-res .r b{color:var(--c)}
+.sx-res .sc{display:flex;align-items:baseline;gap:12px}
+.sx-res .sc i{font-style:normal;font-size:104px;font-weight:900;line-height:1;color:var(--m-ink)}
+.sx-res .r .sc i{color:var(--c)}
+.sx-res .sc span{font-size:28px;color:var(--m-ink);font-weight:700}
+.sx-res ul{list-style:none;display:flex;gap:36px;padding-bottom:4px}
+.sx-res li{font-size:22px;display:flex;align-items:baseline;gap:10px}
+.sx-res li em{font-style:normal;color:var(--m-mute)}
+.sx-res li strong{font-size:32px;font-weight:900}
+.sx-res li small{font-size:17px;color:var(--m-mute)}
+.sx-res .ex{border-top:1.5px dashed var(--m-line2);padding-top:14px}
+.sx-res .ex small{font-size:17px;color:var(--m-mute)}
+.sx-res .ex p{font-size:20px;line-height:1.5;color:var(--m-ink);margin:6px 0 8px}
+.sx-res .ex span{font-size:22px;font-weight:700;color:var(--m-mute)}
+.sx-res .r .ex span{color:var(--c)}
+.sx-src{position:absolute;left:96px;right:96px;bottom:168px;text-align:center;font-size:17px;color:var(--m-mute)}
+.sx-try{position:absolute;left:1036px;right:96px;top:540px;border:2px solid var(--c);border-radius:18px;padding:18px 22px;background:color-mix(in srgb,var(--c) 8%,var(--m-card))}
+.sx-try b{display:block;font-size:26px;font-weight:800;margin-bottom:8px}
+.sx-try p{font-size:22px;line-height:1.5;color:var(--m-ink)}
 #m4 .m-h em{color:#fff;text-decoration:underline;text-decoration-color:var(--wf);text-decoration-thickness:5px;text-underline-offset:12px}
 .sx-pst div{display:flex;gap:8px;justify-content:center}
 .sx-pst span{font-size:17px;font-weight:700;padding:6px 12px;border-radius:10px;border:1.5px solid var(--m-line2);color:var(--m-mute)}
