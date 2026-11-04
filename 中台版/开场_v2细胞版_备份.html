@@ -657,7 +657,7 @@ const CHS=[...new Set(BEATS.map(b=>b.ch))];
 $('#bar').innerHTML=CHS.map(c=>`<div class="ch"><b>${c}</b><i><u></u></i></div>`).join('');
 
 /* ===== 控场：章节可点、翻页按钮、计划时间 ===== */
-const PLAN0={'开场':'六 09:00','知识库':'六 09:45','技能':'六 15:00','专家':'日 09:30','SOP':'日 15:00','收尾':'日 17:30'};
+const PLAN0={'开场':'六 09:00','知识库':'六 09:45','技能':'六 15:00','智能体':'日 09:30','工作流':'日 15:00','收尾':'日 17:30'};
 let PLAN=PLAN0;try{PLAN=Object.assign({},PLAN0,JSON.parse(localStorage.getItem('kc_plan')||'{}'))}catch(e){}
 const firstOf=c=>BEATS.findIndex(b=>b.ch===c);
 const planOf=ch=>{let ci=CHS.indexOf(ch);for(;ci>=0;ci--)if(PLAN[CHS[ci]])return [CHS[ci],PLAN[CHS[ci]]];return [null,null]};
