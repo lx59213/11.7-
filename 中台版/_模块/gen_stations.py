@@ -641,7 +641,7 @@ ag_cmp = compare_res([
          zh='先教买家三步排查，再提换新'),
 ], '汽配店是示例；同一位买家的三条消息、同一句指令、同一模型，都在 Codex 里跑；右边第一版差 3 处，改了一句')
 # 正例：11-05 这一晚真做的事（数在早上收尾时照执行记录填，TTZ 早上定用不用）
-OK_RUNS, OK_VERS = 21, 9
+OK_RUNS, OK_VERS = 22, 10
 def ok_card(title, rows, res):
     h = f'<div class="sx-ok pop" style="--d:.2s"><b>正例 · 我们自己的</b><h4>{title}</h4><dl>'
     h += ''.join(f'<dt>{a}</dt><dd>{b}</dd>' for a, b in rows)
