@@ -141,17 +141,33 @@ svg.lead line{stroke:#5a606c;stroke-width:1.5;stroke-dasharray:4 5}
 .blocks div.on::after{content:"第一站";position:absolute;top:-20px;font-size:20px;background:var(--kb);color:#07080a;padding:6px 16px;border-radius:20px}
 
 
-/* ===== 等式（我们加的） ===== */
-#sA .eq{left:0;right:0;top:250px;display:flex;justify-content:center;align-items:center;gap:16px}
-#sA .term{flex:none;font-size:44px;font-weight:900;padding:18px 24px;border-radius:20px;border:2px solid #2a2f3a;background:rgba(14,17,24,.9);white-space:nowrap;transition:opacity .6s,transform .8s cubic-bezier(.2,.8,.2,1),box-shadow .8s,border-color .6s,color .6s}
+/* ===== 台阶：企业用 AI 的五级（11-05 加） ===== */
+#sL .lad{left:100px;width:1400px;bottom:64px;height:500px}
+#sL .st{position:absolute;bottom:0;width:256px;border-radius:18px 18px 0 0;background:#0e1118;border:1.5px solid #2a2f3a;border-bottom:none;padding:24px 24px 0;transition:opacity .6s,border-color .6s,background .6s}
+#sL .st u{display:block;text-decoration:none;font-family:var(--mono);font-size:40px;font-weight:800;color:var(--mute);transition:color .6s}
+#sL .st b{display:block;font-size:28px;font-weight:800;margin-top:6px;white-space:nowrap}
+#sL .st p{font-size:21px;color:var(--mute);margin-top:10px;line-height:1.45}
+#sL .s1{left:0;height:200px}#sL .s2{left:286px;height:275px}#sL .s3{left:572px;height:350px}#sL .s4{left:858px;height:425px}#sL .s5{left:1144px;height:500px}
+#sL:has(.f1.vis) .s1,#sL:has(.f1.vis) .s2,#sL:has(.f1.vis) .s3{border-color:var(--sk);background:rgba(212,255,58,.06)}
+#sL:has(.f1.vis) .s1 u,#sL:has(.f1.vis) .s2 u,#sL:has(.f1.vis) .s3 u{color:var(--sk)}
+#sL:has(.f1.vis) .s4,#sL:has(.f1.vis) .s5{opacity:.38}
+#sL .two{left:100px;width:828px;top:388px;height:60px;border:2px dashed var(--sk);border-bottom:none;border-radius:14px 14px 0 0}
+#sL .two span{position:absolute;left:50%;top:-24px;transform:translateX(-50%);font-size:26px;font-weight:800;color:#07080a;background:var(--sk);border-radius:24px;padding:6px 20px;white-space:nowrap}
+
+/* ===== 等式（我们加的；11-05 改成企业 AI 化） ===== */
+#sA .eq{left:0;right:0;top:250px;display:flex;justify-content:center;align-items:center;gap:20px}
+#sA .term{position:relative;flex:none;font-size:48px;font-weight:900;padding:20px 30px;border-radius:20px;border:2px solid #2a2f3a;background:rgba(14,17,24,.9);white-space:nowrap;transition:opacity .6s,transform .8s cubic-bezier(.2,.8,.2,1),box-shadow .8s,border-color .6s,color .6s}
 #sA .term.res{border-color:#f3f4f6}
-#sA .op{font-style:normal;font-size:44px;color:var(--mute);font-weight:300}
-#sA .term.ai{position:relative;overflow:hidden}
-#sA .term.ai u{position:absolute;left:0;bottom:0;height:6px;width:0;background:var(--sk);transition:width 1.6s cubic-bezier(.6,0,.2,1)}
+#sA .op{font-style:normal;font-size:48px;color:var(--mute);font-weight:300}
+#sA .term.ai u{position:absolute;left:12px;right:12px;bottom:0;height:6px;border-radius:3px;transform:scaleX(0);transform-origin:left;background:var(--sk);transition:transform 1.6s cubic-bezier(.6,0,.2,1)}
 #sA:has(.f1.vis) .term:not(.ai):not(.res){opacity:.28}
 #sA:has(.f1.vis) .term.ai{border-color:var(--sk);color:var(--sk);transform:translateY(-10px)}
-#sA:has(.f2.vis) .term.ai u{width:100%}
-#sA:has(.f2.vis) .term.res{transform:scale(1.12);transition-delay:.9s}
+#sA:has(.f2.vis) .term.ai u{transform:none}
+#sA:has(.f2.vis) .term:not(.ai):not(.res){opacity:1}
+#sA .term em{position:absolute;left:50%;top:calc(100% + 30px);transform:translate(-50%,10px);font-style:normal;font-size:26px;font-weight:800;padding:8px 20px;border-radius:30px;border:1.5px solid #474c57;color:#d9dbe1;background:#0e1118;white-space:nowrap;opacity:0;transition:opacity .6s,transform .6s}
+#sA:has(.f2.vis) .term em{opacity:1;transform:translate(-50%,0)}
+#sA:has(.f2.vis) .term.ai em{border-color:var(--sk);color:#07080a;background:var(--sk)}
+#sA .term:nth-of-type(3) em{transition-delay:.5s}#sA .term:nth-of-type(4) em{transition-delay:1s}
 #sA .brs{position:absolute;left:0;top:0;width:1600px;height:900px;overflow:visible}
 #sA .brs path{fill:none;stroke:var(--sk);stroke-width:2;opacity:.55;stroke-dasharray:600;stroke-dashoffset:600;transition:stroke-dashoffset 1s ease .2s}
 #sA .brs.vis path{stroke-dashoffset:0}
@@ -159,6 +175,8 @@ svg.lead line{stroke:#5a606c;stroke-width:1.5;stroke-dasharray:4 5}
 #sA .eight span{font-size:25px;font-weight:700;text-align:center;padding:14px 0;white-space:nowrap;border-radius:40px;border:1.5px solid rgba(212,255,58,.55);color:#e9f7b0;background:#10140a;opacity:0;transform:translateY(-40px) scale(.8);transition:opacity .5s,transform .7s cubic-bezier(.2,1.3,.4,1)}
 #sA .eight.vis span{opacity:1;transform:none}
 #sA .cap{left:0;right:0;top:120px;text-align:center;font-size:30px;color:var(--mute);letter-spacing:.12em}
+#sA .sub{left:0;right:0;top:770px;text-align:center;font-size:28px;color:#c9ccd3}
+#sA .sub b{color:var(--sk)}
 
 /* ===== 破题（我们加的） ===== */
 #sP .cloud span{position:absolute;font-weight:800;color:#1b1f28;white-space:nowrap;animation:fl 7s ease-in-out infinite alternate}
@@ -249,26 +267,40 @@ body.pv #pv{display:block}
   </section>
 
 
-  <!-- 等式 -->
+  <!-- 台阶：企业用 AI 的五级（11-05 加） -->
+  <section class="scene" id="sL">
+    <div class="abs ttl rv" data-in="0">企业用 AI 要一级一级往上走<small>每一级先备好东西，才上得去</small></div>
+    <div class="abs lad">
+      <div class="st s1 rv" data-in="0" style="transition-delay:.15s"><u>L1</u><b>各用各的</b><p>各人自己开 AI 聊</p></div>
+      <div class="st s2 rv" data-in="0" style="transition-delay:.3s"><u>L2</u><b>一个环节跑起来</b><p>一件事交给 AI 做</p></div>
+      <div class="st s3 rv" data-in="0" style="transition-delay:.45s"><u>L3</u><b>一条线人机分工</b><p>几个 AI 接力，<br>要紧的事人点头</p></div>
+      <div class="st s4 rv" data-in="0" style="transition-delay:.6s"><u>L4</u><b>判断和数据成闭环</b><p>数据接进来，<br>判断写进系统</p></div>
+      <div class="st s5 rv" data-in="0" style="transition-delay:.75s"><u>L5</u><b>AI 原生</b><p>中台各部门共用，<br>组织和 AI 一起管</p></div>
+    </div>
+    <div class="abs two rv" data-in="1"><span>这两天，带到第三级</span></div>
+    <i class="f1 rv" data-in="1" hidden></i>
+  </section>
+
+  <!-- 等式（11-05 改成企业 AI 化） -->
   <section class="scene" id="sA">
-    <div class="abs cap rv" data-in="0">一家公司的业务结果，是乘出来的</div>
+    <div class="abs cap rv" data-in="0">企业 AI 化，是三样东西乘出来的</div>
     <div class="abs eq">
-      <div class="term res rv" data-in="0">业务结果</div>
+      <div class="term res rv" data-in="0">企业 AI 化</div>
       <i class="op rv" data-in="0" style="transition-delay:.2s">=</i>
-      <div class="term rv" data-in="0" style="transition-delay:.4s">业务理解</div>
+      <div class="term ai rv" data-in="0" style="transition-delay:.4s">员工能力<u></u><em>L1 到 L3</em></div>
       <i class="op rv" data-in="0" style="transition-delay:.55s">×</i>
-      <div class="term ai rv" data-in="0" style="transition-delay:.7s">AI 技能<u></u></div>
+      <div class="term rv" data-in="0" style="transition-delay:.7s">数据和语义<em>L4</em></div>
       <i class="op rv" data-in="0" style="transition-delay:.85s">×</i>
-      <div class="term rv" data-in="0" style="transition-delay:1s">数据和系统</div>
-      <i class="op rv" data-in="0" style="transition-delay:1.15s">×</i>
-      <div class="term rv" data-in="0" style="transition-delay:1.3s">分工和流程</div>
+      <div class="term rv" data-in="0" style="transition-delay:1s">组织<em>L5</em></div>
     </div>
     <i class="f1 rv" data-in="1" hidden></i><i class="f2 rv" data-in="2" hidden></i>
-    <svg class="brs rv fade" data-in="1" id="sAbrs"></svg>
-    <div class="abs eight rv fade" data-in="1">
+    <svg class="brs rv fade" data-in="1" data-out="2" id="sAbrs"></svg>
+    <div class="abs eight rv fade" data-in="1" data-out="2">
       <span style="transition-delay:.3s">提示词与上下文设计</span><span style="transition-delay:.38s">AI 资料研究</span><span style="transition-delay:.46s">AI 数据分析</span><span style="transition-delay:.54s">AI 文案与多语言</span>
       <span style="transition-delay:.62s">多模态内容创作</span><span style="transition-delay:.7s">企业知识库与岗位智能体</span><span style="transition-delay:.78s">工作流自动化</span><span style="transition-delay:.86s">AI 辅助应用搭建</span>
     </div>
+    <div class="abs sub rv" data-in="1" data-out="2">这两天补<b>员工能力</b>；海报上的八项，都在四个项目里</div>
+    <div class="abs sub rv" data-in="2" style="transition-delay:1.2s">员工会用了，搭起来的东西才有人用；再往上补数据和语义，最后改组织</div>
   </section>
 
   <!-- 拆：你的公司 -->
@@ -398,9 +430,11 @@ body.pv #pv{display:block}
 const BEATS=[
  {s:'cover',k:0,w:'hidden',ch:'开场',n:`各位早。先把这两天的目标说在前面：帮各位把自家公司用 AI 重做一遍。要做的是把公司做事的那副骨架，用 AI 再搭一遍，用哪个软件倒在其次。先从各位最熟的东西开始：自己的公司。`},
 
- {s:'sA',k:0,w:'hidden',ch:'等式',n:`先给各位一个算式。一家公司的业务结果，是几样东西乘出来的：业务理解、AI 技能、数据和系统、分工和流程。是乘法，哪一项是零，结果就是零。`},
- {s:'sA',k:1,w:'hidden',ch:'等式',n:`业务理解，在座各位比我们懂；数据和系统、分工和流程，各家不一样。这两天只补一项：AI 技能。括号打开，就是海报上的这八项，都融在接下来要做的四样东西里。`},
- {s:'sA',k:2,w:'hidden',ch:'等式',n:`乘法的好处是：一项变强，整个结果跟着放大。其余三项不动，把 AI 技能这一项补上，结果就变大。`},
+ {s:'sL',k:0,w:'hidden',ch:'五级',n:`先看企业用 AI 的五级。L1 各用各的：每个人自己开 AI 聊，用完就散。L2 一个环节跑起来：一件事交给 AI 做。L3 一条线人机分工：几个 AI 接力，要紧的地方人点头。L4 判断和数据成闭环：客户、订单、财务的数据接进来，判断写进系统。L5 AI 原生：中台各部门共用，组织和 AI 一起管。每一级都要先备好东西，备不好就上不去，也跳不过去。`},
+ {s:'sL',k:1,w:'hidden',ch:'五级',n:`这两天，带各位从第一级走到第三级。`},
+ {s:'sA',k:0,w:'hidden',ch:'等式',n:`为什么要一级一级走？看这个算式：企业 AI 化，等于员工能力、数据和语义、组织，三样相乘。哪一项是零，结果就是零。`},
+ {s:'sA',k:1,w:'hidden',ch:'等式',n:`这两天补第一项：员工能力。海报上的八项，都融在接下来的四个项目里：知识库、技能、智能体、工作流。`},
+ {s:'sA',k:2,w:'hidden',ch:'等式',n:`员工能力补上，能走到第三级。再往上，第四级要把数据和语义理清楚，第五级组织要跟着改。直接跳上去，中台搭起来也没人会用，所以先让人会用。`},
  {s:'sB',k:0,w:'company_f',ch:'一家公司',n:`这是一家公司。不管做什么行业，从里面看都长这样：几条业务线一起在跑，活儿在里面流。在座各位，对自己公司的这张图，比谁都熟。`},
  {s:'sB',k:1,w:'flow_f',ch:'一家公司',n:`拉近看一条。公司做成一件事，从来不是一个人做完的：从 A 岗位到 B 岗位，再到 C 岗位，一站一站往下传。这就是一条业务流程。想一下：你公司里最要紧的那件事，是怎么从头走到尾的？`},
  {s:'sB',k:2,w:'flow_f',ch:'一家公司',n:`线上每一站，都是一个人。各管一段，各司其职。`},
@@ -616,7 +650,7 @@ const CHS=[...new Set(BEATS.map(b=>b.ch))];
 $('#bar').innerHTML=CHS.map(c=>`<div class="ch"><b>${c}</b><i><u></u></i></div>`).join('');
 
 /* ===== 控场：章节可点、翻页按钮、计划时间 ===== */
-const PLAN0={'开场':'六 09:00','知识库':'六 09:45','技能':'六 15:00','智能体':'日 09:30','工作流':'日 15:00','收尾':'日 17:30'};
+const PLAN0={'开场':'六 09:00','知识库':'六 09:45','技能':'六 14:00','第二天':'日 09:00','工作流':'日 09:30','收尾':'日 17:30'};
 let PLAN=PLAN0;try{PLAN=Object.assign({},PLAN0,JSON.parse(localStorage.getItem('kc_plan')||'{}'))}catch(e){}
 const firstOf=c=>BEATS.findIndex(b=>b.ch===c);
 const planOf=ch=>{let ci=CHS.indexOf(ch);for(;ci>=0;ci--)if(PLAN[CHS[ci]])return [CHS[ci],PLAN[CHS[ci]]];return [null,null]};
