@@ -524,47 +524,80 @@ body.pv #pv{display:block}
 #m5 .m-fin2 p{font-size:32px;color:var(--m-mute);margin-top:26px}
 
 
-/* ---------- 收尾：公司地图（我们加的） ---------- */
-#m5 .vp{position:absolute;inset:0;overflow:hidden}
-#m5 .mapw{position:absolute;left:0;top:0;width:3200px;height:1800px;transform-origin:0 0;transform:translate(-226px,-1066px) scale(1.35);transition:transform 3.2s cubic-bezier(.65,0,.2,1)}
-#m5:has(.c3.vis) .mapw{transform:translate(205px,190px) scale(.372)}
-#m5:has(.c4.vis) .mapw{transform:translate(-23px,172px) scale(.48)}
-#m5:has(.c5.vis) .mapw{transform:translate(205px,190px) scale(.372)}
-#m5 .mapw svg{position:absolute;left:0;top:0;width:3200px;height:1800px;overflow:visible}
-#m5 .rg rect{fill:color-mix(in srgb,var(--m-ink) 4%,transparent);stroke:var(--m-line2);stroke-width:4;stroke-dasharray:14 12}
-#m5 .rg text{fill:var(--m-mute);font:800 64px var(--f,sans-serif)}
-#m5 .rg .cell{fill:color-mix(in srgb,var(--m-ink) 9%,transparent);stroke:none}
-#m5 .fog{position:absolute;inset:0;background:rgba(6,8,13,.8);-webkit-mask:radial-gradient(circle at 760px 1190px,transparent 230px,#000 460px);mask:radial-gradient(circle at 760px 1190px,transparent 230px,#000 460px)}
-#m5 .fog i{position:absolute;border-radius:50%;background:rgba(200,205,215,.07);filter:blur(60px);animation:fogd 18s ease-in-out infinite alternate}
-@keyframes fogd{to{transform:translate(160px,-60px)}}
-#m5 .lit .t{transition:transform 1.2s}
-#m5 .lit rect{rx:22px}
-#m5 .lit .ln{stroke:var(--m-ink);stroke-width:4;opacity:.5;stroke-dasharray:10 12;animation:litflow 1.4s linear infinite}
-@keyframes litflow{to{stroke-dashoffset:-44}}
-#m5 .lit text{font:800 34px var(--f,sans-serif)}
-#m5 .road path{fill:none;stroke-width:16;stroke-linecap:round}
-#m5 .road .a{stroke:var(--sk);stroke-dasharray:2600;stroke-dashoffset:2600;transition:stroke-dashoffset 2.2s ease .6s}
-#m5 .road .b{stroke:var(--m-mute);stroke-dasharray:4 40;opacity:0;transition:opacity 1s ease 2.6s}
-#m5:has(.c4.vis) .road .a,#m5:has(.c5.vis) .road .a{stroke-dashoffset:0}
-#m5:has(.c4.vis) .road .b,#m5:has(.c5.vis) .road .b{opacity:.8}
-#m5 .sg{opacity:0;transition:opacity .6s}
-#m5:has(.c4.vis) .sg,#m5:has(.c5.vis) .sg{opacity:1}
-#m5 .sg line{stroke:var(--m-mute);stroke-width:5}
-#m5 .sg rect{fill:var(--m-bg2);stroke:var(--m-line2);stroke-width:4}
-#m5 .sg.on rect{stroke:var(--sk);stroke-width:6}
-#m5 .sg .h{font:900 54px var(--f,sans-serif);fill:var(--m-ink)}
-#m5 .sg.on .h tspan{fill:var(--sk)}
-#m5 .sg .p{font:700 40px var(--f,sans-serif);fill:var(--m-mute)}
-#m5 .sg.far{opacity:0}#m5:has(.c4.vis) .sg.far,#m5:has(.c5.vis) .sg.far{opacity:.75}
-#m5 .flag{opacity:0;transition:opacity .6s 2.4s}#m5:has(.c4.vis) .flag,#m5:has(.c5.vis) .flag{opacity:1}
-#m5 .flag rect{fill:var(--sk)}#m5 .flag text{font:900 44px var(--f,sans-serif);fill:var(--m-on)}
-#m5 .base rect{fill:color-mix(in srgb,var(--kb) 6%,transparent);stroke:var(--kb);stroke-width:5;opacity:.35;transition:all 1s}
-#m5 .base text{font:900 70px var(--f,sans-serif);fill:var(--kb);opacity:.35;transition:opacity 1s}
-#m5:has(.c5.vis) .base rect{opacity:1;fill:color-mix(in srgb,var(--kb) 16%,transparent)}
-#m5:has(.c5.vis) .base text{opacity:1}
-#m5 .topb{position:absolute;left:0;right:0;top:0;height:190px;background:linear-gradient(var(--m-bg2) 62%,transparent);pointer-events:none}
-#m5 .mh{position:absolute;left:96px;top:58px;font-size:56px;font-weight:900}
-#m5 .mh small{display:block;font-size:26px;font-weight:500;color:var(--m-mute);margin-top:8px}
+/* ---------- 收尾：企业 AI 化全景图（我们加的） ---------- */
+#m5 .pg{position:absolute;inset:0;pointer-events:none}
+#m5 .pg>*{position:absolute}
+#m5 .bd{border:1.5px solid var(--m-line2);border-radius:14px;background:color-mix(in srgb,var(--m-ink) 3%,transparent);transition:opacity .8s,border-color .8s}
+#m5 .bl{left:0;top:0;bottom:0;width:112px;padding:14px 0 0 16px;font-size:19px;font-weight:800;color:var(--m-ink);border-right:1px dashed var(--m-line2)}
+#m5 .bl small{display:block;font-size:14px;font-weight:500;color:var(--m-mute);margin-top:4px;line-height:1.4}
+#m5 .row{position:absolute;display:flex;gap:10px}
+#m5 .dp{flex:1;border:1px solid var(--m-line2);border-radius:10px;padding:10px 10px 8px;background:var(--m-card);transition:border-color .8s,box-shadow .8s}
+#m5 .dp b{display:block;font-size:18px;margin-bottom:6px}
+#m5 .dp p{font-size:14px;line-height:1.5;color:var(--m-mute)}
+#m5 .dp p i{font-style:normal;display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--m-line2);margin-right:5px;vertical-align:2px;transition:background .8s}
+#m5 .zt{background:#141a17;border-color:#2b3a33}
+#m5 .zt .bl{color:#e8e4d8;border-color:#2b3a33}
+#m5 .in,#m5 .gv{display:flex;flex-direction:column;gap:8px;position:absolute}
+#m5 .ch{font-size:14px;padding:7px 10px;border-radius:8px;border:1px solid var(--m-line2);background:var(--m-card);color:var(--m-ink);white-space:nowrap;transition:all .8s}
+#m5 .ch.h{border-color:var(--m-mute)}
+#m5 .core{position:absolute;display:flex;gap:12px}
+#m5 .t4{width:142px;height:156px;border-radius:12px;padding:14px 12px;background:#1d2420;border:1.5px solid #34433b;transition:background .9s,border-color .9s,color .9s,transform .9s}
+#m5 .t4 b{display:block;font-size:24px;margin-bottom:8px;color:#e8e4d8;transition:color .9s}
+#m5 .t4 p{font-size:14px;line-height:1.5;color:#9aa39e;transition:color .9s}
+#m5 .tag{position:absolute;font-size:14px;color:var(--m-mute);letter-spacing:.04em}
+#m5 .rail{padding:16px 16px 14px;display:flex;flex-direction:column}
+#m5 .rail h4{font-size:19px;margin-bottom:10px}
+#m5 .lv{position:relative;flex:1;border-left:3px solid var(--m-line2);padding:8px 0 10px 14px;margin-bottom:6px;transition:border-color .8s,opacity .8s}
+#m5 .lv b{font-size:19px;display:block}
+#m5 .lv b u{text-decoration:none;color:var(--m-mute);margin-right:6px;transition:color .8s}
+#m5 .lv p{font-size:14px;color:var(--m-mute);line-height:1.45;margin-top:3px}
+#m5 .here{display:flex;align-items:center;gap:8px;margin:4px 0 8px;opacity:0;transition:opacity .8s}
+#m5 .here i{flex:1;height:0;border-top:2px dashed var(--sk)}
+#m5 .here span{font-size:14px;font-weight:800;color:var(--m-on);background:var(--sk);border-radius:20px;padding:3px 10px}
+#m5 svg.wr{position:absolute;left:0;top:0;width:1600px;height:900px;overflow:visible}
+#m5 svg.wr path{fill:none;stroke:var(--m-line2);stroke-width:1.6;transition:stroke .8s,opacity .8s}
+#m5 svg.wr .up{stroke-dasharray:5 6}
+/* 依次画出来 */
+#m5 .pg .a1,#m5 .pg .a2,#m5 .pg .a3,#m5 .pg .a4,#m5 .pg .a5,#m5 .pg svg.wr{opacity:0;transform:translateY(14px);transition:opacity .7s,transform .7s}
+#m5:has(.pg.vis) .a1{opacity:1;transform:none;transition-delay:.2s}
+#m5:has(.pg.vis) .a2{opacity:1;transform:none;transition-delay:.7s}
+#m5:has(.pg.vis) .a3{opacity:1;transform:none;transition-delay:1.2s}
+#m5:has(.pg.vis) .a4{opacity:1;transform:none;transition-delay:1.6s}
+#m5:has(.pg.vis) svg.wr{opacity:1;transform:none;transition-delay:1.9s}
+#m5:has(.pg.vis) .a5{opacity:1;transform:none;transition-delay:2.3s}
+/* 第二拍：这两天搭的四样 */
+#m5:has(.c3.vis) .t4.kb,#m5:has(.c5.vis) .t4.kb{background:var(--kb);border-color:var(--kb)}
+#m5:has(.c3.vis) .t4.sk,#m5:has(.c5.vis) .t4.sk{background:var(--sk);border-color:var(--sk)}
+#m5:has(.c3.vis) .t4.ag,#m5:has(.c5.vis) .t4.ag{background:var(--ag);border-color:var(--ag)}
+#m5:has(.c3.vis) .t4.wf,#m5:has(.c5.vis) .t4.wf{background:var(--wf);border-color:var(--wf)}
+#m5:has(.c3.vis) .t4 b,#m5:has(.c3.vis) .t4 p,#m5:has(.c5.vis) .t4 b,#m5:has(.c5.vis) .t4 p{color:#0b0d0c}
+#m5:has(.c3.vis) .core,#m5:has(.c3.vis) .ct4{opacity:1}
+#m5:has(.c3.vis) .gv,#m5:has(.c3.vis) .pdj,#m5:has(.c3.vis) .sj,#m5:has(.c3.vis) .rail,#m5:has(.c3.vis) svg.wr .dt{opacity:.3}
+#m5:has(.c3.vis) svg.wr .fn,#m5:has(.c4.vis) svg.wr .fn,#m5:has(.c5.vis) svg.wr .fn{stroke:var(--sk);stroke-width:2.2;stroke-dasharray:6 8;animation:m5flow 1.6s linear infinite}
+@keyframes m5flow{to{stroke-dashoffset:-28}}
+#m5:has(.c3.vis) .dp,#m5:has(.c4.vis) .dp,#m5:has(.c5.vis) .dp{border-color:color-mix(in srgb,var(--sk) 55%,transparent)}
+#m5:has(.c3.vis) .dp p i.y,#m5:has(.c4.vis) .dp p i.y,#m5:has(.c5.vis) .dp p i.y{background:var(--sk)}
+/* 第三拍：这两天带到 L3 */
+#m5:has(.c4.vis) .gv,#m5:has(.c4.vis) .sj,#m5:has(.c4.vis) svg.wr .dt{opacity:.3}
+#m5:has(.c4.vis) .t4.kb{background:var(--kb);border-color:var(--kb)}#m5:has(.c4.vis) .t4.sk{background:var(--sk);border-color:var(--sk)}
+#m5:has(.c4.vis) .t4.ag{background:var(--ag);border-color:var(--ag)}#m5:has(.c4.vis) .t4.wf{background:var(--wf);border-color:var(--wf)}
+#m5:has(.c4.vis) .t4 b,#m5:has(.c4.vis) .t4 p{color:#0b0d0c}
+#m5:has(.c4.vis) .pdj .ch.nod,#m5:has(.c5.vis) .pdj .ch{border-color:var(--sk);color:var(--m-ink)}
+#m5:has(.c4.vis) .pdj .ch:not(.nod){opacity:.35}
+#m5:has(.c4.vis) .lv.l1,#m5:has(.c4.vis) .lv.l2,#m5:has(.c4.vis) .lv.l3,#m5:has(.c5.vis) .lv.l1,#m5:has(.c5.vis) .lv.l2,#m5:has(.c5.vis) .lv.l3{border-color:var(--sk)}
+#m5:has(.c4.vis) .lv u,#m5:has(.c5.vis) .lv u{color:var(--sk)}
+#m5:has(.c4.vis) .lv.l4,#m5:has(.c4.vis) .lv.l5{opacity:.35}
+#m5:has(.c4.vis) .here,#m5:has(.c5.vis) .here{opacity:1}
+/* 第四拍：再往上 */
+#m5:has(.c5.vis) .lv.l4,#m5:has(.c5.vis) .lv.l5{border-color:var(--kb)}
+#m5:has(.c5.vis) .lv.l4 u,#m5:has(.c5.vis) .lv.l5 u{color:var(--kb)}
+#m5:has(.c5.vis) .sj{border-color:var(--kb)}
+#m5:has(.c5.vis) .sj .ch{border-color:color-mix(in srgb,var(--kb) 70%,transparent)}
+#m5:has(.c5.vis) .gv .ch{border-color:var(--kb)}
+#m5:has(.c5.vis) svg.wr .dt{stroke:var(--kb);stroke-width:2.2}
+#m5:has(.c3.vis) .pg>*,#m5:has(.c4.vis) .pg>*,#m5:has(.c5.vis) .pg>*{transition-delay:0s}
+#m5 .mh{position:absolute;left:96px;top:42px;font-size:48px;font-weight:900}
+#m5 .mh small{display:block;font-size:24px;font-weight:500;color:var(--m-mute);margin-top:8px}
 </style>
 </head>
 <body>
@@ -984,16 +1017,31 @@ body.pv #pv{display:block}
     <div class="m-eq rv fade" data-in="1" data-out="2"><div class="t r">业务结果</div><i>=</i><div class="t">业务理解</div><i>×</i><div class="t ai">AI 技能<u></u></div><i>×</i><div class="t">数据和系统</div><i>×</i><div class="t">分工和流程</div></div>
     <div class="m-eq-cap rv" data-in="1" data-out="2">这两天补上的，是 <b>AI 技能</b> 这一项</div>
 
-    <div class="vp rv fade" data-in="2" data-out="6"><div class="mapw">
-      <svg viewBox="0 0 3200 1800"><g class="rg"><rect x="300" y="150" width="820" height="440" rx="60"/><rect class="cell" x="340" y="270" width="80" height="60" rx="14"/><rect class="cell" x="450" y="270" width="80" height="60" rx="14"/><rect class="cell" x="560" y="270" width="80" height="60" rx="14"/><rect class="cell" x="670" y="270" width="80" height="60" rx="14"/><rect class="cell" x="780" y="270" width="80" height="60" rx="14"/><rect class="cell" x="890" y="270" width="80" height="60" rx="14"/><rect class="cell" x="340" y="370" width="80" height="60" rx="14"/><rect class="cell" x="560" y="370" width="80" height="60" rx="14"/><rect class="cell" x="670" y="370" width="80" height="60" rx="14"/><rect class="cell" x="890" y="370" width="80" height="60" rx="14"/><text x="340" y="240">产品研发</text></g><g class="rg"><rect x="1300" y="150" width="720" height="440" rx="60"/><rect class="cell" x="1450" y="270" width="80" height="60" rx="14"/><rect class="cell" x="1560" y="270" width="80" height="60" rx="14"/><rect class="cell" x="1670" y="270" width="80" height="60" rx="14"/><rect class="cell" x="1780" y="270" width="80" height="60" rx="14"/><rect class="cell" x="1340" y="370" width="80" height="60" rx="14"/><rect class="cell" x="1450" y="370" width="80" height="60" rx="14"/><rect class="cell" x="1560" y="370" width="80" height="60" rx="14"/><rect class="cell" x="1670" y="370" width="80" height="60" rx="14"/><rect class="cell" x="1890" y="370" width="80" height="60" rx="14"/><text x="1340" y="240">销售</text></g><g class="rg"><rect x="2560" y="90" width="560" height="400" rx="60"/><rect class="cell" x="2600" y="210" width="80" height="60" rx="14"/><rect class="cell" x="2710" y="210" width="80" height="60" rx="14"/><rect class="cell" x="2930" y="210" width="80" height="60" rx="14"/><rect class="cell" x="2600" y="310" width="80" height="60" rx="14"/><rect class="cell" x="2820" y="310" width="80" height="60" rx="14"/><text x="2600" y="450">老板</text></g><g class="rg"><rect x="1260" y="660" width="640" height="300" rx="60"/><rect class="cell" x="1300" y="780" width="80" height="60" rx="14"/><rect class="cell" x="1520" y="780" width="80" height="60" rx="14"/><text x="1300" y="750">人事</text></g><g class="rg"><rect x="2180" y="660" width="560" height="380" rx="60"/><rect class="cell" x="2220" y="780" width="80" height="60" rx="14"/><rect class="cell" x="2330" y="780" width="80" height="60" rx="14"/><rect class="cell" x="2440" y="780" width="80" height="60" rx="14"/><rect class="cell" x="2220" y="880" width="80" height="60" rx="14"/><rect class="cell" x="2330" y="880" width="80" height="60" rx="14"/><rect class="cell" x="2440" y="880" width="80" height="60" rx="14"/><rect class="cell" x="2550" y="880" width="80" height="60" rx="14"/><text x="2220" y="750">采购</text></g><g class="rg"><rect x="2820" y="640" width="300" height="600" rx="60"/><rect class="cell" x="2860" y="760" width="80" height="60" rx="14"/><rect class="cell" x="2970" y="760" width="80" height="60" rx="14"/><rect class="cell" x="2860" y="860" width="80" height="60" rx="14"/><rect class="cell" x="2970" y="860" width="80" height="60" rx="14"/><rect class="cell" x="2970" y="960" width="80" height="60" rx="14"/><text x="2860" y="730">财务</text></g><g class="rg"><rect x="280" y="880" width="960" height="600" rx="60"/><rect class="cell" x="430" y="1000" width="80" height="60" rx="14"/><rect class="cell" x="540" y="1000" width="80" height="60" rx="14"/><rect class="cell" x="980" y="1000" width="80" height="60" rx="14"/><rect class="cell" x="1090" y="1000" width="80" height="60" rx="14"/><rect class="cell" x="320" y="1100" width="80" height="60" rx="14"/><rect class="cell" x="540" y="1100" width="80" height="60" rx="14"/><rect class="cell" x="650" y="1100" width="80" height="60" rx="14"/><rect class="cell" x="760" y="1100" width="80" height="60" rx="14"/><rect class="cell" x="1090" y="1100" width="80" height="60" rx="14"/><rect class="cell" x="430" y="1200" width="80" height="60" rx="14"/><rect class="cell" x="540" y="1200" width="80" height="60" rx="14"/><rect class="cell" x="650" y="1200" width="80" height="60" rx="14"/><rect class="cell" x="980" y="1200" width="80" height="60" rx="14"/><rect class="cell" x="1090" y="1200" width="80" height="60" rx="14"/><rect class="cell" x="320" y="1300" width="80" height="60" rx="14"/><rect class="cell" x="430" y="1300" width="80" height="60" rx="14"/><rect class="cell" x="540" y="1300" width="80" height="60" rx="14"/><rect class="cell" x="870" y="1300" width="80" height="60" rx="14"/><rect class="cell" x="1090" y="1300" width="80" height="60" rx="14"/><text x="320" y="970">运营</text></g><g class="rg"><rect x="1320" y="1080" width="660" height="400" rx="60"/><rect class="cell" x="1360" y="1200" width="80" height="60" rx="14"/><rect class="cell" x="1470" y="1200" width="80" height="60" rx="14"/><rect class="cell" x="1580" y="1200" width="80" height="60" rx="14"/><rect class="cell" x="1690" y="1200" width="80" height="60" rx="14"/><rect class="cell" x="1800" y="1200" width="80" height="60" rx="14"/><rect class="cell" x="1360" y="1300" width="80" height="60" rx="14"/><rect class="cell" x="1470" y="1300" width="80" height="60" rx="14"/><rect class="cell" x="1580" y="1300" width="80" height="60" rx="14"/><rect class="cell" x="1800" y="1300" width="80" height="60" rx="14"/><text x="1360" y="1170">客服</text></g><g class="rg"><rect x="2080" y="1160" width="700" height="320" rx="60"/><rect class="cell" x="2340" y="1280" width="80" height="60" rx="14"/><rect class="cell" x="2450" y="1280" width="80" height="60" rx="14"/><rect class="cell" x="2560" y="1280" width="80" height="60" rx="14"/><text x="2120" y="1250">仓储物流</text></g><g class="base"><rect x="80" y="1560" width="3040" height="190" rx="40"/><text x="1600" y="1680" text-anchor="middle">底下：公司的知识库 · 客户、经营、财务、运行数据</text></g></svg>
-      <div class="fog"><i style="left:2437px;top:1119px;width:848px;height:443px;animation-delay:-3s"></i><i style="left:2340px;top:938px;width:638px;height:410px;animation-delay:-7s"></i><i style="left:1033px;top:795px;width:632px;height:433px;animation-delay:-9s"></i><i style="left:2046px;top:594px;width:505px;height:406px;animation-delay:-18s"></i><i style="left:1089px;top:-59px;width:692px;height:457px;animation-delay:-18s"></i><i style="left:2389px;top:172px;width:530px;height:462px;animation-delay:-10s"></i><i style="left:1709px;top:622px;width:847px;height:390px;animation-delay:-8s"></i><i style="left:2822px;top:902px;width:511px;height:450px;animation-delay:-1s"></i><i style="left:2568px;top:-57px;width:689px;height:364px;animation-delay:-14s"></i></div>
-      <svg viewBox="0 0 3200 1800"><g class="lit"><circle cx="760" cy="1190" r="230" fill="none" stroke="var(--sk)" stroke-width="5" opacity=".7"/><path class="ln" d="M690 1110 H870 M870 1150 V1290 M870 1330 H690 M690 1290 V1150"/><rect x="610" y="1260" width="140" height="80" fill="var(--kb)"/><text x="680" y="1312" text-anchor="middle" fill="#07080a">知识库</text><rect x="610" y="1080" width="140" height="80" fill="var(--sk)"/><text x="680" y="1132" text-anchor="middle" fill="#07080a">技能</text><rect x="800" y="1080" width="140" height="80" fill="var(--ag)"/><text x="870" y="1132" text-anchor="middle" fill="#07080a">专家</text><rect x="800" y="1260" width="140" height="80" fill="var(--wf)"/><text x="870" y="1312" text-anchor="middle" fill="#07080a">SOP</text></g><g class="road"><path class="a" d="M760 1190 C1060 1190,1150 1030,1420 990 S1760 820,1900 790"/><path class="b" d="M1900 790 C2060 760,2230 650,2360 590 S2700 380,2860 300"/></g><g class="sg on" style="transition-delay:0.80s"><line x1="1040" y1="1150" x2="1040" y2="1240"/><circle cx="1040" cy="1150" r="14" fill="var(--m-ink)"/><rect x="1000" y="1240" width="560" height="150" rx="22"/><text class="h" x="1030" y="1306"><tspan>L1</tspan>　各用各的</text><text class="p" x="1030" y="1362">要准备：账号、习惯</text></g><g class="sg on" style="transition-delay:1.25s"><line x1="1420" y1="990" x2="1420" y2="890"/><circle cx="1420" cy="990" r="14" fill="var(--m-ink)"/><rect x="900" y="740" width="560" height="150" rx="22"/><text class="h" x="930" y="806"><tspan>L2</tspan>　一个环节跑起来</text><text class="p" x="930" y="862">要准备：技能、知识库</text></g><g class="sg on" style="transition-delay:1.70s"><line x1="1900" y1="790" x2="1900" y2="690"/><circle cx="1900" cy="790" r="14" fill="var(--m-ink)"/><rect x="1380" y="540" width="560" height="150" rx="22"/><text class="h" x="1410" y="606"><tspan>L3</tspan>　一条线人机分工</text><text class="p" x="1410" y="662">要准备：专家、谁点头</text></g><g class="sg far" style="transition-delay:2.15s"><line x1="2360" y1="590" x2="2360" y2="490"/><circle cx="2360" cy="590" r="14" fill="var(--m-ink)"/><rect x="1730" y="340" width="670" height="150" rx="22"/><text class="h" x="1760" y="406"><tspan>L4</tspan>　判断和数据成闭环</text><text class="p" x="1760" y="462">要准备：数据打通、判断写进系统</text></g><g class="sg far" style="transition-delay:2.60s"><line x1="2860" y1="300" x2="2860" y2="200"/><circle cx="2860" cy="300" r="14" fill="var(--m-ink)"/><rect x="1894" y="50" width="1006" height="150" rx="22"/><text class="h" x="1924" y="116"><tspan>L5</tspan>　AI 原生</text><text class="p" x="1924" y="172">要准备：AI 中台和权限，组织和 AI 一起管</text></g><g class="flag"><rect x="1960" y="880" width="430" height="80" rx="40"/><text x="2175" y="934" text-anchor="middle">这两天到这里</text></g></svg>
-    </div></div>
-    <div class="topb rv fade" data-in="2" data-out="6"></div>
-    <div class="mh rv" data-in="2" data-out="3">这两天：一个岗位搭起来<small>知识库、技能、专家、SOP，四样都在这里转</small></div>
-    <div class="mh rv" data-in="3" data-out="4">放到整家公司，这是点亮的第一块<small>别的部门，照这个样子一块块点亮</small></div>
-    <div class="mh rv" data-in="4" data-out="5">从这里走到 L5，每一层先备好东西<small>每层的准备写在路牌上</small></div>
-    <div class="mh rv" data-in="5" data-out="6">路底下，是知识库和数据<small>往上走的每一步，都踩在这一层上</small></div>
+    <div class="pg rv" data-in="2" data-out="6">
+      <div class="bd a1" style="left:60px;top:160px;width:1190px;height:136px"><div class="bl">各部门<small>每天的事</small></div></div>
+      <div class="row a1" style="left:182px;top:172px;width:1058px;height:114px"><div class="dp"><b>老板</b><p><i class="y"></i>看经营数</p><p><i></i>定新品</p><p><i></i>批价格折扣</p></div><div class="dp"><b>外贸销售</b><p><i class="y"></i>回询盘</p><p><i class="y"></i>报价</p><p><i></i>跟单</p></div><div class="dp"><b>运营</b><p><i></i>上新</p><p><i class="y"></i>写卖点</p><p><i></i>看广告</p></div><div class="dp"><b>采购</b><p><i class="y"></i>比价</p><p><i></i>催货</p><p><i></i>对账</p></div><div class="dp"><b>客服售后</b><p><i class="y"></i>回消息</p><p><i></i>处理退款</p></div><div class="dp"><b>仓储物流</b><p><i></i>备货</p><p><i class="y"></i>发货查件</p></div><div class="dp"><b>财务</b><p><i></i>对账</p><p><i class="y"></i>报销</p><p><i></i>算提成</p></div><div class="dp"><b>人事</b><p><i></i>招人</p><p><i class="y"></i>带新人</p></div></div>
+      <div class="bd zt a2" style="left:60px;top:372px;width:1190px;height:188px"><div class="bl">AI 中台<small>各部门共用</small></div></div>
+      <div class="in a2" style="left:190px;top:392px"><span class="tag" style="position:static">事情进来</span><span class="ch">群消息、表单</span><span class="ch">定时任务</span><span class="ch">系统提醒</span></div>
+      <div class="core a2" style="left:372px;top:388px"><div class="t4 kb"><b>知识库</b><p>公司资料、产品、规矩</p></div><div class="t4 sk"><b>技能</b><p>一件事，一步步怎么做</p></div><div class="t4 ag"><b>专家</b><p>一个岗位的 AI，带着技能做事</p></div><div class="t4 wf"><b>SOP</b><p>一条线谁先谁后、谁点头</p></div></div>
+      <div class="gv a2" style="left:1000px;top:392px"><span class="tag" style="position:static">管起来</span><span class="ch">权限和审批</span><span class="ch">运行记录</span><span class="ch">模型和账号</span></div>
+      <div class="bd pdj a3" style="left:60px;top:578px;width:1190px;height:72px"><div class="bl" style="padding-top:22px">判断</div>
+        <div class="row" style="left:132px;top:14px;gap:12px;align-items:center"><span class="ch nod">要人点头的：发消息、花钱、改价、删数据</span><span class="tag" style="position:static">→</span><span class="ch nod">负责人拍板</span><span class="tag" style="position:static">→</span><span class="ch">决定记下来，写回知识库</span></div></div>
+      <div class="bd sj a4" style="left:60px;top:668px;width:1190px;height:150px"><div class="bl">数据和系统<small>AI 读得到才用得上</small></div>
+        <div class="row" style="left:132px;top:22px;gap:10px"><span class="tag" style="position:static;width:44px;padding-top:7px">数据</span><span class="ch">客户</span><span class="ch">商品</span><span class="ch">订单</span><span class="ch">库存</span><span class="ch">广告</span><span class="ch">财务</span><span class="ch">聊天和邮件</span><span class="ch">运行日志</span></div>
+        <div class="row" style="left:132px;top:84px;gap:10px"><span class="tag" style="position:static;width:44px;padding-top:7px">系统</span><span class="ch">店铺后台</span><span class="ch">ERP</span><span class="ch">表格</span><span class="ch">飞书、企业微信</span><span class="ch">邮箱</span><span class="ch">网盘</span></div></div>
+      <svg class="wr" viewBox="0 0 1600 900"><path class="fn" d="M534 372 C534 340,244 330,244 296"/><path class="fn" d="M574 372 C574 340,377 330,377 296"/><path class="fn" d="M614 372 C614 340,511 330,511 296"/><path class="fn" d="M654 372 C654 340,644 330,644 296"/><path class="fn" d="M694 372 C694 340,778 330,778 296"/><path class="fn" d="M734 372 C734 340,911 330,911 296"/><path class="fn" d="M774 372 C774 340,1045 330,1045 296"/><path class="fn" d="M814 372 C814 340,1178 330,1178 296"/><path class="dt up" d="M300 668 V560"/><path class="dt up" d="M640 668 V560"/><path class="dt up" d="M980 668 V560"/><path class="dt up" d="M1110 600 V560"/><path class="dt up" d="M1040 520 C1040 600,1180 600,1180 650"/></svg>
+      <div class="bd rail a5" style="left:1272px;top:160px;width:268px;height:658px"><h4>用到哪一层</h4>
+        <div class="lv l5"><b><u>L5</u>AI 原生</b><p>要准备：AI 中台和权限，组织和 AI 一起管</p></div>
+        <div class="lv l4"><b><u>L4</u>判断和数据成闭环</b><p>要准备：数据打通，判断写进系统</p></div>
+        <div class="here"><i></i><span>这两天到这里</span></div>
+        <div class="lv l3"><b><u>L3</u>一条线人机分工</b><p>要准备：专家、SOP、谁点头</p></div>
+        <div class="lv l2"><b><u>L2</u>一个环节跑起来</b><p>要准备：技能、知识库</p></div>
+        <div class="lv l1"><b><u>L1</u>各用各的</b><p>要准备：账号、用的习惯</p></div></div>
+    </div>
+    <div class="mh rv" data-in="2" data-out="3">企业用 AI 的全景图<small>上面各部门的事，中间 AI 中台，下面判断、数据和系统</small></div>
+    <div class="mh rv" data-in="3" data-out="4">这两天搭的四样，在中台正中间<small>每个部门的事，都靠这四样接上 AI</small></div>
+    <div class="mh rv" data-in="4" data-out="5">这两天，带到第三层<small>一条线上 AI 做事，要紧的人点头</small></div>
+    <div class="mh rv" data-in="5" data-out="6">再往上：数据打通，判断写进系统<small>到 L5，权限和组织跟着一起改</small></div>
     <i class="c3 rv" data-in="3" data-out="4" hidden></i><i class="c4 rv" data-in="4" data-out="5" hidden></i><i class="c5 rv" data-in="5" data-out="6" hidden></i>
     <div class="m-fin2 rv" data-in="6" style="transition-delay:.3s"><h2>回去，把公司重做一遍</h2><p>从最底下那层开始：先让 AI 读懂公司</p></div>
   </section>
@@ -1088,10 +1136,10 @@ const BEATS=[
 
  {s:'m5',k:0,w:'hidden',ch:'收尾',n:`这就是两天的地图：知识库、技能、专家、SOP。每一站的东西，各位手上都有了。`},
  {s:'m5',k:1,w:'hidden',ch:'收尾',n:`回到开头那个算式。这两天补上的，是 AI 技能这一项。其余三项没动，结果已经不一样了。`},
- {s:'m5',k:2,w:'hidden',ch:'收尾',n:`这两天做成的，是这样一小块：一个岗位，知识库、技能、专家、SOP 四样都搭起来了，在这里转。`},
- {s:'m5',k:3,w:'hidden',ch:'收尾',n:`把镜头拉远，放到整家公司。研发、销售、采购、客服、仓储、财务、老板。这两天点亮的是第一块，四样东西怎么搭、怎么转，各位都亲手做过一遍；别的部门照这个样子，一块块点亮。（等镜头拉完再讲）`},
- {s:'m5',k:4,w:'hidden',ch:'收尾',n:`从这一块出发，企业用 AI 有一条路，分五层。第一层各用各的；第二层一个环节跑起来；第三层一条线人机分工，这两天带各位走到这里。第四层判断和数据成闭环，要把数据打通、把判断写进系统；第五层 AI 原生，要有 AI 中台和权限，组织和 AI 一起管。每一层要先备好东西，没备好就上不去。`},
- {s:'m5',k:5,w:'hidden',ch:'收尾',n:`这条路底下，是公司的知识库和数据：客户、经营、财务、运行记录。往上走的每一步都踩在这一层上。所以这两天，我们从知识库开始。`},
+ {s:'m5',k:2,w:'hidden',ch:'收尾',n:`把一家公司用 AI 的样子画全：上面是各部门每天的事；中间是 AI 中台，各部门共用；下面是要人点头的判断，和公司的数据、系统。右边是企业用 AI 的五层。`},
+ {s:'m5',k:3,w:'hidden',ch:'收尾',n:`这两天搭的四样：知识库、技能、专家、SOP，就在中台正中间。老板看经营数、外贸回询盘、客服回消息、财务对账，每个部门的事都靠这四样接上 AI。各位回去，哪个部门都能照着搭。`},
+ {s:'m5',k:4,w:'hidden',ch:'收尾',n:`对照右边五层：L1 各用各的，L2 一个环节跑起来，L3 一条线人机分工、要紧的事人点头。这两天带各位走到第三层。`},
+ {s:'m5',k:5,w:'hidden',ch:'收尾',n:`再往上，L4 要把客户、订单、财务这些数据打通，判断写进系统；L5 是 AI 原生，中台、权限、组织一起改。每一层先备好东西，才上得去。回去从最底下的知识库开始补。`},
  {s:'m5',k:6,w:'hidden',ch:'收尾',n:`回去，把公司重做一遍。从最底下那层开始：先让 AI 读懂公司。`},
 ];
 
