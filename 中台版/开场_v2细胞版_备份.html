@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>开场 · 这两天，把你的公司用 AI 重做一遍</title>
+<style>
+:root{
+  --bg:#06080d; --ink:#f3f4f6; --mute:#8b909b; --dim:#3a3f4a; --line:#1c2029;
+  --sk:#d4ff3a; --ag:#47e5ff; --wf:#a487ff; --kb:#ffb547;
+  --f:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",sans-serif;
+  --mono:"SF Mono","Menlo","Consolas",monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#000;color:var(--ink);font-family:var(--f);overflow:hidden;-webkit-font-smoothing:antialiased}
+#stage{position:absolute;left:50%;top:50%;width:1600px;height:900px;background:var(--bg);transform-origin:0 0;overflow:hidden}
+#world{position:absolute;inset:0;transition:opacity .9s ease,filter .9s ease}
+#world.blur{filter:blur(3px)}
+.scene{position:absolute;inset:0;opacity:0;pointer-events:none;transition:opacity .6s ease}
+.scene.on{opacity:1}
+.instant,.instant *{transition:none!important}
+.abs{position:absolute}
+.rv{opacity:0;transform:translateY(16px);transition:opacity .55s ease,transform .6s cubic-bezier(.2,.8,.2,1)}
+.rv.vis{opacity:1;transform:none}
+.rv.fade{transform:none}
+.rv.late.vis{transition-delay:.7s}
+.sk{color:var(--sk)} .ag{color:var(--ag)} .wf{color:var(--wf)} .kb{color:var(--kb)} .mute{color:var(--mute)}
+
+/* 标题与标签 */
+.ttl{left:88px;top:58px;font-size:60px;font-weight:800;letter-spacing:.01em;line-height:1.25;text-shadow:0 2px 30px rgba(6,8,13,.9)}
+.ttl small{display:block;font-size:26px;font-weight:500;color:var(--mute);margin-top:10px;letter-spacing:.04em}
+.chip{position:absolute;transform:translate(-50%,-50%);font-size:26px;font-weight:700;padding:10px 22px;border-radius:40px;background:rgba(6,8,13,.78);border:1.5px solid #474c57;color:#d9dbe1;white-space:nowrap}
+.chip.rv{transform:translate(-50%,calc(-50% + 14px))} .chip.rv.vis{transform:translate(-50%,-50%)}
+.chip .o{color:var(--mute);text-decoration:line-through;text-decoration-thickness:2px;font-weight:500;margin-right:10px}
+.chip.c-sk{border-color:var(--sk);color:var(--sk)} .chip.c-ag{border-color:var(--ag);color:var(--ag)}
+.chip.c-wf{border-color:var(--wf);color:var(--wf)} .chip.c-kb{border-color:var(--kb);color:var(--kb)}
+svg.lead{position:absolute;inset:0;width:1600px;height:900px;overflow:visible}
+svg.lead line{stroke:#5a606c;stroke-width:1.5;stroke-dasharray:4 5}
+
+/* 进度条、口播 */
+#bar{position:absolute;left:0;right:0;bottom:0;height:34px;display:flex;align-items:flex-end;gap:4px;padding:0 24px 12px;z-index:20}
+#bar .ch{flex:1;display:flex;flex-direction:column;gap:6px}
+#bar .ch b{font-weight:500;font-size:13px;color:var(--dim);letter-spacing:.08em;transition:color .3s}
+#bar .ch i{display:block;height:3px;background:#161a22;border-radius:2px;overflow:hidden}
+#bar .ch i u{display:block;height:100%;width:0;background:var(--dim);transition:width .4s}
+#bar .ch.cur b{color:var(--ink)} #bar .ch.cur i u{background:var(--sk)}
+#bar .ch.done i u{width:100%}
+#stage.lime #bar .ch b{color:rgba(7,8,10,.35)} #stage.lime #bar .ch.cur b{color:#07080a}
+#stage.lime #bar .ch i{background:rgba(7,8,10,.12)} #stage.lime #bar .ch.cur i u{background:#07080a}
+#notes{position:absolute;left:0;right:0;bottom:0;z-index:30;background:rgba(6,8,13,.96);border-top:1px solid var(--line);padding:22px 40px 28px;font-size:22px;line-height:1.7;color:#d9d6cf;transform:translateY(100%);transition:transform .35s}
+#notes.show{transform:none}
+#notes .meta{font-size:14px;color:var(--mute);margin-bottom:6px;letter-spacing:.06em}
+#hint{position:absolute;right:28px;top:22px;font-size:14px;color:rgba(7,8,10,.45);z-index:20;transition:opacity 1s}
+
+/* ===== 封面 ===== */
+#cover{background:var(--sk);color:#07080a}
+#cover canvas{position:absolute;inset:0}
+#cover .a{left:136px;top:150px;font-size:76px;font-weight:700}
+#cover .b{left:126px;top:260px;font-size:196px;font-weight:900;line-height:1.04;letter-spacing:-.03em}
+#cover .c{left:140px;top:742px;font-size:22px;font-weight:600;letter-spacing:.14em;opacity:.7}
+
+/* ===== 对照表 ===== */
+.map{left:300px;top:200px;width:1000px}
+.map .r{display:flex;align-items:center;height:124px;border-bottom:1px solid var(--line)}
+.map .r:first-of-type{border-top:1px solid var(--line)}
+.map .l{flex:1;text-align:right;font-size:40px;color:var(--mute);font-weight:600;padding-right:44px}
+.map .ar{width:60px;text-align:center;font-size:34px;color:var(--dim)}
+.map .rt{flex:1;font-size:72px;font-weight:900;padding-left:44px}
+.map .dn,.map .up{position:absolute;top:0;bottom:0;width:4px;border-radius:2px}
+.map .dn{left:-90px;background:linear-gradient(var(--mute),transparent)}
+.map .up{right:-90px;background:linear-gradient(transparent,var(--sk))}
+.map .dn b,.map .up b{position:absolute;left:50%;transform:translateX(-50%);font-size:28px;white-space:nowrap}
+.map .dn b{top:-48px;color:var(--mute)} .map .up b{bottom:-48px;color:var(--sk)}
+
+/* ===== 四样 ===== */
+.tiles{left:110px;top:220px;width:1380px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.tile{background:rgba(14,17,24,.88);border:1px solid #232834;border-radius:22px;padding:34px 36px 38px;position:relative;overflow:hidden}
+.tile::before{content:"";position:absolute;left:0;right:0;top:0;height:8px;background:var(--c)}
+.tile b{display:block;font-size:76px;font-weight:900;color:var(--c);line-height:1.1}
+.tile span{display:block;font-size:28px;color:#c9ccd3;margin-top:18px;line-height:1.5}
+.tile.base{grid-column:1/4;display:flex;align-items:center;gap:40px;padding:30px 40px}
+.tile.base::before{top:auto;bottom:0}
+.tile.base span{margin:0}
+.tile.base em{margin-left:auto;font-style:normal;font-size:22px;color:var(--kb);border:1.5px solid var(--kb);border-radius:30px;padding:6px 18px}
+
+/* ===== 生长：计数 ===== */
+.cnt{right:80px;top:66px;font-size:26px;font-family:var(--mono);background:rgba(6,8,13,.7);border:1px solid #232834;border-radius:14px;padding:14px 22px;line-height:1.7}
+.cnt b{font-size:34px;margin-left:10px}
+
+/* ===== 闭环 ===== */
+.big{left:0;right:0;top:300px;text-align:center}
+.big h2{font-size:150px;font-weight:900;letter-spacing:-.02em;line-height:1.1}
+.big p{font-size:34px;color:#c9ccd3;margin-top:44px;line-height:1.8}
+.big p b{font-weight:800;margin-right:14px}
+#loopSvg{position:absolute;left:0;top:0;width:1600px;height:900px}
+#loopSvg .ring{fill:none;stroke:#2a2f3a;stroke-width:3}
+#loopSvg .flow{fill:none;stroke:url(#lg);stroke-width:6;stroke-linecap:round;stroke-dasharray:90 1600;animation:loop 6s linear infinite}
+@keyframes loop{to{stroke-dashoffset:-1696}}
+.node{position:absolute;transform:translate(-50%,-50%);text-align:center;background:var(--bg);padding:16px 26px;border-radius:18px;border:2px solid var(--c);min-width:220px}
+.node b{display:block;font-size:40px;font-weight:900;color:var(--c)}
+.node span{display:block;font-size:22px;color:var(--mute);margin-top:6px}
+.core{left:800px;top:480px;transform:translate(-50%,-50%);text-align:center;font-size:44px;font-weight:900}
+.core small{display:block;font-size:22px;color:var(--mute);font-weight:500;margin-top:8px}
+
+/* ===== 学员前后 ===== */
+.gt{left:0;right:0;top:330px;text-align:center}
+.gt p{font-size:30px;color:var(--mute);letter-spacing:.2em}
+.gt h2{font-size:120px;font-weight:900;margin-top:24px}
+.ba{inset:0;display:flex}
+.ba .hd{position:absolute;left:90px;right:90px;top:56px;display:flex;align-items:center;gap:22px;z-index:2}
+.ba .hd b{font-size:40px;font-weight:800}
+.ba .hd span{font-size:26px;color:var(--mute)}
+.todo{margin-left:auto;font-size:20px;color:var(--kb);border:1.5px dashed var(--kb);border-radius:30px;padding:6px 18px;white-space:nowrap;font-style:normal}
+.ba .col{flex:1;padding:190px 90px 90px;display:flex;flex-direction:column}
+.ba .bf{background:#0b0d12;filter:grayscale(1)}
+.ba .af{background:radial-gradient(900px 600px at 70% 40%,rgba(212,255,58,.07),transparent)}
+.ba .lb{font-size:30px;font-weight:800;letter-spacing:.12em}
+.ba .bf .lb{color:var(--mute)} .ba .af .lb{color:var(--sk)}
+.ba .num{font-size:110px;font-weight:900;margin:34px 0 28px;line-height:1}
+.ba .bf .num{color:#6b707b}
+.ba .ds{font-size:32px;line-height:1.7;color:#c9ccd3}
+.ba .bf .ds{color:#7d828c}
+.ba .mid{position:absolute;left:800px;top:190px;bottom:90px;width:1px;background:#232834}
+.ba .mid::after{content:"→";position:absolute;top:44%;left:50%;transform:translate(-50%,-50%);width:70px;height:70px;border-radius:50%;background:var(--bg);border:1.5px solid #333946;color:var(--sk);font-size:34px;display:flex;align-items:center;justify-content:center}
+.ppl{display:flex;flex-wrap:wrap;gap:14px;margin:36px 0 30px;max-width:620px}
+.ppl i{width:58px;height:58px;border-radius:50%;background:#4a4f5a;display:block}
+.ppl i.h{background:#e9eaee}
+.ppl i.a{background:radial-gradient(circle at 50% 50%,rgba(71,229,255,.5),rgba(71,229,255,.08) 70%);border:2px solid var(--ag)}
+.take{left:200px;top:220px;width:1200px}
+.take .r{display:flex;align-items:baseline;gap:30px;padding:26px 0;border-bottom:1px solid var(--line)}
+.take .r i{width:22px;height:22px;border-radius:50%;background:var(--c);flex:none;align-self:center}
+.take .r b{font-size:30px;color:var(--mute);font-weight:600;width:120px}
+.take .r span{font-size:56px;font-weight:900;color:var(--c)}
+
+/* ===== 开始 ===== */
+.go{left:0;right:0;top:190px;text-align:center}
+.go h2{font-size:170px;font-weight:900;letter-spacing:-.02em}
+.blocks{left:200px;top:560px;width:1200px;display:flex;gap:22px}
+.blocks div{flex:1;height:150px;border-radius:20px;border:1.5px solid #2a2f3a;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:40px;font-weight:900;color:#5a606c;position:relative}
+.blocks div.on{border:2px solid var(--kb);color:var(--kb);background:rgba(255,181,71,.08)}
+.blocks div.on::after{content:"第一站";position:absolute;top:-20px;font-size:20px;background:var(--kb);color:#07080a;padding:6px 16px;border-radius:20px}
+
+/* ===== 讲师视图 ===== */
+body.pv{background:#0b0c10;overflow:auto}
+body.pv #stage{display:none}
+#pv{display:none;padding:34px 44px;max-width:1300px;margin:0 auto}
+body.pv #pv{display:block}
+#pv .top{display:flex;gap:30px;align-items:baseline;color:var(--mute);font-size:20px}
+#pv .top b{font-size:44px;color:var(--ink);font-family:var(--mono)}
+#pv .top .clk{margin-left:auto;font-family:var(--mono);font-size:40px;color:var(--ink)}
+#pv .now{margin-top:26px;font-size:32px;line-height:1.75;color:#ece9e2;background:#14161b;border-radius:16px;padding:30px 36px;border-left:6px solid var(--sk)}
+#pv .nx{margin-top:26px;font-size:22px;line-height:1.7;color:var(--mute);padding:0 10px}
+#pv .nx b{color:var(--ink);font-weight:600}
+#pv .keys{margin-top:30px;font-size:16px;color:var(--dim)}
+</style>
+</head>
+<body>
+<div id="stage">
+  <canvas id="world" width="1600" height="900"></canvas>
+
+  <!-- 封面 -->
+  <section class="scene" id="cover">
+    <canvas id="coverBg" width="1600" height="900"></canvas>
+    <div class="abs a">这两天，</div>
+    <div class="abs b">把你的公司<br>用 AI 重做一遍</div>
+    <div class="abs c">组织 AI 技能提升实操训练营　·　2026.11.7–8　·　深圳</div>
+  </section>
+
+  <!-- 拆：你的公司 -->
+  <section class="scene" id="sB">
+    <div class="abs ttl rv" data-in="0" data-out="1">先看你的公司</div>
+    <div class="abs ttl rv" data-in="1" data-out="2">做成一件事，要走一条线</div>
+    <div class="chip rv late" data-in="1" data-out="2" style="left:800px;top:350px">一条业务流程</div>
+    <div class="abs ttl rv" data-in="2" data-out="3">线上每一站，是一个人</div>
+    <div class="chip rv late" data-in="2" data-out="3" style="left:176px;top:570px">A 岗</div>
+    <div class="chip rv late" data-in="2" data-out="3" style="left:592px;top:570px">B 岗</div>
+    <div class="chip rv late" data-in="2" data-out="3" style="left:1008px;top:570px">C 岗</div>
+    <div class="chip rv late" data-in="2" data-out="3" style="left:1424px;top:570px">D 岗</div>
+    <div class="abs ttl rv" data-in="3">一个人能顶岗，靠两样</div>
+    <svg class="lead rv fade late" data-in="3"><line x1="1150" y1="330" x2="935" y2="390"/><line x1="460" y1="640" x2="760" y2="480"/></svg>
+    <div class="chip rv late" data-in="3" style="left:1260px;top:320px">本事 · 他会干的</div>
+    <div class="chip rv late" data-in="3" style="left:360px;top:650px">懂行 · 他知道的</div>
+  </section>
+
+  <!-- 换成 AI 的叫法 -->
+  <section class="scene" id="sC">
+    <div class="abs ttl rv" data-in="0" data-out="1">换成 AI 的叫法</div>
+    <svg class="lead rv fade" data-in="0" data-out="1"><line x1="1150" y1="330" x2="935" y2="390"/><line x1="460" y1="640" x2="760" y2="480"/></svg>
+    <div class="chip c-sk rv late" data-in="0" data-out="1" style="left:1270px;top:320px"><span class="o">本事</span>技能</div>
+    <div class="chip c-kb rv late" data-in="0" data-out="1" style="left:360px;top:650px"><span class="o">懂行</span>知识</div>
+    <div class="abs ttl rv" data-in="1" data-out="2"><span class="sk">技能</span> + <span class="kb">知识</span> = <span class="ag">智能体</span><small>一个能顶岗的 AI</small></div>
+    <div class="chip c-ag rv late" data-in="1" data-out="2" style="left:176px;top:570px"><span class="o">A 岗</span>智能体</div>
+    <div class="chip c-ag rv late" data-in="1" data-out="2" style="left:592px;top:570px"><span class="o">B 岗</span>智能体</div>
+    <div class="chip c-ag rv late" data-in="1" data-out="2" style="left:1008px;top:570px"><span class="o">C 岗</span>智能体</div>
+    <div class="chip c-ag rv late" data-in="1" data-out="2" style="left:1424px;top:570px"><span class="o">D 岗</span>智能体</div>
+    <div class="abs ttl rv" data-in="2" data-out="3"><span class="ag">智能体</span>串起来 = <span class="wf">工作流</span></div>
+    <div class="chip c-wf rv late" data-in="2" data-out="3" style="left:800px;top:350px"><span class="o">业务流程</span>工作流</div>
+    <div class="abs ttl rv" data-in="3" data-out="4">人人都靠的底子 = <span class="kb">知识库</span><small>资料、规矩、经验、做过的事</small></div>
+    <div class="chip c-kb rv late" data-in="3" data-out="4" style="left:1390px;top:735px"><span class="o">公司的底子</span>知识库</div>
+    <div class="abs map rv" data-in="4">
+      <div class="dn"><b>拆 ↓</b></div><div class="up"><b>建 ↑</b></div>
+      <div class="r"><div class="l">一条业务流程</div><div class="ar">→</div><div class="rt wf">工作流</div></div>
+      <div class="r"><div class="l">一个人</div><div class="ar">→</div><div class="rt ag">智能体</div></div>
+      <div class="r"><div class="l">他的本事</div><div class="ar">→</div><div class="rt sk">技能</div></div>
+      <div class="r"><div class="l">公司的底子</div><div class="ar">→</div><div class="rt kb">知识库</div></div>
+    </div>
+  </section>
+
+  <!-- 四样 -->
+  <section class="scene" id="sD">
+    <div class="abs ttl rv" data-in="0">这两天，带你亲手做四样</div>
+    <div class="abs tiles">
+      <div class="tile rv" data-in="0" style="--c:var(--sk);transition-delay:.15s"><b>技能</b><span>把会干的，<br>写下来交给 AI</span></div>
+      <div class="tile rv" data-in="0" style="--c:var(--ag);transition-delay:.3s"><b>智能体</b><span>能顶一个岗的 AI</span></div>
+      <div class="tile rv" data-in="0" style="--c:var(--wf);transition-delay:.45s"><b>工作流</b><span>一件事，<br>AI 接力做完</span></div>
+      <div class="tile base rv" data-in="0" style="--c:var(--kb);transition-delay:.7s"><b>知识库</b><span>公司的底子，AI 先读过</span><em>压在最底下</em></div>
+    </div>
+  </section>
+
+  <!-- 长出来 -->
+  <section class="scene" id="sE">
+    <div class="abs ttl rv" data-in="0" data-out="1">四样凑到一起，<br>会长成什么？</div>
+    <div class="abs ttl rv" data-in="1" data-out="2">一个<span class="sk">技能</span></div>
+    <div class="abs ttl rv" data-in="2" data-out="3"><span class="sk">技能</span>越来越多</div>
+    <div class="abs ttl rv" data-in="3" data-out="4">融成一个专家：<span class="ag">智能体</span></div>
+    <div class="abs ttl rv" data-in="4" data-out="5">专家越来越多</div>
+    <div class="abs ttl rv" data-in="5" data-out="6">串成一条业务流：<span class="wf">工作流</span></div>
+    <div class="abs ttl rv" data-in="6" data-out="7">一条条流，长成一家公司</div>
+    <div class="abs ttl rv" data-in="7">底座是<span class="kb">知识库</span><small>越跑越懂，越用越强</small></div>
+    <div class="abs cnt rv" data-in="7" id="evoCnt"></div>
+  </section>
+
+  <!-- 闭环 -->
+  <section class="scene" id="sF">
+    <div class="abs big rv" data-in="0" data-out="1"><h2 style="font-size:96px">学会这四样，<br>你会变成什么？</h2></div>
+    <div class="abs big rv" data-in="1" data-out="2" style="top:260px"><h2>会拆，也会建</h2>
+      <p><b>拆</b>拿到自己的公司，拆成四样<br><b class="sk">建</b>用这四样，长回一家用 AI 跑的公司</p></div>
+    <div class="rv fade" data-in="2">
+      <svg id="loopSvg" viewBox="0 0 1600 900">
+        <defs><linearGradient id="lg" x1="0" x2="1"><stop offset="0" stop-color="#d4ff3a"/><stop offset=".5" stop-color="#47e5ff"/><stop offset="1" stop-color="#ffb547"/></linearGradient></defs>
+        <circle class="ring" cx="800" cy="480" r="270"/>
+        <circle class="flow" cx="800" cy="480" r="270" transform="rotate(-90 800 480)"/>
+      </svg>
+      <div class="node" style="left:800px;top:210px;--c:#f3f4f6"><b>你的公司</b><span>流程、岗位、本事、底子</span></div>
+      <div class="node" style="left:1070px;top:480px;--c:var(--sk)"><b>拆成四样</b><span>技能 · 智能体 · 工作流 · 知识库</span></div>
+      <div class="node" style="left:800px;top:750px;--c:var(--ag)"><b>用 AI 建回来</b><span>从下往上，一层层搭</span></div>
+      <div class="node" style="left:530px;top:480px;--c:var(--kb)"><b>跑起来</b><span>每一单，写回知识库</span></div>
+      <div class="abs core">越转越强<small>再拆，再建</small></div>
+    </div>
+  </section>
+
+  <!-- 学员前后 -->
+  <section class="scene" id="sG">
+    <div class="abs gt rv" data-in="0" data-out="1"><p>近期开班</p><h2>学完以后，变了什么</h2></div>
+
+    <div class="abs ba rv fade" data-in="1" data-out="2">
+      <div class="hd"><b>【学员 A】</b><span>【公司 · 岗位】</span><em class="todo">待换：真实学员案例</em></div>
+      <div class="col bf"><div class="lb">以前</div><div class="num">【X 小时】</div><div class="ds">【这件事以前怎么做：<br>几个人、几个软件、来回几趟】</div></div>
+      <div class="mid"></div>
+      <div class="col af"><div class="lb">学完以后</div><div class="num sk">【Y 分钟】</div><div class="ds">【同一件事现在怎么做：<br>用了哪个技能 / 智能体，人只核哪几处】</div></div>
+    </div>
+
+    <div class="abs ba rv fade" data-in="2" data-out="3">
+      <div class="hd"><b>【学员 B】</b><span>【公司 · 岗位】</span><em class="todo">待换：真实学员案例</em></div>
+      <div class="col bf"><div class="lb">以前</div><div class="num">【做不到】</div><div class="ds">【以前想做、但没人手做的一件事】</div></div>
+      <div class="mid"></div>
+      <div class="col af"><div class="lb">学完以后</div><div class="num sk">【每天自己跑】</div><div class="ds">【现在一条工作流到点自己跑，<br>他只在最后点头】</div></div>
+    </div>
+
+    <div class="abs ba rv fade" data-in="3" data-out="4">
+      <div class="hd"><b>【学员公司 C】</b><span>【行业 · 部门】</span><em class="todo">待换：真实学员案例</em></div>
+      <div class="col bf"><div class="lb">以前</div>
+        <div class="ppl"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="ds">【8 个人】做【这块业务】<br>老板【什么都要过问】</div></div>
+      <div class="mid"></div>
+      <div class="col af"><div class="lb">学完以后</div>
+        <div class="ppl"><i class="h"></i><i class="h"></i><i class="h"></i><i class="a"></i><i class="a"></i><i class="a"></i><i class="a"></i><i class="a"></i></div>
+        <div class="ds">【3 个人 + 5 个智能体】做同样的事<br>老板只在【2 个点】拍板</div></div>
+    </div>
+
+    <div class="abs ttl rv" data-in="4">两天后，你带走</div>
+    <div class="abs take rv" data-in="4">
+      <div class="r" style="--c:var(--sk)"><i></i><b>一组</b><span>你公司的技能</span></div>
+      <div class="r" style="--c:var(--ag)"><i></i><b>几个</b><span>能顶岗的智能体</span></div>
+      <div class="r" style="--c:var(--wf)"><i></i><b>一条</b><span>跑起来的工作流</span></div>
+      <div class="r" style="--c:var(--kb)"><i></i><b>一个</b><span>你公司的知识库</span></div>
+    </div>
+  </section>
+
+  <!-- 开始 -->
+  <section class="scene" id="sH">
+    <div class="abs go rv" data-in="0"><h2>我们开始</h2></div>
+    <div class="abs blocks rv" data-in="0" style="transition-delay:.3s">
+      <div class="on">知识库</div><div>技能</div><div>智能体</div><div>工作流</div>
+    </div>
+  </section>
+
+  <div id="bar"></div>
+  <div id="hint">→ 下一步　← 上一步　N 口播　P 讲师视图　F 全屏</div>
+  <div id="notes"><div class="meta" id="notesMeta"></div><div id="notesTx"></div></div>
+</div>
+
+<div id="pv">
+  <div class="top"><b id="pvIdx">1 / 1</b><span id="pvCh"></span><span class="clk" id="pvClk">00:00</span></div>
+  <div class="now" id="pvNow"></div>
+  <div class="nx" id="pvNext"></div>
+  <div class="keys">→ / 空格 下一步　← 上一步　R 计时清零　这个窗口和投屏同步</div>
+</div>
+
+<script>
+/* ================= 逐步：画面 + 口播 ================= */
+const BEATS=[
+ {s:'cover',k:0,w:'hidden',ch:'开场',n:`各位早。先把这两天的目标说在前面：帮你把你的公司，用 AI 重做一遍。不是教你用一个软件，是把你公司做事的那副骨架，用 AI 再搭一遍。怎么搭？先从你最熟的东西开始：你自己的公司。`},
+
+ {s:'sB',k:0,w:'company_f',ch:'你的公司',n:`这是一家公司。不管做什么行业，从里面看都长这样：几条业务线一起在跑，活儿在里面流。在座各位，对自己公司的这张图，比谁都熟。`},
+ {s:'sB',k:1,w:'flow_f',ch:'你的公司',n:`拉近看一条。公司做成一件事，从来不是一个人做完的：从 A 岗位到 B 岗位，再到 C 岗位，一站一站往下传。这就是一条业务流程。想一下：你公司里最要紧的那件事，是怎么从头走到尾的？`},
+ {s:'sB',k:2,w:'flow_f',ch:'你的公司',n:`线上每一站，都是一个人。各管一段，各司其职。`},
+ {s:'sB',k:3,w:'agent_f',ch:'你的公司',n:`再拉近，看一个人。他凭什么顶得住这个岗？靠两样：一是本事，这件事一步步怎么做，他会干；二是懂行，公司的客户、价格、规矩、以前出过什么事，他都知道。只会干不懂行，会干错；只懂行不会干，干不出来。`},
+
+ {s:'sC',k:0,w:'agent_ai',ch:'换成 AI',n:`好，同一张图，换成 AI 的叫法。一个人的本事，在 AI 里叫技能；他懂的那些，叫知识。`},
+ {s:'sC',k:1,w:'flow_ai',ch:'换成 AI',n:`技能加知识，装到一起，就是一个能顶岗的 AI，叫智能体。外面常说的 Agent 就是它。你可以把它当成一个数字员工：有本事，也懂行。`},
+ {s:'sC',k:2,w:'wf_ai',ch:'换成 AI',n:`几个智能体一站接一站，把一件事从头做到尾，这条线叫工作流。`},
+ {s:'sC',k:3,w:'company_ai',ch:'换成 AI',n:`最后，是所有人都靠的那个底子：公司的资料、规矩、经验、做过的事。在 AI 里它叫知识库，压在整家公司的最底下。`},
+ {s:'sC',k:4,w:'dim',ch:'换成 AI',n:`所以 AI 的世界，没有什么新东西。四个词，每一个你都早就认识：流程是工作流，人是智能体，本事是技能，公司的底子是知识库。拆的时候从上往下拆，建的时候从下往上建。`},
+
+ {s:'sD',k:0,w:'dim',ch:'四样',n:`这两天，就带各位亲手做这四样：技能、智能体、工作流，还有压在最底下的知识库。每一样，都拿你自己公司的事来做。`},
+
+ {s:'sE',k:0,w:'dust',ch:'长出来',n:`那这四样凑到一起，会长成什么？我们把这家公司打散，从零开始，重做一遍。`},
+ {s:'sE',k:1,w:'g1',ch:'长出来',n:`先是一个技能。很小，只会一件事。`},
+ {s:'sE',k:2,w:'g2',ch:'长出来',n:`技能会越来越多。一个变两个，两个变四个。`},
+ {s:'sE',k:3,w:'g3',ch:'长出来',n:`多到一定程度，它们融到一起，中间接上知识，就成了一个专家：一个智能体。`},
+ {s:'sE',k:4,w:'g4',ch:'长出来',n:`专家也会越来越多，一个管一段。`},
+ {s:'sE',k:5,w:'g5',ch:'长出来',n:`它们一站接一站串起来，活儿在里面流，这就是一条工作流。`},
+ {s:'sE',k:6,w:'g6',ch:'长出来',n:`一条条工作流长出来、挨在一起，就是一家公司。`},
+ {s:'sE',k:7,w:'g7',ch:'长出来',n:`它的底座，是知识库。每跑完一单，结果写回知识库；知识库越厚，上面每个智能体越懂行，又长出新的技能、新的流程。看右上角的数，它自己在涨。这不是搭完就停的系统，是会自己长的。（让它多跑十几秒再往下）`},
+
+ {s:'sF',k:0,w:'g7dim',ch:'闭环',n:`所以学会这四样，你会变成什么样的人？`},
+ {s:'sF',k:1,w:'g7dim',ch:'闭环',n:`你会拆，也会建。拆：拿到自己的公司，能拆成这四样；建：用这四样，长回一家用 AI 跑的公司。`},
+ {s:'sF',k:2,w:'g7dim',ch:'闭环',n:`而且这是个闭环：你的公司，拆成四样，用 AI 建回来，跑起来，每一单的结果写回知识库，公司就强一点；再拆，再建。外面很多课教你做其中一个点；这两天，我们教你把这一整圈转起来。`},
+
+ {s:'sG',k:0,w:'hidden',ch:'学员',n:`听起来很大。来看看最近几期的学员，学完以后真实发生了什么。`},
+ {s:'sG',k:1,w:'hidden',ch:'学员',n:`【案例 A，照真实学员替换】他是谁；这件事以前怎么做、花多久；学完以后怎么做、现在花多久。最好放他的真截图。`},
+ {s:'sG',k:2,w:'hidden',ch:'学员',n:`【案例 B，照真实学员替换】挑一件以前根本做不到、现在每天自己在跑的事。岗位最好和案例 A 不一样。`},
+ {s:'sG',k:3,w:'hidden',ch:'学员',n:`【公司案例，照真实学员替换】以前几个人做这块；现在几个人加几个智能体在做；老板现在只在哪几个点拍板。`},
+ {s:'sG',k:4,w:'hidden',ch:'学员',n:`两天以后，各位带走的不是笔记，是四样东西，全是你自己公司的：一组技能、几个能顶岗的智能体、一条跑起来的工作流、一个你公司的知识库。`},
+
+ {s:'sH',k:0,w:'hidden',ch:'开始',n:`那我们开始。从最底下开始：第一站，知识库。`},
+];
+
+/* ================= 舞台缩放 ================= */
+const stage=document.getElementById('stage');
+function fit(){const s=Math.min(innerWidth/1600,innerHeight/900);stage.style.transform=`translate(${-800*s}px,${-450*s}px) scale(${s})`;}
+addEventListener('resize',fit);fit();
+const $=s=>document.querySelector(s);
+function rng(seed){return()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const frac=x=>x-Math.floor(x);
+
+/* ================= 世界：一家会长的公司 ================= */
+const C={gray:[178,184,196],sk:[212,255,58],ag:[71,229,255],wf:[164,135,255],kb:[255,181,71],white:[243,244,246]};
+const R=48,FMAX=5,PMAX=4,NMAX=8;
+const rowY=(f,F)=>400+(f-(Math.max(F,4)-1)/2)*120;
+const colX=(f,p)=>800+(p-1.5)*260+(f%2?40:-40);
+const CAM={company:{x:800,y:420,z:1},flow0:{x:760,y:220,z:1.6},agent0:{x:370,y:220,z:5.5},
+  g1:{x:370,y:220,z:7.5},g2:{x:370,y:220,z:4.4},g3:{x:370,y:220,z:4.4},company5:{x:800,y:405,z:.84}};
+const base={op:1,F:4,P:4,N:6,mem:1,links:1,co:1,kb:0,cam:'company',col:[0,0,0,0]};
+const WS={hidden:{...base,op:0,col:[1,1,1,1]},
+  company_f:{...base},flow_f:{...base,cam:'flow0',ff:0},agent_f:{...base,cam:'agent0',ff:0,fa:0},
+  agent_ai:{...base,cam:'agent0',ff:0,fa:0,col:[1,0,0,1]},flow_ai:{...base,cam:'flow0',ff:0,col:[1,1,0,1]},
+  wf_ai:{...base,cam:'flow0',ff:0,col:[1,1,1,1]},company_ai:{...base,kb:1,col:[1,1,1,1]},
+  dim:{...base,kb:1,col:[1,1,1,1],op:.2},
+  dust:{...base,kb:0,co:0,links:0,dust:1,col:[1,1,1,1]},
+  g1:{op:1,F:1,P:1,N:1,loose:1,mem:0,links:0,co:0,kb:0,cam:'g1',col:[1,1,1,1]}};
+WS.g2={...WS.g1,N:6,cam:'g2'};WS.g3={...WS.g2,loose:0,mem:1,cam:'g3'};WS.g4={...WS.g3,P:4,cam:'flow0'};
+WS.g5={...WS.g4,links:1};WS.g6={...WS.g5,F:4,co:1,cam:'company'};WS.g7={...WS.g6,kb:1,evolve:1,cam:'company5'};
+WS.g7dim={...WS.g7,op:.22};
+
+const RW=rng(11);
+const agents=[],skills=[];
+for(let f=0;f<FMAX;f++)for(let p=0;p<PMAX;p++){const a={f,p,i:agents.length,x:colX(f,p),y:rowY(f,4),tx:0,ty:0,a:0,d:1,dT:1,m:0,want:0,on:0,appear:0,ph:RW()*6.28,sk:[]};agents.push(a);
+  for(let s=0;s<NMAX;s++){const k={ag:a,s,x:a.x,y:a.y,tx:a.x,ty:a.y,a:0,want:0,on:0,appear:0,j:RW()};a.sk.push(k);skills.push(k)}}
+const AG=(f,p)=>agents[f*PMAX+p];
+const KBP=[...Array(170)].map(()=>({u:RW(),v:RW()*2-1,sp:.006+RW()*.02,r:2+RW()*3}));
+const DUST=[...Array(90)].map(()=>({x:RW()*1600,y:RW()*900,r:.6+RW()*1.4,sp:.2+RW()*.6,ph:RW()*6.28}));
+
+let ws=WS.hidden,wName='hidden';
+const cam={x:800,y:420,z:1},v={c:[1,1,1,1],links:0,co:0,kb:0};
+const evo={start:0,last:0,F5:0,extra:new Array(agents.length).fill(0)};
+const effF=()=>ws.evolve&&evo.F5?5:ws.F;
+const nSk=ag=>Math.min(NMAX,ws.N+(ws.evolve?evo.extra[ag.i]:0));
+
+function layout(anim){
+  const now=performance.now(),F=effF();
+  agents.forEach(ag=>{
+    const want=!ws.dust&&ag.f<F&&ag.p<ws.P?1:0;
+    if(want&&!ag.want)ag.appear=anim?now+(ag.f>0?(ag.f-(ws.evolve?4:0))*480:0)+ag.p*300:now;
+    ag.want=want;ag.tx=colX(ag.f,ag.p);ag.ty=rowY(ag.f,F);
+    ag.dT=(ws.ff!=null&&ag.f!==ws.ff)?.07:(ws.fa!=null&&ag.p!==ws.fa)?.1:1;
+  });
+  skills.forEach(sk=>{const ag=sk.ag,want=ag.want&&sk.s<nSk(ag)?1:0;
+    if(want&&!sk.want)sk.appear=anim?Math.max(now,ag.appear)+(ws.evolve&&ag.a>.5?0:220+sk.s*150):now;
+    sk.want=want});
+}
+function skillTarget(sk,now){const ag=sk.ag,n=Math.max(1,nSk(ag));let ang,rad;
+  if(ws.loose){ang=sk.s*2.399+now*.0002;rad=n===1?0:R*(.8+.55*((sk.s*7)%5)/5)}
+  else{ang=sk.s/n*6.283+now*.00025+ag.ph;rad=R*.6}
+  sk.tx=ag.x+Math.cos(ang)*rad;sk.ty=ag.y+Math.sin(ang)*rad}
+function scatter(){[...agents,...skills].forEach(e=>{const t=RW()*6.28,d=160+RW()*260;e.tx=e.x+Math.cos(t)*d;e.ty=e.y+Math.sin(t)*d})}
+function snap(){const now=performance.now();
+  agents.forEach(ag=>{ag.on=ag.want;ag.a=ws.dust?0:ag.want;ag.x=ag.tx;ag.y=ag.ty;ag.d=ag.dT;ag.m=ag.want&&ws.mem?1:0});
+  skills.forEach(sk=>{sk.on=sk.want;sk.a=sk.want;skillTarget(sk,now);sk.x=sk.tx;sk.y=sk.ty});
+  Object.assign(cam,CAM[ws.cam]);v.c=[...ws.col];v.links=ws.links;v.co=ws.co;v.kb=ws.kb}
+function setWorld(name,anim){
+  const prev=WS[wName],nw=WS[name];
+  if(nw.evolve&&!(prev&&prev.evolve)){
+    if(anim){evo.start=evo.last=performance.now();evo.F5=0;evo.extra.fill(0)}else{evo.F5=1;evo.extra.fill(2)}}
+  ws=nw;wName=name;
+  const W=$('#world');W.style.opacity=ws.op;W.classList.toggle('blur',ws.op>0&&ws.op<1);
+  layout(anim);
+  if(ws.dust&&anim)scatter();
+  if(!anim)snap();
+}
+
+/* 发光点 */
+const SPR={};
+function sprite(c){const k=c.join();if(SPR[k])return SPR[k];const s=document.createElement('canvas');s.width=s.height=64;const g=s.getContext('2d');
+  const gr=g.createRadialGradient(32,32,0,32,32,32);gr.addColorStop(0,'rgba(255,255,255,1)');gr.addColorStop(.18,`rgba(${c},1)`);gr.addColorStop(.45,`rgba(${c},.35)`);gr.addColorStop(1,`rgba(${c},0)`);
+  g.fillStyle=gr;g.fillRect(0,0,64,64);return SPR[k]=s}
+const rgba=(c,a)=>`rgba(${c[0]|0},${c[1]|0},${c[2]|0},${a})`;
+const mix=(a,b,t)=>[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,a[2]+(b[2]-a[2])*t];
+function glow(g,c1,c2,t,x,y,r,al){if(al<=.004)return;
+  if(t<.99){g.globalAlpha=al*(1-t);g.drawImage(sprite(c1),x-r,y-r,2*r,2*r)}
+  if(t>.01){g.globalAlpha=al*t;g.drawImage(sprite(c2),x-r,y-r,2*r,2*r)}g.globalAlpha=1}
+
+const wv=$('#world'),wg=wv.getContext('2d');
+let last=performance.now(),bb={x0:300,x1:1300,y0:150,y1:650},cntT=0;
+function frame(now){
+  const dt=Math.min(.05,(now-last)/1000);last=now;
+  tick(dt,now);if(ws.op>0||+getComputedStyle(wv).opacity>0.01)draw(now);
+  requestAnimationFrame(frame)}
+function tick(dt,now){
+  if(ws.evolve){
+    if(now-evo.last>620){evo.last=now;const vis=agents.filter(a=>a.want&&evo.extra[a.i]<NMAX-6);if(vis.length){evo.extra[vis[(RW()*vis.length)|0].i]++;layout(true)}}
+    if(!evo.F5&&now-evo.start>5200){evo.F5=1;layout(true)}
+  }
+  const k=1-Math.exp(-dt*3),ka=1-Math.exp(-dt*2.6),kc=1-Math.exp(-dt*1.9);
+  agents.forEach(ag=>{
+    if(ag.want&&!ag.on&&now>=ag.appear){ag.on=1;if(ag.a<.05){const par=ag.p>0?AG(ag.f,ag.p-1):ag.f>0?AG(ag.f-1,0):null;
+      if(par&&par.a>.3){ag.x=par.x;ag.y=par.y}else{ag.x=ag.tx;ag.y=ag.ty}}}
+    if(!ag.want)ag.on=0;
+    ag.x+=(ag.tx-ag.x)*k;ag.y+=(ag.ty-ag.y)*k;
+    ag.a+=((ag.on?1:0)-ag.a)*ka;ag.d+=(ag.dT-ag.d)*ka;ag.m+=((ag.on&&ws.mem?1:0)-ag.m)*ka;
+  });
+  skills.forEach(sk=>{const ag=sk.ag;
+    if(sk.want&&!sk.on&&now>=sk.appear){sk.on=1;if(sk.a<.05){const par=sk.s>0?ag.sk[(sk.s-1)>>1]:null;if(par&&par.a>.3){sk.x=par.x;sk.y=par.y}else{sk.x=ag.x;sk.y=ag.y}}}
+    if(!sk.want)sk.on=0;
+    if(!ws.dust)skillTarget(sk,now);
+    const kk=Math.min(1,k*1.5);sk.x+=(sk.tx-sk.x)*kk;sk.y+=(sk.ty-sk.y)*kk;
+    sk.a+=((sk.on?1:0)-sk.a)*ka});
+  const T=CAM[ws.cam];cam.x+=(T.x-cam.x)*kc;cam.y+=(T.y-cam.y)*kc;cam.z=Math.exp(Math.log(cam.z)+(Math.log(T.z)-Math.log(cam.z))*kc);
+  for(let i=0;i<4;i++)v.c[i]+=(ws.col[i]-v.c[i])*ka;
+  v.links+=(ws.links-v.links)*ka;v.co+=(ws.co-v.co)*ka;v.kb+=(ws.kb-v.kb)*ka;
+  // 外膜随可见的智能体长大
+  const vis=agents.filter(a=>a.a>.05);
+  if(vis.length){const t={x0:Math.min(...vis.map(a=>a.x)),x1:Math.max(...vis.map(a=>a.x)),y0:Math.min(...vis.map(a=>a.y)),y1:Math.max(...vis.map(a=>a.y))};
+    for(const q in t)bb[q]+=(t[q]-bb[q])*k}
+  if(ws.evolve&&now-cntT>250){cntT=now;const S=skills.filter(s=>s.want).length,A=agents.filter(a=>a.want).length,F=effF();
+    $('#evoCnt').innerHTML=`<span class="sk">技能</span><b class="sk">${S}</b><br><span class="ag">智能体</span><b class="ag">${A}</b><br><span class="wf">工作流</span><b class="wf">${F}</b>`}
+}
+function draw(now){
+  const g=wg,t=now/1000,z=cam.z;
+  g.setTransform(1,0,0,1,0,0);g.clearRect(0,0,1600,900);
+  DUST.forEach(d=>{g.fillStyle=`rgba(200,210,230,${.05+.05*Math.sin(t*d.sp+d.ph)})`;g.fillRect((d.x+t*d.sp*8)%1600,d.y,d.r,d.r)});
+  g.setTransform(z,0,0,z,800-cam.x*z,450-cam.y*z);
+  const lw=1.8/Math.sqrt(z);
+  const cSk=v.c[0],cAg=v.c[1],cWf=v.c[2],cKb=v.c[3];
+  const kbY=bb.y1+130;
+  // 知识库底座
+  if(v.kb>.01){const x0=bb.x0-160,x1=bb.x1+160,w=x1-x0;
+    const gr=g.createLinearGradient(0,kbY-46,0,kbY+46);gr.addColorStop(0,rgba(C.kb,0));gr.addColorStop(.5,rgba(C.kb,.28*v.kb*(.85+.15*Math.sin(t*1.3))));gr.addColorStop(1,rgba(C.kb,0));
+    g.fillStyle=gr;g.fillRect(x0,kbY-46,w,92);
+    g.globalCompositeOperation='lighter';
+    KBP.forEach(p=>glow(g,C.kb,C.kb,1,x0+frac(p.u+t*p.sp)*w,kbY+p.v*20,p.r*2.2,.55*v.kb));
+    agents.forEach(ag=>{const al=ag.a*ag.d*v.kb;if(al<.02)return;const ex=ag.x+Math.sin(ag.ph)*36;
+      g.strokeStyle=rgba(C.kb,.22*al);g.lineWidth=lw;g.beginPath();g.moveTo(ag.x,ag.y+R*.85);g.bezierCurveTo(ag.x,ag.y+R*2.2,ex,kbY-90,ex,kbY-12);g.stroke();
+      const bz=u=>{const a=1-u;return[a*a*a*ag.x+3*a*a*u*ag.x+3*a*u*u*ex+u*u*u*ex,a*a*a*(ag.y+R*.85)+3*a*a*u*(ag.y+R*2.2)+3*a*u*u*(kbY-90)+u*u*u*(kbY-12)]};
+      let [px,py]=bz(1-frac(t*.32+ag.ph));glow(g,C.kb,C.kb,1,px,py,9,.9*al);
+      if(ws.evolve){[px,py]=bz(frac(t*.27+ag.ph*1.7));glow(g,C.wf,C.wf,1,px,py,8,.9*al)}});
+    g.globalCompositeOperation='source-over'}
+  // 公司外膜
+  if(v.co>.01){const cx=(bb.x0+bb.x1)/2,cy=(bb.y0+bb.y1)/2,hw=(bb.x1-bb.x0)/2+R+80,hh=(bb.y1-bb.y0)/2+R+64;
+    g.beginPath();for(let i=0;i<=96;i++){const th=i/96*6.283,c=Math.cos(th),s=Math.sin(th),w=1+.012*Math.sin(3*th+t*.7)+.008*Math.sin(7*th-t*1.1);
+      const x=cx+hw*w*Math.sign(c)*Math.pow(Math.abs(c),.42),y=cy+hh*w*Math.sign(s)*Math.pow(Math.abs(s),.42);i?g.lineTo(x,y):g.moveTo(x,y)}
+    g.closePath();g.fillStyle=rgba(C.white,.025*v.co);g.fill();g.strokeStyle=rgba(C.white,.32*v.co);g.lineWidth=lw*1.2;g.stroke()}
+  // 工作流：连线和流动的活儿
+  if(v.links>.01){const lc=mix(C.gray,C.wf,cWf);
+    for(let f=0;f<FMAX;f++)for(let p=0;p<PMAX-1;p++){const a=AG(f,p),b=AG(f,p+1),al=Math.min(a.a*a.d,b.a*b.d)*v.links;if(al<.02)continue;
+      const x1=a.x+R*.95,y1=a.y,x2=b.x-R*.95,y2=b.y,mx=(x1+x2)/2,my=(y1+y2)/2-22;
+      g.strokeStyle=rgba(lc,.55*al);g.lineWidth=lw*1.4;g.beginPath();g.moveTo(x1,y1);g.quadraticCurveTo(mx,my,x2,y2);g.stroke();
+      g.globalCompositeOperation='lighter';
+      for(let j=0;j<2;j++){const u=frac(t*.33+p*.31+f*.17+j*.5),q=1-u;glow(g,C.gray,C.wf,cWf,q*q*x1+2*q*u*mx+u*u*x2,q*q*y1+2*q*u*my+u*u*y2,9,al)}
+      g.globalCompositeOperation='source-over'}}
+  // 智能体：膜 + 中间的知识
+  const ac=mix(C.gray,C.ag,cAg);
+  agents.forEach(ag=>{const al=ag.a*ag.d*ag.m;if(al<.01)return;
+    g.beginPath();for(let i=0;i<=48;i++){const th=i/48*6.283,r=R*(1+.05*Math.sin(3*th+t*1.3+ag.ph)+.03*Math.sin(5*th-t+ag.ph));const x=ag.x+Math.cos(th)*r,y=ag.y+Math.sin(th)*r;i?g.lineTo(x,y):g.moveTo(x,y)}
+    g.closePath();g.fillStyle=rgba(ac,.07*al);g.fill();g.strokeStyle=rgba(ac,.75*al);g.lineWidth=lw;g.stroke();
+    g.globalCompositeOperation='lighter';glow(g,C.gray,C.kb,cKb,ag.x,ag.y,R*.42*(1+.06*Math.sin(t*2+ag.ph)),.8*al);g.globalCompositeOperation='source-over'});
+  // 技能
+  g.globalCompositeOperation='lighter';
+  skills.forEach(sk=>{const al=sk.a*sk.ag.d;if(al<.01)return;glow(g,C.gray,C.sk,cSk,sk.x,sk.y,11*(1+.12*Math.sin(t*2.4+sk.j*6)),al)});
+  g.globalCompositeOperation='source-over';
+}
+requestAnimationFrame(frame);
+
+/* ================= 封面：慢慢游动的细胞 ================= */
+(function(){const cv=$('#coverBg'),g=cv.getContext('2d'),R2=rng(5);
+  const cells=[...Array(9)].map(()=>({x:900+R2()*700,y:R2()*900,r:40+R2()*120,ph:R2()*6.28,sp:.1+R2()*.25}));
+  function f(now){if(!$('#cover').classList.contains('on')){cv.dataset.run='';return}const t=now/1000;g.clearRect(0,0,1600,900);
+    cells.forEach(c=>{const x=c.x+Math.sin(t*c.sp+c.ph)*40,y=c.y+Math.cos(t*c.sp*.8+c.ph)*30;
+      g.beginPath();for(let i=0;i<=48;i++){const th=i/48*6.283,r=c.r*(1+.06*Math.sin(3*th+t+c.ph)+.04*Math.sin(5*th-t*1.3));const px=x+Math.cos(th)*r,py=y+Math.sin(th)*r;i?g.lineTo(px,py):g.moveTo(px,py)}
+      g.closePath();g.strokeStyle='rgba(7,8,10,.16)';g.lineWidth=2;g.stroke();
+      g.fillStyle='rgba(7,8,10,.10)';g.beginPath();g.arc(x,y,c.r*.18,0,6.283);g.fill()});
+    requestAnimationFrame(f)}
+  window.startCover=()=>{if(!cv.dataset.run){cv.dataset.run='1';requestAnimationFrame(f)}}})();
+
+/* ================= 进度条 ================= */
+const CHS=[...new Set(BEATS.map(b=>b.ch))];
+$('#bar').innerHTML=CHS.map(c=>`<div class="ch"><b>${c}</b><i><u></u></i></div>`).join('');
+function updBar(i){const ch=BEATS[i].ch,ci=CHS.indexOf(ch);
+  document.querySelectorAll('#bar .ch').forEach((el,j)=>{el.classList.toggle('cur',j===ci);el.classList.toggle('done',j<ci);
+    const u=el.querySelector('u');if(j===ci){const idx=BEATS.map((b,n)=>b.ch===ch?n:-1).filter(n=>n>=0);u.style.width=((idx.indexOf(i)+1)/idx.length*100)+'%'}else u.style.width=j<ci?'100%':'0'})}
+
+/* ================= 翻页 ================= */
+let cur=-1;
+const isPV=/presenter/.test(location.search);
+const bc='BroadcastChannel' in window?new BroadcastChannel('kaichang'):null;
+function reveal(scene,k){scene.querySelectorAll('[data-in],[data-out]').forEach(el=>{const a=el.dataset.in!=null?+el.dataset.in:-1,b=el.dataset.out!=null?+el.dataset.out:1e9;el.classList.toggle('vis',k>=a&&k<b)})}
+function go(i,from){
+  i=Math.max(0,Math.min(BEATS.length-1,i));if(i===cur&&from!=='init')return;
+  const prev=BEATS[cur],b=BEATS[i],anim=!!prev&&i===cur+1;
+  if(!isPV){
+    if(!prev||prev.s!==b.s)document.querySelectorAll('.scene').forEach(s=>s.classList.remove('on'));
+    const el=document.getElementById(b.s);el.classList.add('on');reveal(el,b.k);
+    if(b.s==='cover')startCover();
+    stage.classList.toggle('lime',b.s==='cover');
+    setWorld(b.w,anim);
+    updBar(i);$('#notesMeta').textContent=`${i+1} / ${BEATS.length}　·　${b.ch}`;$('#notesTx').textContent=b.n;
+    history.replaceState(null,'','#'+(i+1));
+  }
+  cur=i;if(isPV)renderPV();
+  if(bc&&from!=='bc')bc.postMessage({i});
+}
+if(bc)bc.onmessage=e=>{if(typeof e.data.i==='number')go(e.data.i,'bc')};
+
+/* ================= 讲师视图 ================= */
+let t0=Date.now();
+function renderPV(){const b=BEATS[cur],n=BEATS[cur+1];$('#pvIdx').textContent=`${cur+1} / ${BEATS.length}`;$('#pvCh').textContent=b.ch;$('#pvNow').textContent=b.n;
+  $('#pvNext').innerHTML=n?`<b>下一步 · ${n.ch}</b>　${n.n.slice(0,60)}……`:'<b>开场结束</b>　接第一站：知识库'}
+if(isPV){document.body.classList.add('pv');setInterval(()=>{const s=Math.floor((Date.now()-t0)/1000);$('#pvClk').textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')},1000)}
+
+addEventListener('keydown',e=>{
+  const k=e.key;$('#hint').style.opacity=0;
+  if(['ArrowRight','ArrowDown','PageDown',' ','Enter'].includes(k)){e.preventDefault();go(cur+1)}
+  else if(['ArrowLeft','ArrowUp','PageUp','Backspace'].includes(k)){e.preventDefault();go(cur-1)}
+  else if(k==='Home')go(0);else if(k==='End')go(BEATS.length-1);
+  else if(k==='n'||k==='N')$('#notes').classList.toggle('show');
+  else if(k==='f'||k==='F'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}
+  else if(k==='p'||k==='P')window.open(location.pathname+'?presenter#'+(cur+1),'kaichang_pv','width=1200,height=800');
+  else if(k==='r'||k==='R')t0=Date.now();
+});
+stage.addEventListener('click',e=>{if(e.target.closest('#notes'))return;go(cur+1)});
+const h=parseInt(location.hash.slice(1));stage.classList.add('instant');go(isNaN(h)?0:h-1,'init');stage.offsetWidth;setTimeout(()=>stage.classList.remove('instant'),50);
+addEventListener('hashchange',()=>{const n=parseInt(location.hash.slice(1));if(!isNaN(n)&&n-1!==cur)go(n-1)});
+</script>
+</body>
+</html>
