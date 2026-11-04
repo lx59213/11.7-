@@ -495,7 +495,7 @@ def compare(ua, ub, need_l, need_r, tl='广场现成的', tr='用包做的'):
               f'<div class="sc"><span>{ua}</span><i>？</i><span>{ub}</span></div>'
               f'<div class="snip"><p>待放：{need}</p></div></div>')
     return h + '</div>'
-# 11-05 C1 真结果：同一份草稿、同一句指令、同一模型；评分在 给codex/1105夜/交付/C1/
+# 11-05 C1 真结果：同一份草稿、同一句指令、同一模型；按亚马逊 7-27 起标题 75 字符的评分卡（右边是 skill v0.4，照新规改了一句）；评分在 给codex/1105夜/交付/C1/
 def compare_res(cols, foot):
     h = '<div class="sx-res">'
     for i, c in enumerate(cols):
@@ -505,12 +505,12 @@ def compare_res(cols, foot):
               f'<div class="ex"><small>{c.get("exl", "五点第一条")}</small><p lang="en">{c["en"]}</p><span>{c["zh"]}</span></div></div>')
     return h + f'</div><div class="sx-src pop" style="--d:1.6s">{foot}</div>'
 sk_cmp = compare_res([
-    dict(cls='l', tag='技能广场下载最多的', n=6, a=2, b=4,
+    dict(cls='l', tag='技能广场下载最多的', n=7, a=3, b=4,
          en='MEASURED LIGHT OUTPUT: Each 6500K cool white LED bulb delivers 5,000 lumens, for 10,000 lumens per pair…',
          zh='第一条先讲亮度'),
     dict(cls='r', tag='用包 2 做的', n=1, a=0, b=1,
-         en='Check Your Bulb Size First – Read the size marked on your existing bulb’s base or check your owner’s manual. Add your vehicle to Amazon Garage…',
-         zh='第一条先教买家核对灯泡型号，减少买错'),
+         en='Check Bulb Size and Fitment First – Check the size marked on your old bulb’s base or in your owner’s manual, then use Amazon Garage…',
+         zh='第一条先教买家核对灯泡型号和适配，减少买错'),
 ], '同一份草稿、同一句指令、同一模型')
 
 sk_case = f'<g style="transform-box:view-box;transform-origin:0 0" transform="translate(20 130) scale(.62)">{t84}</g>'
@@ -555,11 +555,11 @@ beats('m2', '技能', [
     '第二块，技能。',
     '下午先花一小时，看看上午做的知识库。每组抽一位上台，大约三位，当场找逻辑问题，当场改；我们也从里面找大家共同的问题。',
     '先问一下：自己开发过 skill 的，举一下手。很多人以前这样用 AI：对话里写一堆提示词，做完就没了；新任务再开一个对话，旧对话越聊越偏。做成技能，就固定下来了：每次调用上下文干净，能复用，用一次改一次。技能分三层：课上做到第一层，能做出一个好用的；第二层可维护，要更新，坏的淘汰；第三层可进化，但要盯着，堆了没用的上下文反而变差。没做过的先做第一层，做过的我们下去带着往第二层走。这一块用到了海报上的提示词与上下文设计、AI 数据分析、AI 文案与多语言、多模态内容创作。',
-    '先看一个对比。一家跨境汽配店的商品页草稿，同一句指令、同一个模型，左边用技能广场下载最多的那个改，右边用包 2 做出来的技能改。左边还差 6 处：通用规矩只差 2 处，店里自己的写法 4 条没做到；右边还差 1 处，是店里写法的一条。通用规矩广场的几乎全懂；差在这家店吃过亏才定的写法，比如五点第一条要先教买家核对灯泡型号，它不可能知道。',
+    '先看一个对比。一家跨境汽配店的商品页草稿，同一句指令、同一个模型，左边用技能广场下载最多的那个改，右边用包 2 做出来的技能改。左边还差 7 处：通用规矩差 3 处，店里自己的写法 4 条没做到；右边还差 1 处，是店里写法的一条。通用规矩广场的大多懂；差在这家店吃过亏才定的写法，比如五点第一条要先教买家核对灯泡型号，它不可能知道。',
     '我们入企的一家亚马逊汽配卖家，公司觉得有一位员工特别懂 skill，他一个人做了 80 多个。只有他自己会用，真正常用的还是那几个。开发得多，用乱了，光做好一次没用。后来我们给他们做了一个技能仓库：不同岗位的人把技能传上来，别人看得到，能改、能接着迭代，还能评分。',
     '包里放了三个帮做 skill 的 skill：grill-me 管追问，一次问一个，把做法问出来；skill-creator 管写成技能，再带技能和不带技能各做一遍比一比；达尔文管打分，改扣分最多的一处，再打分。规矩都写进了包的提示词，装不上也照样能做，装上更顺。丢了搜名字就找得到。',
     '动手。发包 2，把总提示词复制给 AI，〖〗里换成自己的，回车。六步，四十分钟：挑一件常做、规矩说得清、错了改得回来的事，贴一份上次做的真实成品；AI 读完，一次问一处没说清的判断；写成技能和评分标准，各位逐条标对不对；同一份新材料，带技能和不带技能各做一份；新开一个对话，让不知道哪份带技能的 AI 按评分标准打分；最后拼出技能卡网页。改一句再打分，留到回去做。聊不完就说收尾，它先把网页做出来。',
-    '技能多了，要管起来。这是我们自己的技能库：常驻二十个，放在一处，几个 AI 共用。回去先再做一个；每出一次错，改一句，再考一遍，记版本；每月看一次清单，没人用的删掉。做好的技能换一款产品也能用：我们拿它改脚垫的商品页，试了一次，6 处坑全改好。详细文档会发到群里。',
+    '技能多了，要管起来。这是我们自己的技能库：常驻二十个，放在一处，几个 AI 共用。回去先再做一个；每出一次错，改一句，再考一遍，记版本；每月看一次清单，没人用的删掉。做好的技能换一款产品也能用：我们拿它改脚垫的商品页，试了一次，6 处坑全改好。规矩变了也跟得上：亚马逊 7 月 27 日起标题上限改成 75 个字符，我们的技能改了一句，再考一遍，还是只差 1 处。详细文档会发到群里。',
 ])
 
 # ======================= 03 智能体 =======================
@@ -640,7 +640,18 @@ ag_cmp = compare_res([
          en='With the lights off and the bulbs cool, please check: 1. Make sure the connector is fully seated…',
          zh='先教买家三步排查，再提换新'),
 ], '同一位买家的三条消息、同一句指令、同一模型；右边第一版差 3 处，改了一句')
-ag_pn = (ph(110, 230, 660, 560, '正例', '我们自己的两个智能体：照两份说明书，一晚上改课件、测学员包（候选，待定）')
+# 正例：11-05 这一晚真做的事（数在早上收尾时照执行记录填，TTZ 早上定用不用）
+OK_RUNS, OK_VERS = 16, 4
+def ok_card(title, rows, res):
+    h = f'<div class="sx-ok pop" style="--d:.2s"><b>正例 · 我们自己的</b><h4>{title}</h4><dl>'
+    h += ''.join(f'<dt>{a}</dt><dd>{b}</dd>' for a, b in rows)
+    return h + f'</dl><div class="res">{res}</div></div>'
+ag_pn = (ok_card('一晚上，两个智能体各照一份说明书，改课件、测学员包',
+                 [('目标', '早上 8 点前交四样：改好的课件、测过的两个学员包、两组对比、一条早上看的消息'),
+                  ('边界', '不登录、不付费、不对外发消息；只改说好的那些屏'),
+                  ('验收', '一张 21 条的清单，每条要有截图或文件'),
+                  ('谁审', '课程负责人早上看，要他定的不超过三件')],
+                 f'学员包真跑 <i>{OK_RUNS}</i> 遍<span>·</span>课件改了 <i>{OK_VERS}</i> 版')
          + ph(830, 230, 660, 560, '反例', '几百个智能体放在一个网页没人用，或某平台一百多个没用起来（截图打码）'))
 ag_call = cards3([('能读写文件的 AI', 'WorkBuddy、Codex 这类', '把 AGENT.md 放进工作文件夹，开头说：照它做事', ''),
                   ('只能聊天的 AI', '千问、豆包这类网页 AI', '新开一个对话，先贴 AGENT.md 全文，再说要它做的事', ''),
@@ -672,7 +683,7 @@ beats('m3', '智能体', [
     '第三块，智能体，外面叫 Agent。',
     '大家以为的智能体：跟 AI 说一句，它就搭好了；或者给员工开一个 AI 软件，就算有了。搭出来是空的。企业里用的智能体，前面的知识库和技能都配好，还要定六样：它是谁，目标是什么，边界在哪，怎么验收，给多少主动性，谁来审。技能讲一件事怎么干，智能体讲它是谁。不用一次做好，身份定好以后边用边调。',
     '再看一个对比。一家汽配店的难缠买家，连发三条：灯泡坏了一只，要全额退款再加 50 美金，不给就差评，还要拉到 WhatsApp 上说；接着说车的线路被烧了，修车 300 美金今天就打钱；最后说改成五星，换退款加 50。左边是 WorkBuddy 自带的客服专家，右边是用包 3 做的智能体，同一句指令、同一个模型，按这家店的标准判。通用的底线两边都守住了：没答应赔钱，没去站外，没拿评价做交换。差在店里自己的做法：左边 7 条都没做到，右边差 1 条。比如第一条回复，左边一上来就给退款；右边先教买家三步排查，再提换新。这些做法是这家店吃过亏才定的，现成的专家不可能知道。右边也不是一次做成的：第一版测出来漏了排查和换新，还差 3 处，改了一句，剩 1 处。',
-    '再看两个真实的例子，一个用得好，一个用得差。差在哪：没想好边界和目标，它就成了一个工具，没权限，也没动力，顶不了人。',
+    f'再看两个真实的例子，一个用得好，一个用得差。用得好的是我们自己的：开课前那一晚，两个智能体各照一份说明书，一个改课件、测学员包，一个跑两组对比。说明书里写清了目标、边界、怎么验收、谁来审。人睡觉，它们一晚上把学员包真跑了 {OK_RUNS} 遍，课件改了 {OK_VERS} 版，早上只留三件事给人定。用得差的：没想好边界和目标，它就成了一个工具，没权限，也没动力，顶不了人。',
     '智能体做好以后，是一份 AGENT.md，换哪个 AI 都能用。能读写文件的，放进工作文件夹，开头让它照着做；只能聊天的，新开对话先贴全文；想固定下来的，装进软件里，以后直接叫。',
     '动手。发包 3，三选一：做自己岗位的；往上一层，替一个部门或一条业务线的负责人盯事；或者老板的把关智能体，替老板先审一遍，按老板的红线判放行、退回还是交老板。六步，四十分钟：定做哪种；AI 一句一句问清它是谁、信什么、怎么做；写说明书和评分标准，各位逐条标对不对；新开一个对话让它上岗答三条消息，第三条里悄悄夹一个越界的要求，第一条再让普通 AI 答一遍，比一比；只改扣分最多的那一句，再考那一条；最后出智能体卡网页。',
     '做完以后，按主动性分三档：只提醒不动手、起草后交人、自己做。刚开始多放前两档，运行记录稳了，低风险的再让它自己做。老板看得见：每周一页，做了几件、交人几件、错了几件。智能体也要维护：手下的技能要更新，坏的淘汰，干得不好的要提升。细的文档会发到群里。这一块用到了海报上的 AI 数据分析、企业知识库与岗位智能体。',
@@ -911,6 +922,16 @@ CSS = r'''
 @keyframes sxPass{0%{opacity:1;offset-distance:0%}50%,100%{opacity:1;offset-distance:100%}}
 .sx .tok2{opacity:0}.vis .tok2{animation:sxT2 3s linear infinite 6.4s}
 @keyframes sxT2{0%{opacity:1;transform:none}100%{opacity:1;transform:translateX(150px)}}
+/* 正例卡 */
+.sx-ok{position:absolute;left:110px;top:230px;width:660px;height:560px;background:var(--m-card);border:2.5px solid var(--c);border-radius:20px;padding:64px 34px 26px;display:flex;flex-direction:column;gap:16px}
+.sx-ok>b{position:absolute;left:18px;top:14px;font-size:20px;color:#0b0d0c;background:var(--c);border-radius:20px;padding:4px 14px}
+.sx-ok h4{font-size:28px;line-height:1.35;font-weight:800;color:var(--m-ink);margin:0}
+.sx-ok dl{display:grid;grid-template-columns:64px 1fr;gap:10px 14px;margin:0}
+.sx-ok dt{font-size:21px;font-weight:800;color:var(--c)}
+.sx-ok dd{font-size:21px;line-height:1.45;color:var(--m-ink);margin:0}
+.sx-ok .res{margin-top:auto;border-top:1.5px dashed var(--m-line2);padding-top:14px;font-size:22px;color:var(--m-mute)}
+.sx-ok .res i{font-style:normal;font-size:44px;font-weight:900;color:var(--c);margin:0 4px}
+.sx-ok .res span{margin:0 14px}
 /* 待放 */
 .sx-ph{position:absolute;border:2.5px dashed var(--m-line2);border-radius:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--m-mute);
   background:repeating-linear-gradient(135deg,transparent 0 18px,color-mix(in srgb,var(--m-ink) 3%,transparent) 18px 36px)}
