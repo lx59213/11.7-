@@ -511,7 +511,7 @@ sk_cmp = compare_res([
     dict(cls='r', tag='用包 2 做的技能', n=1, a=0, b=1,
          en='Check Bulb Size and Fitment First – Check the size marked on your old bulb’s base or in your owner’s manual, then use Amazon Garage…',
          zh='第一条先教买家核对灯泡型号和适配，减少买错'),
-], '同一份草稿、同一句指令、同一模型，都在 Codex 里跑')
+], '汽配店是示例；同一份草稿、同一句指令、同一模型，都在 Codex 里跑')
 
 sk_case = f'<g style="transform-box:view-box;transform-origin:0 0" transform="translate(20 130) scale(.62)">{t84}</g>'
 sk_case += '<path class="drw" style="--d:2.8s;--L:200" d="M640 410 H760" stroke="var(--m-mute)" stroke-width="3" fill="none" marker-end="url(#sxar)"/>'
@@ -639,9 +639,9 @@ ag_cmp = compare_res([
     dict(cls='r', tag='用包 3 做的智能体', n=1, a=0, b=1, lead='三轮回完还差', la='通用底线', lb='店里做法', exl='第一条回复',
          en='With the lights off and the bulbs cool, please check: 1. Make sure the connector is fully seated…',
          zh='先教买家三步排查，再提换新'),
-], '同一位买家的三条消息、同一句指令、同一模型，都在 Codex 里跑；右边第一版差 3 处，改了一句')
+], '汽配店是示例；同一位买家的三条消息、同一句指令、同一模型，都在 Codex 里跑；右边第一版差 3 处，改了一句')
 # 正例：11-05 这一晚真做的事（数在早上收尾时照执行记录填，TTZ 早上定用不用）
-OK_RUNS, OK_VERS = 16, 4
+OK_RUNS, OK_VERS = 18, 7
 def ok_card(title, rows, res):
     h = f'<div class="sx-ok pop" style="--d:.2s"><b>正例 · 我们自己的</b><h4>{title}</h4><dl>'
     h += ''.join(f'<dt>{a}</dt><dd>{b}</dd>' for a, b in rows)
