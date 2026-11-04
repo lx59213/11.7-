@@ -140,6 +140,72 @@ svg.lead line{stroke:#5a606c;stroke-width:1.5;stroke-dasharray:4 5}
 .blocks div.on{border:2px solid var(--kb);color:var(--kb);background:rgba(255,181,71,.08)}
 .blocks div.on::after{content:"第一站";position:absolute;top:-20px;font-size:20px;background:var(--kb);color:#07080a;padding:6px 16px;border-radius:20px}
 
+
+/* ===== 等式（我们加的） ===== */
+#sA .eq{left:0;right:0;top:250px;display:flex;justify-content:center;align-items:center;gap:16px}
+#sA .term{flex:none;font-size:44px;font-weight:900;padding:18px 24px;border-radius:20px;border:2px solid #2a2f3a;background:rgba(14,17,24,.9);white-space:nowrap;transition:opacity .6s,transform .8s cubic-bezier(.2,.8,.2,1),box-shadow .8s,border-color .6s,color .6s}
+#sA .term.res{border-color:#f3f4f6}
+#sA .op{font-style:normal;font-size:44px;color:var(--mute);font-weight:300}
+#sA .term.ai{position:relative;overflow:hidden}
+#sA .term.ai u{position:absolute;left:0;bottom:0;height:6px;width:0;background:var(--sk);transition:width 1.6s cubic-bezier(.6,0,.2,1)}
+#sA:has(.f1.vis) .term:not(.ai):not(.res){opacity:.28}
+#sA:has(.f1.vis) .term.ai{border-color:var(--sk);color:var(--sk);transform:translateY(-10px);box-shadow:0 0 60px rgba(212,255,58,.25)}
+#sA:has(.f2.vis) .term.ai u{width:100%}
+#sA:has(.f2.vis) .term.res{transform:scale(1.12);box-shadow:0 0 90px rgba(243,244,246,.22);transition-delay:.9s}
+#sA .brs{position:absolute;left:0;top:0;width:1600px;height:900px;overflow:visible}
+#sA .brs path{fill:none;stroke:var(--sk);stroke-width:2;opacity:.55;stroke-dasharray:600;stroke-dashoffset:600;transition:stroke-dashoffset 1s ease .2s}
+#sA .brs.vis path{stroke-dashoffset:0}
+#sA .eight{left:160px;width:1280px;top:560px;display:grid;grid-template-columns:repeat(4,1fr);gap:18px 20px}
+#sA .eight span{font-size:28px;font-weight:700;text-align:center;padding:14px 0;border-radius:40px;border:1.5px solid rgba(212,255,58,.55);color:#e9f7b0;background:#10140a;opacity:0;transform:translateY(-40px) scale(.8);transition:opacity .5s,transform .7s cubic-bezier(.2,1.3,.4,1)}
+#sA .eight.vis span{opacity:1;transform:none}
+#sA .cap{left:0;right:0;top:120px;text-align:center;font-size:30px;color:var(--mute);letter-spacing:.12em}
+
+/* ===== 破题（我们加的） ===== */
+#sP .cloud span{position:absolute;font-weight:800;color:#1b1f28;white-space:nowrap;animation:fl 7s ease-in-out infinite alternate}
+#sP .cloud span:nth-child(3n){animation-duration:9s;animation-delay:-3s}#sP .cloud span:nth-child(3n+1){animation-duration:11s;animation-delay:-6s}
+@keyframes fl{to{transform:translate(26px,-18px)}}
+#sP .cloud::after{content:"";position:absolute;left:300px;top:300px;width:1000px;height:300px;background:radial-gradient(closest-side,#06080d 55%,transparent)}
+#sP .bigq{left:0;right:0;top:360px;text-align:center;font-size:120px;font-weight:900;letter-spacing:-.01em}
+#sP .shop{left:150px;top:150px;width:1300px;height:536px;border-radius:26px;background:#0d1017;border:1px solid #262b36;overflow:hidden}
+#sP .shop .hd{height:64px;display:flex;align-items:center;gap:12px;padding:0 26px;border-bottom:1px solid #1d212b;font-size:24px;font-weight:800;color:#c9ccd3}
+#sP .shop .hd i{width:14px;height:14px;border-radius:50%;background:#2a2f3a}
+#sP .shop .hd b{margin-left:14px}
+#sP .grid{position:absolute;left:30px;top:94px;right:30px;display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+#sP .card{height:196px;border-radius:18px;background:#141821;border:1px solid #232834;padding:22px;position:relative;transition:opacity .8s,filter .8s}
+#sP .card .ic{width:54px;height:54px;border-radius:14px;background:var(--c)}
+#sP .card b{display:block;font-size:26px;margin-top:18px;color:#e6e8ec}
+#sP .card .add{position:absolute;right:20px;top:22px;width:46px;height:46px;border-radius:50%;border:2px solid #4a505c;color:#9aa0ab;font-size:30px;line-height:40px;text-align:center;font-weight:400}
+#sP .card .add::after{content:"+"}
+#sP .shop.vis .card .add{animation:addOn .3s forwards;animation-delay:calc(var(--i)*.55s + .9s)}
+@keyframes addOn{to{background:var(--sk);border-color:var(--sk);color:#07080a;font-size:24px;font-weight:900}}
+#sP .shop.vis .card .add::after{animation:addTx 0s forwards;animation-delay:calc(var(--i)*.55s + .9s)}
+@keyframes addTx{to{content:"✓"}}
+#sP .cur{position:absolute;width:34px;height:34px;left:0;top:0;opacity:0;z-index:5;pointer-events:none}
+#sP .shop.vis .cur{animation:curMove 4.4s ease-in-out .5s forwards}
+@keyframes curMove{0%{opacity:0;transform:translate(640px,520px)}6%{opacity:1}7.0%{transform:translate(274px,136px) scale(1)}9.1%{transform:translate(274px,136px) scale(.82)}15.6%{transform:translate(590px,136px) scale(1)}21.6%{transform:translate(590px,136px) scale(.82)}28.1%{transform:translate(906px,136px) scale(1)}34.1%{transform:translate(906px,136px) scale(.82)}40.6%{transform:translate(1221px,136px) scale(1)}46.6%{transform:translate(1221px,136px) scale(.82)}53.1%{transform:translate(274px,354px) scale(1)}59.1%{transform:translate(274px,354px) scale(.82)}65.6%{transform:translate(590px,354px) scale(1)}71.6%{transform:translate(590px,354px) scale(.82)}78.1%{transform:translate(906px,354px) scale(1)}84.1%{transform:translate(906px,354px) scale(.82)}90.6%{transform:translate(1221px,354px) scale(1)}96.6%{transform:translate(1221px,354px) scale(.82)}100%{opacity:1;transform:translate(1221px,354px) scale(1)}}
+#sP .card .gone{position:absolute;left:22px;bottom:18px;font-size:20px;color:var(--mute);opacity:0;transition:opacity .6s}
+#sP:has(.f2.vis) .card:not(.keep){opacity:.32;filter:grayscale(1)}
+#sP:has(.f2.vis) .card:not(.keep) .gone{opacity:1}
+#sP .ask{left:0;right:0;top:750px;text-align:center;font-size:64px;font-weight:900}
+#sP .vs{left:120px;right:120px;top:190px;display:flex;gap:60px}
+#sP .vs .side{flex:1;height:540px;border-radius:26px;border:1px solid #232834;position:relative;overflow:hidden}
+#sP .vs .side.l{background:#0b0d12;filter:grayscale(1)}
+#sP .vs .side.r{background:radial-gradient(700px 500px at 50% 40%,rgba(212,255,58,.07),transparent);border-color:#3a4a14}
+#sP .vs .lb{position:absolute;left:36px;top:30px;font-size:34px;font-weight:900;color:var(--mute)}
+#sP .vs .side.r .lb{color:var(--sk)}
+#sP .vs .one{position:absolute;left:50%;top:190px;width:150px;height:150px;margin-left:-75px;border-radius:30px;background:#3a3f4a;animation:drift 5s ease-in-out infinite}
+@keyframes drift{50%{transform:translate(18px,-14px) rotate(4deg)}}
+#sP .vs .lk{position:absolute;left:0;right:0;top:494px;text-align:center;font-size:34px;font-weight:800;color:#6b707b}
+#sP .vs .mine{position:absolute;left:50%;top:150px;width:150px;height:150px;margin-left:-75px;border-radius:30px;background:var(--sk);box-shadow:0 0 70px rgba(212,255,58,.35);display:flex;align-items:center;justify-content:center;font:900 40px var(--mono);color:#07080a}
+#sP .vs .mine em{font-style:normal;position:absolute;opacity:0;animation:ver 6s infinite}
+#sP .vs .mine em:nth-child(2){animation-delay:2s}#sP .vs .mine em:nth-child(3){animation-delay:4s}
+@keyframes ver{0%,4%{opacity:0;transform:translateY(12px)}8%,30%{opacity:1;transform:none}34%,100%{opacity:0;transform:translateY(-12px)}}
+#sP .vs .wire{position:absolute;left:50%;top:300px;width:3px;height:120px;margin-left:-1.5px;background:linear-gradient(var(--sk),var(--kb))}
+#sP .vs .wire::after{content:"";position:absolute;left:-5px;top:0;width:13px;height:13px;border-radius:50%;background:#fff;animation:pulse 1.6s linear infinite}
+@keyframes pulse{to{top:110px;opacity:.2}}
+#sP .vs .kbb{position:absolute;left:60px;right:60px;top:420px;height:60px;border-radius:16px;border:2px solid var(--kb);color:var(--kb);font-size:26px;font-weight:800;display:flex;align-items:center;justify-content:center;background:rgba(255,181,71,.08)}
+#sP .vs .ok{position:absolute;left:0;right:0;top:494px;text-align:center;font-size:26px;font-weight:800;color:var(--sk);text-shadow:0 2px 20px #06080d}
+
 /* ===== 讲师视图 ===== */
 body.pv{background:#0b0c10;overflow:auto}
 body.pv #stage{display:none}
@@ -408,7 +474,7 @@ body.pv #pv{display:block}
 .m-log .row .s{font-weight:800}
 .m-log .row .s.ok{color:var(--wf)} .m-log .row .s.wait{color:var(--kb)}
 
-/* ---------- 05 高维玩法 ---------- */
+/* ---------- 收尾（原第五站的样式，暂留） ---------- */
 .m-gal{position:absolute;left:96px;top:210px;width:1408px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
 .m-gal .m-card{height:300px;padding:26px 28px;position:relative;overflow:hidden;opacity:0;transform:scale(.94);transition:all .5s cubic-bezier(.2,.9,.3,1)}
 .m-gal .m-card.on{opacity:1;transform:none}
@@ -426,6 +492,37 @@ body.pv #pv{display:block}
 .m-fin{position:absolute;left:0;right:0;top:620px;text-align:center}
 .m-fin h2{font-size:84px;font-weight:900;letter-spacing:-.01em}
 .m-fin p{font-size:28px;color:var(--m-mute);margin-top:18px}
+
+/* ---------- 收尾：等式回来、企业全景（我们加的） ---------- */
+#m5 .m-eq{position:absolute;left:0;right:0;top:330px;display:flex;justify-content:center;align-items:center;gap:16px}
+#m5 .m-eq .t{flex:none;font-size:44px;font-weight:900;padding:18px 24px;border-radius:20px;border:2px solid var(--m-line2);background:var(--m-card);white-space:nowrap;opacity:.3}
+#m5 .m-eq .t.r{opacity:1}
+#m5 .m-eq .t.ai{opacity:1;border-color:var(--sk);color:var(--m-ink);position:relative;overflow:hidden;box-shadow:0 0 60px color-mix(in srgb,var(--sk) 30%,transparent)}
+#m5 .m-eq .t.ai u{position:absolute;left:0;bottom:0;height:8px;width:100%;background:var(--sk)}
+#m5 .m-eq i{font-style:normal;font-size:44px;color:var(--m-mute);font-weight:300}
+#m5 .m-eq-cap{position:absolute;left:0;right:0;top:520px;text-align:center;font-size:30px;color:var(--m-mute);letter-spacing:.1em}
+#m5 .m-eq-cap b{color:var(--m-ink)}
+#m5 .zm{position:absolute;inset:0;opacity:0;transform:scale(2.6);transform-origin:470px 600px;transition:opacity .7s,transform 3s cubic-bezier(.7,0,.2,1)}
+#m5 .zm.vis{opacity:1;transform:none}
+#m5 .stp{position:absolute;bottom:120px;width:236px;border-radius:16px 16px 0 0;background:var(--m-card2);border:1.5px solid var(--m-line2);border-bottom:0}
+#m5 .stp b{position:absolute;left:20px;top:16px;font-size:30px;font-weight:900;color:var(--m-mute)}
+#m5 .stp span{position:absolute;left:20px;top:56px;right:16px;font-size:21px;font-weight:700;color:var(--m-ink);line-height:1.35}
+#m5 .stp small{position:absolute;left:20px;bottom:14px;right:16px;font-size:17px;color:var(--m-mute);line-height:1.4}
+#m5 .stp.on{background:color-mix(in srgb,var(--sk) 10%,var(--m-card2));border-color:color-mix(in srgb,var(--sk) 60%,transparent)}
+#m5 .stp.on b{color:var(--sk)}
+#m5 .two{position:absolute;left:120px;bottom:120px;width:740px;height:466px;border:3px solid var(--sk);border-radius:22px;border-bottom:0;box-shadow:0 0 60px color-mix(in srgb,var(--sk) 22%,transparent)}
+#m5 .two em{position:absolute;left:24px;top:-24px;font-style:normal;font-size:24px;font-weight:900;color:var(--m-on);background:var(--sk);padding:6px 18px;border-radius:30px}
+#m5 .two .q{position:absolute;top:22px;right:22px;display:flex;gap:10px}
+#m5 .two .q i{width:22px;height:22px;border-radius:7px;background:var(--c)}
+#m5 .pn{position:absolute;font-size:22px;font-weight:700;padding:10px 20px;border-radius:30px;border:1.5px dashed var(--m-line2);color:var(--m-mute);background:var(--m-bg2);white-space:nowrap;opacity:0;transition:opacity .8s}
+#m5 .zm.vis .pn{opacity:1}
+#m5 .base{position:absolute;left:120px;right:120px;bottom:70px;height:50px;border-radius:12px;border:1.5px solid var(--kb);color:var(--kb);font-size:22px;font-weight:800;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--kb) 8%,transparent)}
+#m5 .ph{position:absolute;left:96px;top:56px;font-size:46px;font-weight:900}
+#m5 .ph small{display:block;font-size:22px;font-weight:500;color:var(--m-mute);margin-top:8px}
+#m5:has(.f3.vis) .zm{opacity:.16;filter:blur(2px)}
+#m5 .m-fin2{position:absolute;left:0;right:0;top:330px;text-align:center}
+#m5 .m-fin2 h2{font-size:110px;font-weight:900;letter-spacing:-.01em}
+#m5 .m-fin2 p{font-size:32px;color:var(--m-mute);margin-top:26px}
 </style>
 </head>
 <body>
@@ -438,6 +535,29 @@ body.pv #pv{display:block}
     <div class="abs a">这两天，</div>
     <div class="abs b">把你的公司<br>用 AI 重做一遍</div>
     <div class="abs c">组织 AI 技能提升实操训练营　·　2026.11.7–8　·　深圳</div>
+  </section>
+
+
+  <!-- 等式 -->
+  <section class="scene" id="sA">
+    <div class="abs cap rv" data-in="0">一家公司的业务结果，是乘出来的</div>
+    <div class="abs eq">
+      <div class="term res rv" data-in="0">业务结果</div>
+      <i class="op rv" data-in="0" style="transition-delay:.2s">=</i>
+      <div class="term rv" data-in="0" style="transition-delay:.4s">业务理解</div>
+      <i class="op rv" data-in="0" style="transition-delay:.55s">×</i>
+      <div class="term ai rv" data-in="0" style="transition-delay:.7s">AI 技能<u></u></div>
+      <i class="op rv" data-in="0" style="transition-delay:.85s">×</i>
+      <div class="term rv" data-in="0" style="transition-delay:1s">数据和系统</div>
+      <i class="op rv" data-in="0" style="transition-delay:1.15s">×</i>
+      <div class="term rv" data-in="0" style="transition-delay:1.3s">分工和流程</div>
+    </div>
+    <i class="f1 rv" data-in="1" hidden></i><i class="f2 rv" data-in="2" hidden></i>
+    <svg class="brs rv fade" data-in="1" id="sAbrs"></svg>
+    <div class="abs eight rv fade" data-in="1">
+      <span style="transition-delay:.3s">任务表达</span><span style="transition-delay:.38s">资料研究</span><span style="transition-delay:.46s">数据分析与复核</span><span style="transition-delay:.54s">文案与内容</span>
+      <span style="transition-delay:.62s">多模态内容</span><span style="transition-delay:.7s">知识库与智能体</span><span style="transition-delay:.78s">工作流自动化</span><span style="transition-delay:.86s">应用搭建</span>
+    </div>
   </section>
 
   <!-- 拆：你的公司 -->
@@ -488,6 +608,22 @@ body.pv #pv{display:block}
       <div class="tile rv" data-in="0" style="--c:var(--ag);transition-delay:.3s"><b>智能体</b><span>能顶一个岗的 AI</span></div>
       <div class="tile rv" data-in="0" style="--c:var(--wf);transition-delay:.45s"><b>工作流</b><span>一件事，<br>AI 接力做完</span></div>
       <div class="tile base rv" data-in="0" style="--c:var(--kb);transition-delay:.7s"><b>知识库</b><span>公司的底子，AI 先读过</span><em>压在最底下</em></div>
+    </div>
+  </section>
+
+
+  <!-- 破题 -->
+  <section class="scene" id="sP">
+    <div class="abs cloud rv fade" data-in="0" data-out="1" style="inset:0"><span style="left:268px;top:424px;font-size:70px">skill</span><span style="left:108px;top:860px;font-size:56px">技能</span><span style="left:708px;top:616px;font-size:22px">智能体</span><span style="left:399px;top:58px;font-size:22px">技能包</span><span style="left:816px;top:91px;font-size:28px">SOP</span><span style="left:1088px;top:454px;font-size:22px">智能体</span><span style="left:213px;top:248px;font-size:70px">AI 员工</span><span style="left:86px;top:610px;font-size:56px">AI 员工</span><span style="left:61px;top:246px;font-size:22px">SOP</span><span style="left:232px;top:316px;font-size:44px">技能包</span><span style="left:1067px;top:140px;font-size:56px">工作流</span><span style="left:1107px;top:855px;font-size:70px">Agent</span><span style="left:171px;top:615px;font-size:56px">工作流</span><span style="left:722px;top:119px;font-size:56px">知识库</span><span style="left:1115px;top:81px;font-size:56px">智能体</span><span style="left:976px;top:716px;font-size:56px">知识库</span><span style="left:603px;top:496px;font-size:56px">SOP</span><span style="left:700px;top:326px;font-size:28px">专家团</span><span style="left:1391px;top:818px;font-size:28px">工作流</span><span style="left:1136px;top:327px;font-size:56px">智能体</span><span style="left:663px;top:766px;font-size:44px">专家团</span><span style="left:1207px;top:94px;font-size:22px">Agent</span><span style="left:816px;top:188px;font-size:34px">技能包</span><span style="left:961px;top:451px;font-size:22px">工作流</span><span style="left:1102px;top:606px;font-size:34px">智能体</span><span style="left:1383px;top:378px;font-size:56px">skill</span><span style="left:1147px;top:836px;font-size:44px">专家团</span><span style="left:151px;top:296px;font-size:44px">智能体</span><span style="left:84px;top:768px;font-size:70px">智能体</span><span style="left:1285px;top:611px;font-size:70px">Agent</span><span style="left:542px;top:753px;font-size:44px">专家团</span><span style="left:6px;top:492px;font-size:34px">skill</span><span style="left:1211px;top:139px;font-size:44px">工作流</span><span style="left:406px;top:806px;font-size:34px">技能</span><span style="left:1472px;top:273px;font-size:44px">工作流</span><span style="left:976px;top:102px;font-size:28px">SOP</span><span style="left:782px;top:582px;font-size:34px">专家团</span><span style="left:841px;top:583px;font-size:34px">工作流</span><span style="left:694px;top:719px;font-size:44px">SOP</span><span style="left:269px;top:104px;font-size:28px">知识库</span><span style="left:435px;top:694px;font-size:28px">工作流</span><span style="left:953px;top:623px;font-size:28px">技能</span><span style="left:537px;top:24px;font-size:28px">Agent</span><span style="left:1054px;top:398px;font-size:56px">SOP</span><span style="left:612px;top:148px;font-size:70px">AI 员工</span><span style="left:1224px;top:690px;font-size:70px">技能包</span></div>
+    <div class="abs bigq rv" data-in="0" data-out="1">这四个词，都听过</div>
+    <div class="abs shop rv fade" data-in="1" data-out="3"><div class="hd"><i></i><i></i><i></i><b>技能广场</b></div>
+      <div class="grid"><div class="card keep" style="--c:var(--sk)"><div class="ic"></div><b>爆款文案</b><span class="add" style="--i:0"></span><span class="gone">没再打开</span></div><div class="card" style="--c:var(--ag)"><div class="ic"></div><b>竞品分析</b><span class="add" style="--i:1"></span><span class="gone">没再打开</span></div><div class="card" style="--c:var(--wf)"><div class="ic"></div><b>周报生成</b><span class="add" style="--i:2"></span><span class="gone">没再打开</span></div><div class="card" style="--c:var(--kb)"><div class="ic"></div><b>小红书笔记</b><span class="add" style="--i:3"></span><span class="gone">没再打开</span></div><div class="card" style="--c:var(--ag)"><div class="ic"></div><b>数据看板</b><span class="add" style="--i:4"></span><span class="gone">没再打开</span></div><div class="card keep" style="--c:var(--sk)"><div class="ic"></div><b>会议纪要</b><span class="add" style="--i:5"></span><span class="gone">没再打开</span></div><div class="card" style="--c:var(--kb)"><div class="ic"></div><b>客服话术</b><span class="add" style="--i:6"></span><span class="gone">没再打开</span></div><div class="card" style="--c:var(--wf)"><div class="ic"></div><b>PPT 生成</b><span class="add" style="--i:7"></span><span class="gone">没再打开</span></div></div>
+      <svg class="cur" viewBox="0 0 24 24"><path d="M4 2l15 9-7 1.6L9 20z" fill="#fff" stroke="#07080a" stroke-width="1.2"/></svg></div>
+    <i class="f2 rv" data-in="2" hidden></i>
+    <div class="abs ask rv" data-in="2" data-out="3">加进来的，天天在用吗？</div>
+    <div class="abs vs rv fade" data-in="3">
+      <div class="side l"><div class="lb">别人做的</div><div class="one"></div><div class="lk">做不出想要的 · 改不动</div></div>
+      <div class="side r"><div class="lb">自己搭的</div><div class="mine"><em>v1</em><em>v2</em><em>v3</em></div><div class="wire"></div><div class="ok">长在公司里 · 越改越顺</div><div class="kbb">公司的知识库</div></div>
     </div>
   </section>
 
@@ -572,19 +708,18 @@ body.pv #pv{display:block}
   
   <!-- ===== 课程地图 ===== -->
   <section class="scene mod" id="m0">
-    <div class="m-h rv" data-in="0">两天，五站<small>每一站做出一样东西，下一站接着用</small></div>
-    <svg class="m-map" viewBox="0 0 1600 900"><path d="M180 600 C 330 600, 330 430, 480 430 S 650 600, 800 600 S 970 430, 1120 430 S 1270 600, 1420 600"/><path class="run" d="M180 600 C 330 600, 330 430, 480 430 S 650 600, 800 600 S 970 430, 1120 430 S 1270 600, 1420 600"/></svg>
-    <div class="m-st rv" data-in="0" style="left:180px;top:568px;--c:var(--kb);transition-delay:.3s"><div class="dot">01</div><h3>知识库</h3><p>让 AI 先读懂<br>你的公司</p></div>
-    <div class="m-st rv" data-in="0" style="left:480px;top:398px;--c:var(--sk);transition-delay:.7s"><div class="dot">02</div><h3>技能</h3><p>把会干的<br>写下来交给 AI</p></div>
-    <div class="m-st rv" data-in="0" style="left:800px;top:568px;--c:var(--ag);transition-delay:1.1s"><div class="dot">03</div><h3>专家</h3><p>封装成能顶岗的<br>智能体</p></div>
-    <div class="m-st rv" data-in="0" style="left:1120px;top:398px;--c:var(--wf);transition-delay:1.5s"><div class="dot">04</div><h3>SOP</h3><p>一件事，<br>人和专家接力做完</p></div>
-    <div class="m-st rv" data-in="0" style="left:1420px;top:568px;--c:var(--hi);transition-delay:1.9s"><div class="dot">05</div><h3>高维玩法</h3><p>四样都会了，<br>还能怎么玩</p></div>
+    <div class="m-h rv" data-in="0">两天，四站<small>每一站做出一样东西，下一站接着用</small></div>
+    <svg class="m-map" viewBox="0 0 1600 900"><path d="M260 600 C 420 600, 420 430, 620 430 S 820 600, 980 600 S 1180 430, 1340 430"/><path class="run" d="M260 600 C 420 600, 420 430, 620 430 S 820 600, 980 600 S 1180 430, 1340 430"/></svg>
+    <div class="m-st rv" data-in="0" style="left:260px;top:568px;--c:var(--kb);transition-delay:.3s"><div class="dot">01</div><h3>知识库</h3><p>让 AI 先读懂<br>你的公司</p></div>
+    <div class="m-st rv" data-in="0" style="left:620px;top:398px;--c:var(--sk);transition-delay:.7s"><div class="dot">02</div><h3>技能</h3><p>把会干的<br>写下来交给 AI</p></div>
+    <div class="m-st rv" data-in="0" style="left:980px;top:568px;--c:var(--ag);transition-delay:1.1s"><div class="dot">03</div><h3>专家</h3><p>封装成能顶岗的<br>智能体</p></div>
+    <div class="m-st rv" data-in="0" style="left:1340px;top:398px;--c:var(--wf);transition-delay:1.5s"><div class="dot">04</div><h3>SOP</h3><p>一件事，<br>人和专家接力做完</p></div>
   </section>
 
   <!-- ===== 01 知识库 ===== -->
   <section class="scene mod" id="m1" style="--c:var(--kb)">
     <div class="m-chap rv fade" data-in="0" data-out="1"><canvas width="3200" height="1800"></canvas><div class="n">01</div>
-      <div class="t"><div class="k">第一站</div><h1>知识库</h1><p>让 AI 先读懂你的公司</p></div><div class="d"><i class="on"></i><i></i><i></i><i></i><i></i></div></div>
+      <div class="t"><div class="k">第一站</div><h1>知识库</h1><p>让 AI 先读懂你的公司</p></div><div class="d"><i class="on"></i><i></i><i></i><i></i></div></div>
 
     <div class="m-h rv" data-in="1" data-out="2">公司的资料散在各处<small>AI 一样也看不见</small></div>
     <div class="m-h rv" data-in="2" data-out="3">卡帕西的做法：<em>让 AI 当图书管理员</em><small>资料原样放进来，AI 编成一本互相链接的手册</small></div>
@@ -652,7 +787,7 @@ body.pv #pv{display:block}
   <!-- ===== 02 技能 ===== -->
   <section class="scene mod" id="m2" style="--c:var(--sk)">
     <div class="m-chap rv fade" data-in="0" data-out="1"><canvas width="3200" height="1800"></canvas><div class="n">02</div>
-      <div class="t"><div class="k">第二站</div><h1>技能</h1><p>把会干的，写下来交给 AI</p></div><div class="d"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div></div>
+      <div class="t"><div class="k">第二站</div><h1>技能</h1><p>把会干的，写下来交给 AI</p></div><div class="d"><i class="on"></i><i class="on"></i><i></i><i></i></div></div>
 
     <div class="m-h rv" data-in="1" data-out="2">一份技能，长这样</div>
     <div class="rv fade" data-in="1" data-out="2" id="m2anat">
@@ -713,7 +848,7 @@ body.pv #pv{display:block}
   <!-- ===== 03 专家 ===== -->
   <section class="scene mod" id="m3" style="--c:var(--ag)">
     <div class="m-chap rv fade" data-in="0" data-out="1"><canvas width="3200" height="1800"></canvas><div class="n">03</div>
-      <div class="t"><div class="k">第三站</div><h1>专家</h1><p>技能加知识，封装成一个能顶岗的智能体</p></div><div class="d"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div></div>
+      <div class="t"><div class="k">第三站</div><h1>专家</h1><p>技能加知识，封装成一个能顶岗的智能体</p></div><div class="d"><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div></div>
 
     <div class="m-h rv" data-in="1" data-out="2">一个专家里，装着七样东西</div>
     <div class="m-anat rv fade" data-in="1" data-out="2" id="m3anat">
@@ -749,7 +884,7 @@ body.pv #pv{display:block}
   <!-- ===== 04 SOP ===== -->
   <section class="scene mod" id="m4" style="--c:var(--wf)">
     <div class="m-chap rv fade" data-in="0" data-out="1"><canvas width="3200" height="1800"></canvas><div class="n">04</div>
-      <div class="t"><div class="k">第四站</div><h1>SOP</h1><p>一件事，人和专家接力做完</p></div><div class="d"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div></div>
+      <div class="t"><div class="k">第四站</div><h1>SOP</h1><p>一件事，人和专家接力做完</p></div><div class="d"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div></div>
 
     <div class="m-h rv" data-in="1" data-out="2">SOP 就是一份剧本<small>谁、在哪一步、拿到什么、交给谁、谁点头</small></div>
     <div class="m-lanes rv fade" data-in="1" data-out="2" id="m4lanes"></div>
@@ -793,27 +928,29 @@ body.pv #pv{display:block}
       我要把一件事做成 SOP：<span class="hl">＿＿＿＿</span><br>我先口述一遍。你用 grill-me 的方式一个个追问我漏掉的步骤、交接和签字。<br><br>问完画一张泳道表：一个角色一行，每一格标「专家做 / 人做 / 人点头」。凡是对外承诺、花钱、不可撤回的，必须是「人点头」。</div>
   </section>
 
-  <!-- ===== 05 高维玩法 ===== -->
+  <!-- ===== 收尾 ===== -->
   <section class="scene mod" id="m5" style="--c:var(--hi)">
-    <div class="m-chap rv fade" data-in="0" data-out="1"><canvas width="3200" height="1800"></canvas><div class="n">05</div>
-      <div class="t"><div class="k">第五站</div><h1>高维玩法</h1><p>四样都会了，还能怎么玩</p></div><div class="d"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div></div>
-
-    <div class="m-h rv" data-in="1" data-out="2">六种玩法</div>
-    <div class="m-gal rv fade" data-in="1" data-out="2" id="m5gal"></div>
-
-    <div class="m-play rv fade" data-in="2" data-out="8" id="m5play"><canvas id="m5cv" width="1920" height="1360"></canvas>
-      <div class="tx"><div class="no" id="m5no"></div><h2 id="m5h"></h2><p id="m5p"></p></div></div>
-
-    <div class="m-h rv" data-in="8">这两天的地图</div>
-    <svg class="m-map rv fade" data-in="8" viewBox="0 0 1600 900" style="top:-110px"><path d="M180 600 C 330 600, 330 430, 480 430 S 650 600, 800 600 S 970 430, 1120 430 S 1270 600, 1420 600" style="stroke:var(--m-ink);stroke-dasharray:none;stroke-width:3"/></svg>
-    <div class="rv" data-in="8" style="position:absolute;inset:0;top:-110px">
-      <div class="m-st" style="left:180px;top:568px;--c:var(--kb)"><div class="dot">01</div><h3>知识库</h3></div>
-      <div class="m-st" style="left:480px;top:398px;--c:var(--sk)"><div class="dot">02</div><h3>技能</h3></div>
-      <div class="m-st" style="left:800px;top:568px;--c:var(--ag)"><div class="dot">03</div><h3>专家</h3></div>
-      <div class="m-st" style="left:1120px;top:398px;--c:var(--wf)"><div class="dot">04</div><h3>SOP</h3></div>
-      <div class="m-st" style="left:1420px;top:568px;--c:var(--hi)"><div class="dot">05</div><h3>高维玩法</h3></div>
+    <div class="m-h rv" data-in="0" data-out="1">这两天的地图</div>
+    <svg class="m-map rv fade" data-in="0" data-out="1" viewBox="0 0 1600 900" style="top:-110px"><path d="M260 600 C 420 600, 420 430, 620 430 S 820 600, 980 600 S 1180 430, 1340 430" style="stroke:var(--m-ink);stroke-dasharray:none;stroke-width:3"/></svg>
+    <div class="rv" data-in="0" data-out="1" style="position:absolute;inset:0;top:-110px">
+      <div class="m-st" style="left:260px;top:568px;--c:var(--kb)"><div class="dot">01</div><h3>知识库</h3></div>
+      <div class="m-st" style="left:620px;top:398px;--c:var(--sk)"><div class="dot">02</div><h3>技能</h3></div>
+      <div class="m-st" style="left:980px;top:568px;--c:var(--ag)"><div class="dot">03</div><h3>专家</h3></div>
+      <div class="m-st" style="left:1340px;top:398px;--c:var(--wf)"><div class="dot">04</div><h3>SOP</h3></div>
     </div>
-    <div class="m-fin rv" data-in="8" style="transition-delay:.5s"><h2>回去，把你的公司重做一遍</h2><p>从最底下那层开始：先让 AI 读懂你的公司</p></div>
+
+    <div class="m-eq rv fade" data-in="1" data-out="2"><div class="t r">业务结果</div><i>=</i><div class="t">业务理解</div><i>×</i><div class="t ai">AI 技能<u></u></div><i>×</i><div class="t">数据和系统</div><i>×</i><div class="t">分工和流程</div></div>
+    <div class="m-eq-cap rv" data-in="1" data-out="2">这两天补上的，是 <b>AI 技能</b> 这一项</div>
+
+    <div class="zm" data-in="2">
+      <div class="ph">企业用 AI，一整张图<small>这两天走到第三层，往上还有很长的路</small></div>
+      <div class="stp on" style="left:130px;height:190px"><b>L1</b><span>各用各的</span><small>要准备：账号、用的习惯</small></div><div class="stp on" style="left:375px;height:270px"><b>L2</b><span>一个环节跑起来</span><small>要准备：技能、知识库</small></div><div class="stp on" style="left:620px;height:360px"><b>L3</b><span>一条线人机分工</span><small>要准备：专家、分工、谁点头</small></div><div class="stp" style="left:865px;height:460px"><b>L4</b><span>判断和数据成闭环</span><small>要准备：数据打通、判断沉淀</small></div><div class="stp" style="left:1110px;height:580px"><b>L5</b><span>AI 原生</span><small>要准备：组织按 AI 重排</small></div>
+      <div class="two"><em>这两天</em><div class="q"><i style="--c:var(--kb)"></i><i style="--c:var(--sk)"></i><i style="--c:var(--ag)"></i><i style="--c:var(--wf)"></i></div></div>
+      <div class="pn" style="left:760px;top:70px;transition-delay:2.40s">一个人一支队伍</div><div class="pn" style="left:1000px;top:70px;transition-delay:2.58s">行业总图</div><div class="pn" style="left:1200px;top:70px;transition-delay:2.76s">主管专家派活</div><div class="pn" style="left:700px;top:135px;transition-delay:2.94s">专家开会</div><div class="pn" style="left:880px;top:135px;transition-delay:3.12s">数字分身</div><div class="pn" style="left:1060px;top:135px;transition-delay:3.30s">AI 中台和权限</div><div class="pn" style="left:1290px;top:135px;transition-delay:3.48s">判断写进系统</div><div class="pn" style="left:700px;top:200px;transition-delay:3.66s">到点自己跑</div><div class="pn" style="left:880px;top:200px;transition-delay:3.84s">组织和 AI 一个人管</div><div class="pn" style="left:700px;top:260px;transition-delay:4.02s">打通 ERP、CRM、财务数据</div>
+      <div class="base">底座：公司的知识库</div>
+    </div>
+    <i class="f3 rv" data-in="3" hidden></i>
+    <div class="m-fin2 rv" data-in="3" style="transition-delay:.3s"><h2>回去，把公司重做一遍</h2><p>从最底下那层开始：先让 AI 读懂公司</p></div>
   </section>
 <div id="bar"></div>
   <div id="hint">→ 下一步　← 上一步　N 口播　P 讲师视图　F 全屏</div>
@@ -832,6 +969,9 @@ body.pv #pv{display:block}
 const BEATS=[
  {s:'cover',k:0,w:'hidden',ch:'开场',n:`各位早。先把这两天的目标说在前面：帮你把你的公司，用 AI 重做一遍。不是教你用一个软件，是把你公司做事的那副骨架，用 AI 再搭一遍。怎么搭？先从你最熟的东西开始：你自己的公司。`},
 
+ {s:'sA',k:0,w:'hidden',ch:'等式',n:`先给各位一个算式。一家公司的业务结果，是几样东西乘出来的：业务理解、AI 技能、数据和系统、分工和流程。是乘法，哪一项是零，结果就是零。`},
+ {s:'sA',k:1,w:'hidden',ch:'等式',n:`业务理解，在座各位比我们懂；数据和系统、分工和流程，各家不一样。这两天只补一项：AI 技能。括号打开，就是海报上的这八项，都融在接下来要做的四样东西里。`},
+ {s:'sA',k:2,w:'hidden',ch:'等式',n:`乘法的好处是：一项变强，整个结果跟着放大。其余三项不动，把 AI 技能这一项补上，结果就变大。`},
  {s:'sB',k:0,w:'company_f',ch:'你的公司',n:`这是一家公司。不管做什么行业，从里面看都长这样：几条业务线一起在跑，活儿在里面流。在座各位，对自己公司的这张图，比谁都熟。`},
  {s:'sB',k:1,w:'flow_f',ch:'你的公司',n:`拉近看一条。公司做成一件事，从来不是一个人做完的：从 A 岗位到 B 岗位，再到 C 岗位，一站一站往下传。这就是一条业务流程。想一下：你公司里最要紧的那件事，是怎么从头走到尾的？`},
  {s:'sB',k:2,w:'flow_f',ch:'你的公司',n:`线上每一站，都是一个人。各管一段，各司其职。`},
@@ -845,6 +985,10 @@ const BEATS=[
 
  {s:'sD',k:0,w:'dim',ch:'四样',n:`这两天，就带各位亲手做这四样：技能、智能体、工作流，还有压在最底下的知识库。每一样，都拿你自己公司的事来做。`},
 
+ {s:'sP',k:0,w:'hidden',ch:'破题',n:`这四个词，技能、智能体、工作流、知识库，各位可能都听过，有的已经在用了。`},
+ {s:'sP',k:1,w:'hidden',ch:'破题',n:`拿技能说。很多人用技能是这样：打开技能广场，看到好的，点个加号，加进来，聊几句。`},
+ {s:'sP',k:2,w:'hidden',ch:'破题',n:`问各位一个问题：加进来的这些，现在还天天在用吗？用着不顺手的时候，改过吗？`},
+ {s:'sP',k:3,w:'hidden',ch:'破题',n:`别人做的技能，做不出各位要的东西，到了真实场景会出错；人家一停更新，自己也改不动。这两天我们自己搭：长在自己公司里，接着自己的知识库，能改，越用越顺，四样还能串起来。后面每一站都这样，先看大家以为的是什么样，再看真正用起来是什么样。`},
  {s:'sE',k:0,w:'dust',ch:'长出来',n:`那这四样凑到一起，会长成什么？我们把这家公司打散，从零开始，重做一遍。`},
  {s:'sE',k:1,w:'g1',ch:'长出来',n:`先是一个技能。很小，只会一件事。`},
  {s:'sE',k:2,w:'g2',ch:'长出来',n:`技能会越来越多。一个变两个，两个变四个。`},
@@ -866,7 +1010,7 @@ const BEATS=[
 
  {s:'sH',k:0,w:'hidden',ch:'开始',n:`那我们开始。从最底下开始：第一站，知识库。`},
 
- {s:'m0',k:0,w:'hidden',ch:'地图',n:`两天，我们走五站。每一站都做出一样东西，下一站接着用：先让 AI 读懂公司，再把本事写成技能，技能和知识封装成专家，专家串成 SOP，最后看看高手怎么玩。`},
+ {s:'m0',k:0,w:'hidden',ch:'地图',n:`两天，我们走四站。每一站都做出一样东西，下一站接着用：先让 AI 读懂公司，再把本事写成技能，技能和知识封装成专家，专家串成 SOP。`},
 
  {s:'m1',k:0,w:'hidden',ch:'知识库',n:`第一站，知识库。为什么先做它？开场说过：老员工一句话就懂，是因为他懂行。AI 也一样，先让它读懂你的公司，后面的技能和专家才有东西可用。`},
  {s:'m1',k:1,w:'hidden',ch:'知识库',n:`先看现状：公司的东西散在哪？微信里、表格里、合同里、共享盘里，还有大量在老员工的脑子里。这些，AI 一样也看不见。在座各位想一下，你公司最重要的知识，现在放在哪？`},
@@ -897,15 +1041,10 @@ const BEATS=[
  {s:'m4',k:4,w:'hidden',ch:'SOP',n:`再往前一步，让它自己跑。三种开工方式：到点，每周一早上九点自己出周报；来事，新线索一进来自己先分级；接力，上一步做完下一步自己接上。看右边的运行记录，它一直在跑，只有到了要人点头的地方才停下来等你。`},
  {s:'m4',k:5,w:'hidden',ch:'SOP',n:`动手：拿出开场时写的那条线。口述一分钟，让 AI 追问到问不出新问题；画泳道、标格子；每个专家格挂上第三站做的专家；跑一单真事。卡住的地方，就是你回去要补的。（这一段给 40 分钟）`},
 
- {s:'m5',k:0,w:'hidden',ch:'高维玩法',n:`最后一站，高维玩法。四样都会了，高手是怎么玩的？给大家看六种。`},
- {s:'m5',k:1,w:'hidden',ch:'高维玩法',n:`六种玩法：专家开会、主管派活、到点自己跑、越用越强、数字分身、一个人一支队伍。我们一个个看。`},
- {s:'m5',k:2,w:'hidden',ch:'高维玩法',n:`专家开会。拍板之前，让销售专家、财务专家、客户视角的专家各站一边吵一架，最后给你一页结论。你听到的不再是一个声音。`},
- {s:'m5',k:3,w:'hidden',ch:'高维玩法',n:`主管派活。一件大事交给一个主管专家，它拆开，同时派给五个专家去做，收齐了再合成一份给你。原来要排一周的，现在一个下午。`},
- {s:'m5',k:4,w:'hidden',ch:'高维玩法',n:`到点自己跑。日报、周报、回款提醒，到点自己出现在群里。你不用记着去点它。`},
- {s:'m5',k:5,w:'hidden',ch:'高维玩法',n:`越用越强。每次被纠正都写回去：技能升版本，知识库变厚，做对率一路往上。用得越久，越离不开。（数字是示意）`},
- {s:'m5',k:6,w:'hidden',ch:'高维玩法',n:`数字分身。消息、会议、进度，它先替你过一遍、答一遍，只把真正要你拍板的挑出来。`},
- {s:'m5',k:7,w:'hidden',ch:'高维玩法',n:`一个人一支队伍。人管方向和拍板，专家管执行。一个人加八个专家，就是一个部门。少人多 AI 的组织，就长这样。`},
- {s:'m5',k:8,w:'hidden',ch:'高维玩法',n:`这就是两天的地图：知识库、技能、专家、SOP、高维玩法。回去，把你的公司重做一遍。从最底下那层开始：先让 AI 读懂你的公司。`},
+ {s:'m5',k:0,w:'hidden',ch:'收尾',n:`这就是两天的地图：知识库、技能、专家、SOP。每一站的东西，各位手上都有了。`},
+ {s:'m5',k:1,w:'hidden',ch:'收尾',n:`回到开头那个算式。这两天补上的，是 AI 技能这一项。其余三项没动，结果已经不一样了。`},
+ {s:'m5',k:2,w:'hidden',ch:'收尾',n:`但放到整家企业，这只是其中一块。企业用 AI 分五层：各用各的，一个环节跑起来，一条线人机分工，判断和数据成闭环，AI 原生。这两天带各位走到第三层。往上走，还要打通 ERP、CRM、财务数据，搭中台、管权限，把判断写进系统，组织和 AI 由一个人一起管；高手还会让几个专家开会、让主管专家派活、做自己的数字分身。每一层要准备什么，没准备好就上不去。这两天学的，是往上走的地基。（让画面拉远走完再讲）`},
+ {s:'m5',k:3,w:'hidden',ch:'收尾',n:`回去，把公司重做一遍。从最底下那层开始：先让 AI 读懂公司。`},
 ];
 
 /* ================= 舞台缩放 ================= */
@@ -1216,43 +1355,7 @@ R.m4=(k,anim,el)=>{const bg=chap(el);
     if(anim){const t=()=>{add();ml(Math.max(160,900-n*40),t)};ml(500,t)}else for(let i=0;i<10;i++)add()}
   loop(now=>{if(k===0&&bg)bg(now)})};
 
-/* ---------- 05 高维玩法 ---------- */
-const PLAYS=[
- ['专家开会','几个专家各站一边吵一架，最后给你一页结论','让<b>销售、财务、客户</b>三个专家吵一架，你只看最后那一页。'],
- ['主管派活','一个主管专家，同时派给五个专家','一件大事拆开，<b>五个专家同时做</b>，主管收齐了合成一份交给你。'],
- ['到点自己跑','每天 8 点，日报自己出现在群里','不用记着去点。<b>到点、来事、接力</b>，它自己开工。'],
- ['越用越强','技能和知识库，每天都在变好','每次被纠正都写回去。<b>技能升版本、知识库变厚</b>，做对率一路往上。'],
- ['数字分身','替你回消息、记会议、追进度','它先替你答一遍，<b>只把真要你拍板的</b>挑出来给你。'],
- ['一个人一支队伍','一个人加八个专家，就是一个部门','<b>人管方向和拍板</b>，专家管执行。少人多 AI 的组织，就长这样。']];
-function playDraw(i,g,W,H,t,col,ink,mu){g.clearRect(0,0,W,H);const S=Math.min(W/960,H/680);g.save();g.translate(W/2,H/2);g.scale(S,S);const tile=(x,y,s,c,a=1)=>{g.globalAlpha=a;g.fillStyle=c;g.beginPath();g.roundRect?g.roundRect(x-s/2,y-s/2,s,s,s*.24):g.rect(x-s/2,y-s/2,s,s);g.fill();g.globalAlpha=1};
-  const AG=cv('--ag'),SK=cv('--sk'),WF=cv('--wf'),KB=cv('--kb');
-  if(i===0){const n=4,R0=210;for(let j=0;j<n;j++){const a=j/n*6.283-1.57,x=Math.cos(a)*R0,y=Math.sin(a)*R0*.8;tile(x,y,90,[AG,SK,KB,WF][j]);g.fillStyle=ink;g.font='800 22px "PingFang SC",sans-serif';g.textAlign='center';g.fillText(['销售专家','财务专家','客户视角','仓库专家'][j],x,y+78);g.textAlign='left';
-      const on=Math.floor(t*.9)%n===j;if(on){g.fillStyle=hexA(ink,.9);g.beginPath();g.roundRect?g.roundRect(x+50,y-110,180,64,14):g.rect(x+50,y-110,180,64);g.fill();g.fillStyle=cv('--m-bg2');g.font='700 24px "PingFang SC",sans-serif';g.fillText(['这个价太低','客户等不了','库存只够两周','分两批发'][j],x+66,y-70)}}
-    const k=(t%6)/6;tile(0,0,140*(.6+.4*Math.min(1,k*3)),hexA(col,.9));g.fillStyle=cv('--m-on');g.font='800 26px "PingFang SC",sans-serif';g.textAlign='center';g.fillText('一页结论',0,9);g.textAlign='left'}
-  if(i===1){tile(0,-230,110,col);g.fillStyle=cv('--m-on');g.font='800 24px "PingFang SC",sans-serif';g.textAlign='center';g.fillText('主管',0,-221);
-    for(let j=0;j<5;j++){const x=(j-2)*170,y=120;g.strokeStyle=hexA(mu,.5);g.lineWidth=2;g.beginPath();g.moveTo(0,-175);g.lineTo(x,y-50);g.stroke();tile(x,y,90,AG);
-      const p=Math.min(1,((t*[.33,.45,.28,.52,.4][j])%1.3));g.fillStyle=hexA(mu,.25);g.fillRect(x-60,y+70,120,14);g.fillStyle=WF;g.fillRect(x-60,y+70,120*p,14);
-      const u=(t*.8+j*.2)%1;tile(x*(1-u),(y-50)*(1-u)+(-175)*u,14,SK,.9)}g.textAlign='left'}
-  if(i===2){const a=t*2.2;g.strokeStyle=ink;g.lineWidth=6;g.beginPath();g.arc(-220,0,150,0,6.283);g.stroke();g.lineWidth=8;g.beginPath();g.moveTo(-220,0);g.lineTo(-220+Math.cos(a-1.57)*120,Math.sin(a-1.57)*120);g.stroke();
-    const n=Math.floor(t*.35)%9;for(let j=0;j<=n;j++){tile(170,180-j*44,0,col);g.fillStyle=j===n?col:hexA(col,.35);g.beginPath();g.roundRect?g.roundRect(60,160-j*44,260,36,8):g.rect(60,160-j*44,260,36);g.fill();g.fillStyle=j===n?cv('--m-on'):ink;g.font='700 20px "PingFang SC",sans-serif';g.fillText(['周一','周二','周三','周四','周五','周六','周日','周一','周二'][j]+' 8:00 日报 ✓',76,185-j*44)}}
-  if(i===3){const k=(t%10)/10,vals=[['技能版本','v',1,12],['知识库页数','',40,380],['做对率','%',60,94]];vals.forEach(([nm,u,a,b],j)=>{const x=(j-1)*300,v=Math.round(a+(b-a)*Math.min(1,k*1.4));
-      g.fillStyle=mu;g.font='600 24px "PingFang SC",sans-serif';g.textAlign='center';g.fillText(nm,x,-120);g.fillStyle=[SK,KB,WF][j];g.font='900 78px "SF Mono",Menlo,monospace';g.fillText(u==='v'?'v'+v:v+u,x,-20);
-      g.fillStyle=hexA(mu,.2);g.fillRect(x-110,40,220,14);g.fillStyle=[SK,KB,WF][j];g.fillRect(x-110,40,220*Math.min(1,k*1.4),14)});g.textAlign='left';g.fillStyle=mu;g.font='20px "PingFang SC",sans-serif';g.fillText('示意',380,260)}
-  if(i===4){tile(-300,-20,130,ink);tile(-260,20,130,hexA(col,.55));g.fillStyle=cv('--m-on');g.font='800 24px "PingFang SC",sans-serif';g.fillText('分身',-290,30);
-    const M=['客户问交期','同事要上周数据','会议纪要','供应商催款','新线索','老板问进度'];const n=Math.floor(t*1.1);
-    for(let j=0;j<5;j++){const idx=(n-j+60)%M.length,y=-200+j*90,need=idx===3;g.globalAlpha=1-j*.15;g.fillStyle=cv('--m-card');g.strokeStyle=hexA(mu,.3);g.beginPath();g.roundRect?g.roundRect(-60,y,420,68,14):g.rect(-60,y,420,68);g.fill();g.stroke();
-      g.fillStyle=ink;g.font='600 22px "PingFang SC",sans-serif';g.fillText(M[idx],-36,y+42);g.fillStyle=need?'#e5484d':WF;g.font='800 20px "PingFang SC",sans-serif';g.fillText(need?'要你拍板':'已回 ✓',250,y+42);g.globalAlpha=1}}
-  if(i===5){tile(0,0,130,ink);g.fillStyle=cv('--m-bg2');g.font='800 28px "PingFang SC",sans-serif';g.textAlign='center';g.fillText('你',0,10);
-    const n=Math.min(8,Math.floor((t%9)*1.5)+1);for(let j=0;j<n;j++){const a=j/8*6.283-1.57,x=Math.cos(a)*270,y=Math.sin(a)*210;g.strokeStyle=hexA(mu,.4);g.lineWidth=2;g.beginPath();g.moveTo(0,0);g.lineTo(x,y);g.stroke();tile(x,y,80,[AG,SK,WF,KB][j%4])}
-    tile(0,0,130,ink);g.fillStyle=cv('--m-bg2');g.fillText('你',0,10);g.textAlign='left'}
-  g.restore()}
-R.m5=(k,anim,el)=>{const bg=chap(el);
-  if(k===1){const gal=q('#m5gal');gal.innerHTML=PLAYS.map((p,i)=>`<div class="m-card"><span class="no">0${i+1}</span><b>${p[0]}</b><span>${p[1]}</span><canvas width="904" height="380"></canvas></div>`).join('');
-    qa('.m-card',gal).forEach((c,i)=>anim?ml(150+i*160,()=>c.classList.add('on')):c.classList.add('on'))}
-  const play=k>=2&&k<=7?k-2:-1;if(play>=0){q('#m5no').textContent='玩法 0'+(play+1);q('#m5h').textContent=PLAYS[play][0];q('#m5p').innerHTML=PLAYS[play][2]}
-  loop(now=>{const t=now/1000,col=cv('--hi'),ink=cv('--m-ink'),mu=cv('--m-mute');if(k===0&&bg)bg(now);
-    if(k===1)qa('#m5gal canvas').forEach((c,i)=>{const g=c.getContext('2d');g.setTransform(1,0,0,1,0,0);playDraw(i,g,c.width,c.height,t,col,ink,mu)});
-    if(play>=0){const c=q('#m5cv'),g=c.getContext('2d');g.setTransform(1,0,0,1,0,0);playDraw(play,g,c.width,c.height,t,col,ink,mu)}})};
+R.m5=(k,anim,el)=>{};
 })();
 /* ================= 进度条 ================= */
 const CHS=[...new Set(BEATS.map(b=>b.ch))];
@@ -1282,6 +1385,13 @@ function go(i,from){
   if(bc&&from!=='bc')bc.postMessage({i});
 }
 if(bc)bc.onmessage=e=>{if(typeof e.data.i==='number')go(e.data.i,'bc')};
+
+
+/* 等式：AI 技能到八项的连线 */
+(function(){const sv=document.getElementById('sAbrs');if(!sv)return;const draw=()=>{const ai=document.querySelector('#sA .term.ai'),sp=[...document.querySelectorAll('#sA .eight span')];if(!ai||!ai.offsetWidth)return;
+  const st=document.getElementById('stage').getBoundingClientRect(),sc=st.width/1600,r=ai.getBoundingClientRect(),x0=(r.left+r.width/2-st.left)/sc,y0=(r.bottom-st.top)/sc;
+  sv.setAttribute('viewBox','0 0 1600 900');sv.innerHTML=sp.map(e=>{const q=e.getBoundingClientRect(),x=(q.left+q.width/2-st.left)/sc,y=(q.top-st.top)/sc;return `<path d="M${x0} ${y0} C ${x0} ${y0+60}, ${x} ${y-70}, ${x} ${y}"/>`}).join('')};
+  new MutationObserver(()=>{if(document.getElementById('sA').classList.contains('on'))setTimeout(draw,80)}).observe(document.getElementById('sA'),{attributes:true});addEventListener('resize',()=>setTimeout(draw,80))})();
 
 /* ================= 讲师视图 ================= */
 let t0=Date.now();

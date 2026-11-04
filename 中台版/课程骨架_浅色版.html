@@ -384,7 +384,7 @@ body.pv #pv{display:block}
 .m-log .row .s{font-weight:800}
 .m-log .row .s.ok{color:var(--wf)} .m-log .row .s.wait{color:var(--kb)}
 
-/* ---------- 05 高维玩法 ---------- */
+/* ---------- 收尾（原第五站的样式，暂留） ---------- */
 .m-gal{position:absolute;left:96px;top:210px;width:1408px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
 .m-gal .m-card{height:300px;padding:26px 28px;position:relative;overflow:hidden;opacity:0;transform:scale(.94);transition:all .5s cubic-bezier(.2,.9,.3,1)}
 .m-gal .m-card.on{opacity:1;transform:none}
@@ -402,6 +402,37 @@ body.pv #pv{display:block}
 .m-fin{position:absolute;left:0;right:0;top:620px;text-align:center}
 .m-fin h2{font-size:84px;font-weight:900;letter-spacing:-.01em}
 .m-fin p{font-size:28px;color:var(--m-mute);margin-top:18px}
+
+/* ---------- 收尾：等式回来、企业全景（我们加的） ---------- */
+#m5 .m-eq{position:absolute;left:0;right:0;top:330px;display:flex;justify-content:center;align-items:center;gap:16px}
+#m5 .m-eq .t{flex:none;font-size:44px;font-weight:900;padding:18px 24px;border-radius:20px;border:2px solid var(--m-line2);background:var(--m-card);white-space:nowrap;opacity:.3}
+#m5 .m-eq .t.r{opacity:1}
+#m5 .m-eq .t.ai{opacity:1;border-color:var(--sk);color:var(--m-ink);position:relative;overflow:hidden;box-shadow:0 0 60px color-mix(in srgb,var(--sk) 30%,transparent)}
+#m5 .m-eq .t.ai u{position:absolute;left:0;bottom:0;height:8px;width:100%;background:var(--sk)}
+#m5 .m-eq i{font-style:normal;font-size:44px;color:var(--m-mute);font-weight:300}
+#m5 .m-eq-cap{position:absolute;left:0;right:0;top:520px;text-align:center;font-size:30px;color:var(--m-mute);letter-spacing:.1em}
+#m5 .m-eq-cap b{color:var(--m-ink)}
+#m5 .zm{position:absolute;inset:0;opacity:0;transform:scale(2.6);transform-origin:470px 600px;transition:opacity .7s,transform 3s cubic-bezier(.7,0,.2,1)}
+#m5 .zm.vis{opacity:1;transform:none}
+#m5 .stp{position:absolute;bottom:120px;width:236px;border-radius:16px 16px 0 0;background:var(--m-card2);border:1.5px solid var(--m-line2);border-bottom:0}
+#m5 .stp b{position:absolute;left:20px;top:16px;font-size:30px;font-weight:900;color:var(--m-mute)}
+#m5 .stp span{position:absolute;left:20px;top:56px;right:16px;font-size:21px;font-weight:700;color:var(--m-ink);line-height:1.35}
+#m5 .stp small{position:absolute;left:20px;bottom:14px;right:16px;font-size:17px;color:var(--m-mute);line-height:1.4}
+#m5 .stp.on{background:color-mix(in srgb,var(--sk) 10%,var(--m-card2));border-color:color-mix(in srgb,var(--sk) 60%,transparent)}
+#m5 .stp.on b{color:var(--sk)}
+#m5 .two{position:absolute;left:120px;bottom:120px;width:740px;height:466px;border:3px solid var(--sk);border-radius:22px;border-bottom:0;box-shadow:0 0 60px color-mix(in srgb,var(--sk) 22%,transparent)}
+#m5 .two em{position:absolute;left:24px;top:-24px;font-style:normal;font-size:24px;font-weight:900;color:var(--m-on);background:var(--sk);padding:6px 18px;border-radius:30px}
+#m5 .two .q{position:absolute;top:22px;right:22px;display:flex;gap:10px}
+#m5 .two .q i{width:22px;height:22px;border-radius:7px;background:var(--c)}
+#m5 .pn{position:absolute;font-size:22px;font-weight:700;padding:10px 20px;border-radius:30px;border:1.5px dashed var(--m-line2);color:var(--m-mute);background:var(--m-bg2);white-space:nowrap;opacity:0;transition:opacity .8s}
+#m5 .zm.vis .pn{opacity:1}
+#m5 .base{position:absolute;left:120px;right:120px;bottom:70px;height:50px;border-radius:12px;border:1.5px solid var(--kb);color:var(--kb);font-size:22px;font-weight:800;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--kb) 8%,transparent)}
+#m5 .ph{position:absolute;left:96px;top:56px;font-size:46px;font-weight:900}
+#m5 .ph small{display:block;font-size:22px;font-weight:500;color:var(--m-mute);margin-top:8px}
+#m5:has(.f3.vis) .zm{opacity:.16;filter:blur(2px)}
+#m5 .m-fin2{position:absolute;left:0;right:0;top:330px;text-align:center}
+#m5 .m-fin2 h2{font-size:110px;font-weight:900;letter-spacing:-.01em}
+#m5 .m-fin2 p{font-size:32px;color:var(--m-mute);margin-top:26px}
 </style>
 </head>
 <body>
@@ -491,19 +522,18 @@ body.pv #pv{display:block}
   
   <!-- ===== 课程地图 ===== -->
   <section class="scene mod" id="m0">
-    <div class="m-h rv" data-in="0">两天，五站<small>每一站做出一样东西，下一站接着用</small></div>
-    <svg class="m-map" viewBox="0 0 1600 900"><path d="M180 600 C 330 600, 330 430, 480 430 S 650 600, 800 600 S 970 430, 1120 430 S 1270 600, 1420 600"/><path class="run" d="M180 600 C 330 600, 330 430, 480 430 S 650 600, 800 600 S 970 430, 1120 430 S 1270 600, 1420 600"/></svg>
-    <div class="m-st rv" data-in="0" style="left:180px;top:568px;--c:var(--kb);transition-delay:.3s"><div class="dot">01</div><h3>知识库</h3><p>让 AI 先读懂<br>你的公司</p></div>
-    <div class="m-st rv" data-in="0" style="left:480px;top:398px;--c:var(--sk);transition-delay:.7s"><div class="dot">02</div><h3>技能</h3><p>把会干的<br>写下来交给 AI</p></div>
-    <div class="m-st rv" data-in="0" style="left:800px;top:568px;--c:var(--ag);transition-delay:1.1s"><div class="dot">03</div><h3>专家</h3><p>封装成能顶岗的<br>智能体</p></div>
-    <div class="m-st rv" data-in="0" style="left:1120px;top:398px;--c:var(--wf);transition-delay:1.5s"><div class="dot">04</div><h3>SOP</h3><p>一件事，<br>人和专家接力做完</p></div>
-    <div class="m-st rv" data-in="0" style="left:1420px;top:568px;--c:var(--hi);transition-delay:1.9s"><div class="dot">05</div><h3>高维玩法</h3><p>四样都会了，<br>还能怎么玩</p></div>
+    <div class="m-h rv" data-in="0">两天，四站<small>每一站做出一样东西，下一站接着用</small></div>
+    <svg class="m-map" viewBox="0 0 1600 900"><path d="M260 600 C 420 600, 420 430, 620 430 S 820 600, 980 600 S 1180 430, 1340 430"/><path class="run" d="M260 600 C 420 600, 420 430, 620 430 S 820 600, 980 600 S 1180 430, 1340 430"/></svg>
+    <div class="m-st rv" data-in="0" style="left:260px;top:568px;--c:var(--kb);transition-delay:.3s"><div class="dot">01</div><h3>知识库</h3><p>让 AI 先读懂<br>你的公司</p></div>
+    <div class="m-st rv" data-in="0" style="left:620px;top:398px;--c:var(--sk);transition-delay:.7s"><div class="dot">02</div><h3>技能</h3><p>把会干的<br>写下来交给 AI</p></div>
+    <div class="m-st rv" data-in="0" style="left:980px;top:568px;--c:var(--ag);transition-delay:1.1s"><div class="dot">03</div><h3>专家</h3><p>封装成能顶岗的<br>智能体</p></div>
+    <div class="m-st rv" data-in="0" style="left:1340px;top:398px;--c:var(--wf);transition-delay:1.5s"><div class="dot">04</div><h3>SOP</h3><p>一件事，<br>人和专家接力做完</p></div>
   </section>
 
   <!-- ===== 01 知识库 ===== -->
   <section class="scene mod" id="m1" style="--c:var(--kb)">
     <div class="m-chap rv fade" data-in="0" data-out="1"><canvas width="3200" height="1800"></canvas><div class="n">01</div>
-      <div class="t"><div class="k">第一站</div><h1>知识库</h1><p>让 AI 先读懂你的公司</p></div><div class="d"><i class="on"></i><i></i><i></i><i></i><i></i></div></div>
+      <div class="t"><div class="k">第一站</div><h1>知识库</h1><p>让 AI 先读懂你的公司</p></div><div class="d"><i class="on"></i><i></i><i></i><i></i></div></div>
 
     <div class="m-h rv" data-in="1" data-out="2">公司的资料散在各处<small>AI 一样也看不见</small></div>
     <div class="m-h rv" data-in="2" data-out="3">卡帕西的做法：<em>让 AI 当图书管理员</em><small>资料原样放进来，AI 编成一本互相链接的手册</small></div>
@@ -571,7 +601,7 @@ body.pv #pv{display:block}
   <!-- ===== 02 技能 ===== -->
   <section class="scene mod" id="m2" style="--c:var(--sk)">
     <div class="m-chap rv fade" data-in="0" data-out="1"><canvas width="3200" height="1800"></canvas><div class="n">02</div>
-      <div class="t"><div class="k">第二站</div><h1>技能</h1><p>把会干的，写下来交给 AI</p></div><div class="d"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div></div>
+      <div class="t"><div class="k">第二站</div><h1>技能</h1><p>把会干的，写下来交给 AI</p></div><div class="d"><i class="on"></i><i class="on"></i><i></i><i></i></div></div>
 
     <div class="m-h rv" data-in="1" data-out="2">一份技能，长这样</div>
     <div class="rv fade" data-in="1" data-out="2" id="m2anat">
@@ -632,7 +662,7 @@ body.pv #pv{display:block}
   <!-- ===== 03 专家 ===== -->
   <section class="scene mod" id="m3" style="--c:var(--ag)">
     <div class="m-chap rv fade" data-in="0" data-out="1"><canvas width="3200" height="1800"></canvas><div class="n">03</div>
-      <div class="t"><div class="k">第三站</div><h1>专家</h1><p>技能加知识，封装成一个能顶岗的智能体</p></div><div class="d"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div></div>
+      <div class="t"><div class="k">第三站</div><h1>专家</h1><p>技能加知识，封装成一个能顶岗的智能体</p></div><div class="d"><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div></div>
 
     <div class="m-h rv" data-in="1" data-out="2">一个专家里，装着七样东西</div>
     <div class="m-anat rv fade" data-in="1" data-out="2" id="m3anat">
@@ -668,7 +698,7 @@ body.pv #pv{display:block}
   <!-- ===== 04 SOP ===== -->
   <section class="scene mod" id="m4" style="--c:var(--wf)">
     <div class="m-chap rv fade" data-in="0" data-out="1"><canvas width="3200" height="1800"></canvas><div class="n">04</div>
-      <div class="t"><div class="k">第四站</div><h1>SOP</h1><p>一件事，人和专家接力做完</p></div><div class="d"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div></div>
+      <div class="t"><div class="k">第四站</div><h1>SOP</h1><p>一件事，人和专家接力做完</p></div><div class="d"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div></div>
 
     <div class="m-h rv" data-in="1" data-out="2">SOP 就是一份剧本<small>谁、在哪一步、拿到什么、交给谁、谁点头</small></div>
     <div class="m-lanes rv fade" data-in="1" data-out="2" id="m4lanes"></div>
@@ -712,27 +742,29 @@ body.pv #pv{display:block}
       我要把一件事做成 SOP：<span class="hl">＿＿＿＿</span><br>我先口述一遍。你用 grill-me 的方式一个个追问我漏掉的步骤、交接和签字。<br><br>问完画一张泳道表：一个角色一行，每一格标「专家做 / 人做 / 人点头」。凡是对外承诺、花钱、不可撤回的，必须是「人点头」。</div>
   </section>
 
-  <!-- ===== 05 高维玩法 ===== -->
+  <!-- ===== 收尾 ===== -->
   <section class="scene mod" id="m5" style="--c:var(--hi)">
-    <div class="m-chap rv fade" data-in="0" data-out="1"><canvas width="3200" height="1800"></canvas><div class="n">05</div>
-      <div class="t"><div class="k">第五站</div><h1>高维玩法</h1><p>四样都会了，还能怎么玩</p></div><div class="d"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div></div>
-
-    <div class="m-h rv" data-in="1" data-out="2">六种玩法</div>
-    <div class="m-gal rv fade" data-in="1" data-out="2" id="m5gal"></div>
-
-    <div class="m-play rv fade" data-in="2" data-out="8" id="m5play"><canvas id="m5cv" width="1920" height="1360"></canvas>
-      <div class="tx"><div class="no" id="m5no"></div><h2 id="m5h"></h2><p id="m5p"></p></div></div>
-
-    <div class="m-h rv" data-in="8">这两天的地图</div>
-    <svg class="m-map rv fade" data-in="8" viewBox="0 0 1600 900" style="top:-110px"><path d="M180 600 C 330 600, 330 430, 480 430 S 650 600, 800 600 S 970 430, 1120 430 S 1270 600, 1420 600" style="stroke:var(--m-ink);stroke-dasharray:none;stroke-width:3"/></svg>
-    <div class="rv" data-in="8" style="position:absolute;inset:0;top:-110px">
-      <div class="m-st" style="left:180px;top:568px;--c:var(--kb)"><div class="dot">01</div><h3>知识库</h3></div>
-      <div class="m-st" style="left:480px;top:398px;--c:var(--sk)"><div class="dot">02</div><h3>技能</h3></div>
-      <div class="m-st" style="left:800px;top:568px;--c:var(--ag)"><div class="dot">03</div><h3>专家</h3></div>
-      <div class="m-st" style="left:1120px;top:398px;--c:var(--wf)"><div class="dot">04</div><h3>SOP</h3></div>
-      <div class="m-st" style="left:1420px;top:568px;--c:var(--hi)"><div class="dot">05</div><h3>高维玩法</h3></div>
+    <div class="m-h rv" data-in="0" data-out="1">这两天的地图</div>
+    <svg class="m-map rv fade" data-in="0" data-out="1" viewBox="0 0 1600 900" style="top:-110px"><path d="M260 600 C 420 600, 420 430, 620 430 S 820 600, 980 600 S 1180 430, 1340 430" style="stroke:var(--m-ink);stroke-dasharray:none;stroke-width:3"/></svg>
+    <div class="rv" data-in="0" data-out="1" style="position:absolute;inset:0;top:-110px">
+      <div class="m-st" style="left:260px;top:568px;--c:var(--kb)"><div class="dot">01</div><h3>知识库</h3></div>
+      <div class="m-st" style="left:620px;top:398px;--c:var(--sk)"><div class="dot">02</div><h3>技能</h3></div>
+      <div class="m-st" style="left:980px;top:568px;--c:var(--ag)"><div class="dot">03</div><h3>专家</h3></div>
+      <div class="m-st" style="left:1340px;top:398px;--c:var(--wf)"><div class="dot">04</div><h3>SOP</h3></div>
     </div>
-    <div class="m-fin rv" data-in="8" style="transition-delay:.5s"><h2>回去，把你的公司重做一遍</h2><p>从最底下那层开始：先让 AI 读懂你的公司</p></div>
+
+    <div class="m-eq rv fade" data-in="1" data-out="2"><div class="t r">业务结果</div><i>=</i><div class="t">业务理解</div><i>×</i><div class="t ai">AI 技能<u></u></div><i>×</i><div class="t">数据和系统</div><i>×</i><div class="t">分工和流程</div></div>
+    <div class="m-eq-cap rv" data-in="1" data-out="2">这两天补上的，是 <b>AI 技能</b> 这一项</div>
+
+    <div class="zm" data-in="2">
+      <div class="ph">企业用 AI，一整张图<small>这两天走到第三层，往上还有很长的路</small></div>
+      <div class="stp on" style="left:130px;height:190px"><b>L1</b><span>各用各的</span><small>要准备：账号、用的习惯</small></div><div class="stp on" style="left:375px;height:270px"><b>L2</b><span>一个环节跑起来</span><small>要准备：技能、知识库</small></div><div class="stp on" style="left:620px;height:360px"><b>L3</b><span>一条线人机分工</span><small>要准备：专家、分工、谁点头</small></div><div class="stp" style="left:865px;height:460px"><b>L4</b><span>判断和数据成闭环</span><small>要准备：数据打通、判断沉淀</small></div><div class="stp" style="left:1110px;height:580px"><b>L5</b><span>AI 原生</span><small>要准备：组织按 AI 重排</small></div>
+      <div class="two"><em>这两天</em><div class="q"><i style="--c:var(--kb)"></i><i style="--c:var(--sk)"></i><i style="--c:var(--ag)"></i><i style="--c:var(--wf)"></i></div></div>
+      <div class="pn" style="left:760px;top:70px;transition-delay:2.40s">一个人一支队伍</div><div class="pn" style="left:1000px;top:70px;transition-delay:2.58s">行业总图</div><div class="pn" style="left:1200px;top:70px;transition-delay:2.76s">主管专家派活</div><div class="pn" style="left:700px;top:135px;transition-delay:2.94s">专家开会</div><div class="pn" style="left:880px;top:135px;transition-delay:3.12s">数字分身</div><div class="pn" style="left:1060px;top:135px;transition-delay:3.30s">AI 中台和权限</div><div class="pn" style="left:1290px;top:135px;transition-delay:3.48s">判断写进系统</div><div class="pn" style="left:700px;top:200px;transition-delay:3.66s">到点自己跑</div><div class="pn" style="left:880px;top:200px;transition-delay:3.84s">组织和 AI 一个人管</div><div class="pn" style="left:700px;top:260px;transition-delay:4.02s">打通 ERP、CRM、财务数据</div>
+      <div class="base">底座：公司的知识库</div>
+    </div>
+    <i class="f3 rv" data-in="3" hidden></i>
+    <div class="m-fin2 rv" data-in="3" style="transition-delay:.3s"><h2>回去，把公司重做一遍</h2><p>从最底下那层开始：先让 AI 读懂公司</p></div>
   </section>
 <div id="bar"></div>
   <div id="hint">→ 下一步　← 上一步　N 口播　P 讲师视图　F 全屏</div>
@@ -776,7 +808,7 @@ const BEATS=[
 
  {s:'sH',k:0,w:'h0',ch:'开始',n:`那我们开始。从最底下一层开始：第一站，知识库。`},
 
- {s:'m0',k:0,w:'off',ch:'地图',n:`两天，我们走五站。每一站都做出一样东西，下一站接着用：先让 AI 读懂公司，再把本事写成技能，技能和知识封装成专家，专家串成 SOP，最后看看高手怎么玩。`},
+ {s:'m0',k:0,w:'off',ch:'地图',n:`两天，我们走四站。每一站都做出一样东西，下一站接着用：先让 AI 读懂公司，再把本事写成技能，技能和知识封装成专家，专家串成 SOP。`},
 
  {s:'m1',k:0,w:'off',ch:'知识库',n:`第一站，知识库。为什么先做它？开场说过：老员工一句话就懂，是因为他懂行。AI 也一样，先让它读懂你的公司，后面的技能和专家才有东西可用。`},
  {s:'m1',k:1,w:'off',ch:'知识库',n:`先看现状：公司的东西散在哪？微信里、表格里、合同里、共享盘里，还有大量在老员工的脑子里。这些，AI 一样也看不见。在座各位想一下，你公司最重要的知识，现在放在哪？`},
@@ -807,15 +839,10 @@ const BEATS=[
  {s:'m4',k:4,w:'off',ch:'SOP',n:`再往前一步，让它自己跑。三种开工方式：到点，每周一早上九点自己出周报；来事，新线索一进来自己先分级；接力，上一步做完下一步自己接上。看右边的运行记录，它一直在跑，只有到了要人点头的地方才停下来等你。`},
  {s:'m4',k:5,w:'off',ch:'SOP',n:`动手：拿出开场时写的那条线。口述一分钟，让 AI 追问到问不出新问题；画泳道、标格子；每个专家格挂上第三站做的专家；跑一单真事。卡住的地方，就是你回去要补的。（这一段给 40 分钟）`},
 
- {s:'m5',k:0,w:'off',ch:'高维玩法',n:`最后一站，高维玩法。四样都会了，高手是怎么玩的？给大家看六种。`},
- {s:'m5',k:1,w:'off',ch:'高维玩法',n:`六种玩法：专家开会、主管派活、到点自己跑、越用越强、数字分身、一个人一支队伍。我们一个个看。`},
- {s:'m5',k:2,w:'off',ch:'高维玩法',n:`专家开会。拍板之前，让销售专家、财务专家、客户视角的专家各站一边吵一架，最后给你一页结论。你听到的不再是一个声音。`},
- {s:'m5',k:3,w:'off',ch:'高维玩法',n:`主管派活。一件大事交给一个主管专家，它拆开，同时派给五个专家去做，收齐了再合成一份给你。原来要排一周的，现在一个下午。`},
- {s:'m5',k:4,w:'off',ch:'高维玩法',n:`到点自己跑。日报、周报、回款提醒，到点自己出现在群里。你不用记着去点它。`},
- {s:'m5',k:5,w:'off',ch:'高维玩法',n:`越用越强。每次被纠正都写回去：技能升版本，知识库变厚，做对率一路往上。用得越久，越离不开。（数字是示意）`},
- {s:'m5',k:6,w:'off',ch:'高维玩法',n:`数字分身。消息、会议、进度，它先替你过一遍、答一遍，只把真正要你拍板的挑出来。`},
- {s:'m5',k:7,w:'off',ch:'高维玩法',n:`一个人一支队伍。人管方向和拍板，专家管执行。一个人加八个专家，就是一个部门。少人多 AI 的组织，就长这样。`},
- {s:'m5',k:8,w:'off',ch:'高维玩法',n:`这就是两天的地图：知识库、技能、专家、SOP、高维玩法。回去，把你的公司重做一遍。从最底下那层开始：先让 AI 读懂你的公司。`},
+ {s:'m5',k:0,w:'off',ch:'收尾',n:`这就是两天的地图：知识库、技能、专家、SOP。每一站的东西，各位手上都有了。`},
+ {s:'m5',k:1,w:'off',ch:'收尾',n:`回到开头那个算式。这两天补上的，是 AI 技能这一项。其余三项没动，结果已经不一样了。`},
+ {s:'m5',k:2,w:'off',ch:'收尾',n:`但放到整家企业，这只是其中一块。企业用 AI 分五层：各用各的，一个环节跑起来，一条线人机分工，判断和数据成闭环，AI 原生。这两天带各位走到第三层。往上走，还要打通 ERP、CRM、财务数据，搭中台、管权限，把判断写进系统，组织和 AI 由一个人一起管；高手还会让几个专家开会、让主管专家派活、做自己的数字分身。每一层要准备什么，没准备好就上不去。这两天学的，是往上走的地基。（让画面拉远走完再讲）`},
+ {s:'m5',k:3,w:'off',ch:'收尾',n:`回去，把公司重做一遍。从最底下那层开始：先让 AI 读懂公司。`},
 ];
 
 /* ======================= 舞台 ======================= */
@@ -1233,43 +1260,7 @@ R.m4=(k,anim,el)=>{const bg=chap(el);
     if(anim){const t=()=>{add();ml(Math.max(160,900-n*40),t)};ml(500,t)}else for(let i=0;i<10;i++)add()}
   loop(now=>{if(k===0&&bg)bg(now)})};
 
-/* ---------- 05 高维玩法 ---------- */
-const PLAYS=[
- ['专家开会','几个专家各站一边吵一架，最后给你一页结论','让<b>销售、财务、客户</b>三个专家吵一架，你只看最后那一页。'],
- ['主管派活','一个主管专家，同时派给五个专家','一件大事拆开，<b>五个专家同时做</b>，主管收齐了合成一份交给你。'],
- ['到点自己跑','每天 8 点，日报自己出现在群里','不用记着去点。<b>到点、来事、接力</b>，它自己开工。'],
- ['越用越强','技能和知识库，每天都在变好','每次被纠正都写回去。<b>技能升版本、知识库变厚</b>，做对率一路往上。'],
- ['数字分身','替你回消息、记会议、追进度','它先替你答一遍，<b>只把真要你拍板的</b>挑出来给你。'],
- ['一个人一支队伍','一个人加八个专家，就是一个部门','<b>人管方向和拍板</b>，专家管执行。少人多 AI 的组织，就长这样。']];
-function playDraw(i,g,W,H,t,col,ink,mu){g.clearRect(0,0,W,H);const S=Math.min(W/960,H/680);g.save();g.translate(W/2,H/2);g.scale(S,S);const tile=(x,y,s,c,a=1)=>{g.globalAlpha=a;g.fillStyle=c;g.beginPath();g.roundRect?g.roundRect(x-s/2,y-s/2,s,s,s*.24):g.rect(x-s/2,y-s/2,s,s);g.fill();g.globalAlpha=1};
-  const AG=cv('--ag'),SK=cv('--sk'),WF=cv('--wf'),KB=cv('--kb');
-  if(i===0){const n=4,R0=210;for(let j=0;j<n;j++){const a=j/n*6.283-1.57,x=Math.cos(a)*R0,y=Math.sin(a)*R0*.8;tile(x,y,90,[AG,SK,KB,WF][j]);g.fillStyle=ink;g.font='800 22px "PingFang SC",sans-serif';g.textAlign='center';g.fillText(['销售专家','财务专家','客户视角','仓库专家'][j],x,y+78);g.textAlign='left';
-      const on=Math.floor(t*.9)%n===j;if(on){g.fillStyle=hexA(ink,.9);g.beginPath();g.roundRect?g.roundRect(x+50,y-110,180,64,14):g.rect(x+50,y-110,180,64);g.fill();g.fillStyle=cv('--m-bg2');g.font='700 24px "PingFang SC",sans-serif';g.fillText(['这个价太低','客户等不了','库存只够两周','分两批发'][j],x+66,y-70)}}
-    const k=(t%6)/6;tile(0,0,140*(.6+.4*Math.min(1,k*3)),hexA(col,.9));g.fillStyle=cv('--m-on');g.font='800 26px "PingFang SC",sans-serif';g.textAlign='center';g.fillText('一页结论',0,9);g.textAlign='left'}
-  if(i===1){tile(0,-230,110,col);g.fillStyle=cv('--m-on');g.font='800 24px "PingFang SC",sans-serif';g.textAlign='center';g.fillText('主管',0,-221);
-    for(let j=0;j<5;j++){const x=(j-2)*170,y=120;g.strokeStyle=hexA(mu,.5);g.lineWidth=2;g.beginPath();g.moveTo(0,-175);g.lineTo(x,y-50);g.stroke();tile(x,y,90,AG);
-      const p=Math.min(1,((t*[.33,.45,.28,.52,.4][j])%1.3));g.fillStyle=hexA(mu,.25);g.fillRect(x-60,y+70,120,14);g.fillStyle=WF;g.fillRect(x-60,y+70,120*p,14);
-      const u=(t*.8+j*.2)%1;tile(x*(1-u),(y-50)*(1-u)+(-175)*u,14,SK,.9)}g.textAlign='left'}
-  if(i===2){const a=t*2.2;g.strokeStyle=ink;g.lineWidth=6;g.beginPath();g.arc(-220,0,150,0,6.283);g.stroke();g.lineWidth=8;g.beginPath();g.moveTo(-220,0);g.lineTo(-220+Math.cos(a-1.57)*120,Math.sin(a-1.57)*120);g.stroke();
-    const n=Math.floor(t*.35)%9;for(let j=0;j<=n;j++){tile(170,180-j*44,0,col);g.fillStyle=j===n?col:hexA(col,.35);g.beginPath();g.roundRect?g.roundRect(60,160-j*44,260,36,8):g.rect(60,160-j*44,260,36);g.fill();g.fillStyle=j===n?cv('--m-on'):ink;g.font='700 20px "PingFang SC",sans-serif';g.fillText(['周一','周二','周三','周四','周五','周六','周日','周一','周二'][j]+' 8:00 日报 ✓',76,185-j*44)}}
-  if(i===3){const k=(t%10)/10,vals=[['技能版本','v',1,12],['知识库页数','',40,380],['做对率','%',60,94]];vals.forEach(([nm,u,a,b],j)=>{const x=(j-1)*300,v=Math.round(a+(b-a)*Math.min(1,k*1.4));
-      g.fillStyle=mu;g.font='600 24px "PingFang SC",sans-serif';g.textAlign='center';g.fillText(nm,x,-120);g.fillStyle=[SK,KB,WF][j];g.font='900 78px "SF Mono",Menlo,monospace';g.fillText(u==='v'?'v'+v:v+u,x,-20);
-      g.fillStyle=hexA(mu,.2);g.fillRect(x-110,40,220,14);g.fillStyle=[SK,KB,WF][j];g.fillRect(x-110,40,220*Math.min(1,k*1.4),14)});g.textAlign='left';g.fillStyle=mu;g.font='20px "PingFang SC",sans-serif';g.fillText('示意',380,260)}
-  if(i===4){tile(-300,-20,130,ink);tile(-260,20,130,hexA(col,.55));g.fillStyle=cv('--m-on');g.font='800 24px "PingFang SC",sans-serif';g.fillText('分身',-290,30);
-    const M=['客户问交期','同事要上周数据','会议纪要','供应商催款','新线索','老板问进度'];const n=Math.floor(t*1.1);
-    for(let j=0;j<5;j++){const idx=(n-j+60)%M.length,y=-200+j*90,need=idx===3;g.globalAlpha=1-j*.15;g.fillStyle=cv('--m-card');g.strokeStyle=hexA(mu,.3);g.beginPath();g.roundRect?g.roundRect(-60,y,420,68,14):g.rect(-60,y,420,68);g.fill();g.stroke();
-      g.fillStyle=ink;g.font='600 22px "PingFang SC",sans-serif';g.fillText(M[idx],-36,y+42);g.fillStyle=need?'#e5484d':WF;g.font='800 20px "PingFang SC",sans-serif';g.fillText(need?'要你拍板':'已回 ✓',250,y+42);g.globalAlpha=1}}
-  if(i===5){tile(0,0,130,ink);g.fillStyle=cv('--m-bg2');g.font='800 28px "PingFang SC",sans-serif';g.textAlign='center';g.fillText('你',0,10);
-    const n=Math.min(8,Math.floor((t%9)*1.5)+1);for(let j=0;j<n;j++){const a=j/8*6.283-1.57,x=Math.cos(a)*270,y=Math.sin(a)*210;g.strokeStyle=hexA(mu,.4);g.lineWidth=2;g.beginPath();g.moveTo(0,0);g.lineTo(x,y);g.stroke();tile(x,y,80,[AG,SK,WF,KB][j%4])}
-    tile(0,0,130,ink);g.fillStyle=cv('--m-bg2');g.fillText('你',0,10);g.textAlign='left'}
-  g.restore()}
-R.m5=(k,anim,el)=>{const bg=chap(el);
-  if(k===1){const gal=q('#m5gal');gal.innerHTML=PLAYS.map((p,i)=>`<div class="m-card"><span class="no">0${i+1}</span><b>${p[0]}</b><span>${p[1]}</span><canvas width="904" height="380"></canvas></div>`).join('');
-    qa('.m-card',gal).forEach((c,i)=>anim?ml(150+i*160,()=>c.classList.add('on')):c.classList.add('on'))}
-  const play=k>=2&&k<=7?k-2:-1;if(play>=0){q('#m5no').textContent='玩法 0'+(play+1);q('#m5h').textContent=PLAYS[play][0];q('#m5p').innerHTML=PLAYS[play][2]}
-  loop(now=>{const t=now/1000,col=cv('--hi'),ink=cv('--m-ink'),mu=cv('--m-mute');if(k===0&&bg)bg(now);
-    if(k===1)qa('#m5gal canvas').forEach((c,i)=>{const g=c.getContext('2d');g.setTransform(1,0,0,1,0,0);playDraw(i,g,c.width,c.height,t,col,ink,mu)});
-    if(play>=0){const c=q('#m5cv'),g=c.getContext('2d');g.setTransform(1,0,0,1,0,0);playDraw(play,g,c.width,c.height,t,col,ink,mu)}})};
+R.m5=(k,anim,el)=>{};
 })();
 /* ======================= 进度条 / 翻页 / 讲师视图 ======================= */
 const CHS=[...new Set(BEATS.map(b=>b.ch))];
