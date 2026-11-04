@@ -282,27 +282,23 @@
 #m5 .m-eq i{font-style:normal;font-size:44px;color:var(--m-mute);font-weight:300}
 #m5 .m-eq-cap{position:absolute;left:0;right:0;top:520px;text-align:center;font-size:30px;color:var(--m-mute);letter-spacing:.1em}
 #m5 .m-eq-cap b{color:var(--m-ink)}
-#m5 .zm{position:absolute;inset:0;opacity:0;transform:scale(2.6);transform-origin:470px 600px;transition:opacity .7s,transform 3s cubic-bezier(.7,0,.2,1)}
-#m5 .zm.vis{opacity:1;transform:none}
-#m5 .stp{position:absolute;bottom:120px;width:236px;border-radius:16px 16px 0 0;background:var(--m-card2);border:1.5px solid var(--m-line2);border-bottom:0}
-#m5 .stp b{position:absolute;left:20px;top:16px;font-size:30px;font-weight:900;color:var(--m-mute)}
-#m5 .stp span{position:absolute;left:20px;top:56px;right:16px;font-size:21px;font-weight:700;color:var(--m-ink);line-height:1.35}
-#m5 .stp small{position:absolute;left:20px;bottom:16px;right:16px;font-size:19px;color:var(--m-mute);line-height:1.5}
-#m5 .stp.on{background:color-mix(in srgb,var(--sk) 10%,var(--m-card2));border-color:color-mix(in srgb,var(--sk) 60%,transparent)}
-#m5 .stp.on b{color:var(--sk)}
-#m5 .two{position:absolute;left:120px;bottom:120px;width:740px;height:466px;border:3px solid var(--sk);border-radius:22px;border-bottom:0;box-shadow:0 0 60px color-mix(in srgb,var(--sk) 22%,transparent)}
-#m5 .two em{position:absolute;left:24px;top:-24px;font-style:normal;font-size:24px;font-weight:900;color:var(--m-on);background:var(--sk);padding:6px 18px;border-radius:30px}
-#m5 .two .q{position:absolute;top:22px;right:22px;display:flex;gap:10px}
-#m5 .two .q i{width:22px;height:22px;border-radius:7px;background:var(--c)}
-#m5 .pn{position:absolute;font-size:22px;font-weight:700;padding:10px 20px;border-radius:30px;border:1.5px dashed var(--m-line2);color:var(--m-mute);background:var(--m-bg2);white-space:nowrap;opacity:0;transition:opacity .8s}
-#m5 .zm.vis .pn{opacity:1}
-#m5 .base{position:absolute;left:120px;right:120px;bottom:70px;height:50px;border-radius:12px;border:1.5px solid var(--kb);color:var(--kb);font-size:22px;font-weight:800;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--kb) 8%,transparent)}
-#m5 .ph{position:absolute;left:96px;top:56px;font-size:46px;font-weight:900}
-#m5 .ph small{display:block;font-size:22px;font-weight:500;color:var(--m-mute);margin-top:8px}
-#m5:has(.f3.vis) .zm{opacity:.16;filter:blur(2px)}
+
 #m5 .m-fin2{position:absolute;left:0;right:0;top:330px;text-align:center}
 #m5 .m-fin2 h2{font-size:110px;font-weight:900;letter-spacing:-.01em}
 #m5 .m-fin2 p{font-size:32px;color:var(--m-mute);margin-top:26px}
+
+#m5 .lvh{position:absolute;left:96px;top:70px;width:1000px}
+#m5 .lvh b{display:block;font-size:30px;font-weight:900;letter-spacing:.1em;color:var(--sk)}
+#m5 .lvh h2{font-size:84px;font-weight:900;margin-top:10px;line-height:1.1;text-shadow:0 4px 40px var(--m-bg2)}
+#m5 .lvh p{font-size:30px;color:var(--m-mute);margin-top:18px;text-shadow:0 2px 20px var(--m-bg2)}
+#m5 .lvh.dim b{color:var(--m-mute)}
+#m5 .lad{position:absolute;left:0;right:0;bottom:100px;display:flex;justify-content:center;gap:14px}
+#m5 .lad i{font-style:normal;width:150px;padding:12px 0;text-align:center;border-radius:14px;border:1.5px solid var(--m-line2);font-size:24px;font-weight:900;color:var(--m-mute);background:var(--m-bg2);transition:all .5s}
+#m5 .lad i.d{border-style:dashed}
+#m5:has(.l1.vis) .lad i:nth-child(1),#m5:has(.l2.vis) .lad i:nth-child(2),#m5:has(.l3.vis) .lad i:nth-child(3){background:var(--sk);border-color:var(--sk);color:var(--m-on)}
+#m5:has(.l4.vis) .lad i:nth-child(4),#m5:has(.l5.vis) .lad i:nth-child(5){border-color:var(--m-ink);color:var(--m-ink)}
+#m5 .two2{position:absolute;bottom:156px;left:calc(50% - 389px);width:478px;height:20px;border:2.5px solid var(--sk);border-bottom:0;border-radius:10px 10px 0 0}
+#m5 .two2 em{position:absolute;left:50%;top:-40px;transform:translateX(-50%);font-style:normal;font-size:22px;font-weight:900;color:var(--m-on);background:var(--sk);padding:4px 16px;border-radius:20px;white-space:nowrap}
 <!--HTML-->
   <!-- ===== 课程地图 ===== -->
   <section class="scene mod" id="m0">
@@ -540,15 +536,10 @@
     <div class="m-eq rv fade" data-in="1" data-out="2"><div class="t r">业务结果</div><i>=</i><div class="t">业务理解</div><i>×</i><div class="t ai">AI 技能<u></u></div><i>×</i><div class="t">数据和系统</div><i>×</i><div class="t">分工和流程</div></div>
     <div class="m-eq-cap rv" data-in="1" data-out="2">这两天补上的，是 <b>AI 技能</b> 这一项</div>
 
-    <div class="zm" data-in="2">
-      <div class="ph">企业用 AI，一整张图<small>这两天走到第三层，往上还有很长的路</small></div>
-      <div class="stp on" style="left:130px;height:190px"><b>L1</b><span>各用各的</span><small>要准备：<br>账号、习惯</small></div><div class="stp on" style="left:375px;height:270px"><b>L2</b><span>一个环节跑起来</span><small>要准备：<br>技能、知识库</small></div><div class="stp on" style="left:620px;height:360px"><b>L3</b><span>一条线人机分工</span><small>要准备：<br>专家、谁点头</small></div><div class="stp" style="left:865px;height:460px"><b>L4</b><span>判断和数据成闭环</span><small>要准备：<br>业务、财务数据打通<br>判断写进系统</small></div><div class="stp" style="left:1110px;height:580px"><b>L5</b><span>AI 原生</span><small>要准备：<br>AI 中台和权限<br>组织和 AI 一起管</small></div>
-      <div class="two"><em>这两天</em></div>
-      
-      <div class="base">底座：公司的知识库</div>
-    </div>
-    <i class="f3 rv" data-in="3" hidden></i>
-    <div class="m-fin2 rv" data-in="3" style="transition-delay:.3s"><h2>回去，把公司重做一遍</h2><p>从最底下那层开始：先让 AI 读懂公司</p></div>
+    <div class="lvh rv" data-in="2" data-out="3"><b>L1</b><h2>各用各的</h2><p>运营自己用 AI 写文案，各写各的，换个人就没了</p></div><i class="l1 rv" data-in="2" data-out="3" hidden></i><div class="lvh rv" data-in="3" data-out="4"><b>L2</b><h2>一个环节跑起来</h2><p>客服回复这一个环节，AI 每天按同样的做法出活</p></div><i class="l2 rv" data-in="3" data-out="4" hidden></i><div class="lvh rv" data-in="4" data-out="5"><b>L3　这两天走到这里</b><h2>一条线人机分工</h2><p>从选品到上架一条线，AI 接力跑，人在几个点把关</p></div><i class="l3 rv" data-in="4" data-out="5" hidden></i><div class="lvh dim rv" data-in="5" data-out="6"><b>L4　往后</b><h2>判断和数据成闭环</h2><p>每一单的结果和老板的判断写回去，标准自己会长</p></div><i class="l4 rv" data-in="5" data-out="6" hidden></i><div class="lvh dim rv" data-in="6" data-out="7"><b>L5　往后</b><h2>AI 原生</h2><p>整家公司按 AI 重排，人只在少数几个点拍板</p></div><i class="l5 rv" data-in="6" data-out="7" hidden></i>
+    <div class="lad rv fade" data-in="2" data-out="7"><i>L1</i><i>L2</i><i>L3</i><i class="d">L4</i><i class="d">L5</i></div>
+    <div class="two2 rv" data-in="4" data-out="7"><em>这两天</em></div>
+    <div class="m-fin2 rv" data-in="7" style="transition-delay:.3s"><h2>回去，把公司重做一遍</h2><p>从最底下那层开始：先让 AI 读懂公司</p></div>
   </section>
 <!--JS-->
 /* ======================= 五个模块的画面 ======================= */
@@ -717,5 +708,9 @@ R.m5=(k,anim,el)=>{};
 
  {s:'m5',k:0,w:__W__,ch:'收尾',n:`这就是两天的地图：知识库、技能、专家、SOP。每一站的东西，各位手上都有了。`},
  {s:'m5',k:1,w:__W__,ch:'收尾',n:`回到开头那个算式。这两天补上的，是 AI 技能这一项。其余三项没动，结果已经不一样了。`},
- {s:'m5',k:2,w:__W__,ch:'收尾',n:`放到整家企业，这只是其中一块。企业用 AI 分五层：各用各的，一个环节跑起来，一条线人机分工，判断和数据成闭环，AI 原生。这两天带各位走到第三层。每一层底下写着要准备什么：往第四层走，要把业务、财务数据打通，把判断写进系统；往第五层走，要有 AI 中台和权限，组织和 AI 一起管。没准备好就上不去。这两天学的，是往上走的地基。（让画面拉远走完再讲）`},
- {s:'m5',k:3,w:__W__,ch:'收尾',n:`回去，把公司重做一遍。从最底下那层开始：先让 AI 读懂公司。`},
+ {s:'m5',k:2,w:'g2',ch:'收尾',n:`放到整家企业看，这两天只是其中一块。企业用 AI 分五层。第一层，各用各的：运营自己用 AI 写文案，零零散散，换个人就没了。`},
+ {s:'m5',k:3,w:'g3',ch:'收尾',n:`第二层，一个环节跑起来：散着的技能聚成一个专家，客服回复这一个环节，AI 每天按同样的做法出活。要准备的是技能和知识库。`},
+ {s:'m5',k:4,w:'g5',ch:'收尾',n:`第三层，一条线人机分工：几个专家一站接一站，从选品到上架，AI 接力跑，人在几个点把关。这两天，就是带各位走到这一层。`},
+ {s:'m5',k:5,w:'g6',ch:'收尾',n:`第四层，判断和数据成闭环：一条条线连成整家公司，业务、财务数据打通，每一单的结果和老板的判断写回去，标准自己会长。`},
+ {s:'m5',k:6,w:'g7',ch:'收尾',n:`第五层，AI 原生：底下的知识库越跑越厚，上面的专家和流程自己在长，人只在少数几个点拍板。每一层要准备的不一样，没准备好就上不去。这两天学的，是往上走的地基。（让它多长几秒再往下）`},
+ {s:'m5',k:7,w:'g7dim',ch:'收尾',n:`回去，把公司重做一遍。从最底下那层开始：先让 AI 读懂公司。`},

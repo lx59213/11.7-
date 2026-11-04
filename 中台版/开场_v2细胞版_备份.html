@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>开场 · 这两天，把你的公司用 AI 重做一遍</title>
+<title>开场 · 这两天，把公司用 AI 重做一遍</title>
 <style>
 :root{
   --bg:#06080d; --ink:#f3f4f6; --mute:#8b909b; --dim:#3a3f4a; --line:#1c2029;
@@ -206,6 +206,22 @@ svg.lead line{stroke:#5a606c;stroke-width:1.5;stroke-dasharray:4 5}
 #sP .vs .kbb{position:absolute;left:60px;right:60px;top:420px;height:60px;border-radius:16px;border:2px solid var(--kb);color:var(--kb);font-size:26px;font-weight:800;display:flex;align-items:center;justify-content:center;background:rgba(255,181,71,.08)}
 #sP .vs .ok{position:absolute;left:0;right:0;top:494px;text-align:center;font-size:26px;font-weight:800;color:var(--sk);text-shadow:0 2px 20px #06080d}
 
+
+/* ===== 控场：点章节跳转、翻页、计划时间（我们加的） ===== */
+#bar .ch{cursor:pointer}
+#bar .ch:hover b{color:var(--ink)!important}
+#bar .ch b em{font-style:normal;margin-left:6px;opacity:.75;font-family:var(--mono);font-size:11px}
+#ctl{position:absolute;right:24px;bottom:50px;z-index:25;display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:14px;background:rgba(6,8,13,.82);border:1px solid #262b36;font-size:15px;color:#c9ccd3;opacity:.28;transition:opacity .3s}
+#ctl:hover{opacity:1}
+#ctl button{all:unset;cursor:pointer;width:34px;height:34px;border-radius:10px;background:#161a22;display:flex;align-items:center;justify-content:center;font-size:16px;color:#e6e8ec}
+#ctl button:hover{background:#262b36}
+#ctl .pg{font-family:var(--mono);min-width:68px;text-align:center}
+#ctl .pl{cursor:pointer;padding:4px 8px;border-radius:8px;border:1px dashed #3a3f4a;font-family:var(--mono);white-space:nowrap}
+#ctl .pl:hover{border-color:var(--sk)}
+#ctl .df{font-family:var(--mono);font-weight:700;white-space:nowrap}
+#ctl .df.late{color:#ff6b6b} #ctl .df.ok{color:var(--sk)}
+#ctl .ck{font-family:var(--mono);color:var(--mute)}
+
 /* ===== 讲师视图 ===== */
 body.pv{background:#0b0c10;overflow:auto}
 body.pv #stage{display:none}
@@ -228,7 +244,7 @@ body.pv #pv{display:block}
   <section class="scene" id="cover">
     <canvas id="coverBg" width="1600" height="900"></canvas>
     <div class="abs a">这两天，</div>
-    <div class="abs b">把你的公司<br>用 AI 重做一遍</div>
+    <div class="abs b">把自家公司<br>用 AI 重做一遍</div>
     <div class="abs c">组织 AI 技能提升实操训练营　·　2026.11.7–8　·　深圳</div>
   </section>
 
@@ -257,7 +273,7 @@ body.pv #pv{display:block}
 
   <!-- 拆：你的公司 -->
   <section class="scene" id="sB">
-    <div class="abs ttl rv" data-in="0" data-out="1">先看你的公司</div>
+    <div class="abs ttl rv" data-in="0" data-out="1">先看一家公司</div>
     <div class="abs ttl rv" data-in="1" data-out="2">做成一件事，要走一条线</div>
     <div class="chip rv late" data-in="1" data-out="2" style="left:800px;top:350px">一条业务流程</div>
     <div class="abs ttl rv" data-in="2" data-out="3">线上每一站，是一个人</div>
@@ -297,7 +313,7 @@ body.pv #pv{display:block}
 
   <!-- 四样 -->
   <section class="scene" id="sD">
-    <div class="abs ttl rv" data-in="0">这两天，带你亲手做四样</div>
+    <div class="abs ttl rv" data-in="0">这两天，亲手做四样</div>
     <div class="abs tiles">
       <div class="tile rv" data-in="0" style="--c:var(--sk);transition-delay:.15s"><b>技能</b><span>把会干的，<br>写下来交给 AI</span></div>
       <div class="tile rv" data-in="0" style="--c:var(--ag);transition-delay:.3s"><b>智能体</b><span>能顶一个岗的 AI</span></div>
@@ -337,7 +353,7 @@ body.pv #pv{display:block}
 
   <!-- 闭环 -->
   <section class="scene" id="sF">
-    <div class="abs big rv" data-in="0" data-out="1"><h2 style="font-size:96px">学会这四样，<br>你会变成什么？</h2></div>
+    <div class="abs big rv" data-in="0" data-out="1"><h2 style="font-size:96px">学会这四样，<br>能做到什么？</h2></div>
     <div class="abs big rv" data-in="1" data-out="2" style="top:260px"><h2>会拆，也会建</h2>
       <p><b>拆</b>拿到自己的公司，拆成四样<br><b class="sk">建</b>用这四样，长回一家用 AI 跑的公司</p></div>
     <div class="rv fade" data-in="2">
@@ -346,7 +362,7 @@ body.pv #pv{display:block}
         <circle class="ring" cx="800" cy="480" r="270"/>
         <circle class="flow" cx="800" cy="480" r="270" transform="rotate(-90 800 480)"/>
       </svg>
-      <div class="node" style="left:800px;top:210px;--c:#f3f4f6"><b>你的公司</b><span>流程、岗位、本事、底子</span></div>
+      <div class="node" style="left:800px;top:210px;--c:#f3f4f6"><b>自家公司</b><span>流程、岗位、本事、底子</span></div>
       <div class="node" style="left:1070px;top:480px;--c:var(--sk)"><b>拆成四样</b><span>技能 · 智能体 · 工作流 · 知识库</span></div>
       <div class="node" style="left:800px;top:750px;--c:var(--ag)"><b>用 AI 建回来</b><span>从下往上，一层层搭</span></div>
       <div class="node" style="left:530px;top:480px;--c:var(--kb)"><b>跑起来</b><span>每一单，写回知识库</span></div>
@@ -383,12 +399,12 @@ body.pv #pv{display:block}
         <div class="ds">【3 个人 + 5 个智能体】做同样的事<br>老板只在【2 个点】拍板</div></div>
     </div>
 
-    <div class="abs ttl rv" data-in="4">两天后，你带走</div>
+    <div class="abs ttl rv" data-in="4">两天后，带走的</div>
     <div class="abs take rv" data-in="4">
-      <div class="r" style="--c:var(--sk)"><i></i><b>一组</b><span>你公司的技能</span></div>
+      <div class="r" style="--c:var(--sk)"><i></i><b>一组</b><span>自家公司的技能</span></div>
       <div class="r" style="--c:var(--ag)"><i></i><b>几个</b><span>能顶岗的智能体</span></div>
       <div class="r" style="--c:var(--wf)"><i></i><b>一条</b><span>跑起来的工作流</span></div>
-      <div class="r" style="--c:var(--kb)"><i></i><b>一个</b><span>你公司的知识库</span></div>
+      <div class="r" style="--c:var(--kb)"><i></i><b>一个</b><span>自家公司的知识库</span></div>
     </div>
   </section>
 
@@ -401,7 +417,8 @@ body.pv #pv{display:block}
   </section>
 
   <div id="bar"></div>
-  <div id="hint">→ 下一步　← 上一步　N 口播　P 讲师视图　F 全屏</div>
+  <div id="ctl"><button id="cPrev" title="上一步">◀</button><span class="pg" id="cPg"></span><button id="cNext" title="下一步">▶</button><span class="pl" id="cPl" title="点一下改这一章的计划开始时间"></span><span class="df" id="cDf"></span><span class="ck" id="cCk"></span></div>
+  <div id="hint">→ 下一步　← 上一步　点底部章节可跳转　N 口播　F 全屏</div>
   <div id="notes"><div class="meta" id="notesMeta"></div><div id="notesTx"></div></div>
 </div>
 
@@ -420,10 +437,10 @@ const BEATS=[
  {s:'sA',k:0,w:'hidden',ch:'等式',n:`先给各位一个算式。一家公司的业务结果，是几样东西乘出来的：业务理解、AI 技能、数据和系统、分工和流程。是乘法，哪一项是零，结果就是零。`},
  {s:'sA',k:1,w:'hidden',ch:'等式',n:`业务理解，在座各位比我们懂；数据和系统、分工和流程，各家不一样。这两天只补一项：AI 技能。括号打开，就是海报上的这八项，都融在接下来要做的四样东西里。`},
  {s:'sA',k:2,w:'hidden',ch:'等式',n:`乘法的好处是：一项变强，整个结果跟着放大。其余三项不动，把 AI 技能这一项补上，结果就变大。`},
- {s:'sB',k:0,w:'company_f',ch:'你的公司',n:`这是一家公司。不管做什么行业，从里面看都长这样：几条业务线一起在跑，活儿在里面流。在座各位，对自己公司的这张图，比谁都熟。`},
- {s:'sB',k:1,w:'flow_f',ch:'你的公司',n:`拉近看一条。公司做成一件事，从来不是一个人做完的：从 A 岗位到 B 岗位，再到 C 岗位，一站一站往下传。这就是一条业务流程。想一下：你公司里最要紧的那件事，是怎么从头走到尾的？`},
- {s:'sB',k:2,w:'flow_f',ch:'你的公司',n:`线上每一站，都是一个人。各管一段，各司其职。`},
- {s:'sB',k:3,w:'agent_f',ch:'你的公司',n:`再拉近，看一个人。他凭什么顶得住这个岗？靠两样：一是本事，这件事一步步怎么做，他会干；二是懂行，公司的客户、价格、规矩、以前出过什么事，他都知道。只会干不懂行，会干错；只懂行不会干，干不出来。`},
+ {s:'sB',k:0,w:'company_f',ch:'一家公司',n:`这是一家公司。不管做什么行业，从里面看都长这样：几条业务线一起在跑，活儿在里面流。在座各位，对自己公司的这张图，比谁都熟。`},
+ {s:'sB',k:1,w:'flow_f',ch:'一家公司',n:`拉近看一条。公司做成一件事，从来不是一个人做完的：从 A 岗位到 B 岗位，再到 C 岗位，一站一站往下传。这就是一条业务流程。想一下：你公司里最要紧的那件事，是怎么从头走到尾的？`},
+ {s:'sB',k:2,w:'flow_f',ch:'一家公司',n:`线上每一站，都是一个人。各管一段，各司其职。`},
+ {s:'sB',k:3,w:'agent_f',ch:'一家公司',n:`再拉近，看一个人。他凭什么顶得住这个岗？靠两样：一是本事，这件事一步步怎么做，他会干；二是懂行，公司的客户、价格、规矩、以前出过什么事，他都知道。只会干不懂行，会干错；只懂行不会干，干不出来。`},
 
  {s:'sC',k:0,w:'agent_ai',ch:'换成 AI',n:`好，同一张图，换成 AI 的叫法。一个人的本事，在 AI 里叫技能；他懂的那些，叫知识。`},
  {s:'sC',k:1,w:'flow_ai',ch:'换成 AI',n:`技能加知识，装到一起，就是一个能顶岗的 AI，叫智能体。外面常说的 Agent 就是它。你可以把它当成一个数字员工：有本事，也懂行。`},
@@ -446,7 +463,7 @@ const BEATS=[
  {s:'sE',k:6,w:'g6',ch:'长出来',n:`一条条工作流长出来、挨在一起，就是一家公司。`},
  {s:'sE',k:7,w:'g7',ch:'长出来',n:`它的底座，是知识库。每跑完一单，结果写回知识库；知识库越厚，上面每个智能体越懂行，又长出新的技能、新的流程。看右上角的数，它自己在涨。这不是搭完就停的系统，是会自己长的。（让它多跑十几秒再往下）`},
 
- {s:'sF',k:0,w:'g7dim',ch:'闭环',n:`所以学会这四样，你会变成什么样的人？`},
+ {s:'sF',k:0,w:'g7dim',ch:'闭环',n:`所以学会这四样，能做到什么？`},
  {s:'sF',k:1,w:'g7dim',ch:'闭环',n:`你会拆，也会建。拆：拿到自己的公司，能拆成这四样；建：用这四样，长回一家用 AI 跑的公司。`},
  {s:'sF',k:2,w:'g7dim',ch:'闭环',n:`而且这是个闭环：你的公司，拆成四样，用 AI 建回来，跑起来，每一单的结果写回知识库，公司就强一点；再拆，再建。外面很多课教你做其中一个点；这两天，我们教你把这一整圈转起来。`},
 
@@ -638,6 +655,25 @@ requestAnimationFrame(frame);
 /* ================= 进度条 ================= */
 const CHS=[...new Set(BEATS.map(b=>b.ch))];
 $('#bar').innerHTML=CHS.map(c=>`<div class="ch"><b>${c}</b><i><u></u></i></div>`).join('');
+
+/* ===== 控场：章节可点、翻页按钮、计划时间 ===== */
+const PLAN0={'开场':'六 09:00','知识库':'六 09:45','技能':'六 15:00','专家':'日 09:30','SOP':'日 15:00','收尾':'日 17:30'};
+let PLAN=PLAN0;try{PLAN=Object.assign({},PLAN0,JSON.parse(localStorage.getItem('kc_plan')||'{}'))}catch(e){}
+const firstOf=c=>BEATS.findIndex(b=>b.ch===c);
+const planOf=ch=>{let ci=CHS.indexOf(ch);for(;ci>=0;ci--)if(PLAN[CHS[ci]])return [CHS[ci],PLAN[CHS[ci]]];return [null,null]};
+function drawBarPlan(){document.querySelectorAll('#bar .ch').forEach((el,i)=>{const c=CHS[i],b=el.querySelector('b');b.innerHTML=c+(PLAN[c]?`<em>${PLAN[c].split(' ')[1]}</em>`:'');el.onclick=()=>go(firstOf(c))})}
+function tickCtl(){if(typeof cur!=='number'||cur<0)return;const b=BEATS[cur];$('#cPg').textContent=`${cur+1}/${BEATS.length}`;
+  const [pc,pt]=planOf(b.ch),now=new Date();$('#cCk').textContent=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+  if(!pt){$('#cPl').textContent='设时间';$('#cDf').textContent='';return}
+  $('#cPl').textContent=`${pc} 周${pt}`;
+  const [d,hm]=pt.split(' '),[h,m]=hm.split(':').map(Number),wd={'六':6,'日':0}[d];
+  if(now.getDay()===wd&&pc===b.ch&&BEATS[firstOf(pc)]===b){const diff=now.getHours()*60+now.getMinutes()-(h*60+m);$('#cDf').textContent=diff>0?`晚 ${diff} 分`:`早 ${-diff} 分`;$('#cDf').className='df '+(diff>5?'late':'ok')}
+  else if(now.getDay()===wd){const diff=now.getHours()*60+now.getMinutes()-(h*60+m);$('#cDf').textContent=`本章已过 ${Math.max(0,diff)} 分`;$('#cDf').className='df'}
+  else{$('#cDf').textContent='';$('#cDf').className='df'}}
+$('#cPrev').onclick=()=>go(cur-1);$('#cNext').onclick=()=>go(cur+1);
+$('#cPl').onclick=()=>{const [pc]=planOf(BEATS[cur].ch),c=pc||BEATS[cur].ch,v=prompt(`「${c}」计划几点开始？格式：六 09:45 或 日 15:00`,PLAN[c]||'六 09:00');
+  if(v&&/^[六日] \d{1,2}:\d{2}$/.test(v.trim())){PLAN[c]=v.trim().replace(/ (\d):/,' 0$1:');try{localStorage.setItem('kc_plan',JSON.stringify(PLAN))}catch(e){}drawBarPlan();tickCtl()}};
+drawBarPlan();setInterval(tickCtl,5000);
 function updBar(i){const ch=BEATS[i].ch,ci=CHS.indexOf(ch);
   document.querySelectorAll('#bar .ch').forEach((el,j)=>{el.classList.toggle('cur',j===ci);el.classList.toggle('done',j<ci);
     const u=el.querySelector('u');if(j===ci){const idx=BEATS.map((b,n)=>b.ch===ch?n:-1).filter(n=>n>=0);u.style.width=((idx.indexOf(i)+1)/idx.length*100)+'%'}else u.style.width=j<ci?'100%':'0'})}
@@ -656,7 +692,7 @@ function go(i,from){
     if(b.s==='cover')startCover();
     stage.classList.toggle('lime',b.s==='cover');
     setWorld(b.w,anim);
-    updBar(i);$('#notesMeta').textContent=`${i+1} / ${BEATS.length}　·　${b.ch}`;$('#notesTx').textContent=b.n;
+    updBar(i);setTimeout(tickCtl,0);$('#notesMeta').textContent=`${i+1} / ${BEATS.length}　·　${b.ch}`;$('#notesTx').textContent=b.n;
     history.replaceState(null,'','#'+(i+1));
   }
   cur=i;if(isPV)renderPV();
