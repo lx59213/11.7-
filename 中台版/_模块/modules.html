@@ -287,7 +287,7 @@
 #m5 .stp{position:absolute;bottom:120px;width:236px;border-radius:16px 16px 0 0;background:var(--m-card2);border:1.5px solid var(--m-line2);border-bottom:0}
 #m5 .stp b{position:absolute;left:20px;top:16px;font-size:30px;font-weight:900;color:var(--m-mute)}
 #m5 .stp span{position:absolute;left:20px;top:56px;right:16px;font-size:21px;font-weight:700;color:var(--m-ink);line-height:1.35}
-#m5 .stp small{position:absolute;left:20px;bottom:14px;right:16px;font-size:17px;color:var(--m-mute);line-height:1.4}
+#m5 .stp small{position:absolute;left:20px;bottom:16px;right:16px;font-size:19px;color:var(--m-mute);line-height:1.5}
 #m5 .stp.on{background:color-mix(in srgb,var(--sk) 10%,var(--m-card2));border-color:color-mix(in srgb,var(--sk) 60%,transparent)}
 #m5 .stp.on b{color:var(--sk)}
 #m5 .two{position:absolute;left:120px;bottom:120px;width:740px;height:466px;border:3px solid var(--sk);border-radius:22px;border-bottom:0;box-shadow:0 0 60px color-mix(in srgb,var(--sk) 22%,transparent)}
@@ -542,9 +542,9 @@
 
     <div class="zm" data-in="2">
       <div class="ph">企业用 AI，一整张图<small>这两天走到第三层，往上还有很长的路</small></div>
-      <div class="stp on" style="left:130px;height:190px"><b>L1</b><span>各用各的</span><small>要准备：账号、用的习惯</small></div><div class="stp on" style="left:375px;height:270px"><b>L2</b><span>一个环节跑起来</span><small>要准备：技能、知识库</small></div><div class="stp on" style="left:620px;height:360px"><b>L3</b><span>一条线人机分工</span><small>要准备：专家、分工、谁点头</small></div><div class="stp" style="left:865px;height:460px"><b>L4</b><span>判断和数据成闭环</span><small>要准备：数据打通、判断沉淀</small></div><div class="stp" style="left:1110px;height:580px"><b>L5</b><span>AI 原生</span><small>要准备：组织按 AI 重排</small></div>
-      <div class="two"><em>这两天</em><div class="q"><i style="--c:var(--kb)"></i><i style="--c:var(--sk)"></i><i style="--c:var(--ag)"></i><i style="--c:var(--wf)"></i></div></div>
-      <div class="pn" style="left:760px;top:70px;transition-delay:2.40s">一个人一支队伍</div><div class="pn" style="left:1000px;top:70px;transition-delay:2.58s">行业总图</div><div class="pn" style="left:1200px;top:70px;transition-delay:2.76s">主管专家派活</div><div class="pn" style="left:700px;top:135px;transition-delay:2.94s">专家开会</div><div class="pn" style="left:880px;top:135px;transition-delay:3.12s">数字分身</div><div class="pn" style="left:1060px;top:135px;transition-delay:3.30s">AI 中台和权限</div><div class="pn" style="left:1290px;top:135px;transition-delay:3.48s">判断写进系统</div><div class="pn" style="left:700px;top:200px;transition-delay:3.66s">到点自己跑</div><div class="pn" style="left:880px;top:200px;transition-delay:3.84s">组织和 AI 一个人管</div><div class="pn" style="left:700px;top:260px;transition-delay:4.02s">打通 ERP、CRM、财务数据</div>
+      <div class="stp on" style="left:130px;height:190px"><b>L1</b><span>各用各的</span><small>要准备：<br>账号、习惯</small></div><div class="stp on" style="left:375px;height:270px"><b>L2</b><span>一个环节跑起来</span><small>要准备：<br>技能、知识库</small></div><div class="stp on" style="left:620px;height:360px"><b>L3</b><span>一条线人机分工</span><small>要准备：<br>专家、谁点头</small></div><div class="stp" style="left:865px;height:460px"><b>L4</b><span>判断和数据成闭环</span><small>要准备：<br>业务、财务数据打通<br>判断写进系统</small></div><div class="stp" style="left:1110px;height:580px"><b>L5</b><span>AI 原生</span><small>要准备：<br>AI 中台和权限<br>组织和 AI 一起管</small></div>
+      <div class="two"><em>这两天</em></div>
+      
       <div class="base">底座：公司的知识库</div>
     </div>
     <i class="f3 rv" data-in="3" hidden></i>
@@ -685,7 +685,6 @@ R.m4=(k,anim,el)=>{const bg=chap(el);
 R.m5=(k,anim,el)=>{};
 })();
 <!--BEATS-->
- {s:'m0',k:0,w:__W__,ch:'地图',n:`两天，我们走四站。每一站都做出一样东西，下一站接着用：先让 AI 读懂公司，再把本事写成技能，技能和知识封装成专家，专家串成 SOP。`},
 
  {s:'m1',k:0,w:__W__,ch:'知识库',n:`第一站，知识库。为什么先做它？开场说过：老员工一句话就懂，是因为他懂行。AI 也一样，先让它读懂你的公司，后面的技能和专家才有东西可用。`},
  {s:'m1',k:1,w:__W__,ch:'知识库',n:`先看现状：公司的东西散在哪？微信里、表格里、合同里、共享盘里，还有大量在老员工的脑子里。这些，AI 一样也看不见。在座各位想一下，你公司最重要的知识，现在放在哪？`},
@@ -718,5 +717,5 @@ R.m5=(k,anim,el)=>{};
 
  {s:'m5',k:0,w:__W__,ch:'收尾',n:`这就是两天的地图：知识库、技能、专家、SOP。每一站的东西，各位手上都有了。`},
  {s:'m5',k:1,w:__W__,ch:'收尾',n:`回到开头那个算式。这两天补上的，是 AI 技能这一项。其余三项没动，结果已经不一样了。`},
- {s:'m5',k:2,w:__W__,ch:'收尾',n:`但放到整家企业，这只是其中一块。企业用 AI 分五层：各用各的，一个环节跑起来，一条线人机分工，判断和数据成闭环，AI 原生。这两天带各位走到第三层。往上走，还要打通 ERP、CRM、财务数据，搭中台、管权限，把判断写进系统，组织和 AI 由一个人一起管；高手还会让几个专家开会、让主管专家派活、做自己的数字分身。每一层要准备什么，没准备好就上不去。这两天学的，是往上走的地基。（让画面拉远走完再讲）`},
+ {s:'m5',k:2,w:__W__,ch:'收尾',n:`放到整家企业，这只是其中一块。企业用 AI 分五层：各用各的，一个环节跑起来，一条线人机分工，判断和数据成闭环，AI 原生。这两天带各位走到第三层。每一层底下写着要准备什么：往第四层走，要把业务、财务数据打通，把判断写进系统；往第五层走，要有 AI 中台和权限，组织和 AI 一起管。没准备好就上不去。这两天学的，是往上走的地基。（让画面拉远走完再讲）`},
  {s:'m5',k:3,w:__W__,ch:'收尾',n:`回去，把公司重做一遍。从最底下那层开始：先让 AI 读懂公司。`},
