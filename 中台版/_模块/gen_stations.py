@@ -66,7 +66,8 @@ POSTER_LINE = ['把业务问题讲清楚，让 AI 做得准', '快速看资料�
                '把想法变成图片、视频和业务需要的内容素材', '把老员工的经验整理下来，做成新人也能用的岗位助手', '把重复工作接成流程，减少人工整理与来回搬运', '把岗位常用的 AI 任务，做成业务团队的工具入口']
 POSTER_IN = [['技能', '知识库'], ['知识库'], ['技能', '智能体'], ['技能'], ['技能'], ['知识库', '智能体'], ['工作流'], ['工作流']]
 def poster(lit):
-    return '<div class="sx-pst">' + ''.join(f'<span class="{"on " if t in lit else ""}pop" style="--d:{2.6+i*.08:.2f}s">{t}</span>' for i, t in enumerate(POSTER)) + '</div>'
+    return ('<div class="sx-pst"><small class="pop" style="--d:2.5s">海报上的八项，这一块练亮着的几项</small><div>'
+            + ''.join(f'<span class="{"on " if t in lit else ""}pop" style="--d:{2.6+i*.08:.2f}s">{t}</span>' for i, t in enumerate(POSTER)) + '</div></div>')
 def lit_of(block): return [POSTER[i] for i in range(8) if block in POSTER_IN[i]]
 
 # ---------------- 新增版式 ----------------
@@ -82,7 +83,7 @@ def stage_show(n=3, lab='上午做的'):
     o += (f'<g class="pop" style="--d:1.8s" transform=""><circle cx="1400" cy="300" r="70" fill="none" stroke="var(--m-line2)" stroke-width="10"/>'
           f'<path class="drw" style="--d:2.0s;--L:440" d="M1400 230 A70 70 0 1 1 1330 300" fill="none" stroke="var(--c)" stroke-width="10" stroke-linecap="round"/></g>')
     o += txt(1400, 312, '1 小时', 28, 'var(--m-ink)', cls='pop', d=1.8, w=800)
-    o += txt(800, 790, lab + '，当场找问题当场改', 24, cls='pop', d=2.2)
+    o += txt(800, 770, lab + '，当场找问题当场改', 24, cls='pop', d=2.2)
     return svg(o)
 
 def stages(final_svg, final_lab, col):
@@ -129,8 +130,10 @@ def steps_page(steps, products, col, talk=1):
     for i, (x, (nm, mn)) in enumerate(zip(xs, steps)):
         o += f'<g class="pop" style="--d:{.3+i*.3:.1f}s"><circle cx="{x:.0f}" cy="400" r="40" fill="{col}"/></g>'
         o += txt(x, 413, str(i+1), 34, '#0b0d0c', cls='pop', d=.3+i*.3, w=900)
-        o += txt(x, 480, nm, 24, 'var(--m-ink)', cls='pop', d=.4+i*.3, w=700)
-        if mn: o += txt(x, 514, mn, 20, 'var(--m-mute)', cls='pop', d=.4+i*.3)
+        ls = nm.split('\n')
+        for j, ln in enumerate(ls):
+            o += txt(x, 476+j*30, ln, 24, 'var(--m-ink)', cls='pop', d=.4+i*.3, w=700)
+        if mn: o += txt(x, 484+len(ls)*30, mn, 20, 'var(--m-mute)', cls='pop', d=.4+i*.3)
     bx = xs[talk]
     o += f'<g class="pop" style="--d:2.4s"><rect x="{bx-80:.0f}" y="290" width="160" height="52" rx="16" fill="var(--m-card2)"/><path d="M{bx-10:.0f} 342 L{bx:.0f} 358 L{bx+10:.0f} 342Z" fill="var(--m-card2)"/></g>' + txt(bx, 324, '聊完了吗？', 20, 'var(--m-ink)', cls='pop', d=2.4)
     o += f'<circle class="trav" r="12" fill="var(--m-ink)"/>'
@@ -165,7 +168,8 @@ def pack(no, col, outs):
     o += f'<rect class="blink" x="230" y="476" width="150" height="26" rx="6" fill="none" stroke="{col}" stroke-width="3" style="--d:.4s"/>'
     o += f'<path class="drw" style="--d:.5s;--L:120" d="M525 450 H625" stroke="var(--m-mute)" stroke-width="3" fill="none" marker-end="url(#sxar)"/>'
     o += chatwin(640, 220, 520, 480, col, n=8, d0=1.0, gap=.55)
-    o += txt(900, 745, 'AI 一次问一个', 22, 'var(--m-mute)', cls='pop', d=1.0)
+    o += txt(900, 745, 'AI 一次问一个；聊不完就说“收尾”', 22, 'var(--m-mute)', cls='pop', d=1.0)
+    o += txt(330, 640, '〖〗里换成自己的', 22, 'var(--m-mute)', cls='pop', d=.4)
     o += f'<path class="drw" style="--d:5.4s;--L:120" d="M1175 450 H1265" stroke="var(--m-mute)" stroke-width="3" fill="none" marker-end="url(#sxar)"/>'
     o += outs
     return svg(o)
@@ -178,16 +182,16 @@ def after(center, lit, col):
     o += f'<path class="drw" style="--d:2.0s;--L:120" d="M1330 455 V545" stroke="var(--m-mute)" stroke-width="3" fill="none" marker-end="url(#sxar)"/>'
     o += (f'<g class="pop" style="--d:2.2s"><rect x="1250" y="560" width="160" height="110" rx="22" fill="var(--m-card2)" stroke="var(--m-line2)" stroke-width="1.5"/>'
           + ''.join(person(1290+i*40, 615, .7, 'var(--m-mute)') for i in range(3)) + '</g>')
-    o += txt(1330, 702, '细的文档发群里', 22, cls='pop', d=2.2)
-    return svg(o) + poster(lit)
+    o += txt(1330, 702, '详细文档发到群里', 22, cls='pop', d=2.2)
+    return svg(o)
 
 H = []      # html
 B = []      # beats
 
 SUB = {
  "mw": {
-  "两天安排": "每块做什么、准备什么；几点开始，现场看进度定",
-  "包怎么用": "复制给 AI，〖〗里换成自己的；聊不完就说“收尾”"
+  "两天安排": "几点开始，现场看进度定",
+  "包怎么用": "包：发给各位的一段话，复制给 AI 就开始"
  },
  "m1": {
   "以为的": "资料越放越多，AI 用不上",
@@ -202,29 +206,30 @@ SUB = {
   "做完以后": "后面三块做的东西，都存进这个知识库"
  },
  "m2": {
-  "技能：把一件事的做法<em>固定下来</em>": "做过 skill 的举手；没做过的先做第一层，做过的往第二层走",
-  "同一份草稿，两个技能<em>各改一遍</em>": "通用规矩两个都懂；这家店自己的 6 条规矩，广场的技能不知道",
-  "一家亚马逊汽配卖家：<em>80 多个 skill</em>": "常用的就那几个；后来技能放到一处，别人能看、能改、能评分",
-  "三个帮做 skill 的 <em>skill</em>": "包里都有，丢了搜名字",
+  "技能：把一件事的做法<em>固定下来</em>": "把做法写成一份文件，AI 每次照着做",
+  "同一份草稿，两个技能<em>各改一遍</em>": "一家跨境汽配店的商品页草稿：通用规矩两个都懂；店里自己的 6 条，广场的技能不知道",
+  "一位员工做了 <em>80 多个技能</em>": "一家汽配卖家：常用的就那几个；后来技能放到一处，别人能看、能改、能评分",
+  "三个帮着做技能的<em>技能</em>": "包里带了；丢了，在技能广场搜名字",
   "动手：<em>包 2</em>": "挑一件常做、规矩说得清、错了改得了的事",
-  "做完以后：技能多了，<em>要管起来</em>": "好技能五样齐：什么时候用、步骤、红线、好例子、交回前自查"
+  "做完以后：技能多了，<em>要管起来</em>": "好技能五样齐：什么时候用、步骤、红线（绝不能做的事）、好例子、交回前自查",
+  "先请几位上台，讲讲上午做的<em>知识库</em>": "大约三位；我们也从里面找大家共同的问题"
  },
  "m3": {
-  "智能体：有身份、有目标，<em>能顶一个岗</em>": "知识库和技能配好，再定六样",
-  "同一位难缠买家，两个客服<em>各回一遍</em>": "左边是现成的客服专家，右边是用包 3 做的",
-  "用得好和用得差，<em>差在边界和目标</em>": "正例用我们自己的，反例来自别家",
-  "做好的智能体，<em>换哪个 AI 都能用</em>": "一份 AGENT.md，三种用法",
+  "智能体：有身份、有目标，<em>能顶一个岗</em>": "外面叫 Agent；今天下午先做一个",
+  "同一位难缠买家，两个客服<em>各回一遍</em>": "买家东西坏了，要退款再加 50 美金，不给就差评",
+  "智能体没人用，多半是<em>边界和目标</em>没定好": "正例用我们自己的，反例来自别家",
+  "做好的智能体，<em>换哪个 AI 都能用</em>": "包做出来的 AGENT.md，三种用法",
   "动手：<em>包 3</em>": "三选一：自己岗位的、往上一层的、老板的把关智能体",
-  "做完以后：先给起草权，<em>稳了再放开</em>": "好智能体六样齐：身份、目标、边界、验收、主动性、谁审",
-  "第一天做完<em>三样</em>": "知识库、一个技能、一个智能体；今晚有晚课"
+  "做完以后：先让它交人审，<em>稳了再放手</em>": "好智能体六样齐：身份、目标、边界、验收、主动性、谁审",
+  "第一天做完<em>三样</em>": "做完这三样，明天把它们串成一条线"
  },
  "mr": {
-  "第二天：昨天的三样<em>接着用</em>": "先回顾，再让第二个智能体接棒"
+  "第二天：昨天的三样<em>接着用</em>": "今天：第二个智能体接棒，看板上跑一单"
  },
  "m4": {
   "几个智能体配合，<em>串成一条线</em>": "上一块做的智能体，今天让它们接力",
   "真正要学的：<em>看板</em>": "谁在干、交给了谁、产物在哪，一眼看见",
-  "多一截：<em>接数据</em>": "比智能体团队多一截，链条更长",
+  "工作流比智能体团队多一截：<em>接上数据</em>": "每一步都读得到公司的数据，链条更长",
   "企业级的工作流": "一整家公司的事，一环接一环往下走",
   "现场串一条": "一个人做，另一个人审，最后老板拍板",
   "动手：<em>包 4</em>": "项目经理只分派任务、催办、汇总",
@@ -291,7 +296,7 @@ for i in range(6):
            f'<rect x="-48" y="22" width="96" height="8" rx="4" fill="var(--m-line2)"/><rect class="blink" x="-26" y="-12" width="30" height="6" rx="3" fill="var(--sk)" style="--d:{i*.3:.1f}s"/></g></g>')
 s1 += f'<rect class="sweep" x="200" y="420" width="4" height="116" fill="var(--m-ink)"/>'
 s1 += txt(800, 720, '三小时', 24, cls='pop', d=.2)
-mw_pack = pack('', 'var(--sk)', ''.join(f'<g class="pop" style="--d:{5.7+i*.25:.2f}s"><path d="M1250 {290+i*80} h40 l10 12 h90 v46 h-140Z" fill="var({c})"/></g>' + txt(1420, 322+i*80, t, 22, 'var(--m-ink)', 'start', cls='pop', d=5.7+i*.25, w=700) for i, (t, c) in enumerate([('知识库', '--kb'), ('技能', '--sk'), ('智能体', '--ag'), ('工作流', '--wf')])) + txt(1330, 640, '我的公司AI', 24, 'var(--m-ink)', cls='pop', d=6.8, w=800) + '<g></g>'
+mw_pack = pack('', 'var(--sk)', ''.join(f'<g class="pop" style="--d:{5.7+i*.25:.2f}s"><path d="M1290 {290+i*80} h40 l10 12 h90 v46 h-140Z" fill="var({c})"/></g>' + txt(1460, 322+i*80, t, 22, 'var(--m-ink)', 'start', cls='pop', d=5.7+i*.25, w=700) for i, (t, c) in enumerate([('知识库', '--kb'), ('技能', '--sk'), ('智能体', '--ag'), ('工作流', '--wf')])) + txt(1370, 640, '我的公司 AI', 24, 'var(--m-ink)', cls='pop', d=6.8, w=800) + '<g></g>'
 )
 # 现场：台下巡场
 room = f'<rect x="640" y="200" width="320" height="44" rx="12" fill="var(--m-card2)" stroke="var(--m-line2)"/>' + txt(800, 230, '台上', 20)
@@ -360,7 +365,7 @@ for i, (x, y) in enumerate([(1050, 360), (1220, 470), (1100, 520)]):
     k3 += lock(x, y, 'pop', 3.0+i*.25)
 for i in range(4):
     k3 += f'<rect class="fall" style="--d:{3.8+i*.25:.2f}s;--fy:{0}px" x="{1360+(i%2)*90}" y="{740-(i//2)*34}" width="86" height="30" rx="6" fill="var(--kb)" opacity=".85"/>'
-k3 += txt(1130, 830, '企业级', 30, 'var(--m-ink)', w=800)
+k3 += txt(1130, 776, '企业级', 30, 'var(--m-ink)', w=800)
 kb_pack = pack(1, 'var(--kb)', f'<g class="pop" style="--d:5.7s"><circle cx="1350" cy="430" r="110" fill="var(--m-card)" stroke="var(--kb)" stroke-width="2"/></g>' + net(1350, 430, 16, 90, 'var(--kb)', 21, d0=5.8, step=.06))
 # 录音整包丢给 AI
 au = ''
@@ -378,7 +383,7 @@ kb_final = f'<g class="pop" style="--d:2.4s"><circle cx="1400" cy="460" r="80" f
 m1_pages = [
     ('以为的', svg(k1), 0, ''),
     ('整包丢给 AI', svg(au), 0, ''),
-    ('真正要学的', svg(k2), 0, ''),
+    ('真正要学的', svg(k2) + poster(lit_of('知识库')), 0, ''),
     ('个人和<em>企业级</em>', svg(k3), 0, ''),
     ('差的和好的', ph(110, 230, 660, 560, '建了没用起来的', '新月的知识库截图') + ph(830, 230, 660, 560, '我们内部天天在用的', '靖锋的知识库图谱，投屏或录屏'), 1, ''),
     ('用起来以后', ph(200, 230, 1200, 560, '入企', '入企时知识库用起来以后的效果：数字和能处理的事'), 1, ''),
@@ -461,8 +466,6 @@ for i in range(6):
     hub += f'<path class="drw" style="--d:{.8+i*.25:.2f}s;--L:400" d="M{x-40*_m.cos(a):.0f} {y-40*_m.sin(a):.0f} L{680+165*_m.cos(a):.0f} {480+165*_m.sin(a):.0f}" stroke="var(--sk)" stroke-width="2.5" stroke-dasharray="6 7" fill="none"/>'
 for i, (x, y) in enumerate([(580, 310), (785, 310), (860, 500)]):
     hub += f'<g class="pop" style="--d:{2.8+i*.3:.1f}s"><path d="M{x} {y-14} L{x+4} {y-4} L{x+15} {y-4} L{x+6} {y+3} L{x+9} {y+14} L{x} {y+8} L{x-9} {y+14} L{x-6} {y+3} L{x-15} {y-4} L{x-4} {y-4}Z" fill="var(--sk)"/></g>'
-hub += f'<g class="pop" style="--d:3.8s"><path d="M1330 260 H1410 V300 A40 40 0 0 1 1330 300Z" fill="var(--sk)"/><rect x="1360" y="338" width="20" height="30" fill="var(--sk)"/><rect x="1340" y="366" width="60" height="14" rx="4" fill="var(--sk)"/></g>'
-hub += txt(680, 840, '上传 · 看 · 改 · 评分', 26, 'var(--m-ink)', cls='pop', d=3.2, w=700)
 sk_after = after(shelf, lit_of('技能'), 'var(--sk)')
 sk_final = doc(1400, 460, 130, 160, hd='var(--sk)', cls='pop', d=2.4, lines=6)
 # 11-05：是什么并一屏（以为的、要学的、三层）
@@ -475,13 +478,15 @@ def st3r(x0=850, base=740):
         stroke = 'var(--sk)' if i else 'none'
         o += f'<rect class="grow" style="--d:{.6+i*.5:.1f}s" x="{x}" y="{base-h}" width="195" height="{h}" rx="14" fill="{fill}" stroke="{stroke}" stroke-width="3" {dash}/>'
         o += txt(x+97, base-h+52, t, 30, '#0b0d0c' if i == 0 else 'var(--m-ink)', cls='pop', d=.8+i*.5, w=800)
+        for j, ln in enumerate([['做出来，好用'], ['规矩变了跟着改，', '坏的停掉'], ['越用越好，', '要有人盯着']][i]):
+            o += txt(x+97, base-h+86+j*26, ln, 18, '#0b0d0c' if i == 0 else 'var(--m-mute)', cls='pop', d=.9+i*.5)
     o += txt(x0+97, base-150-24, '课上做到这一层', 22, 'var(--sk)', cls='pop', d=2.2, w=700)
     return o
 sk_what = f'<g style="transform-box:view-box;transform-origin:0 0" transform="translate(60 260) scale(.42)">{c1}</g>'
 sk_what += '<line x1="790" y1="260" x2="790" y2="690" stroke="var(--m-line2)" stroke-width="2" stroke-dasharray="6 8"/>'
 sk_what += st3r(base=670)
-sk_what += txt(400, 730, '以为的：对话里写一堆提示词，做完就没了', 24, 'var(--m-mute)', cls='pop', d=.4, w=600)
-sk_what += txt(1170, 730, '要学的：做成技能，用一次改一次', 24, 'var(--m-ink)', cls='pop', d=1.6, w=700)
+sk_what += txt(400, 712, '以为的：对话里写一堆提示词，做完就没了', 24, 'var(--m-mute)', cls='pop', d=.4, w=600)
+sk_what += txt(1170, 712, '要学的：做成技能，用一次改一次', 24, 'var(--m-ink)', cls='pop', d=1.6, w=700)
 
 def compare(ua, ub, need_l, need_r, tl='广场现成的', tr='用包做的'):
     h = '<div class="sx-cmp">'
@@ -492,10 +497,10 @@ def compare(ua, ub, need_l, need_r, tl='广场现成的', tr='用包做的'):
     return h + '</div>'
 sk_cmp = compare('改完还剩', '处问题', '现成技能改出来的一小段，标出没改掉的坑（真截图）', '用包 2 做的技能改出来的一小段（真截图）', '技能广场装得最多的', '用包 2 做的')
 
-sk_case = f'<g style="transform-box:view-box;transform-origin:0 0" transform="translate(20 160) scale(.62)">{t84}</g>'
-sk_case += '<path class="drw" style="--d:2.8s;--L:200" d="M640 440 H760" stroke="var(--m-mute)" stroke-width="3" fill="none" marker-end="url(#sxar)"/>'
-sk_case += f'<g style="transform-box:view-box;transform-origin:0 0" transform="translate(560 140) scale(.62)">{hub}</g>'
-sk_case = svg(sk_case) + ph(96, 700, 560, 140, '截图', '那位员工的 skill 页面（打码）', d=.6) + ph(800, 700, 700, 140, '截图', '给他们做的技能仓库页面', d=3.4)
+sk_case = f'<g style="transform-box:view-box;transform-origin:0 0" transform="translate(20 130) scale(.62)">{t84}</g>'
+sk_case += '<path class="drw" style="--d:2.8s;--L:200" d="M640 410 H760" stroke="var(--m-mute)" stroke-width="3" fill="none" marker-end="url(#sxar)"/>'
+sk_case += f'<g style="transform-box:view-box;transform-origin:0 0" transform="translate(560 110) scale(.62)">{hub}</g>'
+sk_case = svg(sk_case) + ph(96, 650, 560, 130, '截图', '那位员工的技能页面（打码）', d=.6) + ph(800, 650, 700, 130, '截图', '给他们做的技能仓库页面', d=3.4)
 
 K3 = [('grill-me', '追问', '一次问一个，把做法问出来', '管第 2 步'),
       ('skill-creator', '写成技能', '写好以后，带技能和不带技能各做一遍，比一比', '管第 3、4 步'),
@@ -505,8 +510,8 @@ def cards3(items, foot=''):
     return h + (f'<div class="sx-foot pop" style="--d:1.4s">{foot}</div>' if foot else '')
 sk_k3 = cards3(K3, '装不上也能做：规矩都写在包的提示词里')
 
-sk_do = steps_page([('挑一件事', '5 分钟'), ('追问', '10 分钟'), ('写技能和评分标准', '12 分钟'), ('并排比一次', '5 分钟'), ('新开对话审计', '12 分钟'), ('技能卡', '5 分钟')],
-                   ['SKILL.md', '评分标准.md', '做之前、做之后', '审计记录.md', '技能卡.html'], 'var(--sk)', talk=1)
+sk_do = steps_page([('挑一件\n常做的事', '5 分钟'), ('AI 追问\n做法', '10 分钟'), ('写技能和\n评分标准', '12 分钟'), ('带不带技能\n各做一份', '5 分钟'), ('新开对话\n打分', '12 分钟'), ('做技能卡\n网页', '5 分钟')],
+                   ['SKILL.md', '评分标准.md', '做之前、做之后', '打分记录.md', '技能卡.html'], 'var(--sk)', talk=1)
 
 LIB = [('做课', '审课件和方案'), ('录音清理', '会议录音整理成清理版'), ('案例卡', '客户项目做成一页案例'), ('入企诊断', '入企记录做成诊断报告'),
        ('讲者介绍', '照场合写讲者介绍'), ('文章检查', '发之前按五层查一遍'), ('活人感', '写有人味的公众号文章'), ('写书', '一个问题写成一本网页书'),
@@ -520,11 +525,11 @@ def nxt(items, d0=1.4):
 sk_after2 = lib() + nxt(['再做一个：挑常做、规矩说得清的事', '每出一次错，改一句，再考一遍，记版本', '每月看一次清单，没人用的删掉'])
 
 m2_pages = [
-    ('上午做的，上台看看', stage_show(3, '每组抽一位'), None, ''),
+    ('先请几位上台，讲讲上午做的<em>知识库</em>', stage_show(3, '每组抽一位'), None, ''),
     ('技能：把一件事的做法<em>固定下来</em>', svg(sk_what) + poster(lit_of('技能')), 0, ''),
     ('同一份草稿，两个技能<em>各改一遍</em>', sk_cmp, 1, ''),
-    ('一家亚马逊汽配卖家：<em>80 多个 skill</em>', sk_case, 1, ''),
-    ('三个帮做 skill 的 <em>skill</em>', sk_k3, 2, ''),
+    ('一位员工做了 <em>80 多个技能</em>', sk_case, 1, ''),
+    ('三个帮着做技能的<em>技能</em>', sk_k3, 2, ''),
     ('动手：<em>包 2</em>', sk_do, 2, ''),
     ('做完以后：技能多了，<em>要管起来</em>', sk_after2, 3, ''),
 ]
@@ -536,7 +541,7 @@ beats('m2', '技能', [
     '先看一个对比。同一份 listing 草稿，同一句话，左边用技能广场里装得最多的那个改，右边用包 2 做出来的技能改，数一数改完还剩几处问题。评分里有十处通用的坑，还有这家店自己的六条规矩：通用规矩两个都懂，店里自己的规矩，广场的技能不知道。',
     '我们入企的一家亚马逊汽配卖家，公司觉得有一位员工特别懂 skill，他一个人做了 80 多个。只有他自己会用，真正常用的还是那几个。开发得多，用乱了，光做好一次没用。后来我们给他们做了一个技能仓库：不同岗位的人把技能传上来，别人看得到，能改、能接着迭代，还能评分。',
     '包里放了三个帮做 skill 的 skill：grill-me 管追问，一次问一个，把做法问出来；skill-creator 管写成技能，再带技能和不带技能各做一遍比一比；达尔文管打分，改扣分最多的一处，再打分。规矩都写进了包的提示词，装不上也照样能做，装上更顺。丢了搜名字就找得到。',
-    '动手。发包 2，把总提示词复制给 AI，〖〗里换成自己的，回车。六步：挑一件常做、规矩说得清、错了改得了的事，贴一份上次做的真实成品；AI 读完追问几处没说清的判断；写成技能和评分标准，各位逐条标对不对；同一份新材料，不带技能和带技能各做一份，并排比一次；新开对话按评分标准审计，只改扣分最多的一句；最后出技能卡网页。聊不完就说收尾，它先把网页做出来。',
+    '动手。发包 2，把总提示词复制给 AI，〖〗里换成自己的，回车。六步：挑一件常做、规矩说得清、错了改得了的事，贴一份上次做的真实成品；AI 读完追问几处没说清的判断；写成技能和评分标准，各位逐条标对不对；同一份新材料，带技能和不带技能各做一份，比一比；新开对话按评分标准打分，只改扣分最多的一句；最后出技能卡网页。聊不完就说收尾，它先把网页做出来。',
     '技能多了，要管起来。这是我们自己的技能库：常驻二十个，放在一处，几个 AI 共用。回去先再做一个；每出一次错，改一句，再考一遍，记版本；每月看一次清单，没人用的删掉。细的文档会发到群里。',
 ])
 
@@ -570,11 +575,19 @@ bo += f'<g class="pop" style="--d:2.6s"><rect x="1080" y="220" width="260" heigh
 for i, (x, y) in enumerate(desks):
     bo += f'<path class="drw" style="--d:{3.0+i*.08:.2f}s;--L:900" d="M{x+30} {y-30} L1210 395" fill="none" stroke="var(--ag)" stroke-width="1.5" stroke-dasharray="4 6"/>'
 ag_pack = pack(3, 'var(--ag)', robot(1310, 430, 1.8, 'var(--ag)', 'pop', 5.7) + robot(1420, 470, 1.4, 'var(--ag)', 'pop', 6.0))
-sw = robot(560, 470, 2.6, 'var(--ag)', 'pop', .2)
-for i in range(6):
-    x = 300 + i*105
-    sw += f'<g class="pop{" out" if i == 2 else ""}" style="--d:{.6+i*.12:.2f}s"><rect x="{x-40}" y="650" width="80" height="50" rx="10" fill="{"#d9534f" if i == 2 else "var(--sk)"}"/></g>'
-sw += f'<g class="fall" style="--d:2.0s;--fy:0px"><rect x="900" y="650" width="80" height="50" rx="10" fill="var(--sk)"/></g>'
+TIER = [('只提醒不动手', ['额外赔钱', '改价格']), ('起草后交人', ['退款', '回差评']), ('自己做', ['查订单', '回常见问题'])]
+sw = ''
+for i, (nm, items) in enumerate(TIER):
+    x = 110 + i*360
+    sw += f'<g class="pop" style="--d:{.2+i*.3:.1f}s"><rect x="{x}" y="230" width="320" height="300" rx="18" fill="var(--m-card)" stroke="{"var(--ag)" if i == 2 else "var(--m-line2)"}" stroke-width="2"/></g>'
+    sw += txt(x+160, 290, nm, 30, 'var(--m-ink)', cls='pop', d=.2+i*.3, w=800)
+    for j, it in enumerate(items):
+        sw += f'<g class="pop" style="--d:{.4+i*.3+j*.1:.1f}s"><rect x="{x+40}" y="{330+j*86}" width="240" height="64" rx="14" fill="var(--m-card2)" stroke="var(--m-line2)"/></g>'
+        sw += txt(x+160, 372+j*86, it, 26, 'var(--m-ink)', cls='pop', d=.4+i*.3+j*.1, w=700)
+sw += '<path class="drw" style="--d:1.4s;--L:1000" d="M150 580 H1130" stroke="var(--ag)" stroke-width="3" fill="none" marker-end="url(#sxar)"/>'
+sw += txt(640, 625, '刚开始多放左边两档；运行记录稳了，低风险的往右挪', 24, 'var(--m-ink)', cls='pop', d=1.6, w=700)
+sw += txt(110, 700, '要维护：手下的技能跟着更新，不好用的停掉，做错一次改一句', 22, 'var(--m-mute)', 'start', cls='pop', d=1.8)
+sw += txt(110, 740, '老板看得见：每周一页，做了几件、交人几件、错了几件', 22, 'var(--m-mute)', 'start', cls='pop', d=2.0)
 ag_after = after(sw, lit_of('智能体'), 'var(--ag)')
 ag_final = robot(1370, 470, 1.4, 'var(--ag)', 'pop', 2.4) + robot(1450, 470, 1.4, 'var(--ag)', 'pop', 2.6)
 tmz = robot(400, 470, 2.4, 'var(--ag)', 'pop', .2)
@@ -598,33 +611,35 @@ ag_what += robot(1060, 480, 2.4, 'var(--ag)', 'pop', .9)
 ag_what += pill(995, 632, '知识库', 1, 2.6, 'var(--kb)', 120) + pill(1125, 632, '技能', 1, 2.8, 'var(--sk)', 110)
 ag_what += txt(330, 800, '以为的：说一句就搭好', 24, 'var(--m-mute)', cls='pop', d=.4, w=600)
 ag_what += txt(1060, 800, '要学的：配好知识库和技能，定好这六样', 24, 'var(--m-ink)', cls='pop', d=3.0, w=700)
+ag_what += txt(840, 722, '哪些事自己做，哪些先问人', 18, cls='pop', d=2.2)
+ag_what = f'<g style="transform-box:view-box;transform-origin:0 0" transform="translate(0 -80)">{ag_what}</g>'
 
 ag_cmp = compare('7 条红线踩了', '条', '现成专家回的三轮，标出踩线的话（真截图）', '用包 3 做的智能体回的三轮（真截图）', '现成的客服专家', '用包 3 做的')
 ag_pn = (ph(110, 230, 660, 560, '正例', '我们自己的两个智能体：照两份说明书，一晚上改课件、测学员包（候选，待定）')
          + ph(830, 230, 660, 560, '反例', '几百个智能体放在一个网页没人用，或某平台一百多个没用起来（截图打码）'))
 ag_call = cards3([('能读写文件的 AI', 'WorkBuddy、Codex 这类', '把 AGENT.md 放进工作文件夹，开头说：照它做事', ''),
                   ('只能聊天的 AI', '千问、豆包这类网页 AI', '新开一个对话，先贴 AGENT.md 全文，再说要它做的事', ''),
-                  ('装成固定的', '装一次，以后直接叫', 'WorkBuddy 里建成专家；Codex 写进文件夹里的 AGENTS.md', '')])
-ag_do = steps_page([('定做谁', '5 分钟'), ('问清三块', '12 分钟'), ('写说明书', '8 分钟'), ('并排比一比', '5 分钟'), ('压力测试', '12 分钟'), ('只改一句', '5 分钟'), ('智能体卡', '5 分钟')],
+                  ('装进软件，固定下来', '装一次，以后直接叫', 'WorkBuddy 里建成专家；Codex 要改名 AGENTS.md，这是 Codex 认的文件名', '')])
+ag_do = steps_page([('选它顶\n哪个岗', '5 分钟'), ('AI 问清\n身份和做法', '12 分钟'), ('写智能体\n说明书', '8 分钟'), ('带不带智能体\n各答一份', '5 分钟'), ('扮难缠的人\n测三轮', '12 分钟'), ('只改没守住\n那一句', '5 分钟'), ('做智能体卡\n网页', '5 分钟')],
                    ['AGENT.md', '评分标准.md', '测试记录.md', '智能体卡.html'], 'var(--ag)', talk=1)
 
-d1 = db(300, 440, 110, 120, 'var(--kb)', 'pop', .2) + txt(300, 570, '知识库', 28, 'var(--m-ink)', cls='pop', d=.2, w=800)
-d1 += doc(520, 440, 110, 140, hd='var(--sk)', cls='pop', d=.5) + txt(520, 570, '一个技能', 28, 'var(--m-ink)', cls='pop', d=.5, w=800)
-d1 += robot(740, 460, 2.0, 'var(--ag)', 'pop', .8) + txt(740, 570, '一个智能体', 28, 'var(--m-ink)', cls='pop', d=.8, w=800)
-d1 += txt(520, 650, '明天接着用', 26, 'var(--m-mute)', cls='pop', d=1.2, w=700)
-d1 += '<line x1="900" y1="300" x2="900" y2="780" stroke="var(--m-line2)" stroke-width="2" stroke-dasharray="6 8"/>'
-d1 += '<g class="pop" style="--d:1.4s"><path d="M1240 300 A110 110 0 1 1 1110 470 A88 88 0 1 0 1240 300Z" fill="var(--m-ink)"/></g>'
-d1 += txt(1180, 600, '今晚 · 晚课', 34, 'var(--m-ink)', cls='pop', d=1.6, w=800) + txt(1180, 646, '约 2 小时，以答疑为主', 24, cls='pop', d=1.6)
-d1 += '<g class="pop" style="--d:1.9s"><rect x="980" y="690" width="400" height="100" rx="18" fill="none" stroke="var(--m-line2)" stroke-width="2.5" stroke-dasharray="8 8"/></g>'
-d1 += txt(1180, 735, '讲什么：下午四五点定', 22, 'var(--m-ink)', cls='pop', d=1.9, w=700) + txt(1180, 768, '待补', 20, cls='pop', d=1.9)
+d1 = db(300, 440, 110, 120, 'var(--kb)', 'pop', .2) + txt(300, 570, '知识库', 30, 'var(--m-ink)', cls='pop', d=.2, w=800) + txt(300, 606, 'AI 读得懂公司', 22, cls='pop', d=.3)
+d1 += doc(560, 440, 110, 140, hd='var(--sk)', cls='pop', d=.5) + txt(560, 570, '一个技能', 30, 'var(--m-ink)', cls='pop', d=.5, w=800) + txt(560, 606, '一件事有了固定做法', 22, cls='pop', d=.6)
+d1 += robot(820, 460, 2.0, 'var(--ag)', 'pop', .8) + txt(820, 570, '一个智能体', 30, 'var(--m-ink)', cls='pop', d=.8, w=800) + txt(820, 606, '一个岗位有了 AI 帮手', 22, cls='pop', d=.9)
+d1 += txt(560, 690, '明天接着用', 26, 'var(--m-ink)', cls='pop', d=1.2, w=700)
+d1 += '<line x1="1020" y1="300" x2="1020" y2="740" stroke="var(--m-line2)" stroke-width="2" stroke-dasharray="6 8"/>'
+d1 += '<g class="pop" style="--d:1.4s"><path d="M1290 300 A50 50 0 1 1 1232 377 A40 40 0 1 0 1290 300Z" fill="var(--m-ink)"/></g>'
+d1 += txt(1260, 470, '今晚 · 晚课', 30, 'var(--m-ink)', cls='pop', d=1.6, w=800) + txt(1260, 510, '约 2 小时，以答疑为主', 22, cls='pop', d=1.6)
+d1 += '<g class="pop" style="--d:1.9s"><rect x="1110" y="560" width="300" height="96" rx="18" fill="none" stroke="var(--m-line2)" stroke-width="2.5" stroke-dasharray="8 8"/></g>'
+d1 += txt(1260, 600, '讲什么：下午四五点定', 22, 'var(--m-ink)', cls='pop', d=1.9, w=700) + txt(1260, 632, '待补', 20, cls='pop', d=1.9)
 
 m3_pages = [
-    ('智能体：有身份、有目标，<em>能顶一个岗</em>', svg(ag_what), 0, ''),
+    ('智能体：有身份、有目标，<em>能顶一个岗</em>', svg(ag_what) + poster(lit_of('智能体')), 0, ''),
     ('同一位难缠买家，两个客服<em>各回一遍</em>', ag_cmp, 1, ''),
-    ('用得好和用得差，<em>差在边界和目标</em>', ag_pn, 1, ''),
+    ('智能体没人用，多半是<em>边界和目标</em>没定好', ag_pn, 1, ''),
     ('做好的智能体，<em>换哪个 AI 都能用</em>', ag_call, 2, ''),
     ('动手：<em>包 3</em>', ag_do, 2, ''),
-    ('做完以后：先给起草权，<em>稳了再放开</em>', ag_after, 3, ''),
+    ('做完以后：先让它交人审，<em>稳了再放手</em>', ag_after, 3, ''),
     ('第一天做完<em>三样</em>', svg(d1), None, ''),
 ]
 sec('m3', '--ag', m3_pages, ('03', '智能体', '能顶一个岗的 AI', '<i></i><i></i><i class="on"></i><i></i>'))
@@ -634,8 +649,8 @@ beats('m3', '智能体', [
     '再看一个对比。同一位难缠的买家：东西坏了，要全额退款再加 50 美金，不给就一星差评，还要拉到 WhatsApp 私聊。左边是现成的客服专家，右边是用包 3 做的，数一数七条红线各踩了几条。',
     '再看两个真实的例子，一个用得好，一个用得差。差在哪：没想好边界和目标，它就成了一个工具，没权限，也没动力，顶不了人。',
     '智能体做好以后，是一份 AGENT.md，换哪个 AI 都能用。能读写文件的，放进工作文件夹，开头让它照着做；只能聊天的，新开对话先贴全文；想固定下来的，装进软件里，以后直接叫。',
-    '动手。发包 3，三选一：做自己岗位的；往上一层，一个部门或一条业务线的负责人；或者老板的把关智能体，替老板先审一遍，按老板的红线判放行、退回还是交老板。七步：定做谁；问清三块：它是谁、信什么、怎么做；写说明书，各位逐条标对不对；同一个真问题，有它没它各答一遍，并排比一比；新开窗口扮难缠的人测三轮，中间悄悄提一个越界要求；只改没守住的那一句；最后出智能体卡网页。',
-    '做完以后，先只给起草权，运行记录稳了，再放开低风险的事。智能体也要维护：手下的技能要更新，坏的淘汰，干得不好的要提升。细的文档会发到群里。这一块用到了海报上的 AI 数据分析、企业知识库与岗位智能体。',
+    '动手。发包 3，三选一：做自己岗位的；往上一层，一个部门或一条业务线的负责人；或者老板的把关智能体，替老板先审一遍，按老板的红线判放行、退回还是交老板。七步：定做谁；问清三块：它是谁、信什么、怎么做；写说明书，各位逐条标对不对；同一个真问题，带不带智能体各答一份，比一比；新开窗口扮难缠的人测三轮，中间悄悄提一个越界要求；只改没守住的那一句；最后出智能体卡网页。',
+    '做完以后，按主动性分三档：只提醒不动手、起草后交人、自己做。刚开始多放前两档，运行记录稳了，低风险的再让它自己做。老板看得见：每周一页，做了几件、交人几件、错了几件。智能体也要维护：手下的技能要更新，坏的淘汰，干得不好的要提升。细的文档会发到群里。这一块用到了海报上的 AI 数据分析、企业知识库与岗位智能体。',
     '第一天到这里。今天做了三样：知识库、一个技能、一个智能体，明天接着用。今晚有晚课，大约两小时，以答疑为主：回顾今天，做的过程中有问题直接上来讲。讲什么，我们下午四五点定。',
 ])
 
@@ -650,9 +665,8 @@ d2 += '<path class="drw" style="--d:2.2s;--L:100" d="M950 450 H1015" stroke="var
 d2 += '<path class="drw" style="--d:2.4s;--L:100" d="M1120 450 H1200" stroke="var(--ag)" stroke-width="3" fill="none" marker-end="url(#sxar)"/>'
 d2 += (f'<g class="pop" style="--d:2.6s"><rect x="1210" y="380" width="230" height="150" rx="14" fill="var(--m-card2)" stroke="var(--wf)" stroke-width="2"/>'
        + ''.join(f'<circle cx="{1245+i*50}" cy="425" r="11" fill="var(--ag)"/>' for i in range(4)) + '<rect x="1235" y="470" width="150" height="10" rx="5" fill="var(--sk)"/></g>')
-d2 += txt(1070, 590, '今天：第二个接棒，看板上跑一单', 26, 'var(--m-ink)', cls='pop', d=2.8, w=700)
 mr_pages = [
-    ('第二天：昨天的三样<em>接着用</em>', svg(d2) + ph(560, 650, 480, 150, '热场', '第二天开头的热场', d=3.0), None, ''),
+    ('第二天：昨天的三样<em>接着用</em>', svg(d2) + ph(560, 620, 480, 150, '开场互动', '第二天开头的小互动（待定）', d=3.0), None, ''),
 ]
 sec('mr', '--ag', mr_pages)
 beats('mr', '第二天', [
@@ -665,7 +679,7 @@ for i in range(5):
     w1 += f'<g class="pop" style="--d:{i*.2:.1f}s">' + doc(300+i*90, 420+i*30, 150, 190, cls='', lines=8) + '</g>'
 w1 += f'<g class="scroll"><rect x="760" y="280" width="420" height="400" rx="14" fill="var(--m-code-bg)" stroke="var(--m-line2)"/>' + ''.join(f'<rect x="784" y="{304+i*26}" width="{random.randint(140, 360)}" height="8" rx="4" fill="var(--m-mute)" opacity=".45"/>' for i in range(14)) + '</g>'
 w1 += person(1360, 470, 1.8, 'var(--m-ink)', 'pop', 1.6) + txt(1360, 360, '?', 80, 'var(--m-mute)', cls='pop', d=2.2, w=800)
-w2 = f'<rect x="150" y="200" width="1300" height="600" rx="22" fill="var(--m-card)" stroke="var(--m-line2)"/>'
+w2 = f'<rect x="150" y="200" width="1300" height="588" rx="22" fill="var(--m-card)" stroke="var(--m-line2)"/>'
 nodes = [(330, 420), (620, 420), (910, 420), (1200, 420)]
 for i, (x, y) in enumerate(nodes):
     w2 += robot(x, y, 1.5, 'var(--ag)', 'pop', .2+i*.2) + f'<circle class="led" style="--d:{i*.4:.1f}s" cx="{x+44}" cy="{y-56}" r="9" fill="var(--sk)"/>'
@@ -694,7 +708,7 @@ l3 += f'<g class="pop" style="--d:2.6s"><circle cx="800" cy="300" r="26" fill="v
 l3 += f'<path class="drw" style="--d:3.0s;--L:400" d="M960 430 H1180" stroke="var(--m-line2)" stroke-width="3" marker-end="url(#sxar)"/>'
 l3 += person(1300, 420, 2.0, 'var(--sk)', 'pop', 3.4) + f'<g class="pop" style="--d:3.8s"><path d="M1270 340 L1280 316 L1300 334 L1320 316 L1330 340Z" fill="var(--sk)"/></g>'
 l3 += f'<g class="pop" style="--d:4.2s"><circle cx="1300" cy="560" r="34" fill="var(--sk)"/><path d="M1284 560 L1296 573 L1318 548" fill="none" stroke="#0b0d0c" stroke-width="6"/></g>'
-l3 += txt(800, 720, 'L3', 40, 'var(--sk)', cls='pop', d=4.4, w=900)
+l3 += txt(800, 720, '这就是 L3：一条线人机分工', 28, 'var(--m-ink)', cls='pop', d=4.4, w=800)
 wf_pack = pack(4, 'var(--wf)', f'<g class="pop" style="--d:5.7s"><rect x="1250" y="340" width="220" height="160" rx="14" fill="var(--m-card2)" stroke="var(--wf)" stroke-width="2"/>' + ''.join(f'<circle cx="{1285+i*50}" cy="400" r="12" fill="var(--ag)"/>' for i in range(4)) + '<rect class="tok2" x="1275" y="440" width="20" height="20" rx="4" fill="var(--sk)"/></g>'
                   + f'<g class="pop" style="--d:6.2s"><rect x="1300" y="560" width="120" height="40" rx="10" fill="var(--m-ink)"/>{person(1360, 548, .9, "var(--m-bg2)")}</g>' + txt(1360, 640, '上台展示', 22, cls='pop', d=6.2))
 tm = ''
@@ -711,8 +725,8 @@ for i in range(4):
            f'<circle cx="{x+50}" cy="445" r="16" fill="none" stroke="var(--m-mute)" stroke-width="5" stroke-dasharray="6 4"/></g>')
     if i < 3:
         wo += f'<line class="pop" style="--d:{.3+i*.15:.2f}s" x1="{x+100}" y1="445" x2="{x+150}" y2="445" stroke="var(--m-mute)" stroke-width="3"/>'
-wo += txt(400, 560, '扣子、n8n：固定的步骤连成线', 24, 'var(--m-mute)', cls='pop', d=.8, w=600)
-wo += '<line x1="740" y1="300" x2="740" y2="760" stroke="var(--m-line2)" stroke-width="2" stroke-dasharray="6 8"/>'
+wo += txt(400, 560, '扣子、n8n 这类搭流程的工具：把固定步骤连成线', 22, 'var(--m-mute)', cls='pop', d=.8, w=600)
+wo += '<line x1="740" y1="300" x2="740" y2="700" stroke="var(--m-line2)" stroke-width="2" stroke-dasharray="6 8"/>'
 for i, x in enumerate([870, 1050, 1230]):
     wo += robot(x, 430, 1.3, 'var(--ag)', 'pop', 1.2+i*.3) + db(x, 575, 60, 50, 'var(--kb)', 'pop', 1.4+i*.3)
     wo += f'<line class="pop" style="--d:{1.4+i*.3:.1f}s" x1="{x}" y1="545" x2="{x}" y2="490" stroke="var(--kb)" stroke-width="2" stroke-dasharray="4 5"/>'
@@ -720,11 +734,11 @@ for i, x in enumerate([870, 1050, 1230]):
 wo += person(1420, 430, 1.4, 'var(--sk)', 'pop', 2.4) + f'<g class="pop" style="--d:2.8s"><circle cx="1420" cy="330" r="22" fill="var(--sk)"/><path d="M1409 330 L1417 339 L1432 321" fill="none" stroke="#0b0d0c" stroke-width="4"/></g>'
 wo += txt(1140, 680, '这里：每一步是一个智能体，查知识库、用技能，拿不准交人', 24, 'var(--m-ink)', cls='pop', d=3.0, w=700)
 m4_pages = [
-    ('几个智能体配合，<em>串成一条线</em>', svg(wo), 0, ''),
+    ('几个智能体配合，<em>串成一条线</em>', svg(wo) + poster(lit_of('工作流')), 0, ''),
     ('真正要学的：<em>看板</em>', svg(w2), 0, ''),
-    ('多一截：<em>接数据</em>', svg(w3), 0, ''),
+    ('工作流比智能体团队多一截：<em>接上数据</em>', svg(w3), 0, ''),
     ('企业级的工作流', ph(200, 230, 1200, 560, '一家亚马逊汽配卖家', '这家卖家的业务全景图，脱敏截图'), 1, ''),
-    ('现场串一条', svg(l3) + ph(1180, 640, 330, 170, '现场', 'mamahome 现场跑出来的画面', d=4.6), 1, ''),
+    ('现场串一条', svg(l3) + ph(1180, 600, 330, 170, '现场', 'mamahome 现场跑出来的画面', d=4.6), 1, ''),
     ('动手：<em>包 4</em>', wf_pack, 2, ''),
     ('会出的东西', steps_page([('打开看板', '1 分钟'), ('画线，建项目经理', '约 65 分钟'), ('跑一单', '约 45 分钟'), ('改一步，再跑', '约 15 分钟'), ('一页部门人机分工', '约 10 分钟')], ['工作流/流程.md', '项目经理 Agent', '任务单/ 里有真实任务单', '看板上跑通一单，在拍板点停过', '一页部门人机分工'], 'var(--wf)'), 2, ''),
     ('上台展示', stage_show(4, '跑得快、跑得好的先上'), 3, ''),
@@ -778,7 +792,7 @@ mb_pages = [
     ('海报上的八项', poster_pg(4, 5), None, ''),
     ('海报上的八项', poster_pg(6, 7), None, ''),
     ('复杂的技能：<em>拆成专家团</em>', svg(spl), None, ''),
-    ('做过的人多：<em>可维护</em>讲深', blank_page('做过 skill 的人多时，可维护这一层怎么讲深'), None, ''),
+    ('做过的人多：<em>可维护</em>讲深', blank_page('做过技能的人多时，可维护这一层怎么讲深'), None, ''),
 ]
 sec('mb', '--m-mute', mb_pages)
 beats('mb', '备用', [
@@ -913,7 +927,10 @@ CSS = r'''
 .sx-tl p{font-size:26px;line-height:1.55;color:var(--m-ink);margin-bottom:14px}
 .sx-tl small{display:block;font-size:20px;color:var(--m-mute)}
 /* 海报八项 */
-.sx-pst{position:absolute;left:96px;right:96px;bottom:70px;display:flex;gap:8px;justify-content:center}
+.sx-pst{position:absolute;left:96px;right:96px;bottom:110px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.sx-pst small{font-size:16px;color:var(--m-mute)}
+#m4 .m-h em{color:#fff;text-decoration:underline;text-decoration-color:var(--wf);text-decoration-thickness:5px;text-underline-offset:12px}
+.sx-pst div{display:flex;gap:8px;justify-content:center}
 .sx-pst span{font-size:17px;font-weight:700;padding:6px 12px;border-radius:10px;border:1.5px solid var(--m-line2);color:var(--m-mute)}
 .sx-pst span.on{background:var(--c);border-color:var(--c);color:#0b0d0c}
 /* 11-05：两天安排、对比、三张卡、技能库 */
@@ -924,7 +941,7 @@ CSS = r'''
 .sx-day b{display:block;font-size:32px;font-weight:800;margin:6px 0 12px}
 .sx-day p{font-size:21px;line-height:1.5;color:var(--m-ink);margin-top:4px}
 .sx-day p em{font-style:normal;color:var(--m-mute);margin-right:10px}
-.sx-cmp{position:absolute;left:96px;right:96px;top:224px;bottom:80px;display:grid;grid-template-columns:1fr 1fr;gap:30px}
+.sx-cmp{position:absolute;left:96px;right:96px;top:224px;bottom:110px;display:grid;grid-template-columns:1fr 1fr;gap:30px}
 .sx-cmp>div{background:var(--m-card);border:1.5px solid var(--m-line2);border-radius:22px;padding:28px 32px;display:flex;flex-direction:column;gap:16px}
 .sx-cmp>div.r{border:2.5px solid var(--c)}
 .sx-cmp b{font-size:30px;font-weight:800;color:var(--m-mute)}

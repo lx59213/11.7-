@@ -284,72 +284,57 @@
 #m5 .m-fin2 h2{font-size:110px;font-weight:900;letter-spacing:-.01em}
 #m5 .m-fin2 p{font-size:32px;color:var(--m-mute);margin-top:26px}
 
-/* 全景 */
+/* 全景（11-05 第二遍：字放大；每一级只出现到这一级的东西；管起来收进中台框；虚线不压字） */
 #m5 .pg{position:absolute;inset:0;pointer-events:none}
 #m5 .pg>*{position:absolute}
-#m5 .bd{border:1.5px solid var(--m-line2);border-radius:14px;background:color-mix(in srgb,var(--m-ink) 3%,transparent);transition:opacity .8s,border-color .8s}
-#m5 .bl{left:0;top:0;bottom:0;width:112px;padding:14px 0 0 16px;font-size:19px;font-weight:800;color:var(--m-ink);border-right:1px dashed var(--m-line2)}
-#m5 .bl small{display:block;font-size:14px;font-weight:500;color:var(--m-mute);margin-top:4px;line-height:1.4;padding-right:8px}
+#m5 .bd{border:1.5px solid var(--m-line2);border-radius:14px;background:color-mix(in srgb,var(--m-ink) 3%,transparent)}
+#m5 .bl{position:absolute;left:0;top:0;bottom:0;width:120px;padding:14px 8px 0 16px;font-size:20px;font-weight:800;color:var(--m-ink);border-right:1px dashed var(--m-line2)}
+#m5 .bl small{display:block;font-size:16px;font-weight:500;color:var(--m-mute);margin-top:4px;line-height:1.4}
 #m5 .row{position:absolute;display:flex;gap:10px}
-#m5 .dp{flex:1;border:1px solid var(--m-line2);border-radius:10px;padding:10px 10px 8px;background:var(--m-card);transition:border-color .8s,box-shadow .8s}
-#m5 .dp b{display:block;font-size:18px;margin-bottom:6px}
-#m5 .dp p{font-size:14px;line-height:1.5;color:var(--m-mute)}
+#m5 .dp{flex:1;border:1px solid var(--m-line2);border-radius:10px;padding:8px 10px 6px;background:var(--m-card);transition:border-color .8s}
+#m5 .dp b{display:block;font-size:18px;margin-bottom:4px}
+#m5 .dp p{font-size:15px;line-height:1.45;color:var(--m-mute)}
 #m5 .dp p i{font-style:normal;display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--m-line2);margin-right:5px;vertical-align:2px;transition:background .8s}
 #m5 .zt{background:#141a17;border-color:#2b3a33}
 #m5 .zt .bl{color:#e8e4d8;border-color:#2b3a33}
-#m5 .in,#m5 .gv{display:flex;flex-direction:column;gap:7px;position:absolute;transition:opacity .8s}
-#m5 .ch{font-size:14px;padding:6px 10px;border-radius:8px;border:1px solid var(--m-line2);background:var(--m-card);color:var(--m-ink);white-space:nowrap;transition:all .8s}
-#m5 .core{position:absolute;display:flex;gap:12px;transition:opacity .8s}
-#m5 .t4{width:142px;height:156px;border-radius:12px;padding:14px 12px;background:#1d2420;border:1.5px solid #34433b;transition:background .9s,border-color .9s,color .9s,opacity .9s}
-#m5 .t4 b{display:block;font-size:24px;margin-bottom:8px;color:#e8e4d8;transition:color .9s}
-#m5 .t4 p{font-size:14px;line-height:1.5;color:#9aa39e;transition:color .9s}
-#m5 .tag{position:absolute;font-size:14px;color:var(--m-mute);letter-spacing:.04em}
+#m5 .col{position:absolute;display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+#m5 .ch{font-size:16px;padding:5px 10px;border-radius:8px;border:1px solid var(--m-line2);background:var(--m-card);color:var(--m-ink);white-space:nowrap}
+#m5 .tag{font-size:15px;color:var(--m-mute);letter-spacing:.04em}
+#m5 .core{position:absolute;display:flex;gap:12px;transform:none;text-align:left;font-size:16px;font-weight:400}
+#m5 .t4{width:142px;height:150px;border-radius:12px;padding:12px;border:1.5px solid}
+#m5 .t4 b{display:block;font-size:24px;margin-bottom:6px;color:#0b0d0c}
+#m5 .t4 p{font-size:16px;line-height:1.45;color:#0b0d0c}
+#m5 .t4.kb{background:var(--kb);border-color:var(--kb)}#m5 .t4.sk{background:var(--sk);border-color:var(--sk)}#m5 .t4.ag{background:var(--ag);border-color:var(--ag)}#m5 .t4.wf{background:var(--wf);border-color:var(--wf)}
+#m5 .pdj .ch.nod{border-color:var(--sk)}
+#m5 .sj{border-color:var(--kb)}
+#m5 .sj .ch{border-color:color-mix(in srgb,var(--kb) 70%,transparent)}
+#m5 .gv .ch{border-color:var(--hi)}
+#m5 .gv .ch.org{background:var(--hi);color:#0b0d0c}
 #m5 svg.wr{position:absolute;left:0;top:0;width:1600px;height:900px;overflow:visible}
-#m5 svg.wr path{fill:none;stroke:var(--m-line2);stroke-width:1.6;transition:stroke .8s,opacity .8s}
-#m5 svg.wr .up{stroke-dasharray:5 6}
+#m5 svg.wr path{fill:none;stroke-width:2.2}
+#m5 svg.wr .fn{stroke:var(--sk);stroke-dasharray:6 8;animation:m5flow 1.6s linear infinite}
+#m5 svg.wr .dt,#m5 svg.wr .wb{stroke:var(--kb);stroke-dasharray:5 6}
+@keyframes m5flow{to{stroke-dashoffset:-28}}
 /* 右栏：五级和这一级的三句话 */
 #m5 .rail{padding:16px 16px 14px;display:flex;flex-direction:column}
-#m5 .rail h4{font-size:19px;margin-bottom:8px}
-#m5 .lv{border-left:4px solid var(--m-line2);padding:6px 0 6px 12px;margin-bottom:6px;transition:border-color .6s,opacity .6s,background .6s;border-radius:0 8px 8px 0}
+#m5 .rail h4{font-size:20px;margin-bottom:8px}
+#m5 .lv{border-left:4px solid var(--m-line2);padding:6px 0 6px 12px;margin-bottom:6px;transition:border-color .6s,background .6s;border-radius:0 8px 8px 0}
 #m5 .lv b{font-size:18px;display:block;white-space:nowrap}
 #m5 .lv b u{text-decoration:none;color:var(--m-mute);margin-right:6px;transition:color .6s}
 #m5 .lvs{position:relative;flex:1;margin-top:10px;border-top:1px dashed var(--m-line2)}
 #m5 .lvd{position:absolute;left:0;right:0;top:14px}
-#m5 .lvd p{font-size:17px;line-height:1.5;color:var(--m-ink);margin-bottom:14px}
-#m5 .lvd p em{display:block;font-style:normal;font-size:14px;color:var(--m-mute);font-weight:700;margin-bottom:2px}
+#m5 .lvd p{font-size:18px;line-height:1.5;color:var(--m-ink);margin-bottom:14px}
+#m5 .lvd p em{display:block;font-style:normal;font-size:15px;color:var(--m-mute);font-weight:700;margin-bottom:2px}
 /* 依次画出来 */
-#m5 .pg .a1,#m5 .pg .a2,#m5 .pg .a3,#m5 .pg .a4,#m5 .pg .a5,#m5 .pg svg.wr{opacity:0;transform:translateY(14px);transition:opacity .7s,transform .7s}
+#m5 .pg .a1,#m5 .pg .a5{opacity:0;transform:translateY(14px);transition:opacity .7s,transform .7s}
 #m5:has(.pg.vis) .a1{opacity:1;transform:none;transition-delay:.2s}
-#m5:has(.pg.vis) .a2{opacity:1;transform:none;transition-delay:.5s}
-#m5:has(.pg.vis) .a3{opacity:1;transform:none;transition-delay:.8s}
-#m5:has(.pg.vis) .a4{opacity:1;transform:none;transition-delay:1.1s}
-#m5:has(.pg.vis) svg.wr{opacity:1;transform:none;transition-delay:1.3s}
 #m5:has(.pg.vis) .a5{opacity:1;transform:none;transition-delay:.2s}
-/* 五级：每一级点亮多一层 */
-#m5:has(.v1.vis) .core,#m5:has(.v1.vis) .in,#m5:has(.v1.vis) .gv,#m5:has(.v1.vis) .pdj,#m5:has(.v1.vis) .sj,#m5:has(.v1.vis) svg.wr{opacity:.22}
+/* 每一级只出现到这一级的东西 */
+#m5 .o2,#m5 .o3,#m5 .o4,#m5 .o5{opacity:0;transition:opacity .7s}
+#m5:has(.v2.vis) .o2,#m5:has(.v3.vis) .o2,#m5:has(.v3.vis) .o3,#m5:has(.v4.vis) .o2,#m5:has(.v4.vis) .o3,#m5:has(.v4.vis) .o4,#m5:has(.v5.vis) .o2,#m5:has(.v5.vis) .o3,#m5:has(.v5.vis) .o4,#m5:has(.v5.vis) .o5{opacity:1}
 #m5:has(.v1.vis) .dp p i.y{background:var(--m-ink)}
-#m5:has(.v2.vis) .gv,#m5:has(.v2.vis) .pdj,#m5:has(.v2.vis) .sj,#m5:has(.v2.vis) .in{opacity:.25}
-#m5:has(.v2.vis) svg.wr .dt,#m5:has(.v2.vis) svg.wr .fn:not(.f5){opacity:.15}
-#m5:has(.v2.vis) .t4.wf{opacity:.4}
-#m5:has(.v3.vis) .gv,#m5:has(.v3.vis) .sj{opacity:.25}
-#m5:has(.v3.vis) svg.wr .dt{opacity:.15}
-#m5:has(.v4.vis) .gv{opacity:.25}
-#m5:has(.v2.vis) .t4.kb,#m5:has(.v3.vis) .t4.kb,#m5:has(.v4.vis) .t4.kb,#m5:has(.v5.vis) .t4.kb{background:var(--kb);border-color:var(--kb)}
-#m5:has(.v2.vis) .t4.sk,#m5:has(.v3.vis) .t4.sk,#m5:has(.v4.vis) .t4.sk,#m5:has(.v5.vis) .t4.sk{background:var(--sk);border-color:var(--sk)}
-#m5:has(.v2.vis) .t4.ag,#m5:has(.v3.vis) .t4.ag,#m5:has(.v4.vis) .t4.ag,#m5:has(.v5.vis) .t4.ag{background:var(--ag);border-color:var(--ag)}
-#m5:has(.v3.vis) .t4.wf,#m5:has(.v4.vis) .t4.wf,#m5:has(.v5.vis) .t4.wf{background:var(--wf);border-color:var(--wf)}
-#m5:has(.v2.vis) .t4:not(.wf) b,#m5:has(.v2.vis) .t4:not(.wf) p,#m5:has(.v3.vis) .t4 b,#m5:has(.v3.vis) .t4 p,#m5:has(.v4.vis) .t4 b,#m5:has(.v4.vis) .t4 p,#m5:has(.v5.vis) .t4 b,#m5:has(.v5.vis) .t4 p{color:#0b0d0c}
-#m5:has(.v2.vis) svg.wr .f5,#m5:has(.v3.vis) svg.wr .fn,#m5:has(.v4.vis) svg.wr .fn,#m5:has(.v5.vis) svg.wr .fn{stroke:var(--sk);stroke-width:2.2;stroke-dasharray:6 8;animation:m5flow 1.6s linear infinite}
-@keyframes m5flow{to{stroke-dashoffset:-28}}
 #m5:has(.v2.vis) .dp.d5,#m5:has(.v3.vis) .dp,#m5:has(.v4.vis) .dp,#m5:has(.v5.vis) .dp{border-color:color-mix(in srgb,var(--sk) 55%,transparent)}
 #m5:has(.v2.vis) .dp.d5 p i.y,#m5:has(.v3.vis) .dp p i.y,#m5:has(.v4.vis) .dp p i.y,#m5:has(.v5.vis) .dp p i.y{background:var(--sk)}
-#m5:has(.v3.vis) .pdj .ch.nod,#m5:has(.v4.vis) .pdj .ch,#m5:has(.v5.vis) .pdj .ch{border-color:var(--sk);color:var(--m-ink)}
-#m5:has(.v3.vis) .pdj .ch:not(.nod){opacity:.35}
-#m5:has(.v4.vis) .sj,#m5:has(.v5.vis) .sj{border-color:var(--kb)}
-#m5:has(.v4.vis) .sj .ch,#m5:has(.v5.vis) .sj .ch{border-color:color-mix(in srgb,var(--kb) 70%,transparent)}
-#m5:has(.v4.vis) svg.wr .dt,#m5:has(.v5.vis) svg.wr .dt{stroke:var(--kb);stroke-width:2.2}
-#m5:has(.v5.vis) .gv .ch{border-color:var(--hi);color:var(--m-ink)}
-#m5:has(.v5.vis) .gv .ch.org{background:var(--hi);color:#0b0d0c}
 #m5:has(.v1.vis) .lv.l1,#m5:has(.v2.vis) .lv.l2,#m5:has(.v3.vis) .lv.l3,#m5:has(.v4.vis) .lv.l4,#m5:has(.v5.vis) .lv.l5{border-color:var(--sk);background:color-mix(in srgb,var(--sk) 10%,transparent)}
 #m5:has(.v1.vis) .lv.l1 u,#m5:has(.v2.vis) .lv.l2 u,#m5:has(.v3.vis) .lv.l3 u,#m5:has(.v4.vis) .lv.l4 u,#m5:has(.v5.vis) .lv.l5 u{color:var(--sk)}
 #m5 .mh{position:absolute;left:96px;top:42px;font-size:48px;font-weight:900}
@@ -590,19 +575,19 @@
     <div class="m-eq rv fade" data-in="0" data-out="1" style="transition-delay:.6s"><div class="t r">企业 AI 化</div><i>=</i><div class="t ai">员工能力<u></u></div><i>×</i><div class="t">数据和语义</div><i>×</i><div class="t">组织</div></div>
 
     <div class="pg rv" data-in="1" data-out="6">
-      <div class="bd a1" style="left:60px;top:160px;width:1190px;height:136px"><div class="bl">各部门<small>每天的事</small></div></div>
-      <div class="row a1" style="left:182px;top:172px;width:1058px;height:114px"><div class="dp"><b>老板</b><p><i class="y"></i>看经营数</p><p><i></i>定新品</p><p><i></i>批价格折扣</p></div><div class="dp"><b>外贸销售</b><p><i class="y"></i>回询盘</p><p><i class="y"></i>报价</p><p><i></i>跟单</p></div><div class="dp"><b>运营</b><p><i></i>上新</p><p><i class="y"></i>写卖点</p><p><i></i>看广告</p></div><div class="dp"><b>采购</b><p><i class="y"></i>比价</p><p><i></i>催货</p><p><i></i>对账</p></div><div class="dp d5"><b>客服售后</b><p><i class="y"></i>回消息</p><p><i></i>处理退款</p></div><div class="dp"><b>仓储物流</b><p><i></i>备货</p><p><i class="y"></i>发货查件</p></div><div class="dp"><b>财务</b><p><i></i>对账</p><p><i class="y"></i>报销</p><p><i></i>算提成</p></div><div class="dp"><b>人事</b><p><i></i>招人</p><p><i class="y"></i>带新人</p></div></div>
-      <div class="bd zt a2" style="left:60px;top:372px;width:1190px;height:188px"><div class="bl">AI 中台<small>各部门共用：文字、图片、视频、代码</small></div></div>
-      <div class="in a2" style="left:190px;top:392px"><span class="tag" style="position:static">事情进来</span><span class="ch">群消息、表单</span><span class="ch">定时任务</span><span class="ch">系统提醒</span></div>
-      <div class="core a2" style="left:372px;top:388px"><div class="t4 kb"><b>知识库</b><p>制度、岗位 SOP、判断、产品</p></div><div class="t4 sk"><b>技能</b><p>一件事，一步步怎么做</p></div><div class="t4 ag"><b>智能体</b><p>一个岗位的 AI，带着技能做事</p></div><div class="t4 wf"><b>工作流</b><p>一条线谁先谁后、谁点头</p></div></div>
-      <div class="gv a2" style="left:1000px;top:392px"><span class="tag" style="position:static">管起来</span><span class="ch">权限和审批</span><span class="ch">运行记录</span><span class="ch">模型和账号</span><span class="ch org">组织和 AI 一起管</span></div>
-      <div class="bd pdj a3" style="left:60px;top:578px;width:1190px;height:72px"><div class="bl" style="padding-top:22px">判断</div>
-        <div class="row" style="left:132px;top:14px;gap:12px;align-items:center"><span class="ch nod">要人点头的：发消息、花钱、改价、删数据</span><span class="tag" style="position:static">→</span><span class="ch nod">负责人拍板</span><span class="tag" style="position:static">→</span><span class="ch">决定记下来，写回知识库</span></div></div>
-      <div class="bd sj a4" style="left:60px;top:668px;width:1190px;height:150px"><div class="bl">数据和系统<small>AI 读得到才用得上</small></div>
-        <div class="row" style="left:132px;top:22px;gap:10px"><span class="tag" style="position:static;width:44px;padding-top:7px">数据</span><span class="ch">客户</span><span class="ch">商品</span><span class="ch">订单</span><span class="ch">库存</span><span class="ch">广告</span><span class="ch">财务</span><span class="ch">聊天和邮件</span><span class="ch">运行日志</span></div>
-        <div class="row" style="left:132px;top:84px;gap:10px"><span class="tag" style="position:static;width:44px;padding-top:7px">系统</span><span class="ch">店铺后台</span><span class="ch">ERP</span><span class="ch">表格</span><span class="ch">飞书、企业微信</span><span class="ch">邮箱</span><span class="ch">网盘</span></div></div>
-      <svg class="wr" viewBox="0 0 1600 900"><path class="fn" d="M534 372 C534 340,244 330,244 296"/><path class="fn" d="M574 372 C574 340,377 330,377 296"/><path class="fn" d="M614 372 C614 340,511 330,511 296"/><path class="fn" d="M654 372 C654 340,644 330,644 296"/><path class="fn f5" d="M694 372 C694 340,778 330,778 296"/><path class="fn" d="M734 372 C734 340,911 330,911 296"/><path class="fn" d="M774 372 C774 340,1045 330,1045 296"/><path class="fn" d="M814 372 C814 340,1178 330,1178 296"/><path class="dt up" d="M300 668 V560"/><path class="dt up" d="M640 668 V560"/><path class="dt up" d="M980 668 V560"/><path class="dt up" d="M1110 600 V560"/><path class="dt up" d="M1040 520 C1040 600,1180 600,1180 650"/></svg>
-      <div class="bd rail a5" style="left:1272px;top:160px;width:268px;height:658px"><h4>五级</h4>
+      <div class="bd a1" style="left:60px;top:160px;width:1190px;height:136px"><div class="bl">各部门<small>每天的事</small></div>
+        <div class="row" style="left:130px;top:10px;width:1050px;height:114px"><div class="dp"><b>老板</b><p><i class=y></i>看经营数</p><p><i></i>定新品</p><p><i></i>批价格折扣</p></div><div class="dp"><b>外贸销售</b><p><i class=y></i>回询盘</p><p><i class=y></i>报价</p><p><i></i>跟单</p></div><div class="dp"><b>运营</b><p><i></i>上新</p><p><i class=y></i>写卖点</p><p><i></i>看广告</p></div><div class="dp"><b>采购</b><p><i class=y></i>比价</p><p><i></i>催货</p><p><i></i>对账</p></div><div class="dp d5"><b>客服售后</b><p><i class=y></i>回消息</p><p><i></i>处理退款</p></div><div class="dp"><b>仓储物流</b><p><i></i>备货</p><p><i class=y></i>发货查件</p></div><div class="dp"><b>财务</b><p><i></i>对账</p><p><i class=y></i>报销</p><p><i></i>算提成</p></div><div class="dp"><b>人事</b><p><i></i>招人</p><p><i class=y></i>带新人</p></div></div></div>
+      <div class="bd zt o2" style="left:60px;top:344px;width:1190px;height:196px"><div class="bl">AI 中台<small>各部门共用：文字、图片、视频、代码</small></div>
+        <div class="col o3" style="left:134px;top:12px"><span class="tag">事情进来</span><span class="ch">群消息、表单</span><span class="ch">定时任务</span><span class="ch">系统提醒</span></div>
+        <div class="core" style="left:312px;top:22px"><div class="t4 kb"><b>知识库</b><p>制度、岗位 SOP<br>判断、产品</p></div><div class="t4 sk"><b>技能</b><p>一件事，一步步怎么做</p></div><div class="t4 ag"><b>智能体</b><p>一个岗位的 AI，带着技能做事</p></div><div class="t4 wf o3"><b>工作流</b><p>一条线谁先谁后、谁点头</p></div></div>
+        <div class="col gv o5" style="left:940px;top:10px"><span class="tag">管起来</span><span class="ch">权限和审批</span><span class="ch">运行记录</span><span class="ch">模型和账号</span><span class="ch org">组织和 AI 一起管</span></div></div>
+      <div class="bd pdj o3" style="left:60px;top:556px;width:880px;height:66px"><div class="bl" style="padding-top:20px">判断</div>
+        <div class="row" style="left:132px;top:16px;gap:12px;align-items:center"><span class="ch nod">要人点头的：发消息、花钱、改价、删数据</span><span class="tag">→</span><span class="ch nod">负责人拍板</span><span class="tag o4">→</span><span class="ch o4">决定记下来，写回知识库</span></div></div>
+      <div class="bd sj o4" style="left:60px;top:640px;width:1190px;height:130px"><div class="bl">数据和系统<small>AI 读得到才用得上</small></div>
+        <div class="row" style="left:132px;top:18px;gap:10px;align-items:center"><span class="tag" style="width:40px">数据</span><span class="ch">客户</span><span class="ch">商品</span><span class="ch">订单</span><span class="ch">库存</span><span class="ch">广告</span><span class="ch">财务</span><span class="ch">聊天和邮件</span><span class="ch">运行日志</span></div>
+        <div class="row" style="left:132px;top:74px;gap:10px;align-items:center"><span class="tag" style="width:40px">系统</span><span class="ch">店铺后台</span><span class="ch">ERP</span><span class="ch">表格</span><span class="ch">飞书、企业微信</span><span class="ch">邮箱</span><span class="ch">网盘</span></div></div>
+      <svg class="wr" viewBox="0 0 1600 900"><path class="fn o3" d="M534 344 C534 318,251 322,251 298"/><path class="fn o3" d="M574 344 C574 318,384 322,384 298"/><path class="fn o3" d="M614 344 C614 318,516 322,516 298"/><path class="fn o3" d="M654 344 C654 318,649 322,649 298"/><path class="fn o2" d="M694 344 C694 318,781 322,781 298"/><path class="fn o3" d="M734 344 C734 318,914 322,914 298"/><path class="fn o3" d="M774 344 C774 318,1046 322,1046 298"/><path class="fn o3" d="M814 344 C814 318,1179 322,1179 298"/><path class="dt o4" d="M990 638 V542"/><path class="dt o4" d="M1090 638 V542"/><path class="dt o4" d="M1190 638 V542"/><path class="wb o4" d="M797 570 V548 H443 V520"/></svg>
+      <div class="bd rail a5" style="left:1272px;top:160px;width:268px;height:610px"><h4>五级</h4>
         <div class="lv l5"><b><u>L5</u>AI 原生</b></div>
         <div class="lv l4"><b><u>L4</u>判断和数据成闭环</b></div>
         <div class="lv l3"><b><u>L3</u>一条线人机分工</b></div>
