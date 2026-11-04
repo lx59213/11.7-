@@ -15,7 +15,7 @@ THEMES = {
 JOBS = [
   # 浅色版 11-04 起不再更新，文件留在仓库里
   # ('开场.html', '课程骨架_浅色版.html', 'light', "'off'", '/* ======================= 进度条 / 翻页 / 讲师视图'),
-  ('开场_v2细胞版_备份.html', '课程骨架_深色版.html', 'dark', "'hidden'", '/* ================= 进度条 ================= */'),
+  ('开场_v2细胞版_备份.html', '正式课件-完善中.html', 'dark', "'hidden'", '/* ================= 进度条 ================= */'),
 ]
 for src, dst, theme, w, js_anchor in JOBS:
     s = (root / src).read_text(encoding='utf-8')
@@ -24,7 +24,7 @@ for src, dst, theme, w, js_anchor in JOBS:
         assert s.count(anchor) >= 1, (src, anchor)
         i = s.index(anchor)
         s = s[:i] + text + s[i:] if before else s[:i+len(anchor)] + text + s[i+len(anchor):]
-    s = re.sub(r'<title>.*?</title>', '<title>组织 AI 技能提升实操训练营 · 课程骨架</title>', s, count=1)
+    s = re.sub(r'<title>.*?</title>', '<title>组织 AI 技能提升实操训练营 · 正式课件</title>', s, count=1)
     ins('</style>', THEMES[theme] + CSS)
     ins('<div id="bar"></div>', HTML)
     # 接在开场最后一步后面
