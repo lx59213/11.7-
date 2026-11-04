@@ -7,7 +7,7 @@
 <style>
 :root{
   --bg:#06080d; --ink:#f3f4f6; --mute:#8b909b; --dim:#3a3f4a; --line:#1c2029;
-  --sk:#d4ff3a; --ag:#47e5ff; --wf:#a487ff; --kb:#ffb547;
+  --sk:#d4ff3a; --ag:#e8e4d8; --wf:#8f8b80; --kb:#c9a96e;
   --f:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",sans-serif;
   --mono:"SF Mono","Menlo","Consolas",monospace;
 }
@@ -125,7 +125,7 @@ svg.lead line{stroke:#5a606c;stroke-width:1.5;stroke-dasharray:4 5}
 .ppl{display:flex;flex-wrap:wrap;gap:14px;margin:36px 0 30px;max-width:620px}
 .ppl i{width:58px;height:58px;border-radius:50%;background:#4a4f5a;display:block}
 .ppl i.h{background:#e9eaee}
-.ppl i.a{background:radial-gradient(circle at 50% 50%,rgba(71,229,255,.5),rgba(71,229,255,.08) 70%);border:2px solid var(--ag)}
+.ppl i.a{background:radial-gradient(circle at 50% 50%,rgba(232,228,216,.4),rgba(232,228,216,.06) 70%);border:2px solid var(--ag)}
 .take{left:200px;top:220px;width:1200px}
 .take .r{display:flex;align-items:baseline;gap:30px;padding:26px 0;border-bottom:1px solid var(--line)}
 .take .r i{width:22px;height:22px;border-radius:50%;background:var(--c);flex:none;align-self:center}
@@ -137,7 +137,7 @@ svg.lead line{stroke:#5a606c;stroke-width:1.5;stroke-dasharray:4 5}
 .go h2{font-size:170px;font-weight:900;letter-spacing:-.02em}
 .blocks{left:200px;top:560px;width:1200px;display:flex;gap:22px}
 .blocks div{flex:1;height:150px;border-radius:20px;border:1.5px solid #2a2f3a;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:40px;font-weight:900;color:#5a606c;position:relative}
-.blocks div.on{border:2px solid var(--kb);color:var(--kb);background:rgba(255,181,71,.08)}
+.blocks div.on{border:2px solid var(--kb);color:var(--kb);background:rgba(201,169,110,.08)}
 .blocks div.on::after{content:"第一站";position:absolute;top:-20px;font-size:20px;background:var(--kb);color:#07080a;padding:6px 16px;border-radius:20px}
 
 
@@ -149,9 +149,9 @@ svg.lead line{stroke:#5a606c;stroke-width:1.5;stroke-dasharray:4 5}
 #sA .term.ai{position:relative;overflow:hidden}
 #sA .term.ai u{position:absolute;left:0;bottom:0;height:6px;width:0;background:var(--sk);transition:width 1.6s cubic-bezier(.6,0,.2,1)}
 #sA:has(.f1.vis) .term:not(.ai):not(.res){opacity:.28}
-#sA:has(.f1.vis) .term.ai{border-color:var(--sk);color:var(--sk);transform:translateY(-10px);box-shadow:0 0 60px rgba(212,255,58,.25)}
+#sA:has(.f1.vis) .term.ai{border-color:var(--sk);color:var(--sk);transform:translateY(-10px)}
 #sA:has(.f2.vis) .term.ai u{width:100%}
-#sA:has(.f2.vis) .term.res{transform:scale(1.12);box-shadow:0 0 90px rgba(243,244,246,.22);transition-delay:.9s}
+#sA:has(.f2.vis) .term.res{transform:scale(1.12);transition-delay:.9s}
 #sA .brs{position:absolute;left:0;top:0;width:1600px;height:900px;overflow:visible}
 #sA .brs path{fill:none;stroke:var(--sk);stroke-width:2;opacity:.55;stroke-dasharray:600;stroke-dashoffset:600;transition:stroke-dashoffset 1s ease .2s}
 #sA .brs.vis path{stroke-dashoffset:0}
@@ -196,14 +196,14 @@ svg.lead line{stroke:#5a606c;stroke-width:1.5;stroke-dasharray:4 5}
 #sP .vs .one{position:absolute;left:50%;top:190px;width:150px;height:150px;margin-left:-75px;border-radius:30px;background:#3a3f4a;animation:drift 5s ease-in-out infinite}
 @keyframes drift{50%{transform:translate(18px,-14px) rotate(4deg)}}
 #sP .vs .lk{position:absolute;left:0;right:0;top:494px;text-align:center;font-size:34px;font-weight:800;color:#6b707b}
-#sP .vs .mine{position:absolute;left:50%;top:150px;width:150px;height:150px;margin-left:-75px;border-radius:30px;background:var(--sk);box-shadow:0 0 70px rgba(212,255,58,.35);display:flex;align-items:center;justify-content:center;font:900 40px var(--mono);color:#07080a}
+#sP .vs .mine{position:absolute;left:50%;top:150px;width:150px;height:150px;margin-left:-75px;border-radius:30px;background:var(--sk);display:flex;align-items:center;justify-content:center;font:900 40px var(--mono);color:#07080a}
 #sP .vs .mine em{font-style:normal;position:absolute;opacity:0;animation:ver 6s infinite}
 #sP .vs .mine em:nth-child(2){animation-delay:2s}#sP .vs .mine em:nth-child(3){animation-delay:4s}
 @keyframes ver{0%,4%{opacity:0;transform:translateY(12px)}8%,30%{opacity:1;transform:none}34%,100%{opacity:0;transform:translateY(-12px)}}
 #sP .vs .wire{position:absolute;left:50%;top:300px;width:3px;height:120px;margin-left:-1.5px;background:linear-gradient(var(--sk),var(--kb))}
 #sP .vs .wire::after{content:"";position:absolute;left:-5px;top:0;width:13px;height:13px;border-radius:50%;background:#fff;animation:pulse 1.6s linear infinite}
 @keyframes pulse{to{top:110px;opacity:.2}}
-#sP .vs .kbb{position:absolute;left:60px;right:60px;top:420px;height:60px;border-radius:16px;border:2px solid var(--kb);color:var(--kb);font-size:26px;font-weight:800;display:flex;align-items:center;justify-content:center;background:rgba(255,181,71,.08)}
+#sP .vs .kbb{position:absolute;left:60px;right:60px;top:420px;height:60px;border-radius:16px;border:2px solid var(--kb);color:var(--kb);font-size:26px;font-weight:800;display:flex;align-items:center;justify-content:center;background:rgba(201,169,110,.08)}
 #sP .vs .ok{position:absolute;left:0;right:0;top:494px;text-align:center;font-size:26px;font-weight:800;color:var(--sk);text-shadow:0 2px 20px #06080d}
 
 
@@ -211,7 +211,7 @@ svg.lead line{stroke:#5a606c;stroke-width:1.5;stroke-dasharray:4 5}
 #bar .ch{cursor:pointer}
 #bar .ch:hover b{color:var(--ink)!important}
 #bar .ch b em{font-style:normal;margin-left:6px;opacity:.75;font-family:var(--mono);font-size:11px}
-#ctl{position:absolute;right:24px;bottom:50px;z-index:25;display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:14px;background:rgba(6,8,13,.82);border:1px solid #262b36;font-size:15px;color:#c9ccd3;opacity:.28;transition:opacity .3s}
+#ctl{position:absolute;right:24px;bottom:50px;z-index:25;display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:14px;background:rgba(6,8,13,.82);border:1px solid #262b36;font-size:15px;color:#c9ccd3;opacity:.1;transition:opacity .3s}
 #ctl:hover{opacity:1}
 #ctl button{all:unset;cursor:pointer;width:34px;height:34px;border-radius:10px;background:#161a22;display:flex;align-items:center;justify-content:center;font-size:16px;color:#e6e8ec}
 #ctl button:hover{background:#262b36}
@@ -234,7 +234,7 @@ body.pv #pv{display:block}
 #pv .nx{margin-top:26px;font-size:22px;line-height:1.7;color:var(--mute);padding:0 10px}
 #pv .nx b{color:var(--ink);font-weight:600}
 #pv .keys{margin-top:30px;font-size:16px;color:var(--dim)}
-:root{--m-ink:#f3f4f6;--m-mute:#8b909b;--m-line:#1f232c;--m-line2:#343a46;--m-card:#10131a;--m-card2:#171b24;--m-bg2:#06080d;--m-on:#07080a;--m-shadow:0 18px 60px rgba(0,0,0,.55);--m-code-bg:#0b0d12;--m-code-ink:#e8e6e1;--hi:#ff6bb5}
+:root{--m-ink:#f3f4f6;--m-mute:#8b909b;--m-line:#1f232c;--m-line2:#343a46;--m-card:#10131a;--m-card2:#171b24;--m-bg2:#06080d;--m-on:#07080a;--m-shadow:0 18px 60px rgba(0,0,0,.55);--m-code-bg:#0b0d12;--m-code-ink:#e8e6e1;--hi:#c9a96e}
 
 /* ======================= 模块通用 ======================= */
 .mod{color:var(--m-ink)}
@@ -513,7 +513,7 @@ body.pv #pv{display:block}
 #m5 .m-eq{position:absolute;left:0;right:0;top:330px;display:flex;justify-content:center;align-items:center;gap:16px}
 #m5 .m-eq .t{flex:none;font-size:44px;font-weight:900;padding:18px 24px;border-radius:20px;border:2px solid var(--m-line2);background:var(--m-card);white-space:nowrap;opacity:.3}
 #m5 .m-eq .t.r{opacity:1}
-#m5 .m-eq .t.ai{opacity:1;border-color:var(--sk);color:var(--m-ink);position:relative;overflow:hidden;box-shadow:0 0 60px color-mix(in srgb,var(--sk) 30%,transparent)}
+#m5 .m-eq .t.ai{opacity:1;border-color:var(--sk);color:var(--m-ink);position:relative;overflow:hidden}
 #m5 .m-eq .t.ai u{position:absolute;left:0;bottom:0;height:8px;width:100%;background:var(--sk)}
 #m5 .m-eq i{font-style:normal;font-size:44px;color:var(--m-mute);font-weight:300}
 #m5 .m-eq-cap{position:absolute;left:0;right:0;top:520px;text-align:center;font-size:30px;color:var(--m-mute);letter-spacing:.1em}
@@ -584,8 +584,8 @@ body.pv #pv{display:block}
     <div class="chip rv late" data-in="2" data-out="3" style="left:1424px;top:570px">D 岗</div>
     <div class="abs ttl rv" data-in="3">一个人能顶岗，靠两样</div>
     <svg class="lead rv fade late" data-in="3"><line x1="1150" y1="330" x2="935" y2="390"/><line x1="460" y1="640" x2="760" y2="480"/></svg>
-    <div class="chip rv late" data-in="3" style="left:1260px;top:320px">本事 · 他会干的</div>
-    <div class="chip rv late" data-in="3" style="left:360px;top:650px">懂行 · 他知道的</div>
+    <div class="chip rv late" data-in="3" style="left:1260px;top:320px">本事：一步步怎么做</div>
+    <div class="chip rv late" data-in="3" style="left:360px;top:650px">懂行：客户、价格、规矩</div>
   </section>
 
   <!-- 换成 AI 的叫法 -->
@@ -634,32 +634,32 @@ body.pv #pv{display:block}
     <i class="f2 rv" data-in="2" hidden></i>
     <div class="abs ask rv" data-in="2" data-out="3">加进来的，天天在用吗？</div>
     <div class="abs vs rv fade" data-in="3">
-      <div class="side l"><div class="lb">别人做的</div><div class="one"></div><div class="lk">做不出想要的 · 改不动</div></div>
-      <div class="side r"><div class="lb">自己搭的</div><div class="mine"><em>v1</em><em>v2</em><em>v3</em></div><div class="wire"></div><div class="ok">长在公司里 · 越改越顺</div><div class="kbb">公司的知识库</div></div>
+      <div class="side l"><div class="lb">别人做的</div><div class="one"></div><div class="lk">做不出想要的，也改不了</div></div>
+      <div class="side r"><div class="lb">自己搭的</div><div class="mine"><em>v1</em><em>v2</em><em>v3</em></div><div class="wire"></div><div class="ok">接着公司的知识库，自己能改</div><div class="kbb">公司的知识库</div></div>
     </div>
   </section>
 
   <!-- 长出来 -->
   <section class="scene" id="sE">
-    <div class="abs ttl rv" data-in="0" data-out="1">四样凑到一起，<br>会长成什么？</div>
+    <div class="abs ttl rv" data-in="0" data-out="1">四样凑到一起，<br>长成一家用 AI 跑的公司</div>
     <div class="abs ttl rv" data-in="1" data-out="2">一个<span class="sk">技能</span></div>
     <div class="abs ttl rv" data-in="2" data-out="3"><span class="sk">技能</span>越来越多</div>
     <div class="abs ttl rv" data-in="3" data-out="4">融成一个专家：<span class="ag">智能体</span></div>
     <div class="abs ttl rv" data-in="4" data-out="5">专家越来越多</div>
     <div class="abs ttl rv" data-in="5" data-out="6">串成一条业务流：<span class="wf">工作流</span></div>
     <div class="abs ttl rv" data-in="6" data-out="7">一条条流，长成一家公司</div>
-    <div class="abs ttl rv" data-in="7">底座是<span class="kb">知识库</span><small>越跑越懂，越用越强</small></div>
+    <div class="abs ttl rv" data-in="7">底座是<span class="kb">知识库</span><small>每跑完一单，知识库就厚一层</small></div>
     <div class="abs cnt rv" data-in="7" id="evoCnt"></div>
   </section>
 
   <!-- 闭环 -->
   <section class="scene" id="sF">
-    <div class="abs big rv" data-in="0" data-out="1"><h2 style="font-size:96px">学会这四样，<br>能做到什么？</h2></div>
-    <div class="abs big rv" data-in="1" data-out="2" style="top:260px"><h2>会拆，也会建</h2>
+    <div class="abs big rv" data-in="0" data-out="1"><h2 style="font-size:96px">学会这四样，<br>能把公司拆开再建回来</h2></div>
+    <div class="abs big rv" data-in="1" data-out="2" style="top:260px"><h2>拆开，再建回来</h2>
       <p><b>拆</b>拿到自己的公司，拆成四样<br><b class="sk">建</b>用这四样，长回一家用 AI 跑的公司</p></div>
     <div class="rv fade" data-in="2">
       <svg id="loopSvg" viewBox="0 0 1600 900">
-        <defs><linearGradient id="lg" x1="0" x2="1"><stop offset="0" stop-color="#d4ff3a"/><stop offset=".5" stop-color="#47e5ff"/><stop offset="1" stop-color="#ffb547"/></linearGradient></defs>
+        <defs><linearGradient id="lg" x1="0" x2="1"><stop offset="0" stop-color="#d4ff3a"/><stop offset=".5" stop-color="#e8e4d8"/><stop offset="1" stop-color="#c9a96e"/></linearGradient></defs>
         <circle class="ring" cx="800" cy="480" r="270"/>
         <circle class="flow" cx="800" cy="480" r="270" transform="rotate(-90 800 480)"/>
       </svg>
@@ -667,7 +667,7 @@ body.pv #pv{display:block}
       <div class="node" style="left:1070px;top:480px;--c:var(--sk)"><b>拆成四样</b><span>技能 · 智能体 · 工作流 · 知识库</span></div>
       <div class="node" style="left:800px;top:750px;--c:var(--ag)"><b>用 AI 建回来</b><span>从下往上，一层层搭</span></div>
       <div class="node" style="left:530px;top:480px;--c:var(--kb)"><b>跑起来</b><span>每一单，写回知识库</span></div>
-      <div class="abs core">越转越强<small>再拆，再建</small></div>
+      <div class="abs core">转一圈<small>知识库厚一层</small></div>
     </div>
   </section>
 
@@ -975,7 +975,7 @@ body.pv #pv{display:block}
 <script>
 /* ================= 逐步：画面 + 口播 ================= */
 const BEATS=[
- {s:'cover',k:0,w:'hidden',ch:'开场',n:`各位早。先把这两天的目标说在前面：帮你把你的公司，用 AI 重做一遍。不是教你用一个软件，是把你公司做事的那副骨架，用 AI 再搭一遍。怎么搭？先从你最熟的东西开始：你自己的公司。`},
+ {s:'cover',k:0,w:'hidden',ch:'开场',n:`各位早。先把这两天的目标说在前面：帮各位把自家公司用 AI 重做一遍。要做的是把公司做事的那副骨架，用 AI 再搭一遍，用哪个软件倒在其次。先从各位最熟的东西开始：自己的公司。`},
 
  {s:'sA',k:0,w:'hidden',ch:'等式',n:`先给各位一个算式。一家公司的业务结果，是几样东西乘出来的：业务理解、AI 技能、数据和系统、分工和流程。是乘法，哪一项是零，结果就是零。`},
  {s:'sA',k:1,w:'hidden',ch:'等式',n:`业务理解，在座各位比我们懂；数据和系统、分工和流程，各家不一样。这两天只补一项：AI 技能。括号打开，就是海报上的这八项，都融在接下来要做的四样东西里。`},
@@ -983,20 +983,20 @@ const BEATS=[
  {s:'sB',k:0,w:'company_f',ch:'一家公司',n:`这是一家公司。不管做什么行业，从里面看都长这样：几条业务线一起在跑，活儿在里面流。在座各位，对自己公司的这张图，比谁都熟。`},
  {s:'sB',k:1,w:'flow_f',ch:'一家公司',n:`拉近看一条。公司做成一件事，从来不是一个人做完的：从 A 岗位到 B 岗位，再到 C 岗位，一站一站往下传。这就是一条业务流程。想一下：你公司里最要紧的那件事，是怎么从头走到尾的？`},
  {s:'sB',k:2,w:'flow_f',ch:'一家公司',n:`线上每一站，都是一个人。各管一段，各司其职。`},
- {s:'sB',k:3,w:'agent_f',ch:'一家公司',n:`再拉近，看一个人。他凭什么顶得住这个岗？靠两样：一是本事，这件事一步步怎么做，他会干；二是懂行，公司的客户、价格、规矩、以前出过什么事，他都知道。只会干不懂行，会干错；只懂行不会干，干不出来。`},
+ {s:'sB',k:3,w:'agent_f',ch:'一家公司',n:`再拉近，看一个人。他凭什么顶得住这个岗？靠两样：一是本事，这件事一步步怎么做，他会干；二是懂行，公司的客户、价格、规矩、以前出过什么事，他都知道。两样缺一样，这个岗就顶不住。`},
 
  {s:'sC',k:0,w:'agent_ai',ch:'换成 AI',n:`好，同一张图，换成 AI 的叫法。一个人的本事，在 AI 里叫技能；他懂的那些，叫知识。`},
  {s:'sC',k:1,w:'flow_ai',ch:'换成 AI',n:`技能加知识，装到一起，就是一个能顶岗的 AI，叫智能体。外面常说的 Agent 就是它。你可以把它当成一个数字员工：有本事，也懂行。`},
  {s:'sC',k:2,w:'wf_ai',ch:'换成 AI',n:`几个智能体一站接一站，把一件事从头做到尾，这条线叫工作流。`},
  {s:'sC',k:3,w:'company_ai',ch:'换成 AI',n:`最后，是所有人都靠的那个底子：公司的资料、规矩、经验、做过的事。在 AI 里它叫知识库，压在整家公司的最底下。`},
- {s:'sC',k:4,w:'dim',ch:'换成 AI',n:`所以 AI 的世界，没有什么新东西。四个词，每一个你都早就认识：流程是工作流，人是智能体，本事是技能，公司的底子是知识库。拆的时候从上往下拆，建的时候从下往上建。`},
+ {s:'sC',k:4,w:'dim',ch:'换成 AI',n:`所以换成 AI，四个词各位其实早就认识：流程是工作流，人是智能体，本事是技能，公司的底子是知识库。拆的时候从上往下拆，建的时候从下往上建。`},
 
  {s:'sD',k:0,w:'dim',ch:'四样',n:`这两天，就带各位亲手做这四样：技能、智能体、工作流，还有压在最底下的知识库。每一样，都拿你自己公司的事来做。`},
 
  {s:'sP',k:0,w:'hidden',ch:'破题',n:`这四个词，技能、智能体、工作流、知识库，各位可能都听过，有的已经在用了。`},
  {s:'sP',k:1,w:'hidden',ch:'破题',n:`拿技能说。很多人用技能是这样：打开技能广场，看到好的，点个加号，加进来，聊几句。`},
  {s:'sP',k:2,w:'hidden',ch:'破题',n:`问各位一个问题：加进来的这些，现在还天天在用吗？用着不顺手的时候，改过吗？`},
- {s:'sP',k:3,w:'hidden',ch:'破题',n:`别人做的技能，做不出各位要的东西，到了真实场景会出错；人家一停更新，自己也改不动。这两天我们自己搭：长在自己公司里，接着自己的知识库，能改，越用越顺，四样还能串起来。后面每一站都这样，先看大家以为的是什么样，再看真正用起来是什么样。`},
+ {s:'sP',k:3,w:'hidden',ch:'破题',n:`别人做的技能，做不出各位要的东西，到了真实场景会出错；人家一停更新，自己也改不动。这两天我们自己搭：长在自己公司里，接着自己的知识库，自己能改，用得越久越顺手，四样还能串起来。后面每一站都这样，先看大家以为的是什么样，再看真正用起来是什么样。`},
  {s:'sE',k:0,w:'dust',ch:'长出来',n:`那这四样凑到一起，会长成什么？我们把这家公司打散，从零开始，重做一遍。`},
  {s:'sE',k:1,w:'g1',ch:'长出来',n:`先是一个技能。很小，只会一件事。`},
  {s:'sE',k:2,w:'g2',ch:'长出来',n:`技能会越来越多。一个变两个，两个变四个。`},
@@ -1004,17 +1004,17 @@ const BEATS=[
  {s:'sE',k:4,w:'g4',ch:'长出来',n:`专家也会越来越多，一个管一段。`},
  {s:'sE',k:5,w:'g5',ch:'长出来',n:`它们一站接一站串起来，活儿在里面流，这就是一条工作流。`},
  {s:'sE',k:6,w:'g6',ch:'长出来',n:`一条条工作流长出来、挨在一起，就是一家公司。`},
- {s:'sE',k:7,w:'g7',ch:'长出来',n:`它的底座，是知识库。每跑完一单，结果写回知识库；知识库越厚，上面每个智能体越懂行，又长出新的技能、新的流程。看右上角的数，它自己在涨。这不是搭完就停的系统，是会自己长的。（让它多跑十几秒再往下）`},
+ {s:'sE',k:7,w:'g7',ch:'长出来',n:`它的底座，是知识库。每跑完一单，结果写回知识库；知识库越厚，上面每个智能体越懂行，又长出新的技能、新的流程。看右上角的数，它自己在涨。搭完它自己还在长。（让它多跑十几秒再往下）`},
 
  {s:'sF',k:0,w:'g7dim',ch:'闭环',n:`所以学会这四样，能做到什么？`},
- {s:'sF',k:1,w:'g7dim',ch:'闭环',n:`你会拆，也会建。拆：拿到自己的公司，能拆成这四样；建：用这四样，长回一家用 AI 跑的公司。`},
+ {s:'sF',k:1,w:'g7dim',ch:'闭环',n:`拿到自己的公司，能拆成这四样；再用这四样，建回一家用 AI 跑的公司。`},
  {s:'sF',k:2,w:'g7dim',ch:'闭环',n:`而且这是个闭环：你的公司，拆成四样，用 AI 建回来，跑起来，每一单的结果写回知识库，公司就强一点；再拆，再建。外面很多课教你做其中一个点；这两天，我们教你把这一整圈转起来。`},
 
  {s:'sG',k:0,w:'hidden',ch:'学员',n:`听起来很大。来看看最近几期的学员，学完以后真实发生了什么。`},
  {s:'sG',k:1,w:'hidden',ch:'学员',n:`【案例 A，照真实学员替换】他是谁；这件事以前怎么做、花多久；学完以后怎么做、现在花多久。最好放他的真截图。`},
  {s:'sG',k:2,w:'hidden',ch:'学员',n:`【案例 B，照真实学员替换】挑一件以前根本做不到、现在每天自己在跑的事。岗位最好和案例 A 不一样。`},
  {s:'sG',k:3,w:'hidden',ch:'学员',n:`【公司案例，照真实学员替换】以前几个人做这块；现在几个人加几个智能体在做；老板现在只在哪几个点拍板。`},
- {s:'sG',k:4,w:'hidden',ch:'学员',n:`两天以后，各位带走的不是笔记，是四样东西，全是你自己公司的：一组技能、几个能顶岗的智能体、一条跑起来的工作流、一个你公司的知识库。`},
+ {s:'sG',k:4,w:'hidden',ch:'学员',n:`两天以后，各位带走四样东西，全是自家公司的：一组技能、几个能顶岗的智能体、一条跑起来的工作流、一个你公司的知识库。`},
 
  {s:'sH',k:0,w:'hidden',ch:'开始',n:`那我们开始。从最底下开始：第一站，知识库。`},
 
@@ -1067,7 +1067,7 @@ function rng(seed){return()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(see
 const frac=x=>x-Math.floor(x);
 
 /* ================= 世界：一家会长的公司 ================= */
-const C={gray:[178,184,196],sk:[212,255,58],ag:[71,229,255],wf:[164,135,255],kb:[255,181,71],white:[243,244,246]};
+const C={gray:[150,148,140],sk:[212,255,58],ag:[232,228,216],wf:[143,139,128],kb:[201,169,110],white:[243,244,246]};
 const R=48,FMAX=5,PMAX=4,NMAX=8;
 const rowY=(f,F)=>400+(f-(Math.max(F,4)-1)/2)*120;
 const colX=(f,p)=>800+(p-1.5)*260+(f%2?40:-40);

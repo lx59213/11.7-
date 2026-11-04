@@ -10,7 +10,7 @@ THEMES = {
   'light': ':root{--m-ink:#1F1E1B;--m-mute:#8C8A83;--m-line:#E2DED4;--m-line2:#CFCABD;--m-card:#FFFFFF;--m-card2:#F2EFE8;--m-bg2:#F5F3EE;--m-on:#FFFFFF;'
            '--m-shadow:0 18px 50px rgba(60,40,20,.10);--m-code-bg:#1F1E1B;--m-code-ink:#F5F3EE;--hi:#B0427A}\n',
   'dark':  ':root{--m-ink:#f3f4f6;--m-mute:#8b909b;--m-line:#1f232c;--m-line2:#343a46;--m-card:#10131a;--m-card2:#171b24;--m-bg2:#06080d;--m-on:#07080a;'
-           '--m-shadow:0 18px 60px rgba(0,0,0,.55);--m-code-bg:#0b0d12;--m-code-ink:#e8e6e1;--hi:#ff6bb5}\n',
+           '--m-shadow:0 18px 60px rgba(0,0,0,.55);--m-code-bg:#0b0d12;--m-code-ink:#e8e6e1;--hi:#c9a96e}\n',
 }
 JOBS = [
   # 浅色版 11-04 起不再更新，文件留在仓库里
