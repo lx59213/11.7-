@@ -230,7 +230,56 @@ SUB = {
  }
 }
 
+# 11-05 TTZ：每块动手前一页——随口建的会吃灰，为了回去一直用、一直改，包里多做了哪几件事；本块涉及海报上哪几项底层能力；回去多练
+KEEP = {
+ 'm1': ('知识库', '随手让 AI 整理资料', '过两周就没人翻，答错了也查不到为什么', [
+   ('原始资料只放不改', 'AI 整理的知识页另外存，原件随时能对', '放好资料'),
+   ('每条写清出处', '谁哪天说的，随手点一条就能回原件', 'AI 带着搭'),
+   ('对不上的标出来，人拍板', '它不替你选，存疑的标“待确认”', 'AI 带着搭'),
+   ('规矩变了，看库改不改得动', '新开窗口拿真问题考，改完再考', '考一考')],
+   ['提示词与上下文设计', 'AI 资料研究', '企业知识库与岗位智能体']),
+ 'm2': ('技能', '随口让 AI 建一个技能', '用几回就放着不动，做错了也没人知道', [
+   ('先留一份“做之前”', '没技能时 AI 做的那份留着，以后每一版都跟它比', '第 1 步'),
+   ('评分标准从自家门道来', '问出来的三条做法加三条红线，定下就不改', '第 2、3 步'),
+   ('错一次，改一句，再考一遍', '分数不降才升版本，越改越好，改不坏', '第 4、5 步'),
+   ('看板记下谁用、谁改', '版本、分数、改过哪句都在，换人也能接着管', '第 6 步')],
+   ['提示词与上下文设计', 'AI 数据分析', 'AI 文案与多语言', '多模态内容创作']),
+ 'm3': ('智能体', '随口让 AI 建一个专家', '说一句就搭好，出了错不知道是哪句的事', [
+   ('先出一份“做之前”', '没说明书时 AI 做的那份留着，后面每版都跟它比', '第 1 步'),
+   ('说明书写清红线和交人', '它是谁、绝不能出现什么、什么时候交给人', '第 2、3 步'),
+   ('做之前先亮出说明', '看得见它照哪一句做的，错了知道改哪句', '第 4 步'),
+   ('先交人审，稳了再放手', '错一次改一句再考，看板记下谁用、谁改', '第 5、6 步')],
+   ['AI 数据分析', '企业知识库与岗位智能体']),
+ 'm4': ('工作流', '随手连几个步骤', '一步出错整条线停，卡在哪没人知道', [
+   ('每一步是有身份的智能体', '会查知识库、用技能，拿不准就交给人', '画线'),
+   ('看板上看得见谁在干', '交给了谁、卡在哪一步，一眼就知道', '打开看板'),
+   ('拍板点真的停下来等人', '老板点头才往下走', '跑一单'),
+   ('改一步，再跑一次', '做完一单记下教训，下一单更顺', '改一步')],
+   ['工作流自动化', 'AI 辅助应用搭建']),
+}
+KEEP_SAY = {
+ 'm1': '动手前先说一句。随手让 AI 整理一堆资料不难，难在过两周还有人用。所以包里多做了四件事：原始资料只放不改；每条写清出处；对不上的标出来，人拍板；规矩变了，看库改不改得动。',
+ 'm2': '动手前先说一句。随口让 AI 建一个技能很容易，WorkBuddy 里现成的专家也很多，可建完用几回就放着不动的居多。我们要的是回去一直在用、一直在改，所以包里多做了四件事：先留一份做之前，以后每一版都跟它比；评分标准从各位自己的门道来，定下就不改；错一次改一句再考一遍，分数不降才升版本，改不坏；看板上记下谁用、谁改，换人也能接着管。',
+ 'm3': '动手前先说一句。WorkBuddy 里专家很多，说一句也能搭一个，可出了错不知道是哪句的事，也就没人敢一直用。所以包里多做了四件事：先出一份做之前；说明书写清红线和什么时候交人；做之前先亮出说明，看得见它照哪句做；先交人审，稳了再放手，错一次改一句再考。',
+ 'm4': '动手前先说一句。随手连几个步骤，一步出错整条线就停，卡在哪也没人知道。所以包里多做了四件事：每一步是有身份的智能体；看板上看得见谁在干；拍板点真的停下来等人；改一步再跑一次。',
+}
+def keep_page(sid):
+    name, bad, badsub, items, poster_items = KEEP[sid]
+    h = (f'<div class="kp-bad pop" style="--d:.2s"><b>{bad}</b><i>↓</i><p>{badsub}</p></div>'
+         '<div class="kp-list">')
+    for i, (a, b, s) in enumerate(items):
+        h += f'<div class="kp-row pop" style="--d:{.6+i*.35:.2f}s"><em>{i+1}</em><div><b>{a}</b><p>{b}</p></div><span>{s}</span></div>'
+    h += '</div>'
+    h += ('<div class="kp-foot pop" style="--d:2.2s"><b>用到海报上的</b>' + ''.join(f'<span>{x}</span>' for x in poster_items)
+          + '<p>做的时候会一步步碰到；回去多用、多跟 AI 对话，就成了自己的本事</p></div>')
+    title = f'为了一直用得住，<em>多做了四件事</em>'
+    SUB.setdefault(sid, {})[title] = f'{name}：不是建出来就完事'
+    return (title, h, 2, '')
+
 def sec(sid, color, pages, chap=None):
+    if sid in KEEP:
+        pages = list(pages)
+        pages.insert([i for i, pg in enumerate(pages) if pg[0].startswith('动手')][0], keep_page(sid))
     h = f'  <section class="scene mod sxs" id="{sid}" style="--c:var({color})">\n'
     if chap:
         no, name, sub, dots = chap
@@ -243,6 +292,10 @@ def sec(sid, color, pages, chap=None):
     H.append(h)
 
 def beats(sid, ch, ns):
+    if sid in KEEP:
+        ns = [re.sub(r'这一块用到了海报上的[^。]*。', '', n) for n in ns]
+        i = [j for j, n in enumerate(ns) if n.startswith('动手')][0]
+        ns.insert(i, KEEP_SAY[sid] + '这一块用到海报上的' + '、'.join(KEEP[sid][4]) + '。现在不用记，做的时候会一步步碰到；回去多用、多跟 AI 对话，就成了自己的本事。')
     for k, n in enumerate(ns):
         B.append(f" {{s:'{sid}',k:{k},w:__W__,ch:'{ch}',n:`{n}`}},\n")
 
@@ -633,7 +686,7 @@ def cards3(items, foot=''):
 sk_k3 = cards3(K3, '装不上也没事，包里都写了')
 
 # 11-05 TTZ：照包 2 新流程改（同一个对话里出分，不新开对话；最后记进成果看板）；分钟取包里提示词
-sk_do = steps_page([('挑一件事，\nAI 先直接做一份', '7 分钟'), ('AI 问清\n成品里的判断', '8 分钟'), ('写技能，\n定评分标准', '6 分钟'), ('带技能再做，\n两份一起打分', '6 分钟'), ('看产出改一句，\n再打一次分', '5 分钟'), ('写上我定的一句，\n记进成果看板', '5 分钟')],
+sk_do = steps_page([('挑一件事，\nAI 先直接做一份', '8 分钟'), ('AI 问清\n成品里的判断', '8 分钟'), ('写技能，\n定评分标准', '6 分钟'), ('带技能再做，\n两份一起打分', '8 分钟'), ('看产出改一句，\n再打一次分', '5 分钟'), ('写上我定的一句，\n记进成果看板', '6 分钟')],
                    ['SKILL.md', '评分标准.md', '测试记录.md', '成果看板.html'], 'var(--sk)', talk=1)
 
 LIB = [('做课', '审课件和方案'), ('录音清理', '会议录音整理成清理版'), ('案例卡', '客户项目做成一页案例'), ('入企诊断', '入企记录做成诊断报告'),
@@ -761,7 +814,7 @@ ag_pn = (ok_card('一晚上，两个智能体各照一份说明书，改课件�
 ag_call = cards3([('能读写文件的 AI', 'WorkBuddy、Codex', '放进文件夹，说一句：照它做', ''),
                   ('装进软件', '装一次，以后直接叫', 'Codex 里改名叫 AGENTS.md', '')])
 # 11-05 TTZ：照包 3 新流程改（新品主图智能体；同一个对话里出图打分，最多三张图；最后记进成果看板）；分钟取包里提示词
-ag_do = steps_page([('选定做哪种，\n先不带说明书做一份', '8 分钟'), ('说清\n它的规矩', '11 分钟'), ('写出说明书和\n评分标准', '6 分钟'), ('照说明书再做，\n两份一起打分', '6 分钟'), ('看成品改一句，\n再做一次', '8 分钟'), ('写上我定的一句，\n写清怎么用', '4 分钟')],
+ag_do = steps_page([('选定做哪种，\n先不带说明书做一份', '9 分钟'), ('说清\n它的规矩', '11 分钟'), ('写出说明书和\n评分标准', '6 分钟'), ('照说明书再做，\n两份一起打分', '8 分钟'), ('看成品改一句，\n再做一次', '8 分钟'), ('写上我定的一句，\n写清怎么用', '5 分钟')],
                    ['AGENT.md', '评分标准.md', '测试记录.md', '三张图', '成果看板.html'], 'var(--ag)', talk=1)
 
 d1 = db(300, 440, 110, 120, 'var(--kb)', 'pop', .2) + txt(300, 570, '知识库', 30, 'var(--m-ink)', cls='pop', d=.2, w=800) + txt(300, 606, 'AI 读得懂公司', 22, cls='pop', d=.3)
@@ -1075,6 +1128,16 @@ CSS = r'''
   background:repeating-linear-gradient(135deg,transparent 0 18px,color-mix(in srgb,var(--m-ink) 3%,transparent) 18px 36px)}
 .sx-cmp .snip p{font-size:20px;color:var(--m-mute);text-align:center;line-height:1.5;max-width:80%}
 .sx-3k{position:absolute;left:96px;right:96px;top:236px;display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.kp-bad{position:absolute;left:96px;top:236px;width:380px;height:378px;border:2px dashed var(--m-line2);border-radius:22px;padding:40px 34px;display:flex;flex-direction:column;justify-content:center;gap:18px;color:var(--m-mute)}
+.kp-bad b{font-size:30px;color:var(--m-ink);font-weight:700;line-height:1.35}.kp-bad i{font-style:normal;font-size:34px}.kp-bad p{font-size:24px;line-height:1.5;margin:0}
+.kp-list{position:absolute;left:530px;right:96px;top:236px;display:flex;flex-direction:column;gap:14px}
+.kp-row{display:flex;align-items:center;gap:24px;background:var(--m-card);border:1.5px solid var(--m-line2);border-left:6px solid var(--c);border-radius:18px;padding:12px 28px;min-height:84px;box-sizing:border-box}
+.kp-row em{font-style:normal;font-size:34px;font-weight:800;color:var(--c);width:30px;text-align:center}
+.kp-row div{flex:1}.kp-row b{display:block;font-size:27px;color:var(--m-ink);font-weight:700}.kp-row p{margin:4px 0 0;font-size:20px;color:var(--m-mute)}
+.kp-row span{font-size:18px;color:var(--m-mute);border:1.5px solid var(--m-line2);border-radius:99px;padding:5px 14px;white-space:nowrap}
+.kp-foot{position:absolute;left:96px;right:96px;top:668px;display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.kp-foot b{font-size:20px;color:var(--m-mute);font-weight:600;margin-right:6px}.kp-foot span{font-size:20px;color:var(--m-ink);background:var(--m-card2);border-radius:99px;padding:7px 18px}
+.kp-foot p{flex-basis:100%;margin:10px 0 0;font-size:20px;color:var(--m-mute)}
 .sx-3k div{background:var(--m-card);border:1.5px solid var(--m-line2);border-top:6px solid var(--c);border-radius:20px;padding:30px 30px 28px;min-height:420px;display:flex;flex-direction:column}
 .sx-3k b{font-size:36px;font-weight:800}
 .sx-3k em{font-style:normal;font-size:22px;color:var(--m-mute);margin-top:8px}
