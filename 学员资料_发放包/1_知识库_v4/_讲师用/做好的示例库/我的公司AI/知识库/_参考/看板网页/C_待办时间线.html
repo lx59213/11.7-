@@ -90,6 +90,39 @@ h1 { margin: 0; font-size: 1.55rem; line-height: 1.3; font-weight: 700; }
 .foot { margin-top: 26px; padding-top: 14px; border-top: 1px solid var(--line); text-align: center; font-size: .82rem; color: var(--faint); }
 @media (max-width: 980px) { .grid { grid-template-columns: 1fr; } }
 @media (max-width: 640px) { .wrap { padding: 16px; } .now { text-align: left; } .cell.mid { display: none; } }
+/* 这两天做成的 */
+.done { --glow: 234,94,10; }
+.done .tl { display: flex; margin: 0; padding: 4px 6px 12px; list-style: none; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.done .st { position: relative; flex: none; display: flex; flex-direction: column; width: 210px; margin-right: 14px; }
+.done .st.last { width: 320px; max-width: 80vw; margin-right: 0; }
+.done .node { position: relative; display: block; height: 22px; }
+.done .node::before { content: ""; position: absolute; left: 6px; right: -14px; top: 10px; height: 2px; background: var(--line); }
+.done .st.last .node::before { display: none; }
+.done .node i { position: absolute; left: 0; top: 5px; width: 12px; height: 12px; border-radius: 50%; background: var(--bc); box-shadow: 0 0 0 3px var(--bg); }
+.done .st.last .node i { top: 3px; width: 16px; height: 16px; box-shadow: 0 0 0 3px var(--bg), 0 0 0 5px rgba(var(--glow), .25); }
+.done .dn { display: flex; flex-direction: column; flex: 1; padding: 10px 12px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); color: inherit; text-decoration: none; border-left: 4px solid var(--bc); }
+.done a.dn { transition: border-color .15s, transform .15s; }
+.done a.dn:hover { border-color: var(--bc); transform: translateY(-1px); }
+.done .dk { display: flex; align-items: center; font-size: .76rem; line-height: 1.7; color: var(--muted); }
+.done .dk .bd { flex: none; width: 8px; height: 8px; margin-right: 7px; border-radius: 2px; background: var(--bc); }
+.done .dt { margin-top: 4px; font-size: .96rem; line-height: 1.45; font-weight: 650; color: var(--ink);  }
+.done .dm { margin-top: 4px; font-size: .84rem; line-height: 1.55; color: var(--muted); }
+.done .st.last .dn { padding: 14px 16px 16px; border: 2px solid rgb(var(--today)); background: rgba(var(--today),.07); box-shadow: 0 8px 24px rgba(var(--glow), .16); }
+.done .st.last a.dn:hover { border-color: rgb(var(--today)); }
+.done .st.last .dk { font-size: .8rem; }
+.done .st.last .dt { margin-top: 6px; font-size: 1.22rem; line-height: 1.4; }
+.done .st.last .dm { margin-top: 6px; font-size: .92rem; color: var(--ink); }
+.done .tag { margin-left: auto; padding: 0 9px; border-radius: 99px; font-style: normal; font-size: .74rem; font-weight: 650; line-height: 1.75; white-space: nowrap; color: #fff; background: rgb(var(--today)); }
+@keyframes doneIn { from { opacity: 0; transform: translateY(10px) scale(.97); } to { opacity: 1; transform: none; } }
+@keyframes doneGlow { from { box-shadow: 0 0 0 0 rgba(var(--glow), .4); } to { box-shadow: 0 0 0 14px rgba(var(--glow), 0); } }
+.done .st.fresh .dn { animation: doneIn .55s cubic-bezier(.2,.8,.2,1) both, doneGlow 1.3s ease-out .35s 1 both; }
+@media (prefers-reduced-motion: reduce) { .done .st.fresh .dn { animation: none; } .done a.dn { transition: none; } }
+@media (max-width: 560px) { .done .st { width: 200px; } .done .st.last { width: 290px; } }
+.done { margin-top: 20px; padding: 16px 18px 4px; border: 1px solid var(--line); border-radius: 12px; }
+.done h2 { display: flex; align-items: baseline; margin: 0 0 8px; font-size: 1.02rem; font-weight: 700; }
+.done h2 small { margin-left: auto; font-weight: 400; font-size: .82rem; color: var(--faint); }
+.done .st.last .dn { border-left-width: 2px; }
+@media (max-width: 640px) { .done { padding: 14px 14px 2px; } }
 </style>
 </head>
 <body>
@@ -106,6 +139,7 @@ h1 { margin: 0; font-size: 1.55rem; line-height: 1.3; font-weight: 700; }
   </header>
   <div class="notice" id="notice" hidden></div>
   <main id="app" hidden>
+    <section class="done" id="done" hidden></section>
     <nav class="strip" id="strip" aria-label="接下来两周"></nav>
     <div class="grid">
       <ol class="line" id="line"></ol>
@@ -280,9 +314,49 @@ h1 { margin: 0; font-size: 1.55rem; line-height: 1.3; font-weight: 700; }
       }).join('') + '</ul>' : '<p class="empty">没有还缺的。</p>');
   }
 
+  var DONE_TONE = { '知识库': '#3B7DD8', '技能': '#E8912D', '智能体': '#4E9A3A', '编队': '#8E5EA2' };
+  var doneLast = '', doneFirst = true, doneFresh = false;
+
+  function doneBlock() {
+    var list = items(D.成果, '名');
+    if (!list.length) { doneLast = ''; return ''; }
+    var end = list[list.length - 1], sig = [end.名, end.步, end.更新].map(txt).join('|');
+    doneFresh = sig !== doneLast;
+    doneLast = sig;
+    var cards = list.map(function (x, i) {
+      var isNew = i === list.length - 1;
+      var kick = [txt(x.块), txt(x.步)].filter(Boolean).join(' · ');
+      var inner = '<span class="dk"><i class="bd"></i><span>' + esc(kick) + '</span>' + (isNew ? '<em class="tag">刚做成</em>' : '') + '</span>' +
+        '<b class="dt">' + esc(x.名) + '</b>' + (txt(x.意味着) ? '<span class="dm">' + esc(x.意味着) + '</span>' : '');
+      var tip = cleanPath(x.页) ? '在 Obsidian 里打开' + (txt(x.更新) ? '（' + esc(x.更新) + '）' : '') : '';
+      var box = cleanPath(x.页)
+        ? '<a class="dn" href="' + esc(pageHref(x.页)) + '" title="' + tip + '">' + inner + '</a>'
+        : '<div class="dn"' + (txt(x.更新) ? ' title="' + esc(x.更新) + '"' : '') + '>' + inner + '</div>';
+      return '<li class="st' + (isNew ? ' last' + (doneFresh ? ' fresh' : '') : '') + '" style="--bc:' + (DONE_TONE[txt(x.块)] || '#8A94A7') + '">' +
+        '<span class="node"><i></i></span>' + box + '</li>';
+    }).join('');
+    return '<h2>这两天做成的<small>共 ' + list.length + ' 样</small></h2><ol class="tl">' + cards + '</ol>';
+  }
+  function doneShow() {
+    put('done', doneBlock());
+    if (!document.querySelector('#done .tl')) return;
+    var still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var smooth = doneFresh && !doneFirst && !still;
+    doneFirst = false;
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        var tl = document.querySelector('#done .tl');
+        if (!tl) return;
+        var left = tl.scrollWidth - tl.clientWidth;
+        if (smooth && tl.scrollTo) tl.scrollTo({ left: left, behavior: 'smooth' }); else tl.scrollLeft = left;
+      });
+    });
+  }
+
   function render() {
     var name = txt(D.库名) || '我的知识库', list = todos(), t = today();
     document.title = name + ' · 看板';
+    doneShow();
     put('title', esc(name));
     put('sub', esc([txt(D.谁), txt(D.岗位), txt(D.业务)].filter(Boolean).join(' · ')));
     put('date', '<small>今天</small>' + md(t) + ' ' + wk(t));

@@ -72,6 +72,43 @@ canvas { position: absolute; left: 0; top: 0; width: 100%; height: 100%; touch-a
   .stage { flex: none; height: 70vh; }
   .side { width: auto; border-left: 0; border-top: 1px solid var(--line); }
 }
+/* 这两天做成的 */
+.done { --glow: 59,111,224; }
+.done .tl { display: flex; margin: 0; padding: 4px 6px 12px; list-style: none; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.done .st { position: relative; flex: none; display: flex; flex-direction: column; width: 210px; margin-right: 14px; }
+.done .st.last { width: 320px; max-width: 80vw; margin-right: 0; }
+.done .node { position: relative; display: block; height: 22px; }
+.done .node::before { content: ""; position: absolute; left: 6px; right: -14px; top: 10px; height: 2px; background: var(--line); }
+.done .st.last .node::before { display: none; }
+.done .node i { position: absolute; left: 0; top: 5px; width: 12px; height: 12px; border-radius: 50%; background: var(--bc); box-shadow: 0 0 0 3px var(--side); }
+.done .st.last .node i { top: 3px; width: 16px; height: 16px; box-shadow: 0 0 0 3px var(--side), 0 0 0 5px rgba(var(--glow), .25); }
+.done .dn { display: flex; flex-direction: column; flex: 1; padding: 10px 12px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--stage); color: inherit; text-decoration: none;  }
+.done a.dn { transition: border-color .15s, transform .15s; }
+.done a.dn:hover { border-color: var(--bc); transform: translateY(-1px); }
+.done .dk { display: flex; align-items: center; font-size: .76rem; line-height: 1.7; color: var(--muted); }
+.done .dk .bd { flex: none; width: 8px; height: 8px; margin-right: 7px; border-radius: 2px; background: var(--bc); }
+.done .dt { margin-top: 4px; font-size: .96rem; line-height: 1.45; font-weight: 650; color: var(--ink);  }
+.done .dm { margin-top: 4px; font-size: .84rem; line-height: 1.55; color: var(--muted); }
+.done .st.last .dn { padding: 14px 16px 16px; border: 2px solid var(--accent); background: var(--side); box-shadow: 0 8px 24px rgba(var(--glow), .16); }
+.done .st.last a.dn:hover { border-color: var(--accent); }
+.done .st.last .dk { font-size: .8rem; }
+.done .st.last .dt { margin-top: 6px; font-size: 1.22rem; line-height: 1.4; }
+.done .st.last .dm { margin-top: 6px; font-size: .92rem; color: var(--ink); }
+.done .tag { margin-left: auto; padding: 0 9px; border-radius: 99px; font-style: normal; font-size: .74rem; font-weight: 650; line-height: 1.75; white-space: nowrap; color: var(--side); background: var(--accent); }
+@keyframes doneIn { from { opacity: 0; transform: translateY(10px) scale(.97); } to { opacity: 1; transform: none; } }
+@keyframes doneGlow { from { box-shadow: 0 0 0 0 rgba(var(--glow), .4); } to { box-shadow: 0 0 0 14px rgba(var(--glow), 0); } }
+.done .st.fresh .dn { animation: doneIn .55s cubic-bezier(.2,.8,.2,1) both, doneGlow 1.3s ease-out .35s 1 both; }
+@media (prefers-reduced-motion: reduce) { .done .st.fresh .dn { animation: none; } .done a.dn { transition: none; } }
+@media (max-width: 560px) { .done .st { width: 200px; } .done .st.last { width: 290px; } }
+.done { flex: none; display: flex; align-items: flex-start; padding: 10px 22px 0; background: var(--side); border-bottom: 1px solid var(--line); }
+.done h2 { flex: none; width: 7.5em; margin: 4px 16px 0 0; font-size: .95rem; font-weight: 700; line-height: 1.5; }
+.done h2 small { display: block; margin-top: 2px; font-weight: 400; font-size: .78rem; color: var(--faint); }
+.done .tl { flex: 1; min-width: 0; padding-top: 0; padding-bottom: 10px; }
+.done .st { width: 200px; }
+.done .st.last { width: 300px; }
+.done .dm { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+.done .st.last .dm { -webkit-line-clamp: 3; }
+@media (max-width: 900px) { .done { display: block; padding: 10px 16px 0; } .done h2 { display: flex; align-items: baseline; width: auto; margin: 0 0 6px; } .done h2 small { display: inline; margin: 0 0 0 auto; } }
 </style>
 </head>
 <body>
@@ -81,6 +118,7 @@ canvas { position: absolute; left: 0; top: 0; width: 100%; height: 100%; touch-a
     <div class="right"><span id="stamp"></span><span id="home"></span></div>
   </header>
   <div class="notice" id="notice" hidden></div>
+  <div class="done" id="done" hidden></div>
   <div class="main" id="app" hidden>
     <div class="stage" id="stage">
       <canvas id="cv"></canvas>
@@ -176,6 +214,7 @@ canvas { position: absolute; left: 0; top: 0; width: 100%; height: 100%; touch-a
       ? '<b>看板的数据有地方写错了，读不出来。</b>跟 AI 说“看板打不开了，修一下”。'
       : '<b>还没有看板的数据。</b>跟 AI 说“更新看板”。它写好以后，这页半分钟内会自己变。';
     document.getElementById('notice').hidden = false;
+    document.getElementById('done').hidden = true;
     document.getElementById('app').hidden = true;
   }
 
@@ -456,9 +495,49 @@ canvas { position: absolute; left: 0; top: 0; width: 100%; height: 100%; touch-a
     return h;
   }
 
+  var DONE_TONE = { '知识库': '#3B7DD8', '技能': '#E8912D', '智能体': '#4E9A3A', '编队': '#8E5EA2' };
+  var doneLast = '', doneFirst = true, doneFresh = false;
+
+  function doneBlock() {
+    var list = items(D.成果, '名');
+    if (!list.length) { doneLast = ''; return ''; }
+    var end = list[list.length - 1], sig = [end.名, end.步, end.更新].map(txt).join('|');
+    doneFresh = sig !== doneLast;
+    doneLast = sig;
+    var cards = list.map(function (x, i) {
+      var isNew = i === list.length - 1;
+      var kick = [txt(x.块), txt(x.步)].filter(Boolean).join(' · ');
+      var inner = '<span class="dk"><i class="bd"></i><span>' + esc(kick) + '</span>' + (isNew ? '<em class="tag">刚做成</em>' : '') + '</span>' +
+        '<b class="dt">' + esc(x.名) + '</b>' + (txt(x.意味着) ? '<span class="dm">' + esc(x.意味着) + '</span>' : '');
+      var tip = cleanPath(x.页) ? '在 Obsidian 里打开' + (txt(x.更新) ? '（' + esc(x.更新) + '）' : '') : '';
+      var box = cleanPath(x.页)
+        ? '<a class="dn" href="' + esc(pageHref(x.页)) + '" title="' + tip + '">' + inner + '</a>'
+        : '<div class="dn"' + (txt(x.更新) ? ' title="' + esc(x.更新) + '"' : '') + '>' + inner + '</div>';
+      return '<li class="st' + (isNew ? ' last' + (doneFresh ? ' fresh' : '') : '') + '" style="--bc:' + (DONE_TONE[txt(x.块)] || '#8A94A7') + '">' +
+        '<span class="node"><i></i></span>' + box + '</li>';
+    }).join('');
+    return '<h2>这两天做成的<small>共 ' + list.length + ' 样</small></h2><ol class="tl">' + cards + '</ol>';
+  }
+  function doneShow() {
+    put('done', doneBlock());
+    if (!document.querySelector('#done .tl')) return;
+    var still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var smooth = doneFresh && !doneFirst && !still;
+    doneFirst = false;
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        var tl = document.querySelector('#done .tl');
+        if (!tl) return;
+        var left = tl.scrollWidth - tl.clientWidth;
+        if (smooth && tl.scrollTo) tl.scrollTo({ left: left, behavior: 'smooth' }); else tl.scrollLeft = left;
+      });
+    });
+  }
+
   function render() {
     var name = txt(D.库名) || '我的知识库';
     document.title = name + ' · 看板';
+    doneShow();
     put('title', esc(name));
     put('sub', esc([txt(D.谁), txt(D.岗位), txt(D.业务)].filter(Boolean).join(' · ')));
     put('stamp', esc(stamp()));
