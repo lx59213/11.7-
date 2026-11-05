@@ -300,6 +300,9 @@ def sec(sid, color, pages, chap=None):
     H.append(h)
 
 def beats(sid, ch, ns):
+    if sid in globals().get('PV_BEATS', {}):   # 每一步预告屏的口播，跟在“动手”那一拍后面
+        i = [j for j, n in enumerate(ns) if n.startswith('动手')][0]
+        ns = list(ns); ns[i+1:i+1] = PV_BEATS[sid]
     if sid in KEEP:
         ns = [re.sub(r'这一块用到了海报上的[^。]*。', '', n) for n in ns]
         i = [j for j, n in enumerate(ns) if n.startswith('动手')][0]
@@ -760,6 +763,76 @@ def nxt(items, d0=1.4):
 sk_after2 = lib() + nxt(['再做一个', '错一次，改一句，认了才升版本', '每月清一次，没人用的删掉'])
 sk_after2 += '<div class="sx-try pop" style="--d:2.2s"><b>换个产品也能用</b><p>改脚垫的商品页，一次改好 6 处</p></div>'
 
+
+# ---------------- 每一步预告屏（11-05 TTZ：讲师每让学员复制下一段提示词前，翻到这一屏讲 1 分钟）----------------
+# 分钟、最多问几个：取自包里提示词；看板图：周晓这一遍真跑在该步做完时的看板快照；图：真出的图。图都在 预告图/，生成时内嵌
+PVDIR = P.parent / '预告图'
+def _pvimg(name, mime='jpeg'):
+    return f'data:image/{mime};base64,' + base64.b64encode((PVDIR / name).read_bytes()).decode()
+PV = {
+ 'sk': ('技能', 2, [
+  (1, '一份新人版', 7, 3, [('三个方向都不对', '直接说“我要做的是……”'), ('手上没有新材料', '讲最近一次：给谁做的、要什么')], []),
+  (2, '操作手册第 1 版', 13, 10, [('想不起是哪一回', '说“记不清，跳过”，它标待补，接着问'), ('核对清单太长', '只说不认的，例如“5 不认，7 改成……”')], []),
+  (3, '照手册再做的一份', 6, 1, [('两份看着差不多', '说明手册还没写到点上；第 4 步挑最不满意的那处改')], []),
+  (4, '只改一句的第 2 版', 6, 3, [('说不出哪里不满意', '从前后对比的“还差什么”里挑一条'), ('它抄的不是那句', '说“不是这句”，它再找')], []),
+  (5, '写全的技能档案', 4, 3, [('不知道哪处算自己定的', '说一条外人想不到、吃过亏才定下的规矩')], []),
+ ]),
+ 'ag': ('智能体', 2, [
+  (1, '岗位四句话和新人版', 9, 4, [('四句写得不对', '直接说哪句改成什么'), ('图要等一两分钟', '别催，等它出完')], [('包3_第1步_图1.jpg', '新人版的图')]),
+  (2, '岗位说明书第 1 版', 14, 11, [('核对清单太长', '只说不认的编号'), ('里面有没说过的条', '说“不认，我没说过”')], []),
+  (3, '它做完的第一单', 12, 1, [('它跑的时候', '别打字，等它停'), ('请示单怎么回', '一条消息回，例如“1 同意，2 改成……”')], [('包3_第3步_图1.jpg', '第 1 张'), ('包3_第3步_图2.jpg', '查出毛病后重出的')]),
+  (4, '一张排班表', 10, 3, [('软件里建不了定时', '照它写的名字、时间和那段话自己建，回“建好了”')], [('包3_第4步_图1.jpg', '排班表自己跑出的图')]),
+  (5, '改过一句的说明书', 8, 5, [('说不出哪里不满意', '看请示单里它停得不该停的那件'), ('它抄的不是那句', '说“不是这句”')], []),
+ ]),
+ 'bd': ('智能体', 2, [
+  (6, '三个队员和分工表', 15, 3, [('名字不顺口', '直接改成平时的叫法')], []),
+  (7, '交接单、请示单和日报', 20, 2, [('队员做的时候', '别插话，盯着看板网页，看它们交接'), ('请示单怎么回', '一条消息回完')], [('包3_第7步_图1.jpg', '第 1 件的图'), ('包3_第7步_图2.jpg', '第 2 件的图')]),
+  (8, '同一单重跑的结果', 10, 3, [('它这次没犯错', '说上一轮最不满意的那处')], []),
+  (9, '全队排班表', 8, 2, [('不敢放手', '先只放“错了改得回”的那一类')], []),
+ ]),
+}
+PV_BEATS = {
+ 'm2': [
+  '技能第 1 步，7 分钟。跑完各位手上有一份新人版：什么都不知道的 AI 先做一遍，各位再说出它最不像自己公司的一处。AI 最多问 3 个，一次问一个。常卡在两处：三个方向都不对，直接说我要做的是什么；手上没有新材料，就讲最近做过的一次，给谁做的、要什么。屏上是周晓这一遍做完第 1 步的看板，技能那一格已经是 1。',
+  '第 2 步，13 分钟，问得最多，AI 最多问 10 个，一次一个。问的是三处判断：为什么这么做，最近是哪一回，不这么做出过什么事。跑完拿到操作手册第 1 版：三条判断、三条红线，每条后面是各位自己的原话，逐条标认、半认、不认。常卡在两处：想不起是哪一回，就说记不清、跳过，它标待补接着问；核对清单太长，只说不认的，比如 5 不认，7 改成什么。',
+  '第 3 步，6 分钟，最短，AI 只问 1 个：这两份，会直接拿哪份去用。前面它照操作手册、查上午的知识库再做一份，和第 1 步的新人版放在一起，每处变化写清从哪来。常卡在两份看着差不多：这说明手册还没写到点上，下一步就挑最不满意的那处改。',
+  '第 4 步，6 分钟。只改手册里的一句，改前改后写清，再照新版重做一份，看那一处改好没有、别处有没有坏。找那一句，AI 最多问 3 个。常卡在两处：说不出哪里不满意，就从前后对比的还差什么里挑一条；它抄出来的不是那句，就说不是这句，它再找。',
+  '第 5 步，4 分钟，最后一步。AI 问两件：哪一处是各位自己定的，这个技能回去谁用、谁改，最多问 3 个。跑完看板上的技能档案写全。常卡在不知道哪处算自己定的：说一条外人想不到、吃过亏才定下的规矩。做完它会把第 1 步给过、还没做的方向列出来，问接着做下一个，还是今天先到这。',
+ ],
+ 'm3': [
+  '智能体第 1 步，9 分钟。各位用四句话定一个岗位，再交一件真事给什么都不知道的 AI，它做一遍，带第 1 张图，各位说出最危险的一处。AI 最多问 4 个；哪样答不上，回不会，它给三个候选挑。常卡在两处：四句写得不对，直接说哪句改成什么；图要等一两分钟，别催。屏上是周晓这一遍做完第 1 步的看板，旁边是它出的图。',
+  '第 2 步，14 分钟，这一包问得最多，最多 11 个，一次一个。问最看重的三条做法、三条红线、交出前自查哪几条、什么情况停下等拍板，写成岗位说明书第 1 版，各位逐条认。常卡在两处：核对清单太长，只说不认的编号；里面有各位没说过的条，就说不认，我没说过。',
+  '第 3 步，12 分钟。这一步 AI 只问 1 个，各位只说一句，它自己查库、用技能、出图，自己看图查一遍，不过就重出，停在要拍板的地方，交来一张请示单。它跑的时候各位别打字，等它停。请示单一条消息回，例如 1 同意，2 改成什么。屏上两张图，一张是它先出的，一张是自己查出毛病后重出的；看板上要找人拍板的从 1 变成 3。',
+  '第 4 步，10 分钟。建一张排班表，也就是软件里的定时任务：每天几点去收件箱看有没有新事。放一件新事，马上跑一次，各位不在对话里，它也做完了，停在要拍板的地方。AI 最多问 3 个。常卡在软件里建不了定时：照它写的名字、时间和那段话自己建，回一句建好了。屏上的图是排班表自己跑出来的。',
+  '第 5 步，8 分钟。只改说明书里的一句，出第 2 版，各位认了才算；再定谁用、谁审、跑稳以后放哪类事给它自己做，员工档案写全。AI 最多问 5 个。常卡在两处：说不出哪里不满意，就看请示单里它停得不该停的那件；它抄的不是那句，就说不是这句。',
+ ],
+ 'm4': [
+  '进第二天上午的人机编队，第 6 步，15 分钟。把昨天的智能体拆成三个队员：做的、出图的、挑错的，各一份短的岗位说明书，再写一张分工表：谁交给谁、谁挑谁的错、哪里停下等拍板。AI 最多问 3 个。常卡在名字不顺口：直接改成平时的叫法。看板上智能体那一格从 1 变成 4。',
+  '第 7 步，20 分钟，最长。各位交两三件新事，别打字、别插话，盯着看板网页，看这支队一棒一棒交接：做的出稿，出图的出图，挑错的逐条挑，不过就退回重做。停下来的事攒成一张请示单，一条消息回完，最后一份日报。AI 最多问 2 个。屏上是周晓这一遍做完的看板，旁边两张图是队里出的，一件一张。',
+  '第 8 步，10 分钟。各位说一处不满意，AI 找到是哪个队员的哪一句，只改那一句，同一单再跑一遍，看改好没有、别处有没有坏。最多问 3 个。常卡在它这次没犯错：就说上一轮最不满意的那处。',
+  '第 9 步，8 分钟，最后一步。把昨天的排班表改成全队排班表，各位定哪一类事挑错的过了就放行，谁用、谁拍板；最后一句话说清这两天它们做了多少、各位拍了几下。AI 最多问 2 个。常卡在不敢放手：先只放错了改得回的那一类。',
+ ],
+}
+def pv_page(pk, row):
+    nm, step, _ = PV[pk]
+    n, got, mins, maxq, stuck, imgs = row
+    pack = 2 if pk == 'sk' else 3
+    title = f'跑完会拿到<em>{got}</em><small>{nm} · 第 {n} 步 · {mins} 分钟 · AI 最多问 {maxq} 个</small>'
+    h = (f'<div class="pv-lab pop" style="--d:.1s;left:96px">周晓这一遍真跑，第 {n} 步做完时的看板</div>'
+         f'<div class="pv-bd pop" style="--d:.2s"><img src="{_pvimg(f"包{pack}_第{n}步_看板.jpg")}" alt="周晓的看板，第 {n} 步做完时"></div>')
+    top = 236
+    if imgs:
+        h += '<div class="pv-lab pop" style="--d:.3s;left:1008px">它真出的图</div><div class="pv-im pop" style="--d:.4s">'
+        h += ''.join(f'<figure><div class="pv-ph"><img src="{_pvimg(f)}" alt="{c}"></div><figcaption>{c}</figcaption></figure>' for f, c in imgs)
+        h += '</div>'
+        top = 456
+    card = '<div class="pv-st pop" style="--d:.6s"><h4>常卡在哪</h4>' + ''.join(f'<div class="it"><b>{a}</b><p>{b}</p></div>' for a, b in stuck) + '</div>'
+    h += f'<div class="pv-col{" im" if imgs else ""}" style="top:{top}px;height:{786 - top}px">{card}</div>'   # 没有图的步骤，卡片在右栏里上下居中
+    return (title, h, step, '')
+def pv_insert(pages, pk):
+    i = [j for j, pg in enumerate(pages) if pg[0].startswith('动手')][0]
+    pages[i+1:i+1] = [pv_page(pk, r) for r in PV[pk][2]]
+
 m2_pages = [
     ('先请几位上台，讲讲上午做的<em>知识库</em>', stage_show(3, '每组抽一位'), None, ''),
     ('技能：把一件事的做法<em>固定下来</em>', svg(sk_what) + poster(lit_of('技能')), 0, ''),
@@ -771,6 +844,7 @@ m2_pages = [
 m2_pages.append(up_page('m2'))
 assert m2_pages[3][0].startswith('三个帮着做技能的')
 m2_pages.insert(3, md_page('m2'))
+pv_insert(m2_pages, 'sk')
 sec('m2', '--sk', m2_pages, ('02', '技能', '把一件事的做法交给 AI', '<i></i><i class="on"></i><i></i><i></i>'))
 beats('m2', '技能', [
     '第二块，技能。',
@@ -898,6 +972,7 @@ m3_pages = [
 m3_pages.insert(len(m3_pages) - 1, up_page('m3'))
 m3_pages.insert(1, md_page('m3'))
 m3_pages.insert(1, ('现成的客服专家不知道<em>这家店的做法</em>', ag_cmp, 1, ''))   # 11-05 靖锋：智能体的“为什么”退回原来那一页
+pv_insert(m3_pages, 'ag')
 sec('m3', '--ag', m3_pages, ('03', '智能体', '能顶一个岗的 AI', '<i></i><i></i><i class="on"></i><i></i>'))
 beats('m3', '智能体', [
     '第三块，智能体，外面叫 Agent。',
@@ -1004,6 +1079,7 @@ m4_pages = [
 ]
 m4_pages.append(up_page('m4'))
 m4_pages.insert(2, md_page('m4'))
+pv_insert(m4_pages, 'bd')
 sec('m4', '--wf', m4_pages, ('03', '人机编队', '一个人带一支 AI 队伍', '<i></i><i></i><i class="on"></i><i></i>'))
 beats('m4', '人机编队', [
     '第三块的下半场，人机编队。',
@@ -1384,6 +1460,21 @@ CSS = r'''
 .zz-l svg *{vector-effect:non-scaling-stroke}
 .zz-ne{flex:none;font-style:normal;font-size:56px;font-weight:900;color:#e8625f}
 .zz-end{position:absolute;left:0;right:0;top:704px;text-align:center;font-size:38px;font-weight:900;color:var(--c)}
+.pv-lab{position:absolute;top:196px;font-size:22px;font-weight:600;color:var(--m-mute)}
+.pv-bd{position:absolute;left:96px;top:236px;width:880px;height:550px;border-radius:16px;overflow:hidden;border:1.5px solid var(--m-line2);box-shadow:0 18px 50px rgba(0,0,0,.45);background:#fff}
+.pv-bd img{display:block;width:100%;height:100%;object-fit:cover}
+.pv-im{position:absolute;left:1008px;top:236px;width:496px;height:200px;display:flex;gap:14px}
+.pv-im figure{flex:1;margin:0;min-width:0;display:flex;flex-direction:column}
+.pv-ph{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:12px;background:var(--m-card);border:1.5px solid var(--m-line2)}
+.pv-ph img{display:block;max-width:100%;max-height:100%}
+.pv-im figcaption{height:26px;margin-top:6px;font-size:22px;line-height:26px;color:var(--m-mute);text-align:center;white-space:nowrap}
+.pv-col{position:absolute;left:1008px;width:496px;display:flex;flex-direction:column;justify-content:center}
+.pv-col.im{justify-content:flex-start}
+.pv-st{width:496px;box-sizing:border-box;padding:20px 26px 22px;border-radius:18px;background:var(--m-card);border:1.5px solid var(--m-line2);border-top:6px solid var(--c)}
+.pv-st h4{margin:0 0 12px;font-size:28px;font-weight:800;color:var(--m-ink)}
+.pv-st .it+.it{margin-top:12px;padding-top:12px;border-top:1.5px solid var(--m-line2)}
+.pv-st b{display:block;font-size:27px;font-weight:800;color:var(--m-ink)}
+.pv-st p{margin:5px 0 0;font-size:24px;line-height:1.35;color:var(--m-mute)}
 '''
 ARROW = '<svg width="0" height="0" style="position:absolute"><defs><marker id="sxar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10Z" fill="var(--m-mute)"/></marker></defs></svg>\n'
 
