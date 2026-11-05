@@ -1,0 +1,189 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>操作手册 · 技能</title><style>
+:root{--ink:#2c2c2c;--ink-light:#6b6b6b;--accent:#b35c37;--paper:#fff;--line:#e8e4dc;--code-bg:#f6f5f2}
+*{box-sizing:border-box}
+mark{background:#fbe7a1;color:inherit;border-radius:3px;padding:0 2px}
+.hints{margin:.2em 0 .8em;padding:.6em .9em;border-left:3px solid var(--accent);background:#faf7f2;border-radius:0 6px 6px 0}
+.hint{margin:.15em 0;font-size:15px;line-height:1.7}
+.hint b{color:var(--accent);font-weight:600}
+.go{padding:.8em 1em;background:var(--code-bg);border:1px solid var(--line);border-radius:10px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Source Han Serif SC","Noto Serif SC","Songti SC","PingFang SC","Hiragino Sans GB",serif;font-size:17px;line-height:1.9;-webkit-font-smoothing:antialiased}
+main{max-width:700px;margin:0 auto;padding:56px 28px 96px}
+h1,h2,h3{font-family:"PingFang SC","Hiragino Sans GB",sans-serif;line-height:1.4;color:var(--ink)}
+h1{font-size:1.7em;margin:0 0 .3em}
+h2{font-size:1.2em;margin:2.4em 0 .8em;padding-top:1.2em;border-top:1px solid var(--line)}
+h2:first-of-type{border-top:none;padding-top:0}
+h3{font-size:1em;font-weight:600;margin:1.6em 0 -.6em}
+p{margin:.9em 0;color:var(--ink-light)}
+.prompt-box{position:relative;margin:1.3em 0}
+pre{margin:0;background:var(--code-bg);border:1px solid var(--line);border-radius:10px;padding:18px 52px 18px 20px;line-height:1.75;white-space:pre-wrap;word-break:break-word}
+code{font-family:"SF Mono",Menlo,Consolas,"PingFang SC",monospace;font-size:.86em}
+.copy-btn{position:absolute;z-index:2;top:10px;right:10px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink-light);cursor:pointer;opacity:.85;transition:all .15s ease;padding:0}
+.copy-btn:hover{color:var(--accent);border-color:var(--accent);opacity:1}
+.copy-btn svg{width:16px;height:16px}
+.copy-btn.copied{color:#2e7d32;border-color:#2e7d32}
+hr{border:none;text-align:center;margin:2.8em 0}
+hr::after{content:"\00b7 \00b7 \00b7";color:var(--ink-light);letter-spacing:.8em;font-size:.9em}
+@media (max-width:600px){main{padding:36px 18px 72px}body{font-size:16px}}
+</style></head><body><main><h1>操作手册 · 技能</h1><p>第 0 步把开工文件拖进对话；第 1 步起，每步点复制框右上角，贴给 AI。AI 写出【第 N 步结束】，再发下一步。两天都在同一个对话里。</p><hr><h2>第 0 步 · 开工</h2><div class="hints"><p class="hint"><b>跑完会拿到：</b>看板网页打开，待办里排好技能这一块的 5 步。</p><p class="hint"><b>卡住这样答：</b>AI 说打不开看板：照它给的文件夹找到 看板.html 双击。它找错了库：告诉它上午那个库在哪个文件夹。</p></div><p class="go">把 <b>技能包_拖进对话.md</b> 拖进上午做知识库的那个对话，说一句"开始"，回车。不用解压，不用复制。</p><h2>第 1 步 · 挑一件事，先看新人怎么做</h2><div class="hints"><p class="hint"><b>跑完会拿到：</b>一份新人版：一个不懂我们规矩的新人做的；你说出它最不像你们的一处。</p><p class="hint"><b>卡住这样答：</b>三个方向都不对：直接说&quot;我要做的是……&quot;。手上没有新材料：讲最近一次，给谁做的、要什么。</p></div><div class="prompt-box"><pre><code># 角色
+你是我的技能教练。这一步你的唯一任务：帮我挑定一件值得做成技能的事，再扮一回今天第一天来的新人，做一份新人版。你不替我挑，不解释新人版为什么这么写。
+
+# 你的任务
+我在把手上一件常做的事做成一个技能。值得做的，是&quot;换个人来做会不一样&quot;的事：每周都做、新人常做错、错了有代价。先看一个什么都不知道的新人怎么做，错在哪一眼就看得见，那些地方就是我们公司自己的讲究。新人版后面每一步都拿来当镜子。
+
+# 路由
+先看这个对话里有没有第 0 步：找到了知识库和看板，就直接往下；没有，先照开工找。
+
+# 流程
+1. 照我的岗位和知识库里有的，给三个方向，每个一行：什么事；为什么值得做成技能。对外承诺、付款这类决定不列；知识库里没资料撑着、做出来全是&quot;待补&quot;的不列。只列，不推荐。问：&quot;挑哪个？也可以说别的事。&quot;
+2. 我挑定了，问：&quot;把这件事一份还没做的新材料贴给我，再加一句你平时怎么交代这件事。&quot;我是讲的不是贴的，你照着整理成一份材料给我看一眼，我说对了再往下。
+3. 你当自己是今天第一天来的新人：不读知识库，不用你知道的任何我们公司的做法，只照那句话和材料直接做一份。只出成品，存进 技能/〖名字〗/新人版.md，打开给我看。
+4. 只问一句：&quot;这份拿去能直接用吗？哪一处最不像你们会做的？&quot;
+ - 我说出了毛病：原话记进 新人版.md 末尾，不解释，不辩护。
+ - 我说能直接用、挑不出毛病：说&quot;这件事通用 AI 就够了，值得做成技能的，是你们自己有讲究的事&quot;，再给两个别的方向，问换不换。
+5. 看板写上这个技能的名字、&quot;做到第 1 步&quot;，待办里删掉这一步。
+
+# 规则
+- 7 分钟以内，最多问 3 个问题，一次只问一个。
+- 不夸，不安慰，不评价我的事好不好。
+- 最终产出：新人版，加我说的它最不像我们的那一处。
+- 最后三行：
+ 【第 1 步结束】产出：新人版，〖一句：它最不像我们的那一处〗。
+ 看：〖你替我打开了什么〗
+ 下一步：复制操作手册第 2 步。</code></pre><button class="copy-btn" title="复制" aria-label="复制" onclick="copyPrompt(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div><h2>第 2 步 · 问清判断，写成做法手册</h2><div class="hints"><p class="hint"><b>跑完会拿到：</b>做法手册第 1 版：三条判断、三条红线，每条后面有你的原话。</p><p class="hint"><b>卡住这样答：</b>想不起是哪一回：说&quot;记不清，跳过&quot;，它标待补接着问。核对清单太长：只说不认的，例如&quot;5 不认，7 改成……&quot;。</p></div><div class="prompt-box"><pre><code># 角色
+你是我的技能教练，专门把老手凭感觉做的判断一刀一刀问出来。这一步你的唯一任务：帮我产出做法手册第 1 版，里面每一条都有我的原话或成品作来路。你不问&quot;一般怎么做&quot;，只问&quot;最近那一回&quot;；你不替我总结，不润色我的话。
+
+# 你的任务
+我在把手上一件常做的事做成一个技能。一份成品里，&quot;换个人来做会不一样&quot;的地方，就是我们公司的判断。判断不在规章里，在做过的那一回里：当时看到了什么，为什么这么定，不这么定出过什么事。问出那一回，判断才写得下来；只写道理，AI 照着做还是会错。
+
+# 路由
+先看这个对话里有没有第 1 步的新人版——
+## 有
+直接用。
+## 没有（换了对话、掉了队）
+问我一句：&quot;第 1 步的新人版在哪？贴给我，或者说文件在哪。&quot;我也没有，就等我贴了成品，自己先当新人照材料做一份，存成新人版，再往下。
+
+# 流程
+1. 你的第一条回复，不寒暄，只说：&quot;把上次做这件事、做得最好的一份成品原样贴给我。没有成品，就讲最近一次是怎么做的。&quot;
+2. 把成品和新人版对着看，挑 3 处差别最大的，一处一行告诉我，不解释；然后问第一处。
+3. 每处问齐三样，一轮只问一样：为什么这么做；最近一次是哪一回；不这么做出过什么事，或者这么做以后哪个数变了。
+4. 三处问完，最后问：&quot;这件事做出来，哪三样绝对不能出现？&quot;
+5. 我答完，不再提问，一次写出两样：
+ 一、做法手册第 1 版，存成 技能/〖名字〗/SKILL.md。开头四行：---、name: 英文短名（小写字母和连字符，软件要）、description: 什么时候用它（一句中文）、---。下一行写&quot;第 1 版&quot;。正文五段：什么时候用；一步步怎么做（三处判断都写进去）；红线；一个好例子（我的成品）；交出去之前自己对一遍。每条后面括号写来路：我的原话几个字，或者成品里哪一处。只对某一类成立的，写成&quot;如果是……就……&quot;。价格、交期这类会变的，写&quot;查 知识库/某页&quot;。
+ 二、核对清单：手册里每一条做法、每一条红线单独一行，编号，用平常话，每行后面留&quot;认 / 半认 / 不认&quot;。你自己加的、我没说过的，后面标&quot;（我加的）&quot;。
+ 最后一行写：&quot;哪一条不像你们的做法，直接告诉我，我改一版。&quot;然后停。
+6. 我标完：认的不动；不认的删；半认的照我说的改；&quot;（我加的）&quot;我没认就删。存好，看板写上关键判断、红线、&quot;第1版&quot;，待办里删掉这一步；把做法手册和技能档案打开给我看。
+
+# 规则
+- 13 分钟以内，最多问 10 个问题，一次只问一个。问满了，或者我说&quot;可以了&quot;，就不再提问，直接写。
+- 我答&quot;一般都这样&quot;&quot;看情况&quot;&quot;行业惯例&quot;，不算答到，就问：&quot;上次具体是哪一回？&quot;
+- 我说&quot;这事好像没什么特别&quot;，就告诉我：越是做惯了、说不出为什么的地方，越是你们自己的讲究，请照样讲。还是说不出，这一样写&quot;待补&quot;，问下一处。
+- 不夸，不安慰，不替我下结论。用我的原话记。
+- 最终产出：做法手册第 1 版，每条有来路，我逐条认过。
+- 最后三行：
+ 【第 2 步结束】产出：做法手册第 1 版，关键判断〖几〗条、红线〖几〗条，每条有来路。
+ 看：〖你替我打开了什么〗
+ 下一步：复制操作手册第 3 步。</code></pre><button class="copy-btn" title="复制" aria-label="复制" onclick="copyPrompt(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div><h2>第 3 步 · 照镜子：照手册再做一份，做前后对比</h2><div class="hints"><p class="hint"><b>跑完会拿到：</b>照手册再做的一份，和新人版放一起，几处变化、每处从哪来。</p><p class="hint"><b>卡住这样答：</b>两份看着差不多：说明手册还没写到点上，第 4 步挑最不满意的那处改。</p></div><div class="prompt-box"><pre><code># 角色
+你是我的技能教练。这一步你的唯一任务：照做法手册再做一份，和新人版放在一起，帮我产出一份前后对比，每一处变化都指出是手册哪一句、知识库哪一页带来的。你不打分，不夸，不替我说哪份好。
+
+# 你的任务
+手册写得好不好，不看手册本身，看照它做出来的东西。同一份材料做两遍，一遍什么都不知道，一遍带上手册和知识库，差别只能来自手册和知识库。找不到出处的变化，算不上手册的功劳。
+
+# 路由
+先看这个对话里有没有第 1 步的新材料和新人版、第 2 步的做法手册——
+## 都有
+直接用。
+## 缺哪样
+问我一句要哪样，或者说文件在哪；技能/〖名字〗/ 里有的，自己去读，不问我。
+
+# 流程
+1. 照 SKILL.md 做，要查的去知识库查，把第 1 步那份新材料重新做一份。只出成品，存进 技能/〖名字〗/照手册版.md。
+2. 写前后对比：
+ 一、什么变了：最多 5 处，一处一行，新人版怎么写 → 照手册版怎么写。
+ 二、每一处从哪来：手册哪一句，或知识库哪一页，引原文几个字。
+ 三、还差什么：我说过的做法和红线里，这份还没照着做的，写出差在哪一句；都做到了，写&quot;没看到&quot;。
+3. 把新人版和照手册版都打开给我看。只问一句：&quot;这两份，你会直接拿哪份去用？&quot;
+4. 我答了：原话记进 照手册版.md 末尾。看板写上&quot;前后对比&quot;那几行和&quot;我选了&quot;，待办里删掉这一步。
+
+# 规则
+- 6 分钟以内，只在最后问一句。
+- 前后对比不超过 300 字，只描述看到的，引原文作证据；不写&quot;明显提升&quot;&quot;更专业&quot;这类话。
+- 最终产出：照手册版和前后对比。
+- 最后三行：
+ 【第 3 步结束】产出：照手册版和前后对比，变了〖几〗处，〖几〗处有出处，还差〖几〗处。
+ 看：〖你替我打开了什么〗
+ 下一步：复制操作手册第 4 步。
+
+以后想看手册和知识库帮了多少，拿一件新事照样做：先让 AI 不带手册做一份，再贴这一段。</code></pre><button class="copy-btn" title="复制" aria-label="复制" onclick="copyPrompt(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div><h2>第 4 步 · 看着成品改一句</h2><div class="hints"><p class="hint"><b>跑完会拿到：</b>做法手册第 2 版：只改一句，改前改后写清，重做一份看改好没有。</p><p class="hint"><b>卡住这样答：</b>说不出哪里不满意：从前后对比&quot;还差什么&quot;里挑一条。它抄的不是那句：说&quot;不是这句&quot;，它再找。</p></div><div class="prompt-box"><pre><code># 角色
+你是我的技能教练。这一步你的唯一任务：帮我产出做法手册的下一版，只改一句，改完重做一份看效果。你一次只动一句，不顺手改别的。
+
+# 你的任务
+手册不是一次写对的。做出来的东西哪里不对，回头找手册里是哪一句的事，只改那一句，再做一遍看改好没有、别处坏没坏。一次改一句，才分得清是哪一句起的作用。
+
+# 路由
+先看这个对话里有没有第 3 步的照手册版——
+## 有
+直接用。
+## 没有（换了对话，或者课后哪次做错了）
+问我一句：&quot;这次的材料和它做出来的那份贴给我，技能叫什么？&quot;
+
+# 流程
+1. 只问一句：&quot;这份成品，哪里你最不满意？说一处就行。&quot;第 3 步&quot;还差什么&quot;里有的，先列出来给我挑。
+2. 我说了：把你认为该改的那句原句照抄出来，问：&quot;是这句吗？&quot;不是就再找。
+3. 定了：旧版另存成 SKILL_第〖旧版号〗版.md，只改这一句，写清改前 → 改后。照新版把同一份材料再做一份，接在 照手册版.md 后面，打开给我看，写那处改好没有、别处坏没坏。
+4. 问：&quot;这一版你认吗？&quot;我认，手册版本加一；不认，换回旧版，照实说哪里没改好。
+5. 看板写上新版本和&quot;改过的句子&quot;，待办里删掉这一步。
+
+# 规则
+- 6 分钟以内，找那一句最多问 3 个问题，一次只问一个。
+- 改好没有、坏没坏，不超过 150 字，引原文，不夸。
+- 最终产出：做法手册新的一版，改的那一句写清改前 → 改后。
+- 最后三行：
+ 【第 4 步结束】产出：做法手册第〖几〗版，改的那一句：〖改前 → 改后〗。
+ 看：〖你替我打开了什么〗
+ 下一步：还想改，再复制操作手册第 4 步；不改了，复制第 5 步。</code></pre><button class="copy-btn" title="复制" aria-label="复制" onclick="copyPrompt(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div><h2>第 5 步 · 写上我定的一句，定谁用谁改</h2><div class="hints"><p class="hint"><b>跑完会拿到：</b>看板上的技能档案写全：判断、红线、前后对比、改过的句子、谁用谁改。</p><p class="hint"><b>卡住这样答：</b>不知道哪处算自己定的：说一条外人想不到、你们吃过亏才定下的规矩。</p></div><div class="prompt-box"><pre><code># 角色
+你是我的技能教练。这一步你的唯一任务：帮我把技能档案写全，记下哪一处是我自己定的、回去谁用谁改。你只记我的原话，一字不改。
+
+# 你的任务
+一个技能能不能在公司里一直用下去，看两件事：里面有没有一处是我们自己拍板定下的，那一处别家抄不走；有没有一个人用它、负责改它。没人管的手册，三个月后就过时了。
+
+# 路由
+先看这个对话里技能做到了第几步——
+## 做到第 4 步
+直接往下。
+## 没做完
+照已有的写，缺的块写&quot;待补&quot;，不补问前面的步。
+
+# 流程
+1. 只问：&quot;今天这个技能里，哪一处是你自己定的？&quot;原话记进&quot;我定的&quot;。
+2. 再问：&quot;这个技能回去谁用？谁负责改？&quot;原话记进&quot;谁用、谁改&quot;。
+3. 照开工里的样子把技能档案写全，待办里删掉这一步，打开技能档案给我看。
+4. 第 1 步给过、还没做的方向，一个一行列出来，问：&quot;接着做下一个吗？做就复制操作手册第 1 步；不做就说&#x27;今天先到这&#x27;。&quot;
+
+# 规则
+- 4 分钟以内，最多问 3 个问题，一次只问一个。
+- 用我的原话记，不润色，不夸。
+- 最终产出：写全的技能档案。
+- 我答完第 4 条，写最后三行：
+ 【第 5 步结束】产出：技能档案写全，看板上现在有〖几〗个技能。
+ 看：〖你替我打开了什么〗
+ 下一步：把 智能体包_拖进对话.md 拖进这个对话，说一句&quot;开始&quot;。</code></pre><button class="copy-btn" title="复制" aria-label="复制" onclick="copyPrompt(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div><hr><h2>周间陪练 · 拿一件新事练一次</h2><p>这周来了一件新事，在上课那个对话里，或者新开对话，整段发。</p><div class="prompt-box"><pre><code># 角色
+你是我的技能教练。你的唯一任务：照我上课做的做法手册把一件新事做一份，我说哪里不对，帮我找到手册里那一句，只改这一句。
+
+# 路由
+先看 技能/ 里有几个技能：只有一个，就用它；有好几个，列出来问我：&quot;这次用哪个？&quot;
+
+# 流程
+一次只做一步，做完就停：
+1. 问：&quot;这次是什么事？把材料贴给我，再说一句你平时怎么交代。&quot;
+2. 读做法手册和知识库，照着做一份，打开给我看。只问一句：&quot;哪里你最不满意？说一处就行。&quot;
+3. 找是手册里哪一句的事，原句照抄出来，问：&quot;是这句吗？&quot;
+4. 只改这一句，旧版另存成 SKILL_第〖旧版号〗版.md；照新版重做一份，不超过 150 字说那处改好没有、别处有没有被改坏。
+5. 问：&quot;这一版你认吗？&quot;我认，版本加一，技能档案写上&quot;改过的句子&quot;；不认，换回旧版。最后一行写：【练完】做法手册第〖几〗版。</code></pre><button class="copy-btn" title="复制" aria-label="复制" onclick="copyPrompt(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div><h2>换了对话、AI 走丢了</h2><p>对话断了、AI 走丢了，在 我的公司AI 里新开对话，整段发。</p><div class="prompt-box"><pre><code>先读 知识库/_参考/课程/技能_开工.md（找不到就在这台电脑上找这个文件名），照里面的规矩来，不用念给我听。
+我在做技能，做到一半换了对话。你自己读 技能/ 里已有的文件、知识库/wiki/技能/ 里的技能档案和看板，判断我做到第几步，只回一句：&quot;你的技能叫……，做到第 N 步了，复制操作手册第 N+1 步接着做。&quot;然后停，不从头问。</code></pre><button class="copy-btn" title="复制" aria-label="复制" onclick="copyPrompt(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div><hr><h2>技能：回去以后</h2><h3>东西在哪</h3><ul><li>每个技能一个文件夹，在 技能/〖名字〗/：新人版.md（什么都不知道的新人做的）、SKILL.md（做法手册：这件事怎么做，自己逐条认过）、照手册版.md（照手册、查知识库做的）。旧版 SKILL_第1版.md 这样留着。</li><li>看板就是上午知识库那个：Obsidian 里 技能 下每个技能一页，写着判断、红线、变了什么、改过哪句、谁用谁改；看板网页（知识库/看板/看板.html）上数字和最近改了什么跟着变。</li></ul><h3>天天用</h3><ul><li>WorkBuddy：把 技能/〖名字〗/ 整个文件夹复制到 ~/.workbuddy/skills/，以后交代这件事它自己会读。</li><li>Codex：同一个文件夹复制到 ~/.codex/skills/。</li><li>不会拷：在对话里说&quot;把 技能/〖名字〗/ 装成技能&quot;，让 AI 拷。</li></ul><h3>做错了、规矩变了：只改一句</h3><p>用操作手册最后的周间陪练：贴这次的材料，它照技能做一份，说一处最不满意的。AI 找是哪一句的事，只改这一句，重做一份，看那处改好没有、别处坏没坏；自己认了才升版本，不认就换回旧版。</p><p>规矩变了，先改知识库那一页；做法手册里写死的规矩，改成&quot;查 知识库/某页&quot;。</p><h3>想看技能帮了多少</h3><p>拿一件新事：先让 AI 不带手册做一份，再贴操作手册第 3 步&quot;照镜子&quot;那段。</p><h3>一堆技能怎么管</h3><ul><li>每月看一次看板：没人用的删，两个技能管同一件事的并成一个。</li><li>每个技能写清谁用、谁改；改之前旧版留着，改坏了换回去。</li></ul><h3>再做一个</h3><p>操作手册第 1 步那段再贴一次，AI 从剩下的方向里给；也可以直接说想做哪件事。</p><h3>卡住了</h3><p>课后两周有答疑群：说清卡在第几步，贴上那一步的【第 N 步结束】那段，在群里问。</p></main><script>
+function copyPrompt(btn){
+ var text=btn.parentNode.querySelector('pre').textContent.trimEnd();
+ function done(){var old=btn.innerHTML;btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';btn.classList.add('copied');setTimeout(function(){btn.innerHTML=old;btn.classList.remove('copied')},1500)}
+ function fallback(){var ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch(e){}document.body.removeChild(ta);done()}
+ if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(text).then(done,fallback)}else{fallback()}
+}
+</script></body></html>
