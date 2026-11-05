@@ -341,7 +341,6 @@ body.pv #pv{display:block}
 
   <!-- 等式（11-05 改成企业 AI 化） -->
   <section class="scene" id="sA">
-    <div class="abs cap rv" data-in="0">企业 AI 化，是三样东西乘出来的</div>
     <div class="abs eq">
       <div class="term res rv" data-in="0">企业 AI 化</div>
       <i class="op rv" data-in="0" style="transition-delay:.2s">=</i>
@@ -351,15 +350,13 @@ body.pv #pv{display:block}
       <i class="op rv" data-in="0" style="transition-delay:.85s">×</i>
       <div class="term rv" data-in="0" style="transition-delay:1s">组织<em>L5</em></div>
     </div>
-    <div class="abs gl rv" data-in="0" data-out="1">语义：公司里的说法（品名、简称、规矩），AI 也听得懂</div>
     <i class="f1 rv" data-in="1" hidden></i><i class="f2 rv" data-in="2" hidden></i>
     <svg class="brs rv fade" data-in="1" data-out="2" id="sAbrs"></svg>
     <div class="abs eight rv fade" data-in="1" data-out="2">
       <span style="transition-delay:.3s">提示词与上下文设计</span><span style="transition-delay:.38s">AI 资料研究</span><span style="transition-delay:.46s">AI 数据分析</span><span style="transition-delay:.54s">AI 文案与多语言</span>
       <span style="transition-delay:.62s">多模态内容创作</span><span style="transition-delay:.7s">企业知识库与岗位智能体</span><span style="transition-delay:.78s">工作流自动化</span><span style="transition-delay:.86s">AI 辅助应用搭建</span>
     </div>
-    <div class="abs sub rv" data-in="1" data-out="2">这两天补<b>员工能力</b>；海报上的八项，都在四个项目里</div>
-    <div class="abs sub rv" data-in="2" style="transition-delay:1.2s">员工会用了，搭起来的东西才有人用；再往上补数据和语义，最后改组织</div>
+
   </section>
 
   <!-- 拆：你的公司 -->
@@ -901,9 +898,10 @@ if(bc)bc.onmessage=e=>{if(typeof e.data.i==='number')go(e.data.i,'bc')};
 
 
 /* 等式：AI 技能到八项的连线 */
-(function(){const sv=document.getElementById('sAbrs');if(!sv)return;const draw=()=>{const ai=document.querySelector('#sA .term.ai'),sp=[...document.querySelectorAll('#sA .eight span')];if(!ai||!ai.offsetWidth)return;
-  const st=document.getElementById('stage').getBoundingClientRect(),sc=st.width/1600,r=ai.getBoundingClientRect(),x0=(r.left+r.width/2-st.left)/sc,y0=(r.bottom-st.top)/sc;
-  sv.setAttribute('viewBox','0 0 1600 900');sv.innerHTML=sp.map(e=>{const q=e.getBoundingClientRect(),x=(q.left+q.width/2-st.left)/sc,y=(q.top-st.top)/sc;return `<path d="M${x0} ${y0} C ${x0} ${y0+60}, ${x} ${y-70}, ${x} ${y}"/>`}).join('')};
+(function(){const sv=document.getElementById('sAbrs');if(!sv)return;const draw=()=>{const sec=document.getElementById('sA'),ai=sec.querySelector('.term.ai'),eq=sec.querySelector('.eq'),ei=sec.querySelector('.eight'),sp=[...ei.querySelectorAll('span')];if(!ai||!ai.offsetWidth)return;
+  // 11-05：按排好以后的位置算，不受进场动画影响（原来在动画中途量，线接不到框上）
+  const x0=eq.offsetLeft+ai.offsetLeft+ai.offsetWidth/2,y0=eq.offsetTop+ai.offsetTop+ai.offsetHeight-10;
+  sv.setAttribute('viewBox','0 0 1600 900');sv.innerHTML=sp.map(e=>{const x=ei.offsetLeft+e.offsetLeft,y=ei.offsetTop+e.offsetTop;return `<path d="M${x0} ${y0} C ${x0} ${y0+80}, ${x} ${y-80}, ${x} ${y}"/>`}).join('')};
   new MutationObserver(()=>{if(document.getElementById('sA').classList.contains('on'))setTimeout(draw,80)}).observe(document.getElementById('sA'),{attributes:true});addEventListener('resize',()=>setTimeout(draw,80))})();
 
 /* ================= 讲师视图 ================= */

@@ -195,7 +195,10 @@ SUB = {
   "包怎么用": "包：发给各位的一段话，复制给 AI 就开始"
  },
  "m1": {
-  "没有知识库的 AI，<em>聊起来是这样</em>": "它不知道你公司的事，全靠猜",
+  "跟 AI 聊，<em>你是不是遇到过这些？</em>": "它不知道你公司的事，全靠猜",
+  "存，<em>越来越简单</em>": "厂商都在往你的资料靠近",
+  "并非：只存进去，<em>有三个坑</em>": "换个地方放，问题还在",
+  "管知识，管的是<em>怎么组织</em>": "不是放在哪",
   "差的和好的": "同样叫知识库，差得很远",
   "动手：用包 1 <em>搭自家的知识库</em>": "填一条自家业务，AI 来问",
   "会出的东西": "五步，约两小时",
@@ -263,6 +266,7 @@ KEEP_SAY = {
  'm3': '动手前先说一句。WorkBuddy 里专家很多，说一句也能搭一个，可出了错不知道是哪句的事，也就没人敢一直用。所以包里多做了四件事：先出一份做之前；说明书写清红线和什么时候交人；做之前先亮出说明，看得见它照哪句做；先交人审，稳了再放手，错一次改一句再考。',
  'm4': '动手前先说一句。随手连几个步骤，一步出错整条线就停，卡在哪也没人知道。所以包里多做了四件事：每一步是有身份的智能体；看板上看得见谁在干；拍板点真的停下来等人；改一步再跑一次。',
 }
+KEEP.pop('m1', None)   # 11-05 靖锋：知识库这一块不要“为了一直用得住，多做了四件事”这一页
 def keep_page(sid):
     name, bad, badsub, items, poster_items = KEEP[sid]
     h = (f'<div class="kp-bad pop" style="--d:.2s"><b>{bad}</b><i>↓</i><p>{badsub}</p></div>'
@@ -363,14 +367,15 @@ DAY = [
             ('下午', '展示和收尾', '上台展示，现场串一条，最后全景收尾', '跑通的那一单', '--wf'),
             ('之后', '两周答疑群', '回去接着做，有问题群里问', '自己公司的那一份', '--m-mute')]),
 ]
+DAY_SHORT = {'技能，再搭一个智能体': '技能 + 智能体', '晚课': '晚课答疑', '几个智能体，串成工作流': '串成工作流'}
 def days():
     h = '<div class="sx-day">'; n = 0
     for d, cells in DAY:
         h += f'<i class="pop" style="--d:{.1+n*.1:.1f}s">{d}</i>'
         for (t, nm, do, prep, col) in cells:
             n += 1
-            h += (f'<div class="pop" style="--d:{.2+n*.15:.2f}s;--b:var({col})"><small>{t}</small><b>{nm}</b>'
-                  f'<p><em>做</em>{do}</p><p><em>准备</em>{prep}</p></div>')
+            # 11-05 靖锋：太乱，简洁说一下就行 → 只留时段和一个短标题；做什么、准备什么留在口播里
+            h += f'<div class="pop" style="--d:{.2+n*.15:.2f}s;--b:var({col})"><small>{t}</small><b>{DAY_SHORT.get(nm, nm)}</b></div>'
     return h + '</div>'
 mw_pages = [
     ('两天安排', days(), None, ''),
@@ -431,6 +436,8 @@ k12 = (txt(400, 250, '以为的：资料越放越多，AI 用不上', 26, 'var(-
        + '<g class="qa2"><rect x="1300" y="420" width="250" height="92" rx="16" fill="var(--kb)" opacity=".9"/><rect x="1318" y="442" width="180" height="10" rx="5" fill="#0b0d0c" opacity=".55"/><rect x="1318" y="463" width="140" height="10" rx="5" fill="#0b0d0c" opacity=".55"/><rect x="1318" y="484" width="64" height="14" rx="4" fill="#0b0d0c" opacity=".8"/></g>'
        + txt(1425, 560, '问 → 答，带出处', 24, cls='pop', d=2.5))
 # 没有知识库的 AI，聊起来是这样（11-05 靖锋：换掉“是什么”那屏）
+import base64
+MEME = 'data:image/webp;base64,' + base64.b64encode((P.parent / '素材' / '发癫.webp').read_bytes()).decode()   # 11-05 靖锋给的原图，生成时内嵌
 NOKB = [('me', '给德国客户 Lena 报个价，500 台 MG-W25', .4),
         ('ai', '好嘞！一般 45 美元一台，就报这个，稳！', 1.2),
         ('me', '……我们有价格表的', 2.4),
@@ -439,9 +446,10 @@ NOKB = [('me', '给德国客户 Lena 报个价，500 台 MG-W25', .4),
         ('me', 'Tomas 也要报价', 4.9),
         ('ai', '好嘞！请问贵司的价格是多少？', 5.6)]
 def nokb():
-    h = '<div class="nk-chat pop" style="--d:.1s"><div class="nk-hd"><i></i><i></i><i></i><b>和 AI 聊</b><span>没接知识库</span></div>'
-    h += ''.join(f'<div class="nk-{w} pop" style="--d:{d}s">{t}</div>' for w, t, d in NOKB) + '</div>'
-    return h + '<div class="nk-punch pop" style="--d:6.4s"><b>像个每天<br>新来的<em>实习生</em></b><p>嘴甜、手快、啥也不知道<br>明天，还全忘了</p></div>'
+    # 11-05 靖锋：不演对话，直接给结果：“你跟 AI 聊，是不是遇到过这些”
+    h = '<div class="nk-li">' + ''.join(f'<div class="pop" style="--d:{.3+i*.6:.1f}s"><i>✓</i><b>{t}</b></div>'
+                                        for i, t in enumerate(['问它价格，它随口瞎编', '跟它说过的，转头就忘', '换个聊天窗口，又得从头教'])) + '</div>'
+    return h + '<div class="nk-punch pop" style="--d:2.2s"><b>像个每天<br>新来的<em>实习生</em></b><p>嘴甜、手快、啥也不知道<br>明天，还全忘了</p></div>' + f'<div class="nk-meme"><img class="pop" style="--d:3.0s" src="{MEME}" alt="思考中…嗯，用户又开始发癫了"></div>'  # 11-05 靖锋：表情包用原图
 # 拔高（11-05 靖锋：每块做完以后往上走一层：更高级的玩法、更深一层的想法，不只是做个雏形；字少、说人话）
 UPG = {
  'm1': ('知识库', '你这摊业务，AI 门儿清了', ['全公司都往里放，谁该看啥分清楚', '邮件、订单、表格，自己往里进', '问一句，连出处都给你'], '老员工走了，经验还在；新人第一天就能问'),
@@ -546,8 +554,46 @@ MD = {
    ('标出拍板和退回', '<div class="ms-col">' + mc('销售') + '<span class="ms-dn">↓</span>' + mc('采购') + '<span class="ms-dn hp">↓ 老板点头</span>' + mc('仓库') + '<span class="ms-bk">↺ 错了退回销售</span></div>'),
    ('拿真的一单跑一遍', '<div class="ms-col">' + mc('销售', 'on') + '<span class="ms-dn">↓</span>' + mc('采购', 'on') + '<span class="ms-dn">↓</span>' + mc('仓库', 'on') + '<span class="ms-ok">✓ 跑通一单</span></div>')]),
 }
+# AI 都在打通（11-05 靖锋：上真实的例子和原图；厂商都在往你靠近，可知识怎么管还得你想好）
+WBONE = 'data:image/jpeg;base64,' + base64.b64encode((P.parent / '素材' / 'buddy-one.jpg').read_bytes()).decode()
+def kb_tong():
+    h = f'<div class="tg-img pop" style="--d:.2s"><img src="{WBONE}" alt="WorkBuddy Buddy One"></div><div class="tg-l">'
+    for i, (nm, d) in enumerate([('WorkBuddy One', '腾讯系产品的知识打通'), ('ima 知识库', '资料一键存进去'), ('豆包、千问办公', '打通飞书、也在打通')]):
+        h += f'<div class="pop" style="--d:{.8+i*.4:.1f}s"><b>{nm}</b><p>{d}</p></div>'
+    return h + '</div><div class="tg-q pop" style="--d:2.4s">存进去，<br>就完事了吗？</div>'
+def kb_keng():
+    h = ''
+    pile = ''.join(f'<g transform="translate({x} {y}) rotate({r}) scale(.5)">{I_DOC}</g>' for x, y, r in [(95, 132, -18), (130, 118, 10), (168, 134, -6), (205, 120, 16), (112, 100, 24), (150, 96, -12), (190, 102, 8), (240, 136, -20), (70, 140, 12)])
+    pile += '<circle cx="176" cy="148" r="8" fill="#e8c547"/><path d="M176 132V138M176 158V164M160 148H166M186 148H192" stroke="#e8c547" stroke-width="2.5" stroke-linecap="round"/>' + at(238, 62, I_MAG, 1.1)
+    head = (at(78, 112, I_PERSON, 1.25) + '<ellipse cx="128" cy="46" rx="50" ry="28" fill="var(--m-card2)" stroke="var(--m-line2)" stroke-width="2"/>'
+            + '<circle cx="96" cy="78" r="5" fill="var(--m-card2)" stroke="var(--m-line2)" stroke-width="2"/><path d="M104 38H152M104 52H140" stroke="var(--m-mute)" stroke-width="3" stroke-linecap="round"/>'
+            + '<path d="M112 120H210" stroke="var(--m-line2)" stroke-width="2.5" stroke-dasharray="6 6"/>' + at(160, 120, I_NO) + at(242, 116, I_ROBOT, .8))
+    vers = ''.join(at(x, 66, I_SHEET, .78) + it(x, 120, t, 15, IC_MU, 700) for x, t in [(52, '价格表'), (130, '最终版'), (208, '最终版2')])
+    vers += f'<circle cx="150" cy="152" r="16" fill="{IC_RED}"/>' + it(150, 160, '?', 24, '#fff', 900)
+    h += '<div class="op-c">'
+    for i, (svg_, t, d) in enumerate([(pile, '没整理', '像在垃圾堆里淘金子'), (head, '经验没写下来', '打通再多，也读不到'), (vers, '版本打架', '三份价格表，AI 信哪个？')]):
+        h += f'<div class="pop" style="--d:{.3+i*.5:.1f}s"><svg viewBox="0 0 300 170">{svg_}</svg><b>{t}</b><p>{d}</p></div>'
+    return h + '</div><div class="op-end pop" style="--d:2.0s">存进去 ≠ 用得上</div>'
+# 管知识，管的是怎么组织，不是放在哪（11-05 靖锋：知识管理的核心是组织形式；存储越来越简单，知识管理逃不掉）
+def kb_zuzhi():
+    mess = at(280, 165, I_FOLDER, 4.2) + ''.join(f'<g transform="translate({x} {y}) rotate({r}) scale(.62)">{I_DOC}</g>' for x, y, r in [(190, 150, -22), (240, 128, 14), (300, 150, -8), (350, 126, 20), (215, 196, 10), (285, 200, -16), (360, 190, 6)])
+    mess += '<path d="M170 120 C210 80,250 220,290 110 S360 230,390 120 S300 60,250 160 S200 240,330 210" fill="none" stroke="#e8625f" stroke-width="3" opacity=".75" stroke-linecap="round"/>'
+    org = ('<path d="M160 76 H400 M160 76 L280 226 M400 76 L280 226" stroke="var(--c)" stroke-width="2.5" stroke-dasharray="7 7" fill="none"/>'
+           + ''.join(f'<rect x="{x-100}" y="{y-34}" width="200" height="68" rx="12" fill="var(--m-card2)" stroke="var(--c)" stroke-width="2.5"/>' + it(x, y-2, t, 19, IC_INK, 800) + it(x, y+22, src, 14, IC_MU, 600)
+                     for x, y, t, src in [(160, 76, '客户：Lena', '出处：询盘邮件'), (400, 76, '产品：MG-W25', '出处：价格表'), (280, 226, '规矩：新客户收定金', '出处：老板语音')])
+           + at(500, 226, I_OK(), 1.3))
+    h = '<div class="zz">'
+    h += (f'<div class="zz-l pop" style="--d:.2s"><small>不是：放在哪</small><svg viewBox="0 0 560 300">{mess}</svg>'
+          '<p class="zz-t">' + ''.join(f'<span>{t}</span>' for t in ['ima', '网盘', '飞书', 'WorkBuddy One']) + '</p><p class="zz-c">放哪都行，乱的还是乱</p></div>')
+    h += '<i class="zz-ne pop" style="--d:.9s">≠</i>'
+    h += (f'<div class="zz-r pop" style="--d:1.2s"><small>是：怎么组织</small><svg viewBox="0 0 560 300">{org}</svg>'
+          '<p class="zz-c">一页一件事、连起来、标出处</p></div>')
+    return h + '</div><div class="zz-end pop" style="--d:2.2s">存储越来越简单，知识管理逃不掉</div>'
 m1_pages = [
-    ('没有知识库的 AI，<em>聊起来是这样</em>', nokb() + poster(lit_of('知识库')), 1, ''),
+    ('跟 AI 聊，<em>你是不是遇到过这些？</em>', nokb() + poster(lit_of('知识库')), 1, ''),
+    ('存，<em>越来越简单</em>', kb_tong(), 1, ''),
+    ('并非：只存进去，<em>有三个坑</em>', kb_keng(), 1, ''),
+    ('管知识，管的是<em>怎么组织</em>', kb_zuzhi(), 1, ''),
     ('差的和好的', ph(110, 230, 660, 560, '建了没用起来的', '新月的知识库截图') + ph(830, 230, 660, 560, '我们内部天天在用的', '靖锋的知识库图谱，投屏或录屏'), 1, ''),
     ('动手：用包 1 <em>搭自家的知识库</em>', kb_pack, 2, ''),
     ('会出的东西', steps_page([('放好资料', '5 分钟'), ('AI 带着搭', '约 65 分钟'), ('新开窗口考', '约 25 分钟'), ('规矩变了', '约 25 分钟'), ('收个尾', '约 5 分钟')], ['一页规矩', '5 份原始资料', '5 页整理好的，互相连着', '3 个带出处的回答', '1 处标了“待确认”'], 'var(--kb)'), 2, ''),
@@ -555,11 +601,14 @@ m1_pages = [
     ('做完以后', kb_after, 3, ''),
 ]
 m1_pages.append(up_page('m1'))
-m1_pages.insert(2, md_page('m1'))
+m1_pages.insert(5, md_page('m1'))
 sec('m1', '--kb', m1_pages, ('01', '知识库', '让 AI 先读懂公司', '<i class="on"></i><i></i><i></i><i></i>'))
 beats('m1', '知识库', [
     '第一块，知识库。放第一，是因为后面每一块做出来的东西都会存进来。',
-    '先看看没有知识库的 AI，聊起来是什么样。让它给德国客户 Lena 报个价，它张口就来：一般 45 美元，就报这个，稳！你说我们有价格表啊，它马上道歉：那您发我一下。第二天新开一个对话，问它 Tomas 的报价，它又一脸真诚：请问贵司的价格是多少？像不像一个每天新来的实习生：嘴甜、手快、啥也不知道，明天还全忘了。知识库，就是让它别再每天从头来过。',
+    '跟 AI 聊天，各位是不是遇到过这些：问它价格，它随口瞎编一个；跟它说过的事，转头就忘；换个聊天窗口，又得从头教一遍。像不像一个每天新来的实习生：嘴甜、手快、啥也不知道，明天还全忘了。原因就一个，它不知道你公司的事。知识库，就是让它别再每天从头来过。',
+    '先说存。这两年，存资料越来越简单：WorkBuddy 刚出了 Buddy One，把腾讯系产品里的文档、笔记、会议都打通；ima 一键就能把资料存进知识库；豆包办公在打通飞书，千问办公也在做。厂商都在往你的资料靠近。那存进去，就完事了吗？',
+    '并非。只是存进去，有三个坑。第一，没整理：资料没经过整理、没有结构，AI 进去就像在垃圾堆里淘金子，在一个没编号的图书馆里找一本书的其中一页。第二，你自己的经验没写下来：踩过的坑、客户的脾气、为什么这么报价，都在脑子里，打通再多也读不到。第三，版本打架：价格表、最终版、最终版 2，AI 不知道该信哪个。换个地方放，问题还在。',
+    '所以，管知识，管的不是放在哪，是怎么组织。放 ima、网盘还是飞书，越来越简单，交给厂商就行；可放进去还是一团乱麻，放哪都没用。怎么组织：一页说一件事，页和页连起来，每条标出处。存储越来越简单，知识管理逃不掉，这件事得你自己想好。先看看差的和好的。',
     '同样叫知识库，差得很远。左边是新月老师自己建的，建了没用起来；右边是我们团队内部天天在用的，图谱一打开就看得出来。今天不讲右边怎么实现，先看看能做到什么样。',
     '光让 AI 自动整理，各位学不到东西，这套方法要自己懂。整理的活是 AI 干，但有五件事得你来定。第一，定：想清楚要给它哪些资料，价格表、产品手册、客户的询盘邮件；工资表这种不该给的，就别给。第二，找：这些资料在哪，价格表在共享盘，产品手册在电脑文件夹，询盘在邮箱，告诉它去哪找。第三，理：它一份份整理，每条写清是谁哪天说的；你随手点一条，回原件对一下。第四，判：两个说法对不上，它不替你选，标出来，你去找老板拍板。第五，问：拿真问题考它，有出处才敢用，库里没有的它得说没有。拆开、一页一件事、连起来、标出处，这些 AI 在后台做，是卡帕西的做法。这五句话记住，回去换个工具、换批资料，照样能搭。',
     '动手。发包 1，复制过去，填上自家公司的情况，AI 来问，一步步把自家的知识库搭起来。我们在下面转。',
@@ -1165,7 +1214,7 @@ CSS = r'''
 .nk-me{align-self:flex-end;background:var(--c);color:#0b0d0c;font-weight:600}
 .nk-ai{align-self:flex-start;background:var(--m-card2);color:var(--m-ink)}
 .nk-sep{align-self:center;font-size:18px;color:var(--m-mute)}
-.nk-punch{position:absolute;left:1030px;top:300px;width:480px}
+.nk-punch{position:absolute;left:1030px;top:236px;width:480px}
 .nk-punch b{display:block;font-size:56px;font-weight:900;line-height:1.25;color:var(--m-ink)}
 .nk-punch em{font-style:normal;color:var(--c)}
 .nk-punch p{font-size:26px;line-height:1.6;color:var(--m-mute);margin-top:22px}
@@ -1249,6 +1298,65 @@ CSS = r'''
 .ms-ic{display:block;width:100%;height:100%}
 .ms-ic text{font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
 .ms.n5 .ms-v:has(.ms-ic){padding:12px 10px}
+/* 两天安排简洁版（11-05）：只留时段和短标题 */
+.sx-day{grid-auto-rows:200px}
+.sx-day div{display:flex;flex-direction:column;justify-content:center}
+.sx-day b{font-size:40px;margin:10px 0 0}
+/* 表情包：AI 思考中“用户又开始发癫了”（11-05） */
+.nk-meme{position:absolute;left:1040px;top:540px;width:430px;transform:rotate(-3deg)}
+.nk-meme>div{background:#f4f4f6;border-radius:20px;padding:16px 24px 18px;box-shadow:0 14px 40px rgba(0,0,0,.45)}
+.nk-meme .hd{display:flex;align-items:center;gap:12px;font-size:24px;font-weight:700;color:#6b6f78;margin:0}
+.nk-meme .hd i{font-style:normal;width:40px;height:40px;border-radius:50%;background:#4d6bfe;color:#fff;font-size:16px;font-weight:900;display:flex;align-items:center;justify-content:center}
+.nk-meme .hd b{font-size:18px;color:#9a9ea7}
+.nk-meme .q{margin:12px 0 0 52px;padding-left:14px;border-left:3px solid #d6d8de;font-size:28px;font-weight:600;color:#55585f}
+/* 表情包原图 */
+.nk-meme img{display:block;width:100%;border-radius:16px;box-shadow:0 14px 40px rgba(0,0,0,.45)}
+/* AI 都在打通，就完事了吗（11-05） */
+.op-top{position:absolute;left:96px;right:96px;top:232px;display:flex;align-items:center;justify-content:center;gap:14px}
+.op-top span{font-size:24px;font-weight:700;padding:8px 18px;border-radius:12px;background:var(--m-card2);border:1.5px solid var(--m-line2);color:var(--m-ink)}
+.op-top i{font-style:normal;font-size:30px;color:var(--m-mute);margin:0 6px}
+.op-top b{font-size:24px;font-weight:900;padding:8px 22px;border-radius:12px;background:var(--c);color:#0b0d0c}
+.op-top em{font-style:normal;font-size:22px;color:var(--m-mute);margin-left:10px}
+.op-no{position:absolute;left:0;right:0;top:320px;text-align:center;font-size:30px;font-weight:900;color:#e8625f}
+.op-c{position:absolute;left:96px;right:96px;top:380px;display:flex;gap:40px}
+.op-c>div{flex:1;height:330px;box-sizing:border-box;border-radius:22px;border:1.5px solid var(--m-line2);background:var(--m-card);padding:18px 24px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.op-c svg{width:100%;height:170px}
+.op-c svg text{font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
+.op-c b{font-size:30px;font-weight:900;color:var(--m-ink);margin-top:14px}
+.op-c p{font-size:22px;color:var(--m-mute);margin-top:8px}
+.op-end{position:absolute;left:0;right:0;top:736px;text-align:center;font-size:36px;font-weight:900;color:var(--c)}
+/* AI 都在打通（A 页）：左边真截图，右边三家，底下一问 */
+.tg-img{position:absolute;left:96px;top:232px;width:780px;border-radius:20px;overflow:hidden;border:1.5px solid var(--m-line2);box-shadow:0 18px 50px rgba(0,0,0,.5)}
+.tg-img img{display:block;width:100%}
+.tg-l{position:absolute;left:930px;right:96px;top:232px;display:flex;flex-direction:column;gap:18px}
+.tg-l div{border-radius:16px;background:var(--m-card);border:1.5px solid var(--m-line2);border-left:6px solid var(--c);padding:16px 24px}
+.tg-l b{display:block;font-size:30px;font-weight:900;color:var(--m-ink)}
+.tg-l p{font-size:22px;color:var(--m-mute);margin-top:6px}
+.tg-q{position:absolute;left:930px;right:96px;top:628px;font-size:34px;font-weight:900;line-height:1.45;color:var(--c)}
+/* B 页：三个坑往上提 */
+.op-c{top:250px !important}.op-c>div{height:380px !important}.op-c svg{height:200px !important}
+.op-end{top:686px !important}
+/* 第一屏直接给结果（11-05）：三条“你是不是遇到过” */
+.nk-li{position:absolute;left:96px;top:250px;width:860px;display:flex;flex-direction:column;gap:26px}
+.nk-li div{display:flex;align-items:center;gap:24px;height:118px;padding:0 34px;box-sizing:border-box;border-radius:22px;background:var(--m-card);border:1.5px solid var(--m-line2)}
+.nk-li i{flex:none;width:50px;height:50px;border-radius:14px;border:3px solid var(--c);color:var(--c);display:flex;align-items:center;justify-content:center;font-style:normal;font-size:30px;font-weight:900}
+.nk-li b{font-size:36px;font-weight:800;color:var(--m-ink)}
+/* 管的是怎么组织（11-05）：左不是放在哪，右是怎么组织，底下一句 */
+.zz{position:absolute;left:96px;right:96px;top:232px;display:flex;align-items:center;gap:24px}
+.zz-l,.zz-r{flex:1;height:440px;box-sizing:border-box;border-radius:24px;padding:20px 28px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.zz-l{background:var(--m-card);border:1.5px dashed var(--m-line2)}
+.zz-r{background:var(--m-card);border:2.5px solid var(--c)}
+.zz-l small,.zz-r small{align-self:flex-start;font-size:24px;font-weight:900;color:var(--m-mute)}
+.zz-r small{color:var(--c)}
+.zz-l svg,.zz-r svg{width:100%;height:250px;margin-top:6px}
+.zz svg text{font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
+.zz-t{display:flex;gap:10px;justify-content:center;margin-top:4px}
+.zz-t span{font-size:18px;font-weight:700;padding:4px 12px;border-radius:9px;border:1.5px solid var(--m-line2);color:var(--m-mute)}
+.zz-c{font-size:28px;font-weight:800;color:var(--m-ink);margin-top:12px}
+.zz-l .zz-c{color:var(--m-mute)}
+.zz-l svg *{vector-effect:non-scaling-stroke}
+.zz-ne{flex:none;font-style:normal;font-size:56px;font-weight:900;color:#e8625f}
+.zz-end{position:absolute;left:0;right:0;top:704px;text-align:center;font-size:38px;font-weight:900;color:var(--c)}
 '''
 ARROW = '<svg width="0" height="0" style="position:absolute"><defs><marker id="sxar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10Z" fill="var(--m-mute)"/></marker></defs></svg>\n'
 
