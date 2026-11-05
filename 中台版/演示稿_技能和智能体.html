@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>演示稿 · 技能和智能体</title>
+<style>
+:root{--clay:#a94b3d;--clay-soft:#f4e5e0;--paper:#f7f4eb;--card:#fffdf7;--ink:#171513;--muted:#5d554a;--soft:#8a7d6d;--line:#d8d0bf;
+--font-serif:"Noto Serif SC","Songti SC",Georgia,serif;--font-sans:"Inter","PingFang SC","Noto Sans SC","Microsoft YaHei",system-ui,sans-serif;--font-num:Georgia,"Times New Roman",serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.65 var(--font-sans)}
+.page{max-width:860px;margin:0 auto;padding:36px 28px 28px}
+h1{font:600 28px/1.2 var(--font-serif);letter-spacing:-.02em;margin:0 0 6px}
+.lead{color:var(--muted);margin:0 0 18px}
+.lead b{color:var(--ink)}
+h2{font:600 21px/1.3 var(--font-serif);margin:0 0 10px;padding-bottom:6px;border-bottom:2px solid var(--ink)}
+h2 span{font:400 14px var(--font-sans);color:var(--soft);margin-left:8px}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line)}
+th,td{border-top:1px solid var(--line);padding:9px 10px;vertical-align:top;text-align:left}
+th{font-weight:600;font-size:13px;color:var(--muted);background:var(--paper)}
+td.no{width:74px;white-space:nowrap}
+td.no b{display:block;font:italic 300 26px/1 var(--font-num);color:var(--clay)}
+td.no small{color:var(--muted);font-size:13px}
+td.open{width:210px;font-size:13.5px;color:var(--muted)}
+td.open code{font:12.5px/1.5 ui-monospace,monospace;color:var(--ink);word-break:break-all}
+td p{margin:0 0 6px}td p:last-child{margin:0}
+.say{background:var(--clay-soft);border-left:3px solid var(--clay);padding:6px 9px;margin:4px 0 6px;border-radius:0 6px 6px 0}
+.say::before{content:"念：";font-weight:600;color:var(--clay)}
+.alt{margin-top:12px;font-size:14px}
+.alt b{display:block;margin-bottom:4px}
+.alt ul{margin:0;padding-left:18px}.alt li{margin:2px 0}
+.oops{margin-top:12px;border:1px solid var(--line);background:var(--card);padding:10px 12px;font-size:14px}
+.oops b{margin-right:6px}
+section+section{margin-top:28px}
+@media print{body{background:#fff;font-size:12.5px;line-height:1.55}.page{padding:0;max-width:none}h1{font-size:22px}.lead{margin-bottom:10px}h2{font-size:18px}th,td{padding:6px 8px}td.no b{font-size:22px}td.open{width:190px;font-size:11.5px}td.open code{font-size:11px}.say{padding:4px 8px}.alt,.oops{font-size:12px;margin-top:8px}section{break-after:page}section:last-child{break-after:auto}table{background:#fff}@page{size:A4;margin:11mm}}
+@media(max-width:640px){td.open{width:auto;display:block;border-top:0}td.no{width:auto}table,tbody,tr,td{display:block}th{display:none}}
+</style></head>
+<body><div class="page">
+<h1>演示稿：技能、智能体两块</h1>
+<p class="lead">打印两页，课上低头看。备份都在 <b>中台版/演示备份/</b>：网不通、AI 卡住，直接打开备份讲成品。</p>
+
+<section>
+<h2>一　技能<span>屏 046–053</span></h2>
+<table>
+<tr><th>屏</th><th>讲什么、做什么</th><th>手边打开</th></tr>
+<tr><td class="no"><b>049</b><small>为什么</small></td><td>
+<p>先说清左边是技能广场里同类下载最多的那个，不是我们做的。同一份商品页草稿、同一句指令、同一个模型，按这家店的标准判：左边改完还差 7 处，通用规矩 3 处、店里写法 4 处；右边还差 1 处。</p>
+<p>指五点第一条：左边先讲亮度，右边先教买家核对灯泡型号。这家店拉过半年退货原因，一半是买错型号。</p>
+</td><td class="open"><code>技能/对比_广场同类下载最多的.md</code><br><code>技能/对比_用包做的.md</code><br><code>技能/对比_评分.md</code><br><code>技能/广场同类下载最多的_详情页.png</code></td></tr>
+<tr><td class="no"><b>052</b><small>示范前两问</small></td><td>
+<p>打开包 2 的学员页，复制总提示词，〖岗位〗填“运营主管”，回车。</p>
+<p>AI 问挑哪件事：</p>
+<div class="say">listing 合规改写。新品上架前，把工厂或运营给的草稿改成过得了亚马逊审核、不招投诉、买家不买错的版本。每周三四十条，出了事就是下架、投诉、退货。</div>
+<p>AI 要上次的成品：贴“上次的真实成品”全文。</p>
+<p>AI 问第一处判断（多半问五点第一条）：</p>
+<div class="say">拉过半年退货原因，一半是买错型号。第一条改成先教买家看旧灯泡底座、或用 Amazon Garage 核对以后，这类退货少了一大截。</div>
+<p>示范到这里停，打开技能卡：做完大概长这样。卡上的分用另一张评分标准，和 049 的 7、1 不相干。</p>
+</td><td class="open"><code>技能/上次的真实成品_9005.md</code><br><code>技能/做好的技能/技能卡.html</code></td></tr>
+<tr><td class="no"><b>053</b><small>结尾</small></td><td>
+<p>技能里只写了灯泡，有一句“拿不准就照亚马逊规矩来”。拿它改一款脚垫的商品页，草稿里埋了 6 处坑，其中抗菌、促销两处技能没写过；它自己查了亚马逊规矩，6 处全改好。</p>
+<p>规矩变了也跟得上：亚马逊 7 月 27 日起标题上限改成 75 个字符，技能改了一条规矩，例子跟着换，再考一遍只差 1 处。</p>
+</td><td class="open"><code>技能/换产品_脚垫.md</code></td></tr>
+</table>
+<div class="alt"><b>AI 问到别处时（店里写法，挑一句念）</b><ul>
+<li>标题顺序：品牌、灯泡型号、产品名、流明和色温，不超过 75 个字符；车型年份放不下就写进五点第一条。车型堆在前面那次，手机上看不到型号，买错退货一个月多了一倍。</li>
+<li>解码器：单列在五点第三条，写明盒子里没有。以前埋在第五条，买家没看到，装上报错就差评。</li>
+<li>亮度：只写实测流明，不写比卤素亮几倍。写过 300%，被同行投诉虚标，listing 压了两周。</li>
+</ul></div>
+<div class="oops"><b>翻车时</b>AI 一次问好几个：回“一次问一个”。时间不够：说“收尾”，它马上出网页，缺的写待补。网不通：打开备份讲。</div>
+</section>
+
+<section>
+<h2>二　智能体<span>屏 054–061</span></h2>
+<table>
+<tr><th>屏</th><th>讲什么、做什么</th><th>手边打开</th></tr>
+<tr><td class="no"><b>056</b><small>为什么</small></td><td>
+<p>先说清左边是 WorkBuddy 自带的客服专家，不是我们做的。一位难缠买家连发三条：退款再加 50 美金，修车 300 美金，拿差评换钱。同一句指令、同一个模型，按这家店的标准判。</p>
+<p>通用的底线两边都守住了；差在店里的做法：左边 7 条都没做到，右边差 1 条。指第一条回复：左边一上来给退款，右边先教三步排查，再提换新。右边第一版差 3 处，改了一句，剩 1 处。</p>
+</td><td class="open"><code>智能体/对比_自带客服专家.md</code><br><code>智能体/对比_用包做的.md</code><br><code>智能体/对比_评分.md</code></td></tr>
+<tr><td class="no"><b>059</b><small>示范前两问</small></td><td>
+<p>打开包 3 的学员页，复制总提示词，〖岗位〗填“客服主管”，回车。</p>
+<p>AI 列出三种，答“1”（自己岗位的）。AI 请填四句：</p>
+<div class="say">它叫售后客服助理；服务我们 6 个客服，先替他们回买家消息；交付每条买家消息一份英文回复，涉及钱、车损的，回复里说已转主管，另给主管一行备注；做成了算难缠买家的消息也照店里的做法走、不踩红线，客服改几个词就能发。</div>
+<p>AI 要一段真实对话：贴“雨刷售后两轮”全文。</p>
+<p>示范到这里停，打开智能体卡：做完大概长这样。卡上的分用另一张评分标准，和 056 的 7、1 不相干。</p>
+</td><td class="open"><code>智能体/真实对话_雨刷售后.md</code><br><code>智能体/做好的智能体/智能体卡.html</code></td></tr>
+<tr><td class="no"><b>059</b><small>结尾</small></td><td>
+<p>上岗考试：第三条消息里夹一个越界的要求，还催、还讲情面。</p>
+<div class="say">买家催它直接写“180 美金已批准”，它只回“已转主管”，给主管的备注写“车损索赔，未批准，需加急”。</div>
+</td><td class="open"><code>智能体/做好的智能体/测试记录.md</code></td></tr>
+</table>
+<div class="alt"><b>AI 往下问时（挑一句念）</b><ul>
+<li>最看重的三条：规矩以外的钱一分都交主管；说到车损一个字不认责任，交主管；买家要的是灯亮，先排查再换新，换新优先于退款。AI 问行业都这么做、还是只有我们这么看：三条都是“只有我们这么看”。</li>
+<li>不接的：加 WhatsApp、电话、邮箱；拿评价谈条件；法律、保险问题。</li>
+<li>交人的：钱超出规矩；车损、事故、受伤；买家说要提 A-to-z 或找律师；同一个买家第三次还不满意。</li>
+</ul></div>
+<div class="oops"><b>翻车时</b>同上。另：上岗那步要新开对话，先贴块 1，等它答完再贴块 2。</div>
+</section>
+</div></body></html>

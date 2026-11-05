@@ -134,19 +134,18 @@ svg.lead line{stroke:#5a606c;stroke-width:1.5;stroke-dasharray:4 5}
 .take .r b{font-size:30px;color:var(--mute);font-weight:600;width:120px}
 .take .r span{font-size:56px;font-weight:900;color:var(--c)}
 
-/* ===== 五级台阶（11-05 加） ===== */
-#sL .stairs{position:absolute;left:130px;top:210px;width:1340px;height:530px}
-#sL .st{position:absolute;bottom:0;width:256px;border-radius:18px 18px 0 0;background:rgba(14,17,24,.92);border:1.5px solid #2a2f3a;border-bottom:none;padding:20px 18px 0;
-  transform:scaleY(0);transform-origin:bottom;opacity:0;transition:transform .8s cubic-bezier(.2,.8,.2,1),opacity .5s,border-color .7s,background .7s}
-#sL .stairs.vis .st{transform:none;opacity:1}
-#sL .st b{display:block;font:900 54px var(--mono);color:#5a606c;transition:color .7s}
-#sL .st h4{font-size:26px;font-weight:800;margin-top:6px;line-height:1.3;white-space:nowrap}
-#sL .st p{font-size:19px;color:var(--mute);margin-top:10px;line-height:1.45}
-#sL:has(.f1.vis) .st.on{border-color:var(--sk);background:rgba(212,255,58,.06)}
-#sL:has(.f1.vis) .st.on b{color:var(--sk)}
-#sL:has(.f1.vis) .st:not(.on){opacity:.4}
-#sL .here{position:absolute;left:130px;top:772px;font-size:26px;font-weight:800;color:#07080a;background:var(--sk);border-radius:30px;padding:8px 22px}
-#sL .no{position:absolute;right:130px;top:772px;font-size:26px;font-weight:700;color:var(--mute);border:1.5px dashed #474c57;border-radius:30px;padding:8px 22px}
+/* ===== 台阶：企业用 AI 的五级（11-05 加） ===== */
+#sL .lad{left:100px;width:1400px;bottom:110px;height:500px}
+#sL .st{position:absolute;bottom:0;width:256px;border-radius:18px 18px 0 0;background:#0e1118;border:1.5px solid #2a2f3a;border-bottom:none;padding:24px 24px 0;transition:opacity .6s,border-color .6s,background .6s}
+#sL .st u{display:block;text-decoration:none;font-family:var(--mono);font-size:40px;font-weight:800;color:var(--mute);transition:color .6s}
+#sL .st b{display:block;font-size:28px;font-weight:800;margin-top:6px;white-space:nowrap}
+#sL .st p{font-size:21px;color:var(--mute);margin-top:10px;line-height:1.45}
+#sL .s1{left:0;height:200px}#sL .s2{left:286px;height:275px}#sL .s3{left:572px;height:350px}#sL .s4{left:858px;height:425px}#sL .s5{left:1144px;height:500px}
+#sL:has(.f1.vis) .s1,#sL:has(.f1.vis) .s2,#sL:has(.f1.vis) .s3{border-color:var(--sk);background:rgba(212,255,58,.06)}
+#sL:has(.f1.vis) .s1 u,#sL:has(.f1.vis) .s2 u,#sL:has(.f1.vis) .s3 u{color:var(--sk)}
+#sL:has(.f1.vis) .s4,#sL:has(.f1.vis) .s5{opacity:.38}
+#sL .two{left:100px;width:828px;top:342px;height:60px;border:2px dashed var(--sk);border-bottom:none;border-radius:14px 14px 0 0}
+#sL .two span{position:absolute;left:50%;top:-24px;transform:translateX(-50%);font-size:26px;font-weight:800;color:#07080a;background:var(--sk);border-radius:24px;padding:6px 20px;white-space:nowrap}
 
 /* ===== 对照板、收拢（11-05 按 v2 重排） ===== */
 #sC .lg{position:absolute;left:1250px;top:40px;width:310px;padding:14px 18px 10px;border-radius:16px;background:rgba(6,8,13,.8);border:1px solid #262b36;z-index:3}
@@ -177,9 +176,7 @@ svg.lead line{stroke:#5a606c;stroke-width:1.5;stroke-dasharray:4 5}
 .tb .rv.vis{animation:tbIn .7s cubic-bezier(.2,1.4,.4,1)}
 @keyframes tbIn{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
 .fw{position:absolute;font-size:var(--fs);font-weight:800;color:#8b909b;white-space:nowrap;opacity:0;pointer-events:none;transform:translate(-50%,-50%);z-index:4}
-#sL:has(.f2.vis) .fw{animation:fwIn 1.9s cubic-bezier(.5,0,.2,1) var(--dl) both}
 @keyframes fwIn{0%{left:var(--x0);top:var(--y0);opacity:0}20%{left:var(--x0);top:var(--y0);opacity:.95}85%{opacity:.85}100%{left:var(--x1);top:var(--y1);opacity:0;font-size:16px}}
-#sL .l1t{position:absolute;left:130px;top:478px;font-size:22px;font-weight:800;color:#07080a;background:var(--sk);border-radius:20px;padding:4px 16px}
 
 /* ===== 五层对应页、级别条（11-05） ===== */
 #sC .m5{position:absolute;left:250px;top:252px;width:1100px}
@@ -206,17 +203,20 @@ svg.lead line{stroke:#5a606c;stroke-width:1.5;stroke-dasharray:4 5}
 .blocks div.on::after{content:"第一站";position:absolute;top:-20px;font-size:20px;background:var(--kb);color:#07080a;padding:6px 16px;border-radius:20px}
 
 
-/* ===== 等式（我们加的） ===== */
-#sA .eq{left:0;right:0;top:250px;display:flex;justify-content:center;align-items:center;gap:16px}
-#sA .term{flex:none;font-size:44px;font-weight:900;padding:18px 24px;border-radius:20px;border:2px solid #2a2f3a;background:rgba(14,17,24,.9);white-space:nowrap;transition:opacity .6s,transform .8s cubic-bezier(.2,.8,.2,1),box-shadow .8s,border-color .6s,color .6s}
+/* ===== 等式（我们加的；11-05 改成企业 AI 化） ===== */
+#sA .eq{left:0;right:0;top:250px;display:flex;justify-content:center;align-items:center;gap:20px}
+#sA .term{position:relative;flex:none;font-size:48px;font-weight:900;padding:20px 30px;border-radius:20px;border:2px solid #2a2f3a;background:rgba(14,17,24,.9);white-space:nowrap;transition:opacity .6s,transform .8s cubic-bezier(.2,.8,.2,1),box-shadow .8s,border-color .6s,color .6s}
 #sA .term.res{border-color:#f3f4f6}
-#sA .op{font-style:normal;font-size:44px;color:var(--mute);font-weight:300}
-#sA .term.ai{position:relative;overflow:hidden}
-#sA .term.ai u{position:absolute;left:0;bottom:0;height:6px;width:0;background:var(--sk);transition:width 1.6s cubic-bezier(.6,0,.2,1)}
+#sA .op{font-style:normal;font-size:48px;color:var(--mute);font-weight:300}
+#sA .term.ai u{position:absolute;left:12px;right:12px;bottom:0;height:6px;border-radius:3px;transform:scaleX(0);transform-origin:left;background:var(--sk);transition:transform 1.6s cubic-bezier(.6,0,.2,1)}
 #sA:has(.f1.vis) .term:not(.ai):not(.res){opacity:.28}
 #sA:has(.f1.vis) .term.ai{border-color:var(--sk);color:var(--sk);transform:translateY(-10px)}
-#sA:has(.f2.vis) .term.ai u{width:100%}
-#sA:has(.f2.vis) .term.res{transform:scale(1.12);transition-delay:.9s}
+#sA:has(.f2.vis) .term.ai u{transform:none}
+#sA:has(.f2.vis) .term:not(.ai):not(.res){opacity:1}
+#sA .term em{position:absolute;left:50%;top:calc(100% + 30px);transform:translate(-50%,10px);font-style:normal;font-size:26px;font-weight:800;padding:8px 20px;border-radius:30px;border:1.5px solid #474c57;color:#d9dbe1;background:#0e1118;white-space:nowrap;opacity:0;transition:opacity .6s,transform .6s}
+#sA:has(.f2.vis) .term em{opacity:1;transform:translate(-50%,0)}
+#sA:has(.f2.vis) .term.ai em{border-color:var(--sk);color:#07080a;background:var(--sk)}
+#sA .term:nth-of-type(3) em{transition-delay:.5s}#sA .term:nth-of-type(4) em{transition-delay:1s}
 #sA .brs{position:absolute;left:0;top:0;width:1600px;height:900px;overflow:visible}
 #sA .brs path{fill:none;stroke:var(--sk);stroke-width:2;opacity:.55;stroke-dasharray:600;stroke-dashoffset:600;transition:stroke-dashoffset 1s ease .2s}
 #sA .brs.vis path{stroke-dashoffset:0}
@@ -224,6 +224,13 @@ svg.lead line{stroke:#5a606c;stroke-width:1.5;stroke-dasharray:4 5}
 #sA .eight span{font-size:25px;font-weight:700;text-align:center;padding:14px 0;white-space:nowrap;border-radius:40px;border:1.5px solid rgba(212,255,58,.55);color:#e9f7b0;background:#10140a;opacity:0;transform:translateY(-40px) scale(.8);transition:opacity .5s,transform .7s cubic-bezier(.2,1.3,.4,1)}
 #sA .eight.vis span{opacity:1;transform:none}
 #sA .cap{left:0;right:0;top:120px;text-align:center;font-size:30px;color:var(--mute);letter-spacing:.12em}
+#sA .sub{left:0;right:0;top:724px;text-align:center;font-size:28px;color:#c9ccd3}
+#sA .sub b{color:var(--sk)}
+#sA .eight{display:block;left:0;width:1600px;top:540px;height:150px}
+#sA .eight span{position:absolute;padding:14px 22px;transform:translate(-50%,-40px) scale(.8)}
+#sA .eight.vis span{transform:translate(-50%,0)}
+#sA .eight span:nth-child(1){left:230px;top:0px}#sA .eight span:nth-child(2){left:393px;top:84px}#sA .eight span:nth-child(3){left:556px;top:0px}#sA .eight span:nth-child(4){left:719px;top:84px}#sA .eight span:nth-child(5){left:881px;top:0px}#sA .eight span:nth-child(6){left:1044px;top:84px}#sA .eight span:nth-child(7){left:1180px;top:0px}#sA .eight span:nth-child(8){left:1390px;top:84px}
+#sA .gl{left:0;right:0;top:430px;text-align:center;font-size:24px;color:var(--mute)}
 
 /* ===== 破题（我们加的） ===== */
 #sP .cloud span{position:absolute;font-weight:800;color:#1b1f28;white-space:nowrap;animation:fl 7s ease-in-out infinite alternate}
@@ -281,8 +288,7 @@ svg.lead line{stroke:#5a606c;stroke-width:1.5;stroke-dasharray:4 5}
 #ctl button{all:unset;cursor:pointer;width:34px;height:34px;border-radius:10px;background:#161a22;display:flex;align-items:center;justify-content:center;font-size:16px;color:#e6e8ec}
 #ctl button:hover{background:#262b36}
 #ctl .pg{font-family:var(--mono);min-width:68px;text-align:center}
-#ctl .pl{cursor:pointer;padding:4px 8px;border-radius:8px;border:1px dashed #3a3f4a;font-family:var(--mono);white-space:nowrap}
-#ctl .pl:hover{border-color:var(--sk)}
+#ctl .pl{padding:4px 8px;font-family:var(--mono);white-space:nowrap}
 #ctl .df{font-family:var(--mono);font-weight:700;white-space:nowrap}
 #ctl .df.late{color:#ff6b6b} #ctl .df.ok{color:var(--sk)}
 #ctl .ck{font-family:var(--mono);color:var(--mute)}
@@ -300,33 +306,7 @@ body.pv #pv{display:block}
 #pv .nx b{color:var(--ink);font-weight:600}
 #pv .keys{margin-top:30px;font-size:16px;color:var(--dim)}
 
-/* ===== 怎么走：企业 AI 化三层（11-05，按泽洲的讲法：人的 AI 技能自下而上，组织自上而下，跳不过去） ===== */
-#sQ .pyr{position:absolute;left:0;right:0;bottom:92px;display:flex;flex-direction:column;align-items:center;gap:16px}
-#sQ .tier{position:relative;border-radius:24px;border:2px solid #2a2f3a;background:rgba(14,17,24,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;
   transition:opacity .6s,filter .6s,border-color .6s,background .6s,height .8s cubic-bezier(.2,.8,.2,1),translate .8s cubic-bezier(.2,.8,.2,1),rotate .8s cubic-bezier(.2,.8,.2,1)}
-#sQ .pyr:not(.vis) .tier{opacity:0}
-@keyframes tierIn{from{opacity:0;transform:translateY(60px) scaleX(.92)}to{opacity:1;transform:none}}
-#sQ .pyr.vis .tier{animation:tierIn .9s cubic-bezier(.2,.8,.2,1) backwards}
-#sQ .pyr.vis .t1{animation-delay:.15s} #sQ .pyr.vis .t2{animation-delay:.75s} #sQ .pyr.vis .t3{animation-delay:1.35s}
-#sQ .t3{width:560px;height:128px}
-#sQ .t2{width:920px;height:128px;border-color:rgba(201,169,110,.55)}
-#sQ .t1{width:1280px;height:156px;border-color:var(--sk);background:rgba(212,255,58,.07)}
-#sQ .tier b{font-size:48px;font-weight:900;line-height:1.15}
-#sQ .t1 b{color:var(--sk)} #sQ .t2 b{color:var(--kb)}
-#sQ .tier span{font-size:30px;color:#aeb3bd;margin-top:8px;font-weight:600}
-#sQ .t1 .miss{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:44px;font-weight:900;color:#7d828d;opacity:0;transition:opacity .5s}
-#sQ:has(.q1.vis) .t1{border-style:dashed;border-color:#474c57;background:transparent}
-#sQ:has(.q1.vis) .t1>b,#sQ:has(.q1.vis) .t1>span{opacity:0}
-#sQ:has(.q1.vis) .t1 .miss{opacity:1}
-#sQ:has(.q1.vis) .t2,#sQ:has(.q1.vis) .t3{filter:grayscale(1) brightness(.7);translate:0 34px;rotate:-2.2deg;transition-delay:.35s}
-#sQ:has(.q2.vis) .t2,#sQ:has(.q2.vis) .t3{opacity:.28}
-#sQ:has(.q2.vis) .t1{height:300px;justify-content:flex-start;padding-top:30px;background:rgba(212,255,58,.09)}
-#sQ .four{position:absolute;left:34px;right:34px;bottom:30px;display:grid;grid-template-columns:repeat(4,1fr);gap:18px;opacity:0;translate:0 18px;transition:opacity .5s,translate .6s}
-#sQ:has(.q2.vis) .four{opacity:1;translate:0 0;transition-delay:.45s}
-#sQ .four em{font-style:normal;border-radius:18px;border:2px solid var(--c);padding:16px 8px 14px;text-align:center;font-size:36px;font-weight:900;color:var(--c);background:rgba(6,8,13,.7)}
-#sQ .four em i{display:block;font-style:normal;font-size:26px;color:#d9dbe1;font-weight:600;margin-top:6px}
-#sQ .t1 .tg{position:absolute;left:30px;top:-24px;font-size:28px;font-weight:900;color:#07080a;background:var(--sk);border-radius:30px;padding:6px 22px;opacity:0;transition:opacity .4s}
-#sQ:has(.q2.vis) .t1 .tg{opacity:1;transition-delay:.3s}
 </style>
 </head>
 <body>
@@ -342,37 +322,41 @@ body.pv #pv{display:block}
   </section>
 
 
-  <!-- 五级：企业用 AI 一级一级往上走（11-05 加） -->
+  <!-- 台阶：企业用 AI 的五级（11-05 加） -->
   <section class="scene" id="sL">
-    <div class="abs ttl rv" data-in="0">企业用 AI，一级一级往上走<small>每一级先备好东西，才上得去</small></div>
-    <div class="stairs rv fade" data-in="0"><div class="st on" style="left:0px;height:210px;transition-delay:0.15s"><b>L1</b><h4>各用各的</h4><p>要准备：账号、用的习惯</p></div><div class="st on" style="left:272px;height:290px;transition-delay:0.37s"><b>L2</b><h4>一个环节跑起来</h4><p>要准备：知识库、技能、智能体</p></div><div class="st on" style="left:544px;height:370px;transition-delay:0.59s"><b>L3</b><h4>一条线人机分工</h4><p>要准备：工作流、谁点头</p></div><div class="st" style="left:816px;height:450px;transition-delay:0.81s"><b>L4</b><h4>判断和数据成闭环</h4><p>要准备：数据打通，判断写进系统</p></div><div class="st" style="left:1088px;height:530px;transition-delay:1.03s"><b>L5</b><h4>AI 原生</h4><p>要准备：AI 中台和权限，组织和 AI 一起管</p></div></div>
-    <i class="f1 rv" data-in="1" data-out="2" hidden></i>
-    <div class="l1t rv" data-in="1" data-out="2">最底下：人的 AI 技能</div>
-    <div class="here rv" data-in="1" data-out="2">这两天：从 L1 走到 L3</div>
-    <div class="no rv late" data-in="1" data-out="2">跳不过去：上来就搭中台，人不会用，就搁在那</div>
-    
+    <div class="abs ttl rv" data-in="0">企业用 AI 要一级一级往上走<small>每一级先备好东西，才上得去</small></div>
+    <div class="abs lad">
+      <div class="st s1 rv" data-in="0" style="transition-delay:.15s"><u>L1</u><b>各用各的</b><p>各人自己开 AI 聊</p></div>
+      <div class="st s2 rv" data-in="0" style="transition-delay:.3s"><u>L2</u><b>一个环节跑起来</b><p>一件事交给 AI 做</p></div>
+      <div class="st s3 rv" data-in="0" style="transition-delay:.45s"><u>L3</u><b>一条线人机分工</b><p>几个 AI 接力，<br>要紧的事人点头</p></div>
+      <div class="st s4 rv" data-in="0" style="transition-delay:.6s"><u>L4</u><b>判断和数据<br>成闭环</b><p>数据接进来，<br>判断写进系统</p></div>
+      <div class="st s5 rv" data-in="0" style="transition-delay:.75s"><u>L5</u><b>AI 原生</b><p>中台各部门共用，<br>组织和 AI 一起管</p></div>
+    </div>
+    <div class="abs two rv" data-in="1"><span>这两天，带到第三级</span></div>
+    <i class="f1 rv" data-in="1" hidden></i>
   </section>
 
-  <!-- 等式 -->
+  <!-- 等式（11-05 改成企业 AI 化） -->
   <section class="scene" id="sA">
-    <div class="abs cap rv" data-in="0">企业 AI 化，是乘出来的</div>
+    <div class="abs cap rv" data-in="0">企业 AI 化，是三样东西乘出来的</div>
     <div class="abs eq">
       <div class="term res rv" data-in="0">企业 AI 化</div>
       <i class="op rv" data-in="0" style="transition-delay:.2s">=</i>
-      <div class="term rv" data-in="0" style="transition-delay:.4s">业务理解</div>
+      <div class="term ai rv" data-in="0" style="transition-delay:.4s">员工能力<u></u><em>L1 到 L3</em></div>
       <i class="op rv" data-in="0" style="transition-delay:.55s">×</i>
-      <div class="term ai rv" data-in="0" style="transition-delay:.7s">AI 技能<u></u></div>
+      <div class="term rv" data-in="0" style="transition-delay:.7s">数据和语义<em>L4</em></div>
       <i class="op rv" data-in="0" style="transition-delay:.85s">×</i>
-      <div class="term rv" data-in="0" style="transition-delay:1s">数据和系统</div>
-      <i class="op rv" data-in="0" style="transition-delay:1.15s">×</i>
-      <div class="term rv" data-in="0" style="transition-delay:1.3s">分工和流程</div>
+      <div class="term rv" data-in="0" style="transition-delay:1s">组织<em>L5</em></div>
     </div>
+    <div class="abs gl rv" data-in="0" data-out="1">语义：公司里的说法（品名、简称、规矩），AI 也听得懂</div>
     <i class="f1 rv" data-in="1" hidden></i><i class="f2 rv" data-in="2" hidden></i>
-    <svg class="brs rv fade" data-in="1" id="sAbrs"></svg>
-    <div class="abs eight rv fade" data-in="1">
+    <svg class="brs rv fade" data-in="1" data-out="2" id="sAbrs"></svg>
+    <div class="abs eight rv fade" data-in="1" data-out="2">
       <span style="transition-delay:.3s">提示词与上下文设计</span><span style="transition-delay:.38s">AI 资料研究</span><span style="transition-delay:.46s">AI 数据分析</span><span style="transition-delay:.54s">AI 文案与多语言</span>
       <span style="transition-delay:.62s">多模态内容创作</span><span style="transition-delay:.7s">企业知识库与岗位智能体</span><span style="transition-delay:.78s">工作流自动化</span><span style="transition-delay:.86s">AI 辅助应用搭建</span>
     </div>
+    <div class="abs sub rv" data-in="1" data-out="2">这两天补<b>员工能力</b>；海报上的八项，都在四个项目里</div>
+    <div class="abs sub rv" data-in="2" style="transition-delay:1.2s">员工会用了，搭起来的东西才有人用；再往上补数据和语义，最后改组织</div>
   </section>
 
   <!-- 拆：你的公司 -->
@@ -428,19 +412,6 @@ body.pv #pv{display:block}
     <div class="abs cnt rv" data-in="4" id="evoCnt"></div>
   </section>
 
-  <!-- 怎么走：企业 AI 化三层（11-05） -->
-  <section class="scene" id="sQ">
-    <i class="q1 rv" data-in="1" data-out="2" hidden></i><i class="q2 rv" data-in="2" hidden></i>
-    <div class="abs ttl rv" data-in="0" data-out="1">这样的公司，怎么长出来<small>企业 AI 化，分三层</small></div>
-    <div class="abs ttl rv" data-in="1" data-out="2">顺序，跳不过去<small>人不会用，搭好的也只能搁着</small></div>
-    <div class="abs ttl rv" data-in="2">这两天，打最底下这层<small>AI 技能，是人的本事</small></div>
-    <div class="pyr rv" data-in="0">
-      <div class="tier t3"><b>组织</b><span>↓ 老板推，自上而下</span></div>
-      <div class="tier t2"><b>数据 · 知识 · 中台</b><span>公司的底子</span></div>
-      <div class="tier t1"><em class="tg">这两天</em><b>人的 AI 技能</b><span>↑ 人人会用、会搭，自下而上</span><div class="miss">人还不会用</div>
-        <div class="four"><em style="--c:var(--kb)">知识库<i>把知识交给 AI</i></em><em style="--c:var(--sk)">AI 的技能<i>教 AI 做事</i></em><em style="--c:var(--ag)">AI 员工<i>带 AI 员工</i></em><em style="--c:var(--ag)">SOP · 工作流<i>排 SOP</i></em></div></div>
-    </div>
-  </section>
 
   <!-- 闭环 -->
   <section class="scene" id="sF">
@@ -472,7 +443,7 @@ body.pv #pv{display:block}
   </section>
 
   <div id="bar"></div>
-  <div id="ctl"><button id="cPrev" title="上一步">◀</button><span class="pg" id="cPg"></span><button id="cNext" title="下一步">▶</button><span class="pl" id="cPl" title="点一下改这一章的计划开始时间"></span><span class="df" id="cDf"></span><span class="ck" id="cCk"></span></div>
+  <div id="ctl"><button id="cPrev" title="上一步">◀</button><span class="pg" id="cPg"></span><button id="cNext" title="下一步">▶</button><span class="pl" id="cPl"></span></div>
   <div id="hint">→ 下一步　← 上一步　点底部章节可跳转　N 口播　F 全屏</div>
   <div id="notes"><div class="meta" id="notesMeta"></div><div id="notesTx"></div></div>
 </div>
@@ -487,8 +458,13 @@ body.pv #pv{display:block}
 <script>
 /* ================= 逐步：画面 + 口播 ================= */
 const BEATS=[
- {s:'cover',k:0,w:'hidden',ch:'开场',n:`各位早。先把这两天的目标说在前面：每个人亲手搭，两天下来，把自家公司的 AI 雏形搭出来、带回去。先不谈 AI，我们从一家公司是怎么运转的说起。`},
- {s:'sB',k:0,w:'org0',ch:'拆',n:`先不谈 AI，就看一家公司。最上面是老板，下面几个部门：销售、生产、交付、客服，各管一摊。这是各位最熟的组织架构。`},
+ {s:'cover',k:0,w:'hidden',ch:'开场',n:`各位早。先把这两天的目标说在前面：每个人亲手搭，两天下来，把自家公司的 AI 雏形搭出来、带回去。`},
+ {s:'sL',k:0,w:'hidden',ch:'五级',n:`先看企业用 AI 的五级。L1 各用各的：每个人自己开 AI 聊，用完就散。L2 一个环节跑起来：一件事交给 AI 做。L3 一条线人机分工：几个 AI 接力，要紧的地方人点头。L4 判断和数据成闭环：客户、订单、财务的数据接进来，判断写进系统。L5 AI 原生：中台各部门共用，组织和 AI 一起管。每一级都要先备好东西，备不好就上不去，也跳不过去。`},
+ {s:'sL',k:1,w:'hidden',ch:'五级',n:`这两天，带各位从第一级走到第三级。`},
+ {s:'sA',k:0,w:'hidden',ch:'等式',n:`为什么要一级一级走？看这个算式：企业 AI 化，等于员工能力、数据和语义、组织，三样相乘。哪一项是零，结果就是零。`},
+ {s:'sA',k:1,w:'hidden',ch:'等式',n:`这两天补第一项：员工能力。海报上的八项，都融在接下来的四个项目里：知识库、技能、智能体、工作流。`},
+ {s:'sA',k:2,w:'hidden',ch:'等式',n:`员工能力补上，能走到第三级。再往上，第四级要把数据和语义理清楚，第五级组织要跟着改。直接跳上去，中台搭起来也没人会用，所以先让人会用。`},
+ {s:'sB',k:0,w:'org0',ch:'拆',n:`员工能力，到底补的是什么？先不谈 AI，就看一家公司。最上面是老板，下面几个部门：销售、生产、交付、客服，各管一摊。这是各位最熟的组织架构。`},
  {s:'sB',k:1,w:'line0',ch:'拆',n:`可公司每天真正在做的，是一件件事。比如接一单生意，从接单到回款，要横着穿过好几个部门。拉近看，它是一个个员工一站一站接着干出来的：销售的、生产的、交付的、客服的。`},
  {s:'sB',k:2,w:'emp',ch:'拆',n:`再拉近，看其中一个销售。他能把活干好，靠两样。一样是他知道的，叫知识：价格表、产品手册、公司规矩，这是公司的；客户名单、踩过的坑，这是他自己的。一样是他会做的，叫技能：报价、写方案、回客户、跟回款。`},
  {s:'sB',k:3,w:'emp2',ch:'拆',n:`为什么是这两样？一件事来了，比如客户来询价：他得知道价格表、知道这个客户是谁，这是知识；还得会报价，这是技能。知道的加上会做的，这件事就做完了。一个员工，拆到底就是这两样：知识和技能。`},
@@ -502,9 +478,6 @@ const BEATS=[
  {s:'sP',k:1,w:'hidden',ch:'破题',n:`拿技能说。很多人用技能是这样：打开技能广场，看到好的，点个加号，加进来，聊几句。`},
  {s:'sP',k:2,w:'hidden',ch:'破题',n:`问各位一个问题：加进来的这些，现在还天天在用吗？用着不顺手的时候，改过吗？`},
  {s:'sP',k:3,w:'hidden',ch:'破题',n:`别人做的技能，做不出各位要的东西，到了真实场景会出错；人家一停更新，自己也改不动。这两天我们自己搭：长在自己公司里，接着自己的知识库，自己能改，用得越久越顺手，四样还能串起来。后面每一站都这样，先看大家以为的是什么样，再看真正用起来是什么样。`},
- {s:'sQ',k:0,w:'hidden',ch:'怎么走',n:`刚才那样的公司，不是一下子变出来的，也不是从技能广场加几个、买一套系统就有的。一家企业 AI 化，分三层：最底下是人的 AI 技能，人人会用、会搭，这一层得自下而上；中间是数据、知识、中台这些底子；最上面是组织，得老板自上而下去推。`},
- {s:'sQ',k:1,w:'hidden',ch:'怎么走',n:`顺序跳不过去。常有老板问：能不能上来就搭中台、做数据治理？可以搭，但人不会用，东西就搁在那，钱花了，没有价值。人先会用了，老板往下推，才推得动。`},
- {s:'sQ',k:2,w:'hidden',ch:'怎么走',n:`所以这两天，就打最底下这一层。这堂课叫 AI 技能提升，提升的是人的本事：会把知识交给 AI，会教 AI 做事，会带 AI 员工，会排 SOP，正好是刚才那四样。底打好了，中间和上面两层，回去再一层层往上搭。`},
  {s:'sH',k:0,w:'hidden',ch:'开始',n:`那我们开始。从最底下开始：第一站，知识，全公司的底座。`},
 
 ];
@@ -848,23 +821,13 @@ const CHS=[...new Set(BEATS.map(b=>b.ch))];
 $('#bar').innerHTML=CHS.map(c=>`<div class="ch"><b>${c}</b><i><u></u></i></div>`).join('');
 
 /* ===== 控场：章节可点、翻页按钮、计划时间 ===== */
-const PLAN0={'开场':'六 09:00','知识库':'六 09:30','技能':'六 13:00','智能体':'六 16:00','工作流':'日 09:30','收尾':'日 17:30'};
-let PLAN=PLAN0;try{PLAN=Object.assign({},PLAN0,JSON.parse(localStorage.getItem('kc_plan')||'{}'))}catch(e){}
+const DAY0={'开场':'第一天','第二天':'第二天'};
 const firstOf=c=>BEATS.findIndex(b=>b.ch===c);
-const planOf=ch=>{let ci=CHS.indexOf(ch);for(;ci>=0;ci--)if(PLAN[CHS[ci]])return [CHS[ci],PLAN[CHS[ci]]];return [null,null]};
-function drawBarPlan(){document.querySelectorAll('#bar .ch').forEach((el,i)=>{const c=CHS[i],b=el.querySelector('b');b.innerHTML=c+(PLAN[c]?`<em>${PLAN[c].split(' ')[1]}</em>`:'');el.onclick=()=>go(firstOf(c))})}
-function tickCtl(){if(typeof cur!=='number'||cur<0)return;const b=BEATS[cur];$('#cPg').textContent=`${cur+1}/${BEATS.length}`;
-  const [pc,pt]=planOf(b.ch),now=new Date();$('#cCk').textContent=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
-  if(!pt){$('#cPl').textContent='设时间';$('#cDf').textContent='';return}
-  $('#cPl').textContent=`${pc} 周${pt}`;
-  const [d,hm]=pt.split(' '),[h,m]=hm.split(':').map(Number),wd={'六':6,'日':0}[d];
-  if(now.getDay()===wd&&pc===b.ch&&BEATS[firstOf(pc)]===b){const diff=now.getHours()*60+now.getMinutes()-(h*60+m);$('#cDf').textContent=diff>0?`晚 ${diff} 分`:`早 ${-diff} 分`;$('#cDf').className='df '+(diff>5?'late':'ok')}
-  else if(now.getDay()===wd){const diff=now.getHours()*60+now.getMinutes()-(h*60+m);$('#cDf').textContent=`本章已过 ${Math.max(0,diff)} 分`;$('#cDf').className='df'}
-  else{$('#cDf').textContent='';$('#cDf').className='df'}}
+const dayOf=ch=>{let ci=CHS.indexOf(ch);for(;ci>=0;ci--)if(DAY0[CHS[ci]])return DAY0[CHS[ci]];return ''};
+function drawBarPlan(){document.querySelectorAll('#bar .ch').forEach((el,i)=>{const c=CHS[i],b=el.querySelector('b');b.innerHTML=c+(c==='开场'?'<em>第一天</em>':'');el.onclick=()=>go(firstOf(c))})}
+function tickCtl(){if(typeof cur!=='number'||cur<0)return;const b=BEATS[cur],d=dayOf(b.ch);$('#cPg').textContent=`${cur+1}/${BEATS.length}`;$('#cPl').textContent=d&&d!==b.ch?`${d} · ${b.ch}`:b.ch}
 $('#cPrev').onclick=()=>go(cur-1);$('#cNext').onclick=()=>go(cur+1);
-$('#cPl').onclick=()=>{const [pc]=planOf(BEATS[cur].ch),c=pc||BEATS[cur].ch,v=prompt(`「${c}」计划几点开始？格式：六 09:45 或 日 15:00`,PLAN[c]||'六 09:00');
-  if(v&&/^[六日] \d{1,2}:\d{2}$/.test(v.trim())){PLAN[c]=v.trim().replace(/ (\d):/,' 0$1:');try{localStorage.setItem('kc_plan',JSON.stringify(PLAN))}catch(e){}drawBarPlan();tickCtl()}};
-drawBarPlan();setInterval(tickCtl,5000);
+drawBarPlan();
 function updBar(i){const ch=BEATS[i].ch,ci=CHS.indexOf(ch);
   document.querySelectorAll('#bar .ch').forEach((el,j)=>{el.classList.toggle('cur',j===ci);el.classList.toggle('done',j<ci);
     const u=el.querySelector('u');if(j===ci){const idx=BEATS.map((b,n)=>b.ch===ch?n:-1).filter(n=>n>=0);u.style.width=((idx.indexOf(i)+1)/idx.length*100)+'%'}else u.style.width=j<ci?'100%':'0'})}

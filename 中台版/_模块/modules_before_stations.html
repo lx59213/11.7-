@@ -1,0 +1,783 @@
+<!-- 五个模块：两版共用。build.py 把这里的四块分别注入浅色版和深色版。 -->
+<!--CSS-->
+/* ======================= 模块通用 ======================= */
+.mod{color:var(--m-ink)}
+.mod .m-h{position:absolute;left:96px;top:62px;font-size:56px;font-weight:800;line-height:1.25;letter-spacing:.01em;z-index:3}
+.mod .m-h small{display:block;font-size:24px;font-weight:500;color:var(--m-mute);margin-top:10px}
+.mod .m-h em{font-style:normal;color:var(--c)}
+.mod .m-tag{position:absolute;right:90px;top:72px;font-size:18px;font-weight:700;color:var(--m-mute);border:1.5px dashed var(--m-line2);border-radius:30px;padding:5px 14px}
+.m-card{background:var(--m-card);border:1px solid var(--m-line);border-radius:20px;box-shadow:var(--m-shadow)}
+.m-code{background:var(--m-code-bg);color:var(--m-code-ink);border:1px solid var(--m-line);border-radius:18px;font-family:"SF Mono",Menlo,Consolas,monospace;box-shadow:var(--m-shadow)}
+
+/* 章节页 */
+.m-chap{position:absolute;inset:0;overflow:hidden}
+.m-chap canvas{position:absolute;left:0;top:0;width:1600px;height:900px}
+.m-chap .n{position:absolute;left:70px;top:90px;font-size:440px;font-weight:900;line-height:1;letter-spacing:-.06em;color:var(--c);font-family:"Helvetica Neue","PingFang SC",sans-serif;clip-path:inset(0 0 100% 0);transition:clip-path 1.1s cubic-bezier(.7,0,.2,1)}
+.m-chap.vis .n{clip-path:inset(0 0 0 0)}
+.m-chap .t{position:absolute;left:760px;top:300px}
+.m-chap .t .k{font-size:22px;font-weight:800;letter-spacing:.3em;color:var(--c)}
+.m-chap .t h1{font-size:150px;font-weight:900;letter-spacing:-.02em;line-height:1.05;margin-top:18px}
+.m-chap .t p{font-size:34px;color:var(--m-mute);margin-top:22px;font-weight:500}
+.m-chap .d{position:absolute;left:768px;top:640px;display:flex;gap:12px}
+.m-chap .d i{width:46px;height:8px;border-radius:4px;background:var(--m-line2)}
+.m-chap .d i.on{background:var(--c)}
+
+/* 课程地图 */
+.m-map{position:absolute;left:0;top:0;width:1600px;height:900px}
+.m-map path{fill:none;stroke:var(--m-line2);stroke-width:4;stroke-dasharray:6 10}
+.m-map path.run{stroke:var(--m-ink);stroke-dasharray:1800;stroke-dashoffset:1800;transition:stroke-dashoffset 2.4s cubic-bezier(.6,0,.2,1);stroke-width:3}
+#m0.k0 .m-map path.run{stroke-dashoffset:0}
+.m-st{position:absolute;width:240px;margin-left:-120px;text-align:center}
+.m-st .dot{width:64px;height:64px;border-radius:18px;background:var(--c);margin:0 auto;color:var(--m-on);font-size:26px;font-weight:900;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px color-mix(in srgb,var(--c) 40%,transparent)}
+.m-st h3{font-size:40px;font-weight:900;margin-top:18px;color:var(--c)}
+.m-st p{font-size:22px;color:var(--m-mute);margin-top:8px;line-height:1.5}
+.m-st.up{margin-top:-260px}.m-st.up .dot{order:2}
+
+/* ---------- 01 知识库 ---------- */
+.m-chaos{position:absolute;inset:0}
+.m-doc{position:absolute;left:var(--x);top:var(--y);transition:left 1.2s cubic-bezier(.6,0,.2,1),top 1.2s cubic-bezier(.6,0,.2,1),opacity .6s;z-index:2}
+.m-doc span{display:flex;align-items:center;gap:10px;font-size:22px;font-weight:600;padding:12px 18px;border-radius:14px;background:var(--m-card);border:1px solid var(--m-line);box-shadow:var(--m-shadow);white-space:nowrap;animation:mfloat var(--d) ease-in-out infinite alternate}
+.m-doc span i{font-style:normal;font-size:13px;font-weight:800;padding:3px 7px;border-radius:5px;color:#fff;background:var(--b)}
+@keyframes mfloat{from{transform:translate(0,0) rotate(-2deg)}to{transform:translate(18px,-22px) rotate(2deg)}}
+.m-chaos.stack .m-doc{left:var(--rx);top:var(--ry)}
+.m-chaos.stack .m-doc span{animation:none;transform:none;font-size:18px;padding:8px 12px}
+.m-chaos.gone .m-doc{opacity:0}
+.m-raw{position:absolute;left:96px;top:250px;width:330px;height:560px;border:2.5px dashed var(--m-line2);border-radius:22px}
+.m-raw b,.m-wiki b{position:absolute;top:-46px;left:0;font-size:30px;font-weight:900;font-family:"SF Mono",Menlo,monospace}
+.m-raw small,.m-wiki small{position:absolute;top:-40px;left:120px;font-size:20px;color:var(--m-mute)}
+.m-wiki{position:absolute;left:700px;top:250px;width:800px;height:560px;border-radius:22px;background:var(--m-card);border:1px solid var(--m-line);box-shadow:var(--m-shadow);overflow:hidden}
+.m-wiki canvas{position:absolute;left:0;top:0;width:800px;height:560px}
+.m-arrow{position:absolute;left:452px;top:470px;width:220px;text-align:center}
+.m-arrow .ln{height:4px;background:linear-gradient(90deg,var(--m-line2),var(--c));border-radius:2px;position:relative;overflow:hidden}
+.m-arrow .ln::after{content:"";position:absolute;left:-30%;top:0;bottom:0;width:30%;background:var(--c);animation:mrun 1.2s linear infinite}
+@keyframes mrun{to{left:100%}}
+.m-arrow b{display:block;font-size:26px;font-weight:900;color:var(--c);margin-bottom:14px}
+.m-arrow span{display:block;font-size:19px;color:var(--m-mute);margin-top:12px;line-height:1.5}
+.m-quote{position:absolute;left:700px;top:830px;font-size:21px;color:var(--m-mute)}
+.m-quote b{color:var(--m-ink)}
+/* 三个动作的循环 */
+.m-loop{position:absolute;left:430px;top:170px;width:740px;height:680px}
+.m-loop canvas{position:absolute;left:170px;top:150px;width:400px;height:380px}
+.m-loop svg{position:absolute;inset:0;width:740px;height:680px;overflow:visible}
+.m-loop svg circle{fill:none;stroke:var(--m-line2);stroke-width:3}
+.m-loop svg circle.run{stroke:var(--c);stroke-width:6;stroke-linecap:round;stroke-dasharray:90 1900;animation:mloop 5s linear infinite}
+@keyframes mloop{to{stroke-dashoffset:-1979}}
+.m-op{position:absolute;width:260px;margin-left:-130px;text-align:center;padding:16px 18px;border-radius:18px;background:var(--m-bg2);border:2px solid var(--c)}
+.m-op b{display:block;font-size:34px;font-weight:900;color:var(--c)}
+.m-op span{display:block;font-size:20px;color:var(--m-mute);margin-top:6px;line-height:1.45}
+/* 三条理念 */
+.m-three{position:absolute;left:96px;top:260px;width:1408px;display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.m-three .m-card{padding:40px 38px 44px;min-height:440px;position:relative;overflow:hidden}
+.m-three .no{font-size:120px;font-weight:900;color:var(--c);opacity:.18;position:absolute;right:26px;top:6px;line-height:1}
+.m-three h3{font-size:44px;font-weight:900;line-height:1.3;margin-top:70px}
+.m-three p{font-size:24px;color:var(--m-mute);margin-top:22px;line-height:1.65}
+.m-three .ill{position:absolute;left:38px;top:40px;height:44px;display:flex;gap:6px;align-items:flex-end}
+.m-three .ill i{display:block;width:30px;border-radius:5px;background:var(--c)}
+/* Obsidian 仿真窗 */
+.m-obs{position:absolute;left:96px;top:200px;width:980px;height:620px;border-radius:16px;background:#1e1e1e;color:#dcddde;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.35);font-family:"PingFang SC",-apple-system,sans-serif}
+.m-obs .bar{height:38px;background:#262626;display:flex;align-items:center;gap:8px;padding:0 14px;font-size:15px;color:#999}
+.m-obs .bar i{width:12px;height:12px;border-radius:50%;background:#555;display:block}
+.m-obs .bar b{margin-left:14px;font-weight:600;color:#bbb}
+.m-obs .tree{position:absolute;left:0;top:38px;bottom:0;width:250px;background:#232323;padding:16px 12px;font-size:17px;line-height:1.9;border-right:1px solid #333}
+.m-obs .tree div{opacity:0;transform:translateX(-8px);transition:all .4s;white-space:nowrap}
+.m-obs .tree div.on{opacity:1;transform:none}
+.m-obs .tree .f{color:#e0e0e0;font-weight:600}
+.m-obs .tree .c{padding-left:22px;color:#a8a8a8}
+.m-obs .tree .w{padding-left:22px;color:#c9b8ff}
+.m-obs .note{position:absolute;left:250px;top:38px;width:420px;bottom:0;padding:26px 30px;font-size:18px;line-height:1.8;opacity:0;transition:opacity .5s}
+.m-obs .note.on{opacity:1}
+.m-obs .note h4{font-size:28px;color:#fff;margin-bottom:12px}
+.m-obs .note .lk{color:#a88bfa;text-decoration:underline;text-underline-offset:3px}
+.m-obs .note .q{margin-top:18px;padding:12px 14px;border-left:3px solid #a88bfa;background:#262335;color:#cfc6ff;font-size:16px}
+.m-obs .gp{position:absolute;right:0;top:38px;width:310px;bottom:0;background:#1a1a1a;border-left:1px solid #333}
+.m-obs .gp canvas{position:absolute;inset:0;width:310px;height:582px}
+.m-obs .gp small{position:absolute;left:14px;top:10px;font-size:14px;color:#777;z-index:2}
+.m-steps{position:absolute;left:1110px;top:200px;width:400px}
+.m-steps .s{display:flex;gap:16px;align-items:flex-start;padding:15px 0;border-bottom:1px solid var(--m-line);opacity:.35;transition:opacity .4s}
+.m-steps .s.on{opacity:1}
+.m-steps .s i{flex:none;width:36px;height:36px;border-radius:10px;background:var(--m-line);color:var(--m-mute);font-style:normal;font-weight:900;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all .4s}
+.m-steps .s.on i{background:var(--c);color:var(--m-on)}
+.m-steps .s b{font-size:25px;font-weight:800;display:block}
+.m-steps .s span{font-size:18px;color:var(--m-mute);display:block;margin-top:4px;line-height:1.5}
+/* 规则文件 */
+.m-rule{position:absolute;left:96px;top:230px;width:980px;padding:36px 44px 40px;font-size:24px;line-height:1.9}
+.m-rule .fn{font-size:18px;opacity:.6;margin-bottom:12px}
+.m-rule div{opacity:0;transform:translateY(8px);transition:all .45s}
+.m-rule div.on{opacity:1;transform:none}
+.m-rule .hl{color:var(--c)}
+.m-side{position:absolute;left:1130px;top:250px;width:380px;font-size:26px;line-height:1.7;color:var(--m-mute)}
+.m-side b{color:var(--m-ink);font-size:34px;display:block;margin-bottom:12px;line-height:1.35}
+
+/* ---------- 02 技能 ---------- */
+.m-file{position:absolute;left:560px;top:190px;width:480px;height:640px;padding:34px 36px}
+.m-file .fn{font-family:"SF Mono",Menlo,monospace;font-size:20px;color:var(--m-mute)}
+.m-file h3{font-size:40px;font-weight:900;margin:10px 0 18px}
+.m-sec{border-radius:12px;padding:14px 16px;margin:10px 0;background:var(--m-card2);border:1.5px solid transparent;transition:all .4s}
+.m-sec b{font-size:22px;display:block}
+.m-sec span{font-size:17px;color:var(--m-mute);display:block;margin-top:4px;line-height:1.5}
+.m-sec.on{border-color:var(--c);background:color-mix(in srgb,var(--c) 10%,var(--m-card))}
+.m-call{position:absolute;width:380px;font-size:23px;line-height:1.5;opacity:.25;transition:opacity .4s}
+.m-call.on{opacity:1}
+.m-call b{display:block;font-size:32px;font-weight:900;color:var(--c)}
+.m-call.l{text-align:right}
+.m-chat{position:absolute;left:96px;top:190px;width:920px;height:650px;padding:0;overflow:hidden;display:flex;flex-direction:column}
+.m-chat .top{padding:16px 24px;border-bottom:1px solid var(--m-line);display:flex;gap:12px;align-items:center;font-size:19px;color:var(--m-mute)}
+.m-chat .top b{color:var(--m-ink)}
+.m-chat .top em{font-style:normal;font-size:15px;font-weight:800;background:var(--c);color:var(--m-on);padding:3px 10px;border-radius:20px}
+.m-chat .msgs{flex:1;padding:22px 26px;display:flex;flex-direction:column;gap:14px;justify-content:flex-end;overflow:hidden}
+.m-msg{max-width:78%;font-size:22px;line-height:1.55;padding:14px 18px;border-radius:16px;animation:mpop .35s cubic-bezier(.2,.9,.3,1.2)}
+.m-msg.me{align-self:flex-end;background:var(--m-ink);color:var(--m-bg2)}
+.m-msg.ai{align-self:flex-start;background:var(--m-card2);border:1px solid var(--m-line)}
+.m-msg.ai b{color:var(--c)}
+@keyframes mpop{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
+.m-mine{position:absolute;left:1060px;top:190px;width:450px;display:flex;flex-direction:column;gap:14px}
+.m-mine .m-card{padding:18px 22px;opacity:0;transform:translateX(30px);transition:all .5s cubic-bezier(.2,.9,.3,1)}
+.m-mine .m-card.on{opacity:1;transform:none}
+.m-mine b{font-size:28px;font-weight:900;display:block}
+.m-mine .ck{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.m-mine .ck span{font-size:15px;font-weight:700;padding:3px 10px;border-radius:20px;background:color-mix(in srgb,var(--c) 14%,transparent);color:var(--c)}
+.m-mine .no span{background:var(--m-card2);color:var(--m-mute)}
+.m-mine .gen{font-family:"SF Mono",Menlo,monospace;font-size:16px;margin-top:10px;color:var(--c)}
+.m-prompt{position:absolute;padding:26px 30px;font-size:21px;line-height:1.75}
+.m-prompt .fn{font-size:15px;opacity:.55;margin-bottom:8px;letter-spacing:.1em}
+.m-prompt .hl{color:var(--c)}
+/* 自进化 */
+.m-evo{position:absolute;left:96px;top:220px;width:560px;height:560px}
+.m-evo svg{position:absolute;inset:0;width:560px;height:560px;overflow:visible}
+.m-evo circle{fill:none;stroke:var(--m-line2);stroke-width:3}
+.m-evo circle.run{stroke:var(--c);stroke-width:7;stroke-linecap:round;stroke-dasharray:110 1500;animation:mevo 3.2s linear infinite}
+@keyframes mevo{to{stroke-dashoffset:-1382}}
+.m-evo .v{position:absolute;left:180px;top:200px;width:200px;text-align:center}
+.m-evo .v b{display:block;font-size:110px;font-weight:900;color:var(--c);font-family:"SF Mono",Menlo,monospace;letter-spacing:-.04em;line-height:1}
+.m-evo .v span{font-size:22px;color:var(--m-mute)}
+.m-evo .p{position:absolute;width:200px;margin-left:-100px;text-align:center;font-size:24px;font-weight:800;background:var(--m-bg2);padding:8px 4px;border-radius:12px}
+.m-evo .p small{display:block;font-size:17px;font-weight:500;color:var(--m-mute);margin-top:2px}
+.m-chart{position:absolute;left:760px;top:240px;width:740px;height:500px;padding:26px 30px}
+.m-chart canvas{position:absolute;left:30px;top:70px;width:680px;height:400px}
+.m-chart b{font-size:26px;font-weight:800}
+.m-chart small{font-size:18px;color:var(--m-mute);margin-left:10px}
+.m-race{position:absolute;left:96px;top:230px;width:1408px;display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.m-race .m-card{padding:26px 26px 30px;transition:all .6s;position:relative}
+.m-race .m-card.win{border:2.5px solid var(--c);transform:translateY(-10px)}
+.m-race .m-card.lose{opacity:.3}
+.m-race h4{font-size:30px;font-weight:900}
+.m-race h4 small{font-size:17px;color:var(--m-mute);font-weight:500;margin-left:8px}
+.m-race .qs{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin:22px 0}
+.m-race .qs i{height:34px;border-radius:7px;background:var(--m-card2);display:block;transition:background .3s}
+.m-race .qs i.y{background:var(--c)} .m-race .qs i.n{background:color-mix(in srgb,var(--m-mute) 35%,transparent)}
+.m-race .sc{font-size:56px;font-weight:900;font-family:"SF Mono",Menlo,monospace}
+.m-race .sc small{font-size:22px;color:var(--m-mute)}
+.m-race .crown{position:absolute;right:20px;top:20px;font-size:16px;font-weight:800;background:var(--c);color:var(--m-on);padding:4px 12px;border-radius:20px;opacity:0;transition:opacity .4s}
+.m-race .win .crown{opacity:1}
+.m-gen{position:absolute;left:96px;top:760px;font-size:26px;color:var(--m-mute)}
+.m-gen b{color:var(--m-ink)}
+
+/* ---------- 03 专家 ---------- */
+.m-anat{position:absolute;left:0;top:0;width:1600px;height:900px}
+.m-anat svg{position:absolute;inset:0;width:1600px;height:900px}
+.m-anat svg line{stroke:var(--m-line2);stroke-width:2;stroke-dasharray:5 6}
+.m-core{position:absolute;left:800px;top:500px;width:250px;height:250px;margin:-125px 0 0 -125px;border-radius:50px;background:var(--c);color:var(--m-on);display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 30px 80px color-mix(in srgb,var(--c) 40%,transparent);z-index:2}
+.m-core b{font-size:46px;font-weight:900}
+.m-core span{font-size:20px;opacity:.8;margin-top:6px}
+.m-core::before{content:"";position:absolute;inset:-26px;border-radius:66px;border:2px solid var(--c);opacity:.35;animation:mpulse 2.4s ease-out infinite}
+@keyframes mpulse{from{transform:scale(.92);opacity:.5}to{transform:scale(1.12);opacity:0}}
+.m-part{position:absolute;width:300px;margin-left:-150px;margin-top:-50px;padding:16px 20px;transition:left 1s cubic-bezier(.6,0,.2,1),top 1s cubic-bezier(.6,0,.2,1),opacity .6s;z-index:2}
+.m-part b{font-size:28px;font-weight:900;display:flex;align-items:center;gap:10px}
+.m-part b i{width:14px;height:14px;border-radius:4px;background:var(--pc);display:block}
+.m-part span{font-size:19px;color:var(--m-mute);display:block;margin-top:4px}
+.m-tree{position:absolute;left:96px;top:200px;width:900px;padding:34px 40px;font-size:25px;line-height:1.95;min-height:600px}
+.m-tree div{opacity:0;transition:opacity .35s;white-space:pre}
+.m-tree div.on{opacity:1}
+.m-tree .cm{color:var(--c);opacity:.95}
+.m-tree .root{font-weight:800}
+.m-exam{position:absolute;left:96px;top:230px;width:1408px;display:grid;grid-template-columns:1fr 1fr;gap:30px}
+.m-exam .m-card{padding:30px 34px}
+.m-exam h4{font-size:30px;font-weight:900}
+.m-exam h4 small{font-size:19px;color:var(--m-mute);font-weight:500;margin-left:10px}
+.m-exam .qs{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:26px 0}
+.m-exam .qs i{height:70px;border-radius:12px;background:var(--m-card2);display:flex;align-items:center;justify-content:center;font-style:normal;font-size:30px;font-weight:900;transition:all .3s}
+.m-exam .qs i.y{background:color-mix(in srgb,var(--wf) 22%,var(--m-card));color:var(--wf)}
+.m-exam .qs i.n{background:color-mix(in srgb,#e5484d 18%,var(--m-card));color:#e5484d}
+.m-exam .sc{font-size:72px;font-weight:900;font-family:"SF Mono",Menlo,monospace}
+.m-exam .sc small{font-size:26px;color:var(--m-mute)}
+.m-exam .fix{font-size:22px;color:var(--m-mute);line-height:1.7}
+.m-exam .fix b{color:var(--c)}
+
+/* ---------- 04 SOP ---------- */
+.m-lanes{position:absolute;left:96px;top:200px;width:1408px;height:590px}
+.m-lane{position:absolute;left:0;right:0;height:104px;border-radius:16px;background:var(--m-card);border:1px solid var(--m-line)}
+.m-lane .nm{position:absolute;left:22px;top:0;bottom:0;width:190px;display:flex;flex-direction:column;justify-content:center}
+.m-lane .nm b{font-size:24px;font-weight:900}
+.m-lane .nm span{font-size:16px;color:var(--m-mute);margin-top:2px}
+.m-lane.hu{background:var(--m-card2)}
+.m-lane.hu .nm b::before{content:"人";font-size:13px;font-weight:800;background:var(--m-ink);color:var(--m-bg2);padding:2px 7px;border-radius:6px;margin-right:8px;vertical-align:3px}
+.m-lane.ex .nm b::before{content:"专家";font-size:13px;font-weight:800;background:var(--ag);color:var(--m-on);padding:2px 7px;border-radius:6px;margin-right:8px;vertical-align:3px}
+.m-cell{position:absolute;height:64px;margin-top:-32px;border-radius:12px;border:1.5px dashed var(--m-line2);font-size:19px;font-weight:700;display:flex;align-items:center;justify-content:center;color:var(--m-mute);transition:all .35s;width:180px;margin-left:-90px}
+.m-cell.on{border:2px solid var(--c);color:var(--m-ink);background:color-mix(in srgb,var(--c) 10%,var(--m-card))}
+.m-cell.done{border:1.5px solid var(--m-line2);color:var(--m-ink)}
+.m-tok{position:absolute;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:10px;background:var(--c);box-shadow:0 8px 24px color-mix(in srgb,var(--c) 50%,transparent);transition:left .7s cubic-bezier(.6,0,.3,1),top .7s cubic-bezier(.6,0,.3,1);z-index:3}
+.m-stamp{position:absolute;font-size:26px;font-weight:900;padding:6px 14px;border:3.5px solid;border-radius:10px;transform:rotate(-12deg) scale(2);opacity:0;transition:all .3s cubic-bezier(.3,1.6,.5,1);z-index:4;white-space:nowrap}
+.m-stamp.on{opacity:1;transform:rotate(-12deg) scale(1)}
+.m-stamp.ok{color:var(--wf);border-color:var(--wf)} .m-stamp.no{color:#e5484d;border-color:#e5484d}
+.m-five{position:absolute;left:96px;top:240px;width:1408px;display:grid;grid-template-columns:repeat(5,1fr);gap:20px}
+.m-five .m-card{padding:28px 26px 30px;min-height:420px;opacity:0;transform:translateY(30px);transition:all .55s cubic-bezier(.2,.9,.3,1)}
+.m-five .m-card.on{opacity:1;transform:none}
+.m-five .no{font-size:20px;font-weight:900;color:var(--c);letter-spacing:.2em}
+.m-five h3{font-size:40px;font-weight:900;margin:12px 0 14px}
+.m-five p{font-size:21px;color:var(--m-mute);line-height:1.6}
+.m-five .ic{height:120px;margin-top:22px;position:relative}
+.m-stamps{position:absolute;left:96px;top:250px;width:1408px;display:grid;grid-template-columns:repeat(3,1fr);gap:30px}
+.m-stamps .m-card{padding:40px 38px;min-height:420px;position:relative;overflow:hidden}
+.m-stamps .big{font-size:56px;font-weight:900;border:5px solid #e5484d;color:#e5484d;display:inline-block;padding:8px 22px;border-radius:14px;transform:rotate(-8deg) scale(2.2);opacity:0;transition:all .35s cubic-bezier(.3,1.6,.5,1)}
+.m-stamps .m-card.on .big{transform:rotate(-8deg) scale(1);opacity:1}
+.m-stamps p{font-size:24px;color:var(--m-mute);margin-top:44px;line-height:1.7}
+.m-stamps p b{color:var(--m-ink)}
+.m-trig{position:absolute;left:96px;top:230px;width:560px;display:flex;flex-direction:column;gap:18px}
+.m-trig .m-card{padding:24px 28px;display:flex;align-items:center;gap:22px}
+.m-trig .ico{width:70px;height:70px;border-radius:18px;background:color-mix(in srgb,var(--c) 14%,transparent);position:relative;flex:none}
+.m-trig b{font-size:30px;font-weight:900;display:block}
+.m-trig span{font-size:20px;color:var(--m-mute)}
+.m-clock::before{content:"";position:absolute;left:33px;top:14px;width:4px;height:22px;background:var(--c);border-radius:2px;transform-origin:2px 21px;animation:mspin 2s linear infinite}
+.m-clock::after{content:"";position:absolute;left:31px;top:31px;width:8px;height:8px;border-radius:50%;background:var(--c)}
+@keyframes mspin{to{transform:rotate(360deg)}}
+.m-bolt::before{content:"";position:absolute;left:22px;top:14px;width:26px;height:42px;background:var(--c);clip-path:polygon(60% 0,0 58%,45% 58%,30% 100%,100% 38%,55% 38%);animation:mblink 1.4s steps(2) infinite}
+@keyframes mblink{50%{opacity:.35}}
+.m-chain::before,.m-chain::after{content:"";position:absolute;top:26px;width:22px;height:18px;border:4px solid var(--c);border-radius:8px}
+.m-chain::before{left:12px}.m-chain::after{left:34px}
+.m-log{position:absolute;left:700px;top:230px;width:804px;height:560px;padding:26px 30px;overflow:hidden;font-family:"SF Mono",Menlo,monospace;font-size:21px}
+.m-log .hd{font-family:"PingFang SC",sans-serif;font-size:22px;font-weight:800;margin-bottom:14px;display:flex;justify-content:space-between}
+.m-log .hd span{color:var(--c)}
+.m-log .rows{display:flex;flex-direction:column-reverse;gap:10px;height:470px;overflow:hidden}
+.m-log .row{display:flex;gap:16px;padding:10px 14px;border-radius:10px;background:var(--m-card2);animation:mpop .35s}
+.m-log .row .t{color:var(--m-mute);width:70px}
+.m-log .row .w{flex:1}
+.m-log .row .s{font-weight:800}
+.m-log .row .s.ok{color:var(--wf)} .m-log .row .s.wait{color:var(--kb)}
+
+/* ---------- 收尾（原第五站的样式，暂留） ---------- */
+.m-gal{position:absolute;left:96px;top:210px;width:1408px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.m-gal .m-card{height:300px;padding:26px 28px;position:relative;overflow:hidden;opacity:0;transform:scale(.94);transition:all .5s cubic-bezier(.2,.9,.3,1)}
+.m-gal .m-card.on{opacity:1;transform:none}
+.m-gal .m-card b{font-size:34px;font-weight:900;display:block;position:relative;z-index:2}
+.m-gal .m-card span{font-size:20px;color:var(--m-mute);display:block;margin-top:6px;position:relative;z-index:2}
+.m-gal .m-card .no{position:absolute;right:24px;top:18px;font-size:20px;font-weight:900;color:var(--c)}
+.m-gal canvas{position:absolute;left:0;bottom:0;width:452px;height:190px}
+.m-play{position:absolute;left:0;top:0;width:1600px;height:900px}
+.m-play canvas{position:absolute;left:560px;top:150px;width:960px;height:680px}
+.m-play .tx{position:absolute;left:96px;top:250px;width:440px}
+.m-play .tx .no{font-size:22px;font-weight:900;letter-spacing:.2em;color:var(--c)}
+.m-play .tx h2{font-size:72px;font-weight:900;line-height:1.15;margin:16px 0 26px}
+.m-play .tx p{font-size:26px;color:var(--m-mute);line-height:1.7}
+.m-play .tx p b{color:var(--m-ink)}
+.m-fin{position:absolute;left:0;right:0;top:620px;text-align:center}
+.m-fin h2{font-size:84px;font-weight:900;letter-spacing:-.01em}
+.m-fin p{font-size:28px;color:var(--m-mute);margin-top:18px}
+
+/* ---------- 收尾：地图和等式、L1 到 L5 五屏（11-05 重做） ---------- */
+#m5 .m-eq{position:absolute;left:0;right:0;top:620px;display:flex;justify-content:center;align-items:center;gap:18px}
+#m5 .m-eq .t{flex:none;font-size:44px;font-weight:900;padding:18px 26px;border-radius:20px;border:2px solid var(--m-line2);background:var(--m-card);white-space:nowrap;opacity:.35}
+#m5 .m-eq .t.r{opacity:1}
+#m5 .m-eq .t.ai{opacity:1;border-color:var(--sk);color:var(--m-ink);position:relative}
+#m5 .m-eq .t.ai u{position:absolute;left:12px;right:12px;bottom:0;height:8px;border-radius:4px;background:var(--sk)}
+#m5 .m-eq i{font-style:normal;font-size:44px;color:var(--m-mute);font-weight:300}
+#m5 .m-fin2{position:absolute;left:0;right:0;top:330px;text-align:center}
+#m5 .m-fin2 h2{font-size:110px;font-weight:900;letter-spacing:-.01em}
+#m5 .m-fin2 p{font-size:32px;color:var(--m-mute);margin-top:26px}
+
+/* 全景（11-05 第二遍：字放大；每一级只出现到这一级的东西；管起来收进中台框；虚线不压字） */
+#m5 .pg{position:absolute;inset:0;pointer-events:none}
+#m5 .pg>*{position:absolute}
+#m5 .bd{border:1.5px solid var(--m-line2);border-radius:14px;background:color-mix(in srgb,var(--m-ink) 3%,transparent)}
+#m5 .bl{position:absolute;left:0;top:0;bottom:0;width:120px;padding:14px 8px 0 16px;font-size:20px;font-weight:800;color:var(--m-ink);border-right:1px dashed var(--m-line2)}
+#m5 .bl small{display:block;font-size:16px;font-weight:500;color:var(--m-mute);margin-top:4px;line-height:1.4}
+#m5 .row{position:absolute;display:flex;gap:10px}
+#m5 .dp{flex:1;border:1px solid var(--m-line2);border-radius:10px;padding:8px 10px 6px;background:var(--m-card);transition:border-color .8s}
+#m5 .dp b{display:block;font-size:18px;margin-bottom:4px}
+#m5 .dp p{font-size:15px;line-height:1.45;color:var(--m-mute)}
+#m5 .dp p i{font-style:normal;display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--m-line2);margin-right:5px;vertical-align:2px;transition:background .8s}
+#m5 .zt{background:#141a17;border-color:#2b3a33}
+#m5 .zt .bl{color:#e8e4d8;border-color:#2b3a33}
+#m5 .col{position:absolute;display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+#m5 .ch{font-size:16px;padding:5px 10px;border-radius:8px;border:1px solid var(--m-line2);background:var(--m-card);color:var(--m-ink);white-space:nowrap}
+#m5 .tag{font-size:15px;color:var(--m-mute);letter-spacing:.04em}
+#m5 .core{position:absolute;display:flex;gap:12px;transform:none;text-align:left;font-size:16px;font-weight:400}
+#m5 .t4{width:142px;height:150px;border-radius:12px;padding:12px;border:1.5px solid}
+#m5 .t4 b{display:block;font-size:24px;margin-bottom:6px;color:#0b0d0c}
+#m5 .t4 p{font-size:16px;line-height:1.45;color:#0b0d0c}
+#m5 .t4.kb{background:var(--kb);border-color:var(--kb)}#m5 .t4.sk{background:var(--sk);border-color:var(--sk)}#m5 .t4.ag{background:var(--ag);border-color:var(--ag)}#m5 .t4.wf{background:var(--wf);border-color:var(--wf)}
+#m5 .pdj .ch.nod{border-color:var(--sk)}
+#m5 .sj{border-color:var(--kb)}
+#m5 .sj .ch{border-color:color-mix(in srgb,var(--kb) 70%,transparent)}
+#m5 .gv .ch{border-color:var(--hi)}
+#m5 .gv .ch.org{background:var(--hi);color:#0b0d0c}
+#m5 svg.wr{position:absolute;left:0;top:0;width:1600px;height:900px;overflow:visible}
+#m5 svg.wr path{fill:none;stroke-width:2.2}
+#m5 svg.wr .fn{stroke:var(--sk);stroke-dasharray:6 8;animation:m5flow 1.6s linear infinite}
+#m5 svg.wr .dt,#m5 svg.wr .wb{stroke:var(--kb);stroke-dasharray:5 6}
+@keyframes m5flow{to{stroke-dashoffset:-28}}
+/* 右栏：五级和这一级的三句话 */
+#m5 .rail{padding:16px 16px 14px;display:flex;flex-direction:column}
+#m5 .rail h4{font-size:20px;margin-bottom:8px}
+#m5 .lv{border-left:4px solid var(--m-line2);padding:6px 0 6px 12px;margin-bottom:6px;transition:border-color .6s,background .6s;border-radius:0 8px 8px 0}
+#m5 .lv b{font-size:18px;display:block;white-space:nowrap}
+#m5 .lv b u{text-decoration:none;color:var(--m-mute);margin-right:6px;transition:color .6s}
+#m5 .lvs{position:relative;flex:1;margin-top:10px;border-top:1px dashed var(--m-line2)}
+#m5 .lvd{position:absolute;left:0;right:0;top:14px}
+#m5 .lvd p{font-size:18px;line-height:1.5;color:var(--m-ink);margin-bottom:14px}
+#m5 .lvd p em{display:block;font-style:normal;font-size:15px;color:var(--m-mute);font-weight:700;margin-bottom:2px}
+/* 依次画出来 */
+#m5 .pg .a1,#m5 .pg .a5{opacity:0;transform:translateY(14px);transition:opacity .7s,transform .7s}
+#m5:has(.pg.vis) .a1{opacity:1;transform:none;transition-delay:.2s}
+#m5:has(.pg.vis) .a5{opacity:1;transform:none;transition-delay:.2s}
+/* 每一级只出现到这一级的东西 */
+#m5 .o2,#m5 .o3,#m5 .o4,#m5 .o5{opacity:0;transition:opacity .7s}
+#m5:has(.v2.vis) .o2,#m5:has(.v3.vis) .o2,#m5:has(.v3.vis) .o3,#m5:has(.v4.vis) .o2,#m5:has(.v4.vis) .o3,#m5:has(.v4.vis) .o4,#m5:has(.v5.vis) .o2,#m5:has(.v5.vis) .o3,#m5:has(.v5.vis) .o4,#m5:has(.v5.vis) .o5{opacity:1}
+#m5:has(.v1.vis) .dp p i.y{background:var(--m-ink)}
+#m5:has(.v2.vis) .dp.d5,#m5:has(.v3.vis) .dp,#m5:has(.v4.vis) .dp,#m5:has(.v5.vis) .dp{border-color:color-mix(in srgb,var(--sk) 55%,transparent)}
+#m5:has(.v2.vis) .dp.d5 p i.y,#m5:has(.v3.vis) .dp p i.y,#m5:has(.v4.vis) .dp p i.y,#m5:has(.v5.vis) .dp p i.y{background:var(--sk)}
+#m5:has(.v1.vis) .lv.l1,#m5:has(.v2.vis) .lv.l2,#m5:has(.v3.vis) .lv.l3,#m5:has(.v4.vis) .lv.l4,#m5:has(.v5.vis) .lv.l5{border-color:var(--sk);background:color-mix(in srgb,var(--sk) 10%,transparent)}
+#m5:has(.v1.vis) .lv.l1 u,#m5:has(.v2.vis) .lv.l2 u,#m5:has(.v3.vis) .lv.l3 u,#m5:has(.v4.vis) .lv.l4 u,#m5:has(.v5.vis) .lv.l5 u{color:var(--sk)}
+#m5 .mh{position:absolute;left:96px;top:42px;font-size:48px;font-weight:900}
+#m5 .mh small{display:block;font-size:24px;font-weight:500;color:var(--m-mute);margin-top:8px}
+<!--HTML-->
+  <!-- ===== 课程地图 ===== -->
+  <section class="scene mod" id="m0">
+    <div class="m-h rv" data-in="0">两天，四站<small>每一站做出一样东西，下一站接着用</small></div>
+    <svg class="m-map" viewBox="0 0 1600 900"><path d="M260 600 C 420 600, 420 430, 620 430 S 820 600, 980 600 S 1180 430, 1340 430"/><path class="run" d="M260 600 C 420 600, 420 430, 620 430 S 820 600, 980 600 S 1180 430, 1340 430"/></svg>
+    <div class="m-st rv" data-in="0" style="left:260px;top:568px;--c:var(--kb);transition-delay:.3s"><div class="dot">01</div><h3>知识库</h3><p>让 AI 先读懂<br>你的公司</p></div>
+    <div class="m-st rv" data-in="0" style="left:620px;top:398px;--c:var(--sk);transition-delay:.7s"><div class="dot">02</div><h3>技能</h3><p>把会干的<br>写下来交给 AI</p></div>
+    <div class="m-st rv" data-in="0" style="left:980px;top:568px;--c:var(--ag);transition-delay:1.1s"><div class="dot">03</div><h3>专家</h3><p>封装成能顶岗的<br>智能体</p></div>
+    <div class="m-st rv" data-in="0" style="left:1340px;top:398px;--c:var(--wf);transition-delay:1.5s"><div class="dot">04</div><h3>SOP</h3><p>一件事，<br>人和专家接力做完</p></div>
+  </section>
+
+  <!-- ===== 01 知识库 ===== -->
+  <section class="scene mod" id="m1" style="--c:var(--kb)">
+    <div class="m-chap rv fade" data-in="0" data-out="1"><canvas width="3200" height="1800"></canvas><div class="n">01</div>
+      <div class="t"><div class="k">第一站</div><h1>知识库</h1><p>让 AI 先读懂你的公司</p></div><div class="d"><i class="on"></i><i></i><i></i><i></i></div></div>
+
+    <div class="m-h rv" data-in="1" data-out="2">公司的资料散在各处<small>AI 一样也看不见</small></div>
+    <div class="m-h rv" data-in="2" data-out="3">卡帕西的做法：<em>让 AI 当图书管理员</em><small>资料原样放进来，AI 编成一本互相链接的手册</small></div>
+    <div class="m-chaos rv fade" data-in="1" data-out="3" id="m1chaos"></div>
+    <div class="rv fade" data-in="2" data-out="3">
+      <div class="m-raw"><b>raw/</b><small>原始资料，原样放</small></div>
+      <div class="m-arrow"><b>AI 编译</b><div class="ln"></div><span>一个概念一页<br>页和页互相链接</span></div>
+      <div class="m-wiki"><b>wiki/</b><small>AI 写、AI 维护，在 Obsidian 里看</small><canvas id="m1g" width="1600" height="1120"></canvas></div>
+      <div class="m-quote"><b>卡帕西：</b>Obsidian 是编辑器，AI 是程序员，知识库就是代码。</div>
+    </div>
+
+    <div class="m-h rv" data-in="3" data-out="4">它天天只做三件事<small>收进来、被提问、做体检；每次的答案都存回去</small></div>
+    <div class="m-loop rv fade" data-in="3" data-out="4">
+      <svg viewBox="0 0 740 680"><circle cx="370" cy="340" r="315"/><circle class="run" cx="370" cy="340" r="315" transform="rotate(-90 370 340)"/></svg>
+      <canvas id="m1g2" width="800" height="760"></canvas>
+      <div class="m-op" style="left:370px;top:-10px"><b>收进来</b><span>新资料丢进 raw/<br>AI 更新相关的页</span></div>
+      <div class="m-op" style="left:700px;top:430px"><b>问它</b><span>答案带着出处<br>再存回 wiki/</span></div>
+      <div class="m-op" style="left:40px;top:430px"><b>体检</b><span>找矛盾、补缺口<br>标出过期的</span></div>
+    </div>
+
+    <div class="m-h rv" data-in="4" data-out="5">三条理念</div>
+    <div class="m-three rv" data-in="4" data-out="5">
+      <div class="m-card"><div class="ill"><i style="height:20px"></i><i style="height:34px;opacity:.6"></i><i style="height:26px;opacity:.4"></i><i style="height:44px;opacity:.8"></i></div><div class="no">1</div><h3>资料原样放<br>不用人手整理</h3><p>微信截图、表格、合同、录音转写，直接丢进去。整理是 AI 的活。</p></div>
+      <div class="m-card"><div class="ill"><i style="height:30px;width:30px;border-radius:50%"></i><i style="height:4px;width:30px;margin-bottom:13px;opacity:.5"></i><i style="height:30px;width:30px;border-radius:50%"></i><i style="height:4px;width:30px;margin-bottom:13px;opacity:.5"></i><i style="height:30px;width:30px;border-radius:50%"></i></div><div class="no">2</div><h3>一个概念一页<br>页页互相链接</h3><p>客户、产品、规矩、案例，各占一页；提到别的就链过去，AI 顺着链接找。</p></div>
+      <div class="m-card"><div class="ill"><i style="height:14px"></i><i style="height:22px"></i><i style="height:30px"></i><i style="height:38px"></i><i style="height:44px"></i></div><div class="no">3</div><h3>每次问答都存回去<br>越用越厚</h3><p>问过的、答对的、被纠正的，都变成新的一页。知识库是越用越值钱的。</p></div>
+    </div>
+
+    <div class="m-h rv" data-in="5" data-out="6">动手：搭你公司的第一个知识库</div>
+    <div class="rv fade" data-in="5" data-out="6">
+      <div class="m-obs" id="m1obs">
+        <div class="bar"><i></i><i></i><i></i><b id="m1vault">　</b></div>
+        <div class="tree" id="m1tree"></div>
+        <div class="note" id="m1note"><h4>客户分级</h4>
+          <div>按 <span class="lk">年采购额</span> 和 <span class="lk">合作年限</span> 分三档。</div>
+          <div>A 档优先排产，见 <span class="lk">排产规则</span>。</div>
+          <div>跟进话术见 <span class="lk">首次跟进</span>。</div>
+          <div class="q">来源：raw/2026 客户名单.xlsx · raw/销售例会纪要 10-12.md</div></div>
+        <div class="gp"><small>图谱</small><canvas id="m1g3" width="620" height="1164"></canvas></div>
+      </div>
+      <div class="m-steps" id="m1steps">
+        <div class="s"><i>1</i><div><b>装 Obsidian，建一个库</b><span>免费，文件都在你自己电脑上</span></div></div>
+        <div class="s"><i>2</i><div><b>建两个文件夹</b><span>raw/ 放原始资料，wiki/ 留给 AI</span></div></div>
+        <div class="s"><i>3</i><div><b>把一周的资料丢进 raw/</b><span>聊天导出、表格、纪要，别整理</span></div></div>
+        <div class="s"><i>4</i><div><b>让 AI 照规矩编译</b><span>下一屏那页规矩，复制给它</span></div></div>
+        <div class="s"><i>5</i><div><b>打开图谱看一眼</b><span>哪些概念连得最多，哪里是空的</span></div></div>
+        <div class="s"><i>6</i><div><b>问它三个问题</b><span>答案带出处，存回 wiki/问答/</span></div></div>
+      </div>
+    </div>
+
+    <div class="m-h rv" data-in="6">给 AI 管理员的一页规矩<small>复制这一页给 AI，它就知道怎么管你的知识库</small></div>
+    <div class="m-code m-rule rv fade" data-in="6" id="m1rule">
+      <div class="fn">知识库规矩.md</div>
+      <div><span class="hl">#</span> 你是这个知识库的管理员</div>
+      <div>· raw/ 是原始资料，只读，不改不删</div>
+      <div>· 你负责写 wiki/：<span class="hl">一个概念一页</span>，开头三句话说清它是什么</div>
+      <div>· 提到别的概念，就加 <span class="hl">[[链接]]</span></div>
+      <div>· 每句结论后面写出处：来自 raw/ 哪个文件</div>
+      <div>· 资料之间对不上的，标 <span class="hl">「待确认」</span>，不要自己选</div>
+      <div>· 每次回答问题，把答案存进 wiki/问答/</div>
+      <div>· 每周体检一次：找矛盾、找空页、找过期的</div>
+    </div>
+    <div class="m-side rv" data-in="6"><b>做完你手上有</b>一个能被 AI 读懂的公司手册。后面每一站的技能和专家，都从这里取材料。</div>
+  </section>
+
+  <!-- ===== 02 技能 ===== -->
+  <section class="scene mod" id="m2" style="--c:var(--sk)">
+    <div class="m-chap rv fade" data-in="0" data-out="1"><canvas width="3200" height="1800"></canvas><div class="n">02</div>
+      <div class="t"><div class="k">第二站</div><h1>技能</h1><p>把会干的，写下来交给 AI</p></div><div class="d"><i class="on"></i><i class="on"></i><i></i><i></i></div></div>
+
+    <div class="m-h rv" data-in="1" data-out="2">一份技能，长这样</div>
+    <div class="rv fade" data-in="1" data-out="2" id="m2anat">
+      <div class="m-card m-file"><div class="fn">技能/线索分级/SKILL.md</div><h3>线索分级</h3>
+        <div class="m-sec"><b>什么时候用</b><span>新线索进来，要决定先跟哪条</span></div>
+        <div class="m-sec"><b>一步步怎么做</b><span>看规模 → 看需求 → 看是不是决策人 → 打分</span></div>
+        <div class="m-sec"><b>红线</b><span>不替客户编需求；拿不准的标「待确认」</span></div>
+        <div class="m-sec"><b>好例子</b><span>三条以前分对的线索，原样贴上</span></div>
+        <div class="m-sec"><b>交回前检查</b><span>每条分级写清依据，来自哪句话</span></div></div>
+      <div class="m-call l" style="left:150px;top:260px"><b>它是谁</b>名字和用途一句话，AI 靠这句话决定要不要调用它</div>
+      <div class="m-call l" style="left:150px;top:470px"><b>老员工的做法</b>一步步写下来，不写“要专业”这种空话</div>
+      <div class="m-call" style="left:1080px;top:330px"><b>红线和例子</b>什么不能做，什么叫做得好</div>
+      <div class="m-call" style="left:1080px;top:560px"><b>自己先查一遍</b>交给你之前，它先按清单核对</div>
+    </div>
+
+    <div class="m-h rv" data-in="2" data-out="4">技能从哪来？<em>让 AI 追问你</em><small>装上 grill-me，它一次只问一个问题，把你脑子里的做法挖出来</small></div>
+    <div class="m-card m-chat rv fade" data-in="2" data-out="4">
+      <div class="top"><b>WorkBuddy</b>· 新对话 <em>grill-me</em></div>
+      <div class="msgs" id="m2msgs"></div>
+    </div>
+    <div class="m-mine" id="m2mine">
+      <div class="m-card"><b>线索分级</b><div class="ck"><span>天天做</span><span>规矩说得清</span><span>错了改得了</span></div><div class="gen">→ 技能/线索分级/SKILL.md</div></div>
+      <div class="m-card"><b>首次跟进话术</b><div class="ck"><span>天天做</span><span>规矩说得清</span><span>错了改得了</span></div></div>
+      <div class="m-card"><b>拜访纪要</b><div class="ck"><span>每周十几次</span><span>格式固定</span></div></div>
+      <div class="m-card no"><b>报价</b><div class="ck"><span>先不交给 AI：要人拍板</span></div></div>
+    </div>
+
+    <div class="m-h rv" data-in="4" data-out="5">动手：挖出你的第一份技能</div>
+    <div class="m-steps rv fade" data-in="4" data-out="5" id="m2steps" style="left:96px;top:220px;width:640px">
+      <div class="s"><i>1</i><div><b>装上 grill-me</b><span>一个让 AI 追问你的技能</span></div></div>
+      <div class="s"><i>2</i><div><b>说出最难、最重复的一件事</b><span>越具体越好：哪天、给谁、做成什么样</span></div></div>
+      <div class="s"><i>3</i><div><b>让它一次只问一个</b><span>你只管回答，不用想格式</span></div></div>
+      <div class="s"><i>4</i><div><b>挑出能做成技能的</b><span>常做、规矩说得清、错了改得了</span></div></div>
+      <div class="s"><i>5</i><div><b>生成技能，存进技能库</b><span>按上一屏那五块写</span></div></div>
+      <div class="s"><i>6</i><div><b>拿一件真事考它</b><span>错一处，改一行</span></div></div>
+    </div>
+    <div class="m-code m-prompt rv fade" data-in="4" data-out="5" style="left:800px;top:240px;width:700px">
+      <div class="fn">复制给 AI</div>
+      用 <span class="hl">grill-me</span> 的方式追问我。<br>我的岗位是：<span class="hl">＿＿＿＿</span><br>我最花时间、最重复的一件事是：<span class="hl">＿＿＿＿</span><br><br>一次只问一个问题，问清楚我是怎么做、怎么判断、什么不能做。问完以后，列出哪几件可以做成技能，哪几件先别交给 AI，并说明原因。</div>
+
+    <div class="m-h rv" data-in="5" data-out="6">进阶：会自己变好的技能<small>每次你挑出的错，它都写回技能里，下次自动避开</small></div>
+    <span class="m-tag rv" data-in="5" data-out="7">示意</span>
+    <div class="rv fade" data-in="5" data-out="6">
+      <div class="m-evo"><svg viewBox="0 0 560 560"><circle cx="280" cy="280" r="220"/><circle class="run" cx="280" cy="280" r="220" transform="rotate(-90 280 280)"/></svg>
+        <div class="v"><b id="m2ver">v1</b><span>技能版本</span></div>
+        <div class="p" style="left:280px;top:28px">跑一次<small>做一件真事</small></div>
+        <div class="p" style="left:520px;top:256px">你挑错<small>哪句不对</small></div>
+        <div class="p" style="left:280px;top:488px">写回技能<small>AI 自己改</small></div>
+        <div class="p" style="left:40px;top:256px">下次避开<small>同样的错不犯</small></div></div>
+      <div class="m-card m-chart"><b>做对率</b><small>同一批考题，每改一版考一次</small><canvas id="m2chart" width="1360" height="800"></canvas></div>
+    </div>
+
+    <div class="m-h rv" data-in="6">再进一步：几个版本比一比，留下最好的</div>
+    <div class="m-race rv fade" data-in="6" id="m2race"></div>
+    <div class="m-gen rv" data-in="6" id="m2gen"></div>
+  </section>
+
+  <!-- ===== 03 专家 ===== -->
+  <section class="scene mod" id="m3" style="--c:var(--ag)">
+    <div class="m-chap rv fade" data-in="0" data-out="1"><canvas width="3200" height="1800"></canvas><div class="n">03</div>
+      <div class="t"><div class="k">第三站</div><h1>专家</h1><p>技能加知识，封装成一个能顶岗的智能体</p></div><div class="d"><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div></div>
+
+    <div class="m-h rv" data-in="1" data-out="2">一个专家里，装着七样东西</div>
+    <div class="m-anat rv fade" data-in="1" data-out="2" id="m3anat">
+      <svg viewBox="0 0 1600 900" id="m3lines"></svg>
+      <div class="m-core"><b>销售专家</b><span>智能体</span></div>
+    </div>
+
+    <div class="m-h rv" data-in="2" data-out="3">封装：一个专家，就是一个文件夹<small>拷给同事，他的 AI 就有了同一个专家</small></div>
+    <div class="m-code m-tree rv fade" data-in="2" data-out="3" id="m3tree"></div>
+    <div class="m-side rv" data-in="2" data-out="3" style="top:260px"><b>好处</b>换电脑、换人、换 AI 软件，文件夹带走就能用；改了哪里，一看就知道。</div>
+
+    <div class="m-h rv" data-in="3" data-out="4">上岗前，先过考卷<small>同桌出十道刁难题；错的补进技能和知识库，再考一次</small></div>
+    <span class="m-tag rv" data-in="3" data-out="4">示意</span>
+    <div class="m-exam rv fade" data-in="3" data-out="4" id="m3exam">
+      <div class="m-card"><h4>第一次考<small>刚封装好</small></h4><div class="qs"></div><div class="sc"><b>0</b><small> / 10</small></div><div class="fix">错在：<b>报价越权</b>、<b>编了客户没说的需求</b>、<b>漏看合作年限</b>、<b>资料过期</b></div></div>
+      <div class="m-card"><h4>补完再考<small>红线 + 知识库各补一条</small></h4><div class="qs"></div><div class="sc"><b>0</b><small> / 10</small></div><div class="fix">剩下一道：资料里本来就没有，它答了<b>「知识库里没有，转给主管」</b>，这叫答对</div></div>
+    </div>
+
+    <div class="m-h rv" data-in="4">动手：封装你岗位的第一个专家</div>
+    <div class="m-steps rv fade" data-in="4" id="m3steps" style="left:96px;top:220px;width:700px">
+      <div class="s on"><i>1</i><div><b>选一个岗位</b><span>你自己的，或你最想复制的那个人</span></div></div>
+      <div class="s on"><i>2</i><div><b>让 AI 采访你，写岗位说明</b><span>我是谁、管什么、不管什么</span></div></div>
+      <div class="s on"><i>3</i><div><b>挂上技能和知识库</b><span>第一、二站做的，直接放进来</span></div></div>
+      <div class="s on"><i>4</i><div><b>写红线</b><span>什么情况必须停下来问人</span></div></div>
+      <div class="s on"><i>5</i><div><b>同桌出三道刁难题</b><span>答错的，补进技能或知识库</span></div></div>
+      <div class="s on"><i>6</i><div><b>考过了，才上岗</b><span>改一次，考一次</span></div></div>
+    </div>
+    <div class="m-code m-prompt rv fade" data-in="4" style="left:860px;top:240px;width:640px">
+      <div class="fn">复制给 AI</div>
+      帮我封装一个<span class="hl">＿＿</span>专家。先采访我，一次一个问题：这个岗位每天干什么、最怕出什么错、什么事必须找人。<br><br>然后建一个文件夹：岗位说明、技能、知识（链到我的知识库）、工具、记忆、红线、考卷。考卷出 10 道题，先自己考一遍，把分数和错题给我看。</div>
+  </section>
+
+  <!-- ===== 04 SOP ===== -->
+  <section class="scene mod" id="m4" style="--c:var(--wf)">
+    <div class="m-chap rv fade" data-in="0" data-out="1"><canvas width="3200" height="1800"></canvas><div class="n">04</div>
+      <div class="t"><div class="k">第四站</div><h1>SOP</h1><p>一件事，人和专家接力做完</p></div><div class="d"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div></div>
+
+    <div class="m-h rv" data-in="1" data-out="2">SOP 就是一份剧本<small>谁、在哪一步、拿到什么、交给谁、谁点头</small></div>
+    <div class="m-lanes rv fade" data-in="1" data-out="2" id="m4lanes"></div>
+
+    <div class="m-h rv" data-in="2" data-out="3">写一份 SOP，五步</div>
+    <div class="m-five rv fade" data-in="2" data-out="3" id="m4five">
+      <div class="m-card"><div class="no">第 1 步</div><h3>说一遍</h3><p>对着 AI 口述一分钟：这件事从哪开始、到哪结束</p></div>
+      <div class="m-card"><div class="no">第 2 步</div><h3>被追问</h3><p>AI 用 grill-me 一个个问：漏了哪步、谁签字、出错了怎么办</p></div>
+      <div class="m-card"><div class="no">第 3 步</div><h3>画泳道</h3><p>一个角色一行，人和专家分开放</p></div>
+      <div class="m-card"><div class="no">第 4 步</div><h3>标格子</h3><p>每一格标清：<b>专家做</b>、<b>人做</b>、还是<b>人点头</b></p></div>
+      <div class="m-card"><div class="no">第 5 步</div><h3>跑一单</h3><p>拿一件真事跑一遍，卡在哪改哪，再跑</p></div>
+    </div>
+
+    <div class="m-h rv" data-in="3" data-out="4">人在哪里点头？三种情况必须停<small>其余的，放手给专家</small></div>
+    <div class="m-stamps rv fade" data-in="3" data-out="4" id="m4stamps">
+      <div class="m-card"><div class="big">对外承诺</div><p>报价、交期、答应客户的事。<br><b>说出去就收不回</b></p></div>
+      <div class="m-card"><div class="big">花钱</div><p>采购、退款、打折、投放。<br><b>钱出去了就是出去了</b></p></div>
+      <div class="m-card"><div class="big">删改不可逆</div><p>删数据、群发、改合同。<br><b>做了就撤不回来</b></p></div>
+    </div>
+
+    <div class="m-h rv" data-in="4" data-out="5">再往前一步：让它自己跑<small>不用人记着去点，到了条件自己开工</small></div>
+    <div class="rv fade" data-in="4" data-out="5">
+      <div class="m-trig">
+        <div class="m-card"><div class="ico m-clock"></div><div><b>到点</b><span>每周一 9:00，自己出周报</span></div></div>
+        <div class="m-card"><div class="ico m-bolt"></div><div><b>来事</b><span>新线索一进来，自己先分级</span></div></div>
+        <div class="m-card"><div class="ico m-chain"></div><div><b>接力</b><span>上一步做完，下一步自己接上</span></div></div>
+      </div>
+      <div class="m-card m-log"><div class="hd">运行记录<span id="m4cnt">已跑 0 次</span></div><div class="rows" id="m4rows"></div></div>
+    </div>
+
+    <div class="m-h rv" data-in="5">动手：把开场写的那条线，做成 SOP</div>
+    <div class="m-steps rv fade" data-in="5" style="left:96px;top:220px;width:700px">
+      <div class="s on"><i>1</i><div><b>拿出开场那条线</b><span>一件事、经过谁、最常在哪出错</span></div></div>
+      <div class="s on"><i>2</i><div><b>口述一分钟，让 AI 追问</b><span>直到它问不出新问题</span></div></div>
+      <div class="s on"><i>3</i><div><b>画泳道，标格子</b><span>专家做 / 人做 / 人点头</span></div></div>
+      <div class="s on"><i>4</i><div><b>每个专家格，挂上第三站的专家</b><span>还没有的，先记下来</span></div></div>
+      <div class="s on"><i>5</i><div><b>跑一单真事</b><span>卡住的地方就是下一步要补的</span></div></div>
+    </div>
+    <div class="m-code m-prompt rv fade" data-in="5" style="left:860px;top:240px;width:640px">
+      <div class="fn">复制给 AI</div>
+      我要把一件事做成 SOP：<span class="hl">＿＿＿＿</span><br>我先口述一遍。你用 grill-me 的方式一个个追问我漏掉的步骤、交接和签字。<br><br>问完画一张泳道表：一个角色一行，每一格标「专家做 / 人做 / 人点头」。凡是对外承诺、花钱、不可撤回的，必须是「人点头」。</div>
+  </section>
+
+  <!-- ===== 收尾 ===== -->
+  <section class="scene mod" id="m5" style="--c:var(--hi)">
+    <div class="m-h rv" data-in="0" data-out="1">两天的地图<small>这两天补上的，是员工能力这一项</small></div>
+    <svg class="m-map rv fade" data-in="0" data-out="1" viewBox="0 0 1600 900" style="top:-200px"><path d="M260 600 C 420 600, 420 430, 620 430 S 820 600, 980 600 S 1180 430, 1340 430" style="stroke:var(--m-ink);stroke-dasharray:none;stroke-width:3"/></svg>
+    <div class="rv" data-in="0" data-out="1" style="position:absolute;inset:0;top:-200px">
+      <div class="m-st" style="left:260px;top:568px;--c:var(--kb)"><div class="dot">01</div><h3>知识库</h3></div>
+      <div class="m-st" style="left:620px;top:398px;--c:var(--sk)"><div class="dot">02</div><h3>技能</h3></div>
+      <div class="m-st" style="left:980px;top:568px;--c:var(--ag)"><div class="dot">03</div><h3>智能体</h3></div>
+      <div class="m-st" style="left:1340px;top:398px;--c:var(--wf)"><div class="dot">04</div><h3>工作流</h3></div>
+    </div>
+    <div class="m-eq rv fade" data-in="0" data-out="1" style="transition-delay:.6s"><div class="t r">企业 AI 化</div><i>=</i><div class="t ai">员工能力<u></u></div><i>×</i><div class="t">数据和语义</div><i>×</i><div class="t">组织</div></div>
+
+    <div class="pg rv" data-in="1" data-out="6">
+      <div class="bd a1" style="left:60px;top:160px;width:1190px;height:136px"><div class="bl">各部门<small>每天的事</small></div>
+        <div class="row" style="left:130px;top:10px;width:1050px;height:114px"><div class="dp"><b>老板</b><p><i class=y></i>看经营数</p><p><i></i>定新品</p><p><i></i>批价格折扣</p></div><div class="dp"><b>外贸销售</b><p><i class=y></i>回询盘</p><p><i class=y></i>报价</p><p><i></i>跟单</p></div><div class="dp"><b>运营</b><p><i></i>上新</p><p><i class=y></i>写卖点</p><p><i></i>看广告</p></div><div class="dp"><b>采购</b><p><i class=y></i>比价</p><p><i></i>催货</p><p><i></i>对账</p></div><div class="dp d5"><b>客服售后</b><p><i class=y></i>回消息</p><p><i></i>处理退款</p></div><div class="dp"><b>仓储物流</b><p><i></i>备货</p><p><i class=y></i>发货查件</p></div><div class="dp"><b>财务</b><p><i></i>对账</p><p><i class=y></i>报销</p><p><i></i>算提成</p></div><div class="dp"><b>人事</b><p><i></i>招人</p><p><i class=y></i>带新人</p></div></div></div>
+      <div class="bd zt o2" style="left:60px;top:344px;width:1190px;height:196px"><div class="bl">AI 中台<small>各部门共用：文字、图片、视频、代码</small></div>
+        <div class="col o3" style="left:134px;top:12px"><span class="tag">事情进来</span><span class="ch">群消息、表单</span><span class="ch">定时任务</span><span class="ch">系统提醒</span></div>
+        <div class="core" style="left:312px;top:22px"><div class="t4 kb"><b>知识库</b><p>制度、岗位 SOP<br>判断、产品</p></div><div class="t4 sk"><b>技能</b><p>一件事，一步步怎么做</p></div><div class="t4 ag"><b>智能体</b><p>一个岗位的 AI，带着技能做事</p></div><div class="t4 wf o3"><b>工作流</b><p>一条线谁先谁后、谁点头</p></div></div>
+        <div class="col gv o5" style="left:940px;top:10px"><span class="tag">管起来</span><span class="ch">权限和审批</span><span class="ch">运行记录</span><span class="ch">模型和账号</span><span class="ch org">组织和 AI 一起管</span></div></div>
+      <div class="bd pdj o3" style="left:60px;top:556px;width:880px;height:66px"><div class="bl" style="padding-top:20px">判断</div>
+        <div class="row" style="left:132px;top:16px;gap:12px;align-items:center"><span class="ch nod">要人点头的：发消息、花钱、改价、删数据</span><span class="tag">→</span><span class="ch nod">负责人拍板</span><span class="tag o4">→</span><span class="ch o4">决定记下来，写回知识库</span></div></div>
+      <div class="bd sj o4" style="left:60px;top:640px;width:1190px;height:130px"><div class="bl">数据和系统<small>AI 读得到才用得上</small></div>
+        <div class="row" style="left:132px;top:18px;gap:10px;align-items:center"><span class="tag" style="width:40px">数据</span><span class="ch">客户</span><span class="ch">商品</span><span class="ch">订单</span><span class="ch">库存</span><span class="ch">广告</span><span class="ch">财务</span><span class="ch">聊天和邮件</span><span class="ch">运行日志</span></div>
+        <div class="row" style="left:132px;top:74px;gap:10px;align-items:center"><span class="tag" style="width:40px">系统</span><span class="ch">店铺后台</span><span class="ch">ERP</span><span class="ch">表格</span><span class="ch">飞书、企业微信</span><span class="ch">邮箱</span><span class="ch">网盘</span></div></div>
+      <svg class="wr" viewBox="0 0 1600 900"><path class="fn o3" d="M534 344 C534 318,251 322,251 298"/><path class="fn o3" d="M574 344 C574 318,384 322,384 298"/><path class="fn o3" d="M614 344 C614 318,516 322,516 298"/><path class="fn o3" d="M654 344 C654 318,649 322,649 298"/><path class="fn o2" d="M694 344 C694 318,781 322,781 298"/><path class="fn o3" d="M734 344 C734 318,914 322,914 298"/><path class="fn o3" d="M774 344 C774 318,1046 322,1046 298"/><path class="fn o3" d="M814 344 C814 318,1179 322,1179 298"/><path class="dt o4" d="M990 638 V542"/><path class="dt o4" d="M1090 638 V542"/><path class="dt o4" d="M1190 638 V542"/><path class="wb o4" d="M797 570 V548 H443 V520"/></svg>
+      <div class="bd rail a5" style="left:1272px;top:160px;width:268px;height:610px"><h4>五级</h4>
+        <div class="lv l5"><b><u>L5</u>AI 原生</b></div>
+        <div class="lv l4"><b><u>L4</u>判断和数据成闭环</b></div>
+        <div class="lv l3"><b><u>L3</u>一条线人机分工</b></div>
+        <div class="lv l2"><b><u>L2</u>一个环节跑起来</b></div>
+        <div class="lv l1"><b><u>L1</u>各用各的</b></div>
+        <div class="lvs">
+          <div class="lvd rv" data-in="1" data-out="2"><p><em>要准备</em>账号、用 AI 的习惯</p><p><em>这两天</em>四样先在各人手上做出来</p><p><em>没备好会卡在</em>用完就散，换个人从头来</p></div>
+          <div class="lvd rv" data-in="2" data-out="3"><p><em>要准备</em>知识库、技能、一个智能体</p><p><em>这两天</em>前三块做的就是这一级</p><p><em>没备好会卡在</em>AI 不懂公司；技能没人管，越堆越乱</p></div>
+          <div class="lvd rv" data-in="3" data-out="4"><p><em>要准备</em>工作流、谁点头、看板</p><p><em>这两天</em>第四块做的，这两天走到这里</p><p><em>没备好会卡在</em>谁拍板没定，出了错没人担</p></div>
+          <div class="lvd rv" data-in="4" data-out="5"><p><em>要准备</em>数据打通：客户、经营、财务、运行日志；判断写成规矩</p><p><em>这两天</em>知识库是它的底座</p><p><em>没备好会卡在</em>数据散在各个系统，AI 读不到</p></div>
+          <div class="lvd rv" data-in="5" data-out="6"><p><em>要准备</em>AI 中台、AI 和人的权限；组织管理和 AI 管理一个人管</p><p><em>这两天</em>四样在中台正中间</p><p><em>没备好会卡在</em>权限和组织不跟着改，中台没人用</p></div>
+        </div></div>
+    </div>
+    <div class="mh rv" data-in="1" data-out="2">L1 各用各的<small>每个人自己开 AI 聊，用完就散</small></div>
+    <div class="mh rv" data-in="2" data-out="3">L2 一个环节跑起来<small>一个岗位的一件事交给 AI：查知识库、照技能做</small></div>
+    <div class="mh rv" data-in="3" data-out="4">L3 一条线人机分工<small>几个智能体接力，要紧的事人点头</small></div>
+    <div class="mh rv" data-in="4" data-out="5">L4 判断和数据成闭环<small>数据接进来，判断写进系统，每一单写回知识库</small></div>
+    <div class="mh rv" data-in="5" data-out="6">L5 AI 原生<small>中台各部门共用，组织和 AI 一起管</small></div>
+    <i class="v1 rv" data-in="1" data-out="2" hidden></i>    <i class="v2 rv" data-in="2" data-out="3" hidden></i>    <i class="v3 rv" data-in="3" data-out="4" hidden></i>    <i class="v4 rv" data-in="4" data-out="5" hidden></i>    <i class="v5 rv" data-in="5" data-out="6" hidden></i>
+    <div class="m-fin2 rv" data-in="6" style="transition-delay:.3s"><h2>回去，把公司重做一遍</h2><p>从最底下那层开始：先让 AI 读懂公司</p><p>课后两周，有问题在答疑群里问</p></div>
+  </section>
+<!--JS-->
+/* ======================= 五个模块的画面 ======================= */
+(function(){
+const R={};window.MODR=R;
+const MT=new Set();const ml=(ms,f)=>{const t=setTimeout(()=>{MT.delete(t);f()},ms);MT.add(t)};
+let rafFn=null,rafId=0;function loop(fn){rafFn=fn;if(!rafId){const f=now=>{if(!rafFn){rafId=0;return}try{rafFn(now)}catch(e){console.error(e)}rafId=requestAnimationFrame(f)};rafId=requestAnimationFrame(f)}}
+R.__clear=()=>{MT.forEach(clearTimeout);MT.clear();rafFn=null};
+const q=s=>document.querySelector(s),qa=(s,r=document)=>[...r.querySelectorAll(s)];
+const cv=name=>getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+const KK=2;
+function hexA(c,a){const d=document.createElement('canvas').getContext('2d');d.fillStyle=c;const h=d.fillStyle;if(h[0]==='#'){const n=parseInt(h.slice(1),16);return`rgba(${n>>16&255},${n>>8&255},${n&255},${a})`}return h.replace(/rgba?\(([^)]+)\)/,(m,x)=>{const p=x.split(',');return`rgba(${p[0]},${p[1]},${p[2]},${a})`})}
+function rnd(seed){return()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+
+/* ---------- 章节页背景：慢慢漂的小方块 ---------- */
+function chap(el){const c=el.querySelector('.m-chap canvas');if(!c)return null;const g=c.getContext('2d'),col=getComputedStyle(el).getPropertyValue('--c').trim()||cv('--sk'),r=rnd(9);
+  const P=[...Array(70)].map(()=>({x:r()*1600,y:r()*900,s:6+r()*26,v:.15+r()*.5,ph:r()*6.28}));
+  return now=>{const t=now/1000;g.setTransform(KK,0,0,KK,0,0);g.clearRect(0,0,1600,900);
+    P.forEach(p=>{const y=(p.y-t*p.v*30+900)%900,a=.05+.1*(.5+.5*Math.sin(t*p.v+p.ph));g.fillStyle=hexA(col,a);g.beginPath();g.roundRect?g.roundRect(p.x,y,p.s,p.s,p.s*.22):g.rect(p.x,y,p.s,p.s);g.fill()})}}
+
+/* ---------- 图谱：节点一个个长出来，自己排开 ---------- */
+const WORDS=['客户分级','报价规则','产品手册','退货政策','排产规则','首次跟进','合同模板','常见问题','售后流程','价格表','竞品对比','客户名单','例会纪要','培训资料','交期','付款条件','老客户','新品','投诉处理','质检标准','发货','发票','折扣权限','样品','渠道','区域','回款','库存','供应商','包装'];
+function Graph(c,o){this.c=c;this.g=c.getContext('2d');this.n=[];this.l=[];this.o=o;this.r=rnd(o.seed||3);this.w=c.width/KK;this.h=c.height/KK}
+Graph.prototype.add=function(){const r=this.r,p=this.n.length?this.n[(r()*this.n.length)|0]:null,i=this.n.length;
+  const nd={x:(p?p.x:0)+(r()-.5)*30,y:(p?p.y:0)+(r()-.5)*30,vx:0,vy:0,deg:0,b:performance.now(),lb:i<WORDS.length&&(i<8||r()<.3)?WORDS[i]:null};this.n.push(nd);
+  if(p){this.l.push([p,nd]);p.deg++;nd.deg++;if(i>5&&r()<.45){const q2=this.n[(r()*i)|0];if(q2!==p){this.l.push([q2,nd]);q2.deg++;nd.deg++}}}};
+Graph.prototype.step=function(){const n=this.n;for(let i=0;i<n.length;i++){const a=n[i];for(let j=i+1;j<n.length;j++){const b=n[j];let dx=a.x-b.x,dy=a.y-b.y,d2=dx*dx+dy*dy+.01;const f=900/d2;dx*=f;dy*=f;a.vx+=dx;a.vy+=dy;b.vx-=dx;b.vy-=dy}}
+  this.l.forEach(([a,b])=>{const dx=b.x-a.x,dy=b.y-a.y,d=Math.sqrt(dx*dx+dy*dy)+.01,f=(d-42)*.02;a.vx+=dx/d*f;a.vy+=dy/d*f;b.vx-=dx/d*f;b.vy-=dy/d*f});
+  n.forEach(a=>{a.vx-=a.x*.004;a.vy-=a.y*.004;a.vx*=.82;a.vy*=.82;a.x+=Math.max(-8,Math.min(8,a.vx));a.y+=Math.max(-8,Math.min(8,a.vy))})};
+Graph.prototype.draw=function(now){const g=this.g,o=this.o,n=this.n;g.setTransform(1,0,0,1,0,0);g.clearRect(0,0,this.c.width,this.c.height);if(!n.length)return;
+  let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;n.forEach(a=>{x0=Math.min(x0,a.x);x1=Math.max(x1,a.x);y0=Math.min(y0,a.y);y1=Math.max(y1,a.y)});
+  const pad=o.pad||50,s=Math.min(2.2,(this.w-pad*2)/Math.max(80,x1-x0),(this.h-pad*2)/Math.max(80,y1-y0));this.s=this.s?this.s+(s-this.s)*.06:s;const S=this.s;
+  const cx=this.w/2-(x0+x1)/2*S,cy=this.h/2-(y0+y1)/2*S;g.setTransform(KK,0,0,KK,0,0);
+  g.strokeStyle=o.link;g.lineWidth=1.2;g.beginPath();this.l.forEach(([a,b])=>{g.moveTo(cx+a.x*S,cy+a.y*S);g.lineTo(cx+b.x*S,cy+b.y*S)});g.stroke();
+  n.forEach(a=>{const k=Math.max(0,Math.min(1,(now-a.b)/500)),r=(3+Math.sqrt(a.deg)*2.4)*k*(o.rs||1);g.fillStyle=a.lb?o.node:o.node2;g.beginPath();g.arc(cx+a.x*S,cy+a.y*S,r,0,6.283);g.fill();
+    if(a.lb&&o.label&&k>=1){g.fillStyle=o.text;g.font=`600 ${o.fs||15}px "PingFang SC",sans-serif`;g.fillText(a.lb,cx+a.x*S+r+5,cy+a.y*S+5)}})};
+
+/* ---------- 课程地图 ---------- */
+R.m0=(k,anim,el)=>{el.classList.toggle('k0',false);requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add('k0')))};
+
+/* ---------- 01 知识库 ---------- */
+const DOCS=[['微信聊天记录','#2aae67'],['报价单_最终版3.xlsx','#1f8a4c'],['合同扫描.pdf','#d14b3c'],['会议录音转写','#7b61ff'],['产品手册.docx','#2b6cd8'],['客户名单.xlsx','#1f8a4c'],['老员工的脑子','#b08a2e'],['邮件往来','#3d8bd9'],['培训 PPT','#d9772b'],['售后记录','#8a8a8a'],['群公告截图','#2aae67'],['共享盘里的文件夹','#5a6270']];
+(function(){const box=q('#m1chaos');if(!box)return;const r=rnd(4);
+  DOCS.forEach(([t,c],i)=>{const d=document.createElement('div');d.className='m-doc';const x=120+r()*1220,y=230+r()*560;
+    d.style.cssText=`--x:${x}px;--y:${y}px;--rx:116px;--ry:${272+i*44}px;--d:${3+r()*3}s;--b:${c}`;
+    d.innerHTML=`<span><i>${t.split('.').pop().length<5&&t.includes('.')?t.split('.').pop().toUpperCase():'···'}</i>${t}</span>`;box.appendChild(d)})})();
+let G1=null,G2=null,G3=null;
+function kbColors(){return{node:cv('--kb'),node2:hexA(cv('--kb'),.55),link:hexA(cv('--m-mute'),.35),text:cv('--m-ink'),label:1}}
+R.m1=(k,anim,el)=>{const box=q('#m1chaos'),bg=chap(el);
+  box.classList.toggle('stack',k>=2);box.classList.toggle('gone',k>=3);
+  if(k===2){G1=new Graph(q('#m1g'),{...kbColors(),seed:5,pad:70,fs:16});const N=WORDS.length+30;for(let i=0;i<(anim?1:N);i++)G1.add();if(anim){for(let i=1;i<N;i++)ml(900+i*90,()=>G1.add())}}
+  if(k===3){G2=new Graph(q('#m1g2'),{...kbColors(),seed:8,pad:40,fs:14});for(let i=0;i<14;i++)G2.add();const t=()=>{G2.add();if(G2.n.length<120)ml(260,t)};ml(400,t)}
+  if(k===5){const obs={tree:q('#m1tree'),note:q('#m1note'),vault:q('#m1vault')},steps=qa('#m1steps .s');
+    G3=new Graph(q('#m1g3'),{node:'#a88bfa',node2:'rgba(168,139,250,.55)',link:'rgba(255,255,255,.18)',text:'#cfcfcf',label:1,seed:11,pad:30,fs:12,rs:.8});
+    obs.tree.innerHTML=['<div class="f">▾ raw</div>',...['2026 客户名单.xlsx','销售例会纪要 10-12.md','产品手册.pdf','微信导出_老客户群.txt'].map(x=>`<div class="c">${x}</div>`),'<div class="f">▾ wiki</div>',...['客户分级.md','报价规则.md','排产规则.md','首次跟进.md'].map(x=>`<div class="w">${x}</div>`),'<div class="f">▾ wiki/问答</div>','<div class="w">哪类客户退货最多.md</div>'].join('');
+    const rows=qa('div',obs.tree);obs.note.classList.remove('on');obs.vault.textContent='　';steps.forEach(s=>s.classList.remove('on'));
+    const plan=[()=>{obs.vault.textContent='公司知识库'},()=>{rows[0].classList.add('on');rows[5].classList.add('on')},()=>{[1,2,3,4].forEach((i,j)=>ml(j*200,()=>rows[i].classList.add('on')))},
+      ()=>{[6,7,8,9].forEach((i,j)=>ml(j*220,()=>rows[i].classList.add('on')));obs.note.classList.add('on');for(let i=0;i<10;i++)G3.add()},
+      ()=>{for(let i=0;i<34;i++)ml(i*60,()=>G3.add())},()=>{rows[10].classList.add('on');rows[11].classList.add('on');for(let i=0;i<6;i++)G3.add()}];
+    if(anim){plan.forEach((f,i)=>ml(400+i*1700,()=>{steps[i].classList.add('on');f()}))}else{plan.forEach((f,i)=>{steps[i].classList.add('on');f()});qa('div',obs.tree).forEach(r=>r.classList.add('on'));for(let i=0;i<40;i++)G3.add()}}
+  if(k===6){const ls=qa('#m1rule div:not(.fn)');ls.forEach(l=>l.classList.remove('on'));ls.forEach((l,i)=>anim?ml(300+i*320,()=>l.classList.add('on')):l.classList.add('on'))}
+  loop(now=>{if(k===0&&bg)bg(now);if(k===2&&G1){G1.step();G1.draw(now)}if(k===3&&G2){G2.step();G2.draw(now)}if(k===5&&G3){G3.step();G3.draw(now)}})};
+
+/* ---------- 02 技能 ---------- */
+const CHAT=[['me','我是做销售的。每天最烦的是新线索进来，要一条条看、一条条写跟进。'],['ai','好，一次问一个。新线索一般从哪几个地方进来？'],['me','官网表单、展会名片、老客户介绍。'],['ai','你怎么判断一条线索值不值得马上跟？'],['me','看公司规模、有没有明确需求、对接的是不是拍板的人。'],['ai','第一次跟进，你一般怎么开口？有没有绝对不能说的？'],['me','先说对方行业的一个痛点。不能一上来就报价。'],['ai','明白。我整理了一下，有<b>三件可以做成技能</b>，一件先别交给 AI →']];
+R.m2=(k,anim,el)=>{const bg=chap(el);
+  if(k===1){const secs=qa('#m2anat .m-sec'),calls=qa('#m2anat .m-call');secs.forEach(s=>s.classList.remove('on'));calls.forEach(c=>c.classList.remove('on'));
+    const map=[[0],[1],[2,3],[4]],ss=[[0],[1],[2,3],[4]];map.forEach((m,i)=>{const f=()=>{secs.forEach(s=>s.classList.remove('on'));ss[i].forEach(j=>secs[j].classList.add('on'));calls.forEach(c=>c.classList.remove('on'));calls[i].classList.add('on')};anim?ml(500+i*1500,f):(i===3&&f())});if(!anim)calls.forEach(c=>c.classList.add('on'))}
+  const box=q('#m2msgs'),mine=qa('#m2mine .m-card');
+  if(k===2||k===3){box.innerHTML='';const add=([w,t])=>{const d=document.createElement('div');d.className='m-msg '+w;d.innerHTML=t;box.appendChild(d)};
+    if(k===2&&anim)CHAT.forEach((m,i)=>ml(500+i*1250,()=>add(m)));else CHAT.forEach(add)}
+  mine.forEach(c=>c.classList.remove('on'));if(k===3)mine.forEach((c,i)=>anim?ml(300+i*450,()=>c.classList.add('on')):c.classList.add('on'));
+  q('#m2mine').style.opacity=k===3?1:0;
+  if(k===4){const st=qa('#m2steps .s');st.forEach((s,i)=>anim?ml(200+i*380,()=>s.classList.add('on')):s.classList.add('on'))}
+  let ch=null;
+  if(k===5){const c=q('#m2chart'),g=c.getContext('2d'),V=[58,66,73,79,84,88,91,93,94],ver=q('#m2ver');let shown=anim?1:V.length;ver.textContent='v'+shown;
+    if(anim)for(let i=2;i<=V.length;i++)ml(i*1600-1200,()=>{shown=i;ver.textContent='v'+i});
+    ch=now=>{const W=680,H=400;g.setTransform(KK,0,0,KK,0,0);g.clearRect(0,0,W,H);const col=cv('--sk'),mu=cv('--m-mute');
+      g.strokeStyle=hexA(mu,.25);g.lineWidth=1;[50,60,70,80,90,100].forEach(y=>{const yy=H-30-(y-50)/50*(H-60);g.beginPath();g.moveTo(40,yy);g.lineTo(W,yy);g.stroke();g.fillStyle=hexA(mu,.8);g.font='14px sans-serif';g.fillText(y+'%',0,yy+5)});
+      const px=i=>60+i*(W-90)/(V.length-1),py=v=>H-30-(v-50)/50*(H-60);g.strokeStyle=col;g.lineWidth=4;g.lineJoin='round';g.beginPath();
+      for(let i=0;i<shown;i++){i?g.lineTo(px(i),py(V[i])):g.moveTo(px(i),py(V[i]))}g.stroke();
+      for(let i=0;i<shown;i++){g.fillStyle=col;g.beginPath();g.arc(px(i),py(V[i]),i===shown-1?8:5,0,6.283);g.fill();g.fillStyle=hexA(mu,.9);g.font='13px sans-serif';g.fillText('v'+(i+1),px(i)-8,H-6)}
+      g.fillStyle=col;g.font='800 30px "SF Mono",Menlo,monospace';g.fillText(V[shown-1]+'%',px(shown-1)-30,py(V[shown-1])-20)}}
+  if(k===6){const race=q('#m2race'),gen=q('#m2gen');let G=1;const names=['A','B','C','D'];
+    const round=()=>{race.innerHTML=names.map((n,i)=>`<div class="m-card"><span class="crown">留下</span><h4>${G>1?'A'+G+'·'+(i+1):'版本 '+n}<small>${i===0&&G===1?'原来的':'改法 '+(i+1)}</small></h4><div class="qs">${'<i></i>'.repeat(10)}</div><div class="sc"><b>0</b><small> / 10</small></div></div>`).join('');
+      gen.innerHTML=`第 <b>${G}</b> 轮：同一套 10 道题，四个版本一起考`;
+      const cards=qa('.m-card',race),r=rnd(G*7+1),scores=names.map((_,i)=>Math.min(10,4+G+Math.floor(r()*4)-(i===0?1:0)));const best=scores.indexOf(Math.max(...scores));
+      cards.forEach((c,i)=>{const qs=qa('.qs i',c),sc=c.querySelector('.sc b');const order=[...Array(10).keys()].sort(()=>r()-.5),right=new Set(order.slice(0,scores[i]));let n=0;
+        qs.forEach((qq,j)=>ml(300+j*170+i*40,()=>{qq.classList.add(right.has(j)?'y':'n');if(right.has(j)){n++;sc.textContent=n}}))});
+      ml(2400,()=>{cards.forEach((c,i)=>c.classList.add(i===best?'win':'lose'));gen.innerHTML=`第 <b>${G}</b> 轮：<b>${cards[best].querySelector('h4').firstChild.textContent}</b> 得分最高，留下它，从它再改出下一轮`});
+      ml(4600,()=>{if(G<4){G++;round()}})};round()}
+  loop(now=>{if(k===0&&bg)bg(now);if(ch)ch(now)})};
+
+/* ---------- 03 专家 ---------- */
+const PARTS=[['岗位说明','我是谁、管什么、不管什么','--m-ink'],['技能包','会干哪几件事','--sk'],['知识库','读哪些资料、查哪些页','--kb'],['工具','能动哪些系统：表格、邮箱','--wf'],['记忆','记得做过什么、谁有什么偏好','--hi'],['红线','什么时候必须停下问人','--bad'],['考卷','上岗前先考、改一次考一次','--ag']];
+(function(){const a=q('#m3anat');if(!a)return;PARTS.forEach(([t,s,c],i)=>{const d=document.createElement('div');d.className='m-card m-part';d.style.setProperty('--pc',c==='--bad'?'#e5484d':`var(${c})`);d.innerHTML=`<b><i></i>${t}</b><span>${s}</span>`;a.appendChild(d)})})();
+const TREE=[['root','销售专家/',''],['','├─ 岗位说明.md','我是谁、管什么、不管什么'],['','├─ 技能/','线索分级、首次跟进、拜访纪要'],['','├─ 知识/','→ 链到公司知识库'],['','├─ 工具.md','能用的：表格、邮箱、日历'],['','├─ 记忆/','跟过的客户、他们的偏好'],['','├─ 红线.md','报价、承诺、删数据：先问人'],['','└─ 考卷/','10 道题，改一次考一次']];
+R.m3=(k,anim,el)=>{const bg=chap(el);
+  if(k===1){const parts=qa('#m3anat .m-part'),svg=q('#m3lines');const n=parts.length,cx=800,cy=500;svg.innerHTML='';
+    parts.forEach((p,i)=>{const an=-Math.PI/2+i/n*Math.PI*2,rx=560,ry=300,tx=cx+Math.cos(an)*rx,ty=cy+Math.sin(an)*ry;
+      const far=[cx+Math.cos(an)*1100,cy+Math.sin(an)*800];
+      const set=(x,y,o)=>{p.style.left=x+'px';p.style.top=y+'px';p.style.opacity=o};
+      if(anim){p.style.transition='none';set(far[0],far[1],0);p.offsetWidth;p.style.transition='';ml(300+i*260,()=>{set(tx,ty,1);const l=document.createElementNS('http://www.w3.org/2000/svg','line');l.setAttribute('x1',cx);l.setAttribute('y1',cy);l.setAttribute('x2',tx);l.setAttribute('y2',ty);svg.appendChild(l)})}
+      else{set(tx,ty,1);svg.insertAdjacentHTML('beforeend',`<line x1="${cx}" y1="${cy}" x2="${tx}" y2="${ty}"/>`)}})}
+  if(k===2){const t=q('#m3tree');t.innerHTML=TREE.map(([c,a,b])=>`<div class="${c}">${a}${b?'<span class="cm">　　'+b+'</span>':''}</div>`).join('');qa('div',t).forEach((d,i)=>anim?ml(250+i*330,()=>d.classList.add('on')):d.classList.add('on'))}
+  if(k===3){const cards=qa('#m3exam .m-card');const R1=[1,1,0,1,1,0,1,0,1,0],R2=[1,1,1,1,1,1,1,1,1,1];
+    cards.forEach((c,ci)=>{const qs=c.querySelector('.qs');qs.innerHTML='<i></i>'.repeat(10);const is=qa('i',qs),sc=c.querySelector('.sc b'),res=ci?R2:R1;let n=0;sc.textContent='0';
+      is.forEach((x,j)=>{const f=()=>{x.classList.add(res[j]?'y':'n');x.textContent=res[j]?'✓':'✗';if(res[j]){n++;sc.textContent=n}};anim?ml(400+ci*2600+j*170,f):f()})})}
+  loop(now=>{if(k===0&&bg)bg(now)})};
+
+/* ---------- 04 SOP ---------- */
+const LANES=[['hu','销售','人'],['ex','线索专家','分级、查背景'],['ex','纪要专家','拜访记录整理'],['ex','报价专家','出报价初稿'],['hu','主管','点头']];
+const FLOW=[[1,0,'分级'],[0,1,'去拜访'],[2,2,'整理纪要'],[3,3,'报价初稿'],[4,4,'审批'],[3,5,'改折扣'],[4,6,'再审'],[0,7,'发给客户']];
+R.m4=(k,anim,el)=>{const bg=chap(el);
+  if(k===1){const box=q('#m4lanes');box.innerHTML='';const LH=104,GAP=17,X0=330,DX=140;
+    LANES.forEach(([c,n,s],i)=>box.insertAdjacentHTML('beforeend',`<div class="m-lane ${c}" style="top:${i*(LH+GAP)}px"><div class="nm"><b>${n}</b><span>${s}</span></div></div>`));
+    const cells=FLOW.map(([l,c,t])=>{const d=document.createElement('div');d.className='m-cell';d.style.left=(X0+c*DX)+'px';d.style.top=(l*(LH+GAP)+LH/2)+'px';d.textContent=t;box.appendChild(d);return d});
+    const tok=document.createElement('div');tok.className='m-tok';box.appendChild(tok);const st=document.createElement('div');st.className='m-stamp';box.appendChild(st);
+    const go=i=>{const [l,c]=FLOW[i];tok.style.left=(X0+c*DX)+'px';tok.style.top=(l*(LH+GAP)+LH/2-46)+'px';cells.forEach((x,j)=>{x.classList.toggle('on',j===i);if(j<i)x.classList.add('done')});
+      if(i===4){ml(700,()=>{st.className='m-stamp no on';st.textContent='退回：折扣超权限';st.style.left=(X0+4*DX-60)+'px';st.style.top=(4*(LH+GAP)-30)+'px'})}
+      if(i===5)st.classList.remove('on');
+      if(i===6){ml(700,()=>{st.className='m-stamp ok on';st.textContent='同意';st.style.left=(X0+6*DX-20)+'px';st.style.top=(4*(LH+GAP)-30)+'px'})}};
+    const run=()=>{cells.forEach(x=>x.classList.remove('done','on'));st.classList.remove('on');FLOW.forEach((_,i)=>ml(400+i*1100,()=>go(i)));ml(400+FLOW.length*1100+1800,run)};
+    if(anim)run();else{FLOW.forEach((_,i)=>go(i))}}
+  if(k===2){qa('#m4five .m-card').forEach((c,i)=>{c.classList.remove('on');anim?ml(250+i*420,()=>c.classList.add('on')):c.classList.add('on')})}
+  if(k===3){qa('#m4stamps .m-card').forEach((c,i)=>{c.classList.remove('on');anim?ml(400+i*650,()=>c.classList.add('on')):c.classList.add('on')})}
+  if(k===4){const rows=q('#m4rows'),cnt=q('#m4cnt');rows.innerHTML='';let n=0,h=8,m=58;
+    const EV=[['周报','ok','✓ 已发'],['新线索 · 已分级','ok','✓ A 档'],['拜访纪要','ok','✓ 已整理'],['报价初稿','wait','等主管点头'],['新线索 · 已分级','ok','✓ B 档'],['周报','ok','✓ 已发'],['回款提醒','ok','✓ 已提醒']];
+    const add=()=>{const e=EV[n%EV.length];m+=7+((n*13)%11);if(m>=60){m-=60;h++}n++;rows.insertAdjacentHTML('afterbegin',`<div class="row"><span class="t">${String(h%24).padStart(2,'0')}:${String(m).padStart(2,'0')}</span><span class="w">${e[0]}</span><span class="s ${e[1]}">${e[2]}</span></div>`);
+      while(rows.children.length>12)rows.lastChild.remove();cnt.textContent='已跑 '+n+' 次'};
+    if(anim){const t=()=>{add();ml(Math.max(160,900-n*40),t)};ml(500,t)}else for(let i=0;i<10;i++)add()}
+  loop(now=>{if(k===0&&bg)bg(now)})};
+
+R.m5=(k,anim,el)=>{};
+})();
+<!--BEATS-->
+
+ {s:'m1',k:0,w:__W__,ch:'知识库',n:`第一站，知识库。为什么先做它？开场说过：老员工一句话就懂，是因为他懂行。AI 也一样，先让它读懂你的公司，后面的技能和专家才有东西可用。`},
+ {s:'m1',k:1,w:__W__,ch:'知识库',n:`先看现状：公司的东西散在哪？微信里、表格里、合同里、共享盘里，还有大量在老员工的脑子里。这些，AI 一样也看不见。在座各位想一下，你公司最重要的知识，现在放在哪？`},
+ {s:'m1',k:2,w:__W__,ch:'知识库',n:`卡帕西（OpenAI 的创始成员之一）今年分享过一个做法，很简单：资料原样丢进一个叫 raw 的文件夹，不用人整理；让 AI 把它们编成一本手册，放在 wiki 文件夹，一个概念一页，页和页之间互相链接。人用 Obsidian 来看。他的原话大意是：Obsidian 是编辑器，AI 是程序员，知识库就是代码。人不用写，AI 写；人负责看和纠正。`},
+ {s:'m1',k:3,w:__W__,ch:'知识库',n:`这个知识库每天只做三件事。收进来：新资料丢进 raw，AI 去更新相关的页。被提问：你问它，它查 wiki 回答，带着出处，而且把答案也存回去。做体检：定期让它找矛盾、找空页、找过期的。这一圈转起来，知识库就越转越厚。`},
+ {s:'m1',k:4,w:__W__,ch:'知识库',n:`背后是三条理念。第一，资料原样放，整理是 AI 的活，不是人的活。第二，一个概念一页，页页互链，AI 顺着链接找，比在一堆文件里翻准得多。第三，每次问答都存回去，知识库是越用越值钱的资产。`},
+ {s:'m1',k:5,w:__W__,ch:'知识库',n:`动手。六步，跟着我做：装 Obsidian，建一个库；建 raw 和 wiki 两个文件夹；把你这一周的资料丢进 raw，别整理；让 AI 照下一屏的规矩编译；打开右边的图谱，看哪些概念连得最多、哪里是空的；最后问它三个问题，看它答得对不对、出处在哪。（这一段给 25 分钟）`},
+ {s:'m1',k:6,w:__W__,ch:'知识库',n:`这一页是给 AI 管理员的规矩，复制给它就行。重点是三条：一个概念一页；每句结论写出处；资料对不上的标“待确认”，不许它自己选。做完，你手上就有了一本 AI 读得懂的公司手册。后面每一站，都从这里取材料。`},
+
+ {s:'m2',k:0,w:__W__,ch:'技能',n:`第二站，技能。知识库让 AI 懂行，技能让它会干：把老员工的做法写下来，交给 AI。`},
+ {s:'m2',k:1,w:__W__,ch:'技能',n:`一份技能其实就是一个文件，五块：什么时候用、一步步怎么做、红线、好例子、交回前检查。最关键的是第二块，要写老员工真实的做法，不写“要专业、要细致”这种空话。`},
+ {s:'m2',k:2,w:__W__,ch:'技能',n:`那技能从哪来？大多数人卡在这：不知道该写什么。所以我们反过来，让 AI 来追问你。装一个叫 grill-me 的技能，它一次只问一个问题。看这段对话：一个销售说出最烦的事，AI 一个个问：线索从哪来、怎么判断、开口说什么、什么不能说。你只管回答。`},
+ {s:'m2',k:3,w:__W__,ch:'技能',n:`问完，AI 自己列出哪些能做成技能：线索分级、首次跟进、拜访纪要，这三件天天做、规矩说得清、错了改得了。报价先不交，因为要人拍板。这个判断也是 AI 帮你做的。然后它直接生成第一份技能文件。`},
+ {s:'m2',k:4,w:__W__,ch:'技能',n:`动手：装上 grill-me，把右边这段话复制过去，填上你的岗位和最花时间的那件事。让它问，你答。问完挑一件，生成技能，再拿一件真事考它。（这一段给 30 分钟，做完把技能名发群）`},
+ {s:'m2',k:5,w:__W__,ch:'技能',n:`进阶：会自己变好的技能。每次它做错，你指出来，它把这条教训写回技能文件，版本加一；下次同样的错就不犯了。右边是示意：同一批考题，每改一版考一次，做对率一路往上走。技能不是写完就定死的，是越用越准。`},
+ {s:'m2',k:6,w:__W__,ch:'技能',n:`再进一步，让几个版本比一比。同一份技能，让 AI 改出几个不同写法，拿同一套考题一起考，留下分最高的那个，再从它改出下一轮。这就是技能的自我进化。我们课上会演示一轮。`},
+
+ {s:'m3',k:0,w:__W__,ch:'专家',n:`第三站，专家，也就是智能体。知识加技能，封装到一起，就是一个能顶岗的专家。`},
+ {s:'m3',k:1,w:__W__,ch:'专家',n:`一个专家里到底有什么？七样：岗位说明，它是谁、管什么、不管什么；技能包；知识库；工具，它能动哪些系统；记忆，它做过什么、客户有什么偏好；红线，什么时候必须停下来问人；还有考卷，上岗前怎么考它。少了红线和考卷，它就是一个不受管的实习生。`},
+ {s:'m3',k:2,w:__W__,ch:'专家',n:`封装起来，一个专家就是一个文件夹。看这棵目录：岗位说明、技能、知识、工具、记忆、红线、考卷。好处是带得走：拷给同事，他的 AI 就有了同一个专家；换个 AI 软件也能用；改了哪里一看就知道。`},
+ {s:'m3',k:3,w:__W__,ch:'专家',n:`上岗前先考。同桌出十道刁难题。第一次考，错了四道：越权报价、编了客户没说的需求、漏看合作年限、资料过期。错的补进红线和知识库，再考一次。注意最后一道：资料里本来就没有，它回答“知识库里没有，转给主管”，这才叫答对。（数字是示意）`},
+ {s:'m3',k:4,w:__W__,ch:'专家',n:`动手：选一个岗位，最好是你自己的，或你最想复制的那个人。让 AI 采访你写岗位说明，挂上前两站的技能和知识库，写红线，同桌出三道刁难题，错了补，考过了才上岗。（这一段给 35 分钟）`},
+
+ {s:'m4',k:0,w:__W__,ch:'SOP',n:`第四站，SOP。一个专家顶一个岗；一件事，要好几个人和好几个专家接力做完。SOP 就是这份接力的剧本。`},
+ {s:'m4',k:1,w:__W__,ch:'SOP',n:`看这张泳道：一个角色一行，人和专家分开。一条线索进来，线索专家先分级，销售去拜访，纪要专家整理，报价专家出初稿，到主管这里要点头。这一单折扣超了权限，被退回，报价专家改完再审，主管同意，销售发给客户。谁接谁、哪里退回、人在哪点头，一眼看得到。`},
+ {s:'m4',k:2,w:__W__,ch:'SOP',n:`写一份 SOP，五步：先对着 AI 说一遍；让它用 grill-me 追问你漏掉的步骤、交接和签字；画成泳道；每一格标清是专家做、人做，还是人点头；最后拿一件真事跑一单，卡在哪改哪。`},
+ {s:'m4',k:3,w:__W__,ch:'SOP',n:`人在哪里点头？就三种：对外承诺，比如报价、交期；花钱，比如采购、退款、打折；删改不可逆，比如删数据、群发、改合同。这三种必须人点头。其余的，放手给专家。`},
+ {s:'m4',k:4,w:__W__,ch:'SOP',n:`再往前一步，让它自己跑。三种开工方式：到点，每周一早上九点自己出周报；来事，新线索一进来自己先分级；接力，上一步做完下一步自己接上。看右边的运行记录，它一直在跑，只有到了要人点头的地方才停下来等你。`},
+ {s:'m4',k:5,w:__W__,ch:'SOP',n:`动手：拿出开场时写的那条线。口述一分钟，让 AI 追问到问不出新问题；画泳道、标格子；每个专家格挂上第三站做的专家；跑一单真事。卡住的地方，就是你回去要补的。（这一段给 40 分钟）`},
+
+ {s:'m5',k:0,w:__W__,ch:'收尾',n:`这就是两天的地图：知识库、技能、智能体、工作流，各位手上都有了。回到开头的算式：企业 AI 化，等于员工能力、数据和语义、组织相乘。这两天补的是员工能力。做出来的技能还要维护：规矩变了跟着改，坏的淘汰，后面的路还长。`},
+ {s:'m5',k:1,w:__W__,ch:'收尾',n:`L1，各用各的：每个人自己开 AI 聊，用完就散，换个人从头来。要准备的只是账号和用的习惯。`},
+ {s:'m5',k:2,w:__W__,ch:'收尾',n:`L2，一个环节跑起来：一个岗位的一件事交给 AI，它查知识库、照技能做。要准备知识库、技能和智能体，这两天前三块做的就是这一级。`},
+ {s:'m5',k:3,w:__W__,ch:'收尾',n:`L3，一条线人机分工：几个智能体接力，要紧的事人点头。要准备工作流、谁点头、看板。这两天带各位走到这里。`},
+ {s:'m5',k:4,w:__W__,ch:'收尾',n:`L4，判断和数据成闭环：客户、经营、财务的数据接进来，判断写进系统，每一单的结果写回知识库。数据散在各个系统、AI 读不到，就上不去。`},
+ {s:'m5',k:5,w:__W__,ch:'收尾',n:`L5，AI 原生：AI 中台各部门共用，文字、图片、视频、代码都能做；AI 和人各有权限；组织管理和 AI 管理，最好一个人管。权限和组织不跟着改，中台搭起来也没人用。每一级都要先备好东西，回去从最底下的知识库开始补。`},
+ {s:'m5',k:6,w:__W__,ch:'收尾',n:`回去，把公司重做一遍。从最底下那层开始：先让 AI 读懂公司。课后两周有答疑群，做的过程中有问题，群里随时问。`},
