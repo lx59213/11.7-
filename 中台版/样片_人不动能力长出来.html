@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>样片 · 人不动，能力从人身边长出来</title>
+<style>
+:root{--bg:#06080d;--ink:#f3f4f6;--mute:#8b909b;--sk:#d4ff3a;--ag:#e8e4d8;--wf:#8f8b80;--kb:#c9a96e;
+  --f:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",sans-serif;--mono:"SF Mono",Menlo,Consolas,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#000;color:var(--ink);font-family:var(--f);overflow:hidden;-webkit-font-smoothing:antialiased}
+#stage{position:absolute;left:50%;top:50%;width:1600px;height:900px;background:var(--bg);transform-origin:0 0;overflow:hidden}
+#cv{position:absolute;left:0;top:0;width:1600px;height:900px}
+.cap{position:absolute;left:88px;top:58px;max-width:980px;transition:opacity .45s ease,transform .6s cubic-bezier(.2,.8,.2,1)}
+.cap.out{opacity:0;transform:translateY(10px)}
+.cap h1{font-size:56px;font-weight:800;line-height:1.25;letter-spacing:.01em;text-shadow:0 2px 30px rgba(6,8,13,.95)}
+.cap p{font-size:25px;color:var(--mute);margin-top:12px;line-height:1.5;text-shadow:0 2px 20px rgba(6,8,13,.95)}
+.cap .sk{color:var(--sk)}.cap .kb{color:var(--kb)}.cap .ag{color:var(--ag)}.cap .wf{color:#b8b4a8}
+#cnt{position:absolute;right:64px;top:60px;font-family:var(--mono);font-size:21px;background:rgba(6,8,13,.78);border:1px solid #232834;border-radius:16px;padding:16px 24px;line-height:1.8;opacity:0;transition:opacity .6s;min-width:230px}
+#cnt.on{opacity:1}
+#cnt div{display:flex;justify-content:space-between;align-items:baseline;gap:34px}
+#cnt span{font-family:var(--f);color:var(--mute);font-size:19px}
+#cnt b{font-size:30px;font-weight:800}
+#cnt .pp{border-bottom:1px dashed #2a2f3a;padding-bottom:6px;margin-bottom:6px}
+#cnt .pp b{color:var(--ink)}
+#dots{position:absolute;left:0;right:0;bottom:24px;display:flex;justify-content:center;gap:8px;z-index:5}
+#dots i{width:30px;height:5px;border-radius:3px;background:#1b1f28;cursor:pointer;transition:background .3s}
+#dots i.on{background:var(--sk)}#dots i.done{background:#3a3f4a}
+#tag{position:absolute;left:28px;bottom:18px;font-size:13px;color:#4a505c;letter-spacing:.06em}
+#hint{position:absolute;right:28px;bottom:18px;font-size:13px;color:#4a505c}
+#auto{position:absolute;left:50%;bottom:44px;transform:translateX(-50%);font-size:13px;color:var(--sk);opacity:0;transition:opacity .3s}
+#auto.on{opacity:.8}
+#notes{position:absolute;left:0;right:0;bottom:0;z-index:8;background:rgba(6,8,13,.96);border-top:1px solid #1c2029;padding:22px 40px 56px;font-size:22px;line-height:1.7;color:#d9d6cf;transform:translateY(100%);transition:transform .35s}
+#notes.show{transform:none}
+#notes small{display:block;font-size:14px;color:var(--mute);letter-spacing:.06em;margin-bottom:6px}
+</style>
+</head>
+<body>
+<div id="stage">
+  <canvas id="cv" width="3200" height="1800"></canvas>
+  <div class="cap" id="cap"><h1 id="t1"></h1><p id="t2"></p></div>
+  <div id="cnt">
+    <div class="pp"><span>人</span><b id="cP">12</b></div>
+    <div><span>技能</span><b id="cS" style="color:var(--sk)">0</b></div>
+    <div><span>智能体</span><b id="cA" style="color:var(--ag)">0</b></div>
+    <div><span>工作流</span><b id="cW" style="color:#b8b4a8">0</b></div>
+  </div>
+  <div id="dots"></div>
+  <div id="auto">自动播放中</div>
+  <div id="tag">样片 · 人不动，能力从人身边长出来</div>
+  <div id="hint">→ 下一步　← 上一步　空格 自动播放　N 口播　F 全屏</div>
+  <div id="notes"><small id="nm"></small><div id="nt"></div></div>
+</div>
+<script>
+/* ============ 分镜：画面、字幕、口播 ============ */
+const BEATS=[
+ {t:'先看一家公司',s:'几个部门，几条业务线，一个个人',
+  n:'先看一家公司。不管哪个行业，都是几个部门、几条业务线、一个个人。活儿在人和人之间传。',d:6},
+ {t:'做成一件事，要走一条线',s:'销售接单，生产排期，交付发货，客服跟进',
+  n:'做成一件事，要走一条线：销售接单，生产排期，交付发货，客服跟进。一站一站往下传。',d:6},
+ {t:'拉近看一个人',s:'他凭三样把活干好',
+  n:'拉近看一个人，销售小王。他能把活干好，靠三样：会干的，比如报价、回邮件；懂的，客户是谁、价格怎么定、有什么规矩；还有他负责的：询盘 24 小时内回。',d:8},
+ {t:'他懂的，写下来，<span class="kb">扎进地里</span>',s:'每个人懂的汇在一起，就是公司的地基：<span class="kb">知识库</span>',
+  n:'先说他懂的。把这些写下来，就像根一样扎进地里。每个人懂的都扎进来，汇在一起，就是公司的地基，在 AI 里叫知识库。',d:8},
+ {t:'他会干的，写下来，<span class="sk">冒出一个芽</span>',s:'一件事一步步怎么做：这是一个<span class="sk">技能</span>',
+  n:'再说他会干的。一件事一步步怎么做，写下来，就冒出一个芽。这在 AI 里叫一个技能。',d:6},
+ {t:'芽越来越多，长成<span class="ag">他的分身</span>',s:'有技能，接着知识库，知道该干成什么：这是一个<span class="ag">智能体</span>',
+  n:'芽越来越多，接着地里的知识，再定好它该干成什么，就团成了他的一个分身，在 AI 里叫智能体。小王本人还在原位，分身是从他身上长出来的。',d:9},
+ {t:'一条线上，每个人都长出分身',s:'人一个没少，能力从每个人身边长出来',
+  n:'一条线上，每个人都长出自己的分身。人一个没少，能力从每个人身边长出来。',d:7},
+ {t:'分身之间，开始接力',s:'一件事从头流到尾：这是<span class="wf">工作流</span>。要紧的地方，人点头',
+  n:'分身之间开始接力，一件事从头流到尾，这叫工作流。要紧的地方，比如答应客户交期，还是人点头。',d:8},
+ {t:'整家公司，一条线一条线地长',s:'每多长一点，地基就扎得更深',
+  n:'整家公司，一条线一条线这样长。每多长一点，地基就扎得更深。',d:8},
+ {t:'然后，它自己一直在长',s:'人还是这些人，公司能干的事一直在长',
+  n:'然后它自己一直在长：技能越来越多，分身越来越多，线和线之间也接起来了。看右上角，人一直是 12 个，公司能干的事一直在长。',d:0},
+];
+const CAM=[{x:850,y:455,z:.95},{x:860,y:315,z:1.25},{x:495,y:262,z:2.7},{x:400,y:470,z:1.3},{x:510,y:250,z:2.7},
+           {x:510,y:250,z:2.7},{x:860,y:300,z:1.25},{x:860,y:300,z:1.25},{x:850,y:470,z:.95},{x:850,y:472,z:.84}];
+
+/* ============ 基础 ============ */
+const K=2,cv=document.getElementById('cv'),g=cv.getContext('2d'),stage=document.getElementById('stage');
+function fit(){const s=Math.min(innerWidth/1600,innerHeight/900);stage.style.transform=`translate(${-800*s}px,${-450*s}px) scale(${s})`}
+addEventListener('resize',fit);fit();
+function rng(seed){return()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const R=rng(7),frac=x=>x-Math.floor(x),clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+const easeOut=x=>1-Math.pow(1-clamp(x,0,1),3);
+const easeBack=x=>{x=clamp(x,0,1);const c=1.6;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2)};
+const C={sk:[212,255,58],ag:[232,228,216],kb:[201,169,110],wf:[160,156,145],man:[214,217,224]};
+const rgba=(c,a)=>`rgba(${c[0]},${c[1]},${c[2]},${a})`;
+const SPR={};
+function sprite(c){const k=c.join();if(SPR[k])return SPR[k];const s=document.createElement('canvas');s.width=s.height=64;const x=s.getContext('2d');
+  const gr=x.createRadialGradient(32,32,0,32,32,32);gr.addColorStop(0,'rgba(255,255,255,1)');gr.addColorStop(.18,rgba(c,1));gr.addColorStop(.5,rgba(c,.3));gr.addColorStop(1,rgba(c,0));
+  x.fillStyle=gr;x.fillRect(0,0,64,64);return SPR[k]=s}
+function glow(c,x,y,r,a){if(a<=.01||r<=.2)return;g.globalAlpha=Math.min(1,a);g.drawImage(sprite(c),x-r,y-r,2*r,2*r);g.globalAlpha=1}
+const FONT='"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif';
+
+/* ============ 一家公司：4 个部门 × 3 条业务线，12 个人 ============ */
+const COLS=[470,730,990,1250],ROWS=[270,430,590],SOIL=700;
+const DEPT=['销售','生产','交付','客服'],LINE=['新客户订单','老客户返单','售后问题'];
+const NAMES=[['小王','老陈','阿梅','小林'],['Lisa','大刘','小赵','小周'],['阿杰','老吴','小孙','小美']];
+const SLOT=[[54,-42],[-54,-44],[2,-88]];
+function mkRoot(x,y,r){const lane=x-92-r*16,pts=[[x,y+31],[x-30,y+50],[lane,y+80]];let cy=y+80;
+  while(cy<SOIL+6){cy=Math.min(SOIL+12,cy+48);pts.push([lane+(R()-.5)*14,cy])}
+  const end=pts[pts.length-1],br=[];for(let b=0;b<3;b++){const a=(b-1)*.75+(R()-.5)*.3;br.push([end,[end[0]+Math.sin(a)*34,end[1]+30],[end[0]+Math.sin(a)*64,end[1]+62+R()*20]])}
+  return{pts,br}}
+const P=[];
+ROWS.forEach((y,r)=>COLS.forEach((x,c)=>P.push({r,c,i:P.length,x,y,name:NAMES[r][c],dept:DEPT[c],dim:1,dimT:1,
+  root:0,rootOn:0,rootAt:0,path:mkRoot(x,y,r),cl:[0,0,0],clOn:[0,0,0],clAt:[0,0,0],budT:0,sched:[],buds:[],extra:0,pulse:-9,nc:[0,0,0],ph:R()*6})));
+const cc=(p,s)=>[p.x+SLOT[s][0],p.y+SLOT[s][1]];
+const crad=(p,s)=>(15+5*Math.sqrt(Math.max(1,p.nc[s])))*easeBack(p.cl[s]);
+const FL=[0,1,2].map(r=>({r,on:0,at:0,p:0,tok:[],last:0}));
+const HT=[0,1,2].map(()=>({on:0,a:0}));
+const cross=[];
+const KBP=[...Array(260)].map(()=>({u:R(),v:R(),sp:.004+R()*.012,r:1.6+R()*2.6,ph:R()*6}));
+const DUST=[...Array(80)].map(()=>({x:R()*1600,y:R()*900,r:.6+R()*1.3,sp:.2+R()*.6,ph:R()*6}));
+let soil=0,rich9=0,callA=0,clA=0,nodA=0,lblA=1,gLast=0,cLast=0;
+
+/* ============ 每一拍要什么 ============ */
+function want(p,b){const r=p.r,i=p.i;
+  const rootOn=(i===0&&b>=3)||(r===0&&b>=6)||b>=8;
+  let base=0;if(i===0)base=b>=5?5:b>=4?1:0;else if(r===0)base=b>=6?4+(i%3):0;else base=b>=8?4+((i*2)%3):0;
+  const cl0=(i===0&&b>=5)||(r===0&&b>=6)||b>=8;
+  return{rootOn,base,cl0}}
+let beat=-1,auto=false,autoT=0,beatT=0;
+function setBeat(b,anim){
+  b=clamp(b,0,BEATS.length-1);if(b===beat)return;beat=b;const t=performance.now()/1000;
+  if(b!==9){P.forEach(p=>{p.extra=0;p.clOn[1]=p.clOn[2]=0});cross.length=0;rich9=0}
+  let order=0;
+  P.forEach(p=>{const W=want(p,b),d=anim?order*.28:0;let newly=false;
+    if(W.rootOn&&!p.rootOn){p.rootAt=anim?t+d:t-9;newly=true}p.rootOn=W.rootOn;
+    const n=W.base+p.extra;let lastS=t+d;
+    if(n>p.budT){for(let j=p.budT;j<n;j++){p.sched[j]=anim?t+d+.45+(j-p.budT)*.38:t-9;lastS=p.sched[j]}newly=true}
+    p.budT=n;
+    if(W.cl0&&!p.clOn[0]){p.clAt[0]=anim?Math.max(lastS,t+d)+.7:t-9;newly=true}p.clOn[0]=W.cl0;
+    if(!anim){p.root=p.rootOn?1:0;for(let s=0;s<3;s++)p.cl[s]=p.clOn[s]?1:0}
+    if(newly&&anim)order++;
+    let dm=1;if(b===1)dm=p.r===0?1:.28;else if(b>=2&&b<=5)dm=p.i===0?1:.12;else if(b===6||b===7)dm=p.r===0?1:.24;p.dimT=dm;if(!anim)p.dim=dm});
+  FL.forEach(f=>{const on=(f.r===0&&b>=7)||b>=8;if(on&&!f.on)f.at=anim?t+(b===8?3.2+f.r*.7:.4):t-9;f.on=on;if(!anim)f.p=on?1:0});
+  HT.forEach((h,r)=>{h.on=b===0||(b===1&&r===0);if(!anim)h.a=h.on?1:0});
+  if(!anim){Object.assign(cam,CAM[b]);soil=P.some(p=>p.rootOn)?1:0}
+  // 字幕
+  const cap=document.getElementById('cap');cap.classList.add('out');
+  setTimeout(()=>{document.getElementById('t1').innerHTML=BEATS[b].t;document.getElementById('t2').innerHTML=BEATS[b].s;cap.classList.remove('out')},anim?320:0);
+  document.getElementById('cnt').classList.toggle('on',b>=3);
+  document.getElementById('nm').textContent=`口播 · 第 ${b+1} / ${BEATS.length} 拍`;document.getElementById('nt').textContent=BEATS[b].n;
+  [...document.querySelectorAll('#dots i')].forEach((d,i)=>{d.className=i===b?'on':i<b?'done':''});
+  history.replaceState(null,'','#'+(b+1));autoT=beatT=t;gLast=cLast=t;
+}
+
+/* ============ 每帧 ============ */
+const cam={...CAM[0]};let last=performance.now(),cntT=0;
+function update(t,dt){
+  const kc=1-Math.exp(-dt*1.7),ka=1-Math.exp(-dt*2.4),T=beat===9?{...CAM[9],z:CAM[9].z-.16*Math.min(1,(t-beatT)/40),y:CAM[9].y+20*Math.min(1,(t-beatT)/40)}:CAM[beat];
+  cam.x+=(T.x-cam.x)*kc;cam.y+=(T.y-cam.y)*kc;cam.z=Math.exp(Math.log(cam.z)+(Math.log(T.z)-Math.log(cam.z))*kc);
+  // 一直在长
+  if(beat===9){
+    rich9=Math.min(1,rich9+dt*.025);
+    if(t-gLast>.42){gLast=t;const p=P[(R()*12)|0];if(p.extra<20){const j=p.budT;p.sched[j]=t;p.budT++;p.extra++;
+      const act=1+p.clOn[1]+p.clOn[2];if(p.budT>act*7&&act<3){p.clOn[act]=1;p.clAt[act]=t+.3}}}
+    if(t-cLast>2.1&&cross.length<12){cLast=t;for(let k=0;k<20;k++){const a=P[(R()*12)|0],b=P[(R()*12)|0];
+      if(a.r!==b.r&&Math.abs(a.c-b.c)<=1&&!cross.some(x=>(x.a===a&&x.b===b)||(x.a===b&&x.b===a))){cross.push({a,b,p:0,at:t,tok:[],last:t,bend:R()<.5?1:-1});break}}}
+  }
+  P.forEach(p=>{
+    p.dim+=(p.dimT-p.dim)*ka;
+    p.root+=(p.rootOn&&t>=p.rootAt)?Math.min(dt*.5,1-p.root):-Math.min(dt*1.4,p.root);
+    for(let s=0;s<3;s++)p.cl[s]+=(p.clOn[s]&&t>=p.clAt[s])?Math.min(dt*.85,1-p.cl[s]):-Math.min(dt*1.6,p.cl[s]);
+    while(p.buds.length<p.budT)p.buds.push({j:p.buds.length,x:p.x+20,y:p.y+4,a:0,born:0,s:-1});
+    const S=[0,1,2].filter(s=>p.cl[s]>.3);p.nc=[0,0,0];
+    p.buds.forEach(b=>{const vis=b.j<p.budT&&t>=(p.sched[b.j]??1e9);
+      if(vis&&!b.born){b.born=1;b.x=p.x+20;b.y=p.y+4}
+      b.a+=((vis?1:0)-b.a)*Math.min(1,dt*4);b.s=S.length?S[b.j%S.length]:-1;if(b.s>=0&&vis)p.nc[b.s]++});
+    p.buds.forEach(b=>{let tx,ty;
+      if(b.s<0){const th=.3+b.j*.27,d=40+(b.j%2)*16;tx=p.x+26+Math.cos(th)*d;ty=p.y-4-Math.sin(th)*d}
+      else{const c=cc(p,b.s),rad=crad(p,b.s),ang=b.j*2.399+t*.45+p.ph,rr=rad*.62*(.3+.7*frac(b.j*.618+.13));tx=c[0]+Math.cos(ang)*rr;ty=c[1]+Math.sin(ang)*rr}
+      const k=Math.min(1,dt*(b.s<0?4:2.6));b.x+=(tx-b.x)*k;b.y+=(ty-b.y)*k});
+    while(p.buds.length&&p.buds[p.buds.length-1].j>=p.budT&&p.buds[p.buds.length-1].a<.02)p.buds.pop();
+  });
+  FL.forEach(f=>{f.p+=(f.on&&t>=f.at)?Math.min(dt*.8,1-f.p):-Math.min(dt*1.6,f.p);
+    if(f.p>.85&&t-f.last>1.5){f.last=t;f.tok.push({s:0})}
+    const pts=flowPts(f.r),L=lens(pts);
+    f.tok.forEach(k=>{const before=k.s;k.s+=dt*290;if(before<L.cum[2]&&k.s>=L.cum[2])P[f.r*4+2].pulse=t});
+    f.tok=f.tok.filter(k=>k.s<L.total&&f.p>.05)});
+  cross.forEach(x=>{x.p=Math.min(1,x.p+dt*.7);if(x.p>.9&&t-x.last>2.4){x.last=t;x.tok.push({u:0})}x.tok.forEach(k=>k.u+=dt*.42);x.tok=x.tok.filter(k=>k.u<1)});
+  HT.forEach(h=>h.a+=((h.on?1:0)-h.a)*ka);
+  soil+=((P.some(p=>p.root>.85)?1:0)-soil)*Math.min(1,dt*1.5);
+  callA+=(((beat>=2&&beat<=4)?1:0)-callA)*ka;clA+=((beat===5?1:0)-clA)*ka;nodA+=((beat===7?1:0)-nodA)*ka;
+  lblA+=((cam.z<1.6?1:0)-lblA)*ka;
+  if(t-cntT>.2){cntT=t;let S=0,A=0,W=0;P.forEach(p=>{p.buds.forEach(b=>{if(b.a>.5&&b.j<p.budT)S++});p.cl.forEach(v=>{if(v>.5)A++})});
+    FL.forEach(f=>{if(f.p>.5)W++});cross.forEach(x=>{if(x.p>.5)W++});
+    document.getElementById('cS').textContent=S;document.getElementById('cA').textContent=A;document.getElementById('cW').textContent=W}
+  if(auto&&BEATS[beat].d&&t-autoT>BEATS[beat].d)setBeat(beat+1,true);
+}
+function flowPts(r){const a=P[r*4],b=P[r*4+1],h=P[r*4+2],d=P[r*4+3];return[cc(a,0),cc(b,0),[h.x,h.y-18],cc(h,0),cc(d,0)]}
+function lens(pts){const cum=[0];for(let i=1;i<pts.length;i++)cum.push(cum[i-1]+Math.hypot(pts[i][0]-pts[i-1][0],pts[i][1]-pts[i-1][1]));return{cum,total:cum[cum.length-1]}}
+function along(pts,L,s){for(let i=1;i<pts.length;i++)if(s<=L.cum[i]){const u=(s-L.cum[i-1])/(L.cum[i]-L.cum[i-1]||1);return[pts[i-1][0]+(pts[i][0]-pts[i-1][0])*u,pts[i-1][1]+(pts[i][1]-pts[i-1][1])*u]}return pts[pts.length-1]}
+function polyPart(pts,prog){if(prog<=0)return;const L=lens(pts),end=L.total*prog;g.beginPath();g.moveTo(pts[0][0],pts[0][1]);
+  for(let i=1;i<pts.length;i++){if(L.cum[i]<=end)g.lineTo(pts[i][0],pts[i][1]);else{const p=along(pts,L,end);g.lineTo(p[0],p[1]);break}}g.stroke()}
+const S2=(x,y)=>[800+(x-cam.x)*cam.z,450+(y-cam.y)*cam.z];
+
+/* ============ 画 ============ */
+function draw(t){
+  const z=cam.z,lw=1/Math.sqrt(z);
+  g.setTransform(K,0,0,K,0,0);g.clearRect(0,0,1600,900);
+  DUST.forEach(d=>{g.fillStyle=`rgba(200,210,230,${.04+.04*Math.sin(t*d.sp+d.ph)})`;g.fillRect((d.x+t*d.sp*6)%1600,d.y,d.r,d.r)});
+  g.setTransform(K*z,0,0,K*z,K*(800-cam.x*z),K*(450-cam.y*z));
+
+  // 地基：知识库
+  const rootAvg=P.reduce((s,p)=>s+p.root,0)/12,rich=Math.min(1,.15+rootAvg*.6+rich9*.5);
+  if(soil>.01){const y0=SOIL,h=150+rich9*40;
+    const gr=g.createLinearGradient(0,y0,0,y0+h);gr.addColorStop(0,rgba(C.kb,.14*soil));gr.addColorStop(1,rgba(C.kb,0));
+    g.fillStyle=gr;g.fillRect(300,y0,1140,h);
+    g.strokeStyle=rgba(C.kb,.55*soil);g.lineWidth=1.6*lw;g.beginPath();g.moveTo(300,y0);g.lineTo(1440,y0);g.stroke();
+    const n=Math.floor(40+220*rich);for(let i=0;i<n;i++){const q=KBP[i];const x=300+frac(q.u+t*q.sp*.25)*1140,y=y0+10+q.v*(h-24);
+      glow(C.kb,x,y,q.r*2.6,(.25+.25*Math.sin(t+q.ph))*soil)}}
+  // 根
+  P.forEach(p=>{if(p.root<.005)return;const a=p.dim;
+    g.strokeStyle=rgba(C.kb,.8*a);g.lineWidth=1.7*lw;g.lineCap='round';g.lineJoin='round';polyPart(p.path.pts,easeOut(p.root));
+    const bp=clamp((p.root-.82)/.18,0,1)*(1+rich9*.6);if(bp>0){g.lineWidth=1.2*lw;p.path.br.forEach(br=>polyPart(br,Math.min(1,bp)))}
+    if(p.root>.98){const L=lens(p.path.pts);for(let k=0;k<2;k++){const s=frac(t*.28+k*.5+p.ph)*L.total;const q=along(p.path.pts,L,s);glow(C.kb,q[0],q[1],7,.8*a)}}});
+  // 公司外框、人和人之间的线
+  g.strokeStyle='rgba(42,47,58,.7)';g.lineWidth=1.2*lw;g.setLineDash([]);
+  g.beginPath();g.roundRect?g.roundRect(330,212,1060,446,26):g.rect(330,212,1060,446);g.stroke();
+  [0,1,2].forEach(r=>{const a=P[r*4].dim;g.strokeStyle=`rgba(90,96,108,${.55*a})`;g.lineWidth=1.4*lw;g.setLineDash([5,7]);
+    g.beginPath();g.moveTo(COLS[0]+34,ROWS[r]+12);g.lineTo(COLS[3]-34,ROWS[r]+12);g.stroke();g.setLineDash([]);
+    const h=HT[r];if(h.a>.02){const u=frac(t/5.4)*3,seg=Math.floor(u),f=u-seg,m=easeOut(clamp(f/.6,0,1));
+      const x0=COLS[seg]+34,x1=COLS[seg+1]-34,x=x0+(x1-x0)*m,y=ROWS[r]+12;g.save();g.translate(x,y);g.rotate(-.08);
+      g.fillStyle=`rgba(201,204,211,${.95*h.a*a})`;g.fillRect(-7,-9,14,18);g.fillStyle=`rgba(6,8,13,${.6*h.a*a})`;g.fillRect(-4,-4,8,1.4);g.fillRect(-4,0,8,1.4);g.fillRect(-4,4,5,1.4);g.restore()}});
+  // 分身之间的接力
+  FL.forEach(f=>{if(f.p<.01)return;const pts=flowPts(f.r),L=lens(pts),a=f.p*Math.max(.25,P[f.r*4].dim);
+    g.strokeStyle=rgba(C.sk,.26*a);g.lineWidth=2*lw;g.beginPath();g.moveTo(pts[0][0],pts[0][1]);pts.slice(1).forEach(q=>g.lineTo(q[0],q[1]));g.stroke();
+    f.tok.forEach(k=>{const q=along(pts,L,k.s);glow(C.sk,q[0],q[1],13,.95*a);g.fillStyle=rgba([255,255,255],.9*a);g.beginPath();g.arc(q[0],q[1],2.2,0,6.283);g.fill()})});
+  cross.forEach(x=>{const A=cc(x.a,0),B=cc(x.b,0),mx=(A[0]+B[0])/2,my=(A[1]+B[1])/2,dx=B[0]-A[0],dy=B[1]-A[1],d=Math.hypot(dx,dy)||1,cx=mx-dy/d*60*x.bend,cy=my+dx/d*60*x.bend;
+    g.strokeStyle=rgba(C.ag,.22*x.p);g.lineWidth=1.6*lw;g.beginPath();g.moveTo(A[0],A[1]);g.quadraticCurveTo(cx,cy,B[0],B[1]);g.stroke();
+    x.tok.forEach(k=>{const u=k.u,X=(1-u)*(1-u)*A[0]+2*(1-u)*u*cx+u*u*B[0],Y=(1-u)*(1-u)*A[1]+2*(1-u)*u*cy+u*u*B[1];glow(C.ag,X,Y,10,.8*x.p)})});
+  // 人
+  P.forEach(p=>{const a=p.dim,x=p.x,y=p.y;
+    g.fillStyle=rgba(C.man,.92*a);g.beginPath();g.arc(x,y-16,14,0,6.283);g.fill();
+    g.beginPath();g.moveTo(x-24,y+30);g.quadraticCurveTo(x-24,y+3,x,y+3);g.quadraticCurveTo(x+24,y+3,x+24,y+30);g.closePath();g.fill();
+    const dt=t-p.pulse;if(dt<1.1){const k=dt/1.1;g.strokeStyle=rgba(C.sk,(1-k)*.9);g.lineWidth=2*lw;g.beginPath();g.arc(x,y-16,18+k*26,0,6.283);g.stroke()}
+    const f=FL[p.r];if(p.c===2&&f.p>.05){const bx=x+17,by=y-31;g.fillStyle=rgba(C.sk,.95*f.p*Math.max(.3,a));g.beginPath();g.arc(bx,by,7.5,0,6.283);g.fill();
+      g.strokeStyle=`rgba(6,8,13,${f.p})`;g.lineWidth=1.8;g.beginPath();g.moveTo(bx-3.4,by+.2);g.lineTo(bx-1,by+2.8);g.lineTo(bx+3.6,by-2.6);g.stroke()}
+  });
+  // 芽、分身
+  P.forEach(p=>{const a=p.dim;
+    p.buds.forEach(b=>{if(b.s<0&&b.a>.02){g.strokeStyle=rgba(C.sk,.4*b.a*a);g.lineWidth=1.3*lw;g.beginPath();g.moveTo(p.x+18,p.y+6);
+      g.quadraticCurveTo(p.x+22,b.y+18,b.x,b.y);g.stroke()}});
+    for(let s=0;s<3;s++){const v=p.cl[s];if(v<.01)continue;const c=cc(p,s),rad=crad(p,s);
+      g.strokeStyle=rgba(C.ag,.4*v*a);g.lineWidth=1.2*lw;g.setLineDash([3,4]);g.beginPath();g.moveTo(p.x+(SLOT[s][0]>0?10:-10),p.y-18);g.lineTo(c[0]-(c[0]-p.x)*rad/Math.hypot(c[0]-p.x,c[1]-p.y+18),c[1]+(p.y-18-c[1])*rad/Math.hypot(c[0]-p.x,c[1]-p.y+18));g.stroke();g.setLineDash([]);
+      glow(C.ag,c[0],c[1],rad*1.5,.22*v*a);
+      g.beginPath();for(let k=0;k<=48;k++){const th=k/48*6.283,rr=rad*(1+.05*Math.sin(3*th+t*1.2+p.ph+s)+.035*Math.sin(5*th-t*.8+p.ph*2));const X=c[0]+Math.cos(th)*rr,Y=c[1]+Math.sin(th)*rr;k?g.lineTo(X,Y):g.moveTo(X,Y)}
+      g.closePath();const gr=g.createRadialGradient(c[0],c[1],0,c[0],c[1],rad);gr.addColorStop(0,rgba(C.ag,.16*v*a));gr.addColorStop(1,rgba(C.ag,.05*v*a));g.fillStyle=gr;g.fill();
+      g.strokeStyle=rgba(C.ag,.62*v*a);g.lineWidth=1.5*lw;g.stroke()}
+    p.buds.forEach(b=>{if(b.a<.02)return;const r0=b.s<0?9:7;glow(C.sk,b.x,b.y,r0*easeBack(b.a)*1.2,.95*b.a*a);
+      g.fillStyle=rgba([250,255,230],.95*b.a*a);g.beginPath();g.arc(b.x,b.y,2.1*b.a,0,6.283);g.fill()})});
+
+  // ===== 屏幕上的字 =====
+  g.setTransform(K,0,0,K,0,0);
+  const text=(s,x,y,size,col,al='left',w=600)=>{g.font=`${w} ${size}px ${FONT}`;g.textAlign=al;g.fillStyle=col;g.fillText(s,x,y)};
+  if(lblA>.02){DEPT.forEach((d,c)=>{const q=S2(COLS[c],214);text(d,q[0],q[1]-8,17,`rgba(139,144,155,${.9*lblA})`,'center',700)});
+    LINE.forEach((l,r)=>{const q=S2(316,ROWS[r]+8);text(l,q[0],q[1],15,`rgba(139,144,155,${.75*lblA*P[r*4].dim})`,'right',500)})}
+  P.forEach(p=>{const q=S2(p.x,p.y+50),sz=Math.min(22,12+3.6*z);text(`${p.dept} · ${p.name}`,q[0],q[1]+sz*.3,sz,`rgba(139,144,155,${.95*p.dim})`,'center',500)});
+  if(soil>.02){const q=S2(316,SOIL+44);text('知识库',q[0],q[1],Math.min(30,20+4*z),rgba(C.kb,.95*soil),'left',800);
+    text('公司的地基：每个人懂的，汇在一起',q[0],q[1]+Math.min(30,20+4*z)*.95,Math.min(19,13+2*z),rgba(C.kb,.7*soil),'left',500)}
+  // 拉近一个人时的三样
+  if(callA>.02){const p=P[0],items=[
+      {k:'懂的',v:'客户是谁、价格怎么定、有什么规矩',c:C.kb,an:[p.x,p.y-16],off:beat===3?[-430,110]:[-370,-150],show:beat===2||beat===3,hl:beat===3},
+      {k:'会干的',v:'报价、回邮件、查交期',c:C.sk,an:[p.x+22,p.y+22],off:[150,150],show:beat===2||beat===4,hl:beat===4},
+      {k:'负责的',v:'询盘 24 小时内回复',c:C.ag,an:[p.x-8,p.y+16],off:[-370,140],show:beat===2,hl:false}];
+    items.forEach(it=>{it.a=(it.a??0);const al=callA*(it.show?1:0);if(al<.02)return;const A=S2(...it.an),X=A[0]+it.off[0],Y=A[1]+it.off[1];
+      g.strokeStyle=rgba(it.c,.55*al);g.lineWidth=1.2;g.setLineDash([4,5]);g.beginPath();g.moveTo(A[0],A[1]);g.lineTo(X+(it.off[0]<0?300:0),Y);g.stroke();g.setLineDash([]);
+      g.fillStyle=`rgba(6,8,13,${.86*al})`;g.strokeStyle=rgba(it.c,(it.hl?.9:.45)*al);g.lineWidth=it.hl?2:1.2;g.beginPath();g.roundRect?g.roundRect(X,Y-34,300,80,14):g.rect(X,Y-34,300,80);g.fill();g.stroke();
+      text(it.k,X+18,Y,24,rgba(it.c,al),'left',800);text(it.v,X+18,Y+30,17,`rgba(217,214,207,${al})`,'left',500)})}
+  if(clA>.02){const p=P[0],c=S2(...cc(p,0)),h=S2(p.x,p.y-16);
+    text('他的分身 · 智能体',c[0]+110,c[1]-70,26,rgba(C.ag,clA),'left',800);text('里面是技能，底下接着知识库',c[0]+110,c[1]-38,18,`rgba(139,144,155,${clA})`,'left',500);
+    g.strokeStyle=rgba(C.ag,.5*clA);g.lineWidth=1.2;g.setLineDash([4,5]);g.beginPath();g.moveTo(c[0]+60,c[1]-30);g.lineTo(c[0]+104,c[1]-58);g.stroke();g.setLineDash([]);
+    text('小王本人，还在原位',h[0]-120,h[1]+150,22,`rgba(243,244,246,${clA})`,'right',700);
+    g.strokeStyle=`rgba(243,244,246,${.4*clA})`;g.setLineDash([4,5]);g.beginPath();g.moveTo(h[0]-112,h[1]+140);g.lineTo(h[0]-40,h[1]+60);g.stroke();g.setLineDash([])}
+  if(nodA>.02){const p=P[2],q=S2(p.x,p.y-16);text('要紧的地方，人点头',q[0],q[1]-84,20,rgba(C.sk,nodA),'center',800)}
+  // 暗角
+  const vg=g.createRadialGradient(800,450,380,800,450,980);vg.addColorStop(0,'rgba(6,8,13,0)');vg.addColorStop(1,'rgba(6,8,13,.75)');g.fillStyle=vg;g.fillRect(0,0,1600,900);
+}
+function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;try{update(now/1000,dt);draw(now/1000)}catch(e){console.error(e)}requestAnimationFrame(frame)}
+
+/* ============ 操作 ============ */
+const dots=document.getElementById('dots');BEATS.forEach((b,i)=>{const d=document.createElement('i');d.title=b.t.replace(/<[^>]+>/g,'');d.onclick=()=>setBeat(i,false);dots.appendChild(d)});
+addEventListener('keydown',e=>{const k=e.key;
+  if(k==='ArrowRight'||k==='PageDown'){auto=false;setAuto();setBeat(beat+1,true)}
+  else if(k==='ArrowLeft'||k==='PageUp'){auto=false;setAuto();setBeat(beat-1,false)}
+  else if(k===' '){e.preventDefault();auto=!auto;setAuto();autoT=performance.now()/1000}
+  else if(k==='n'||k==='N')document.getElementById('notes').classList.toggle('show');
+  else if(k==='f'||k==='F'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}});
+function setAuto(){document.getElementById('auto').classList.toggle('on',auto)}
+addEventListener('hashchange',()=>{const n=parseInt(location.hash.slice(1))-1;if(n>=0&&n!==beat)setBeat(n,false)});
+setBeat(Math.max(0,(parseInt(location.hash.slice(1))||1)-1),false);
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

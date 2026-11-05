@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>看板</title>
+<style>
+:root {
+  --stage: #F4F5F8; --dots: #DCE0E8; --side: #FFFFFF; --line: #E3E6EC; --ink: #151922; --muted: #5C6475; --faint: #8D95A6;
+  --edge: rgba(70,82,105,.20); --edge-dim: rgba(70,82,105,.06); --label: #2B3240; --halo: rgba(244,245,248,.92); --accent: #3B6FE0;
+  --late: 220,53,69; --today: 234,94,10; --tmr: 196,138,0; --week: 52,92,214; --later: 120,128,145;
+  --sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --stage: #0B0E14; --dots: #1A2030; --side: #11151D; --line: #222936; --ink: #E9ECF2; --muted: #A2AABA; --faint: #6B7385;
+    --edge: rgba(170,185,210,.20); --edge-dim: rgba(170,185,210,.05); --label: #D5DBE6; --halo: rgba(11,14,20,.9); --accent: #7EA2FF;
+    --late: 255,99,112; --today: 255,138,61; --tmr: 240,190,70; --week: 112,148,255; --later: 140,148,165;
+  }
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { height: 100%; }
+html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+@media (min-width: 1700px) { html { font-size: 18px; } }
+body { margin: 0; background: var(--stage); color: var(--ink); font: 1rem/1.6 var(--sans); overflow: hidden; }
+a { color: inherit; }
+.shell { display: flex; flex-direction: column; height: 100%; }
+.bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; padding: 12px 22px; background: var(--side); border-bottom: 1px solid var(--line); }
+h1 { display: inline; margin: 0 14px 0 0; font-size: 1.3rem; font-weight: 700; }
+.sub { color: var(--muted); font-size: .88rem; }
+.right { font-size: .82rem; color: var(--faint); }
+.right a { margin-left: 14px; color: var(--muted); text-decoration: none; }
+.right a:hover { color: var(--accent); }
+.main { flex: 1; display: flex; min-height: 0; }
+.stage { position: relative; flex: 1; min-width: 0; background-image: radial-gradient(var(--dots) 1px, transparent 1.2px); background-size: 22px 22px; }
+canvas { position: absolute; left: 0; top: 0; width: 100%; height: 100%; touch-action: none; }
+.info { position: absolute; left: 18px; bottom: 16px; max-width: 70%; padding: 10px 14px; border-radius: 10px; background: var(--side); border: 1px solid var(--line); box-shadow: 0 6px 20px rgba(0,0,0,.08); font-size: .9rem; pointer-events: none; }
+.info b { font-size: 1rem; }
+.info .m { color: var(--muted); font-size: .82rem; }
+.hint { position: absolute; left: 18px; bottom: 16px; font-size: .8rem; color: var(--faint); pointer-events: none; }
+.emptyg { position: absolute; left: 50%; top: 45%; width: 22em; max-width: 80%; transform: translate(-50%, -50%); text-align: center; color: var(--muted); line-height: 1.9; }
+.side { flex: none; width: 350px; overflow-y: auto; background: var(--side); border-left: 1px solid var(--line); padding: 6px 20px 20px; }
+.side section { padding: 14px 0 6px; border-bottom: 1px solid var(--line); }
+.side section:last-of-type { border-bottom: 0; }
+.side h2 { display: flex; align-items: baseline; margin: 0 0 8px; font-size: .95rem; font-weight: 700; }
+.side h2 small { margin-left: auto; font-weight: 400; font-size: .78rem; color: var(--faint); }
+.side ul { list-style: none; margin: 0; padding: 0; }
+.side li { padding: 6px 8px; margin: 0 -8px; border-radius: 8px; font-size: .9rem; line-height: 1.55; }
+.side li.hot:hover, .side li.on { background: var(--stage); }
+.side .m { display: block; font-size: .78rem; color: var(--muted); }
+.legend { display: flex; flex-wrap: wrap; margin: 0 -4px; }
+.chip { display: inline-block; margin: 3px 4px; padding: 3px 10px 3px 8px; border: 1px solid var(--line); border-radius: 99px; font-size: .84rem; cursor: default; white-space: nowrap; }
+.chip:hover, .chip.on { border-color: var(--faint); background: var(--stage); }
+.chip b { font-weight: 600; margin-left: 4px; color: var(--muted); }
+.dot { display: inline-block; width: 9px; height: 9px; margin-right: 6px; border-radius: 50%; vertical-align: 0; }
+.pg { color: var(--ink); text-decoration: none; }
+.pg::after { content: " ↗"; color: var(--faint); font-size: .85em; }
+.pg:hover { color: var(--accent); }
+.deg { float: right; color: var(--faint); font-size: .8rem; }
+.pill { display: inline-block; margin-right: 6px; padding: 0 7px; border-radius: 99px; font-size: .72rem; font-weight: 650; line-height: 1.7; color: rgb(var(--tone)); background: rgba(var(--tone),.14); vertical-align: 1px; white-space: nowrap; }
+.who { color: rgb(var(--tmr)); font-weight: 600; }
+.empty { margin: 0 0 8px; color: var(--faint); font-size: .88rem; }
+.notice { margin: 40px auto; max-width: 640px; padding: 26px; border-radius: 12px; background: var(--side); border: 1px solid var(--line); font-size: 1.05rem; line-height: 1.9; }
+.notice b { display: block; font-size: 1.2rem; }
+.foot { padding: 7px 22px; background: var(--side); border-top: 1px solid var(--line); font-size: .78rem; color: var(--faint); text-align: center; }
+@media (max-width: 900px) {
+  body { overflow: auto; }
+  .shell { height: auto; }
+  .main { flex-direction: column; }
+  .stage { flex: none; height: 70vh; }
+  .side { width: auto; border-left: 0; border-top: 1px solid var(--line); }
+}
+</style>
+</head>
+<body>
+<div class="shell">
+  <header class="bar">
+    <div><h1 id="title">看板</h1><span class="sub" id="sub"></span></div>
+    <div class="right"><span id="stamp"></span><span id="home"></span></div>
+  </header>
+  <div class="notice" id="notice" hidden></div>
+  <div class="main" id="app" hidden>
+    <div class="stage" id="stage">
+      <canvas id="cv"></canvas>
+      <div class="hint" id="hint">点一下圆点，在 Obsidian 里打开那一页。按住圆点可以拖开。</div>
+      <div class="info" id="info" hidden></div>
+      <div class="emptyg" id="emptyg" hidden>还没有页和页连着的关系。<br>整理好的页多了，跟 AI 说“更新看板”。</div>
+    </div>
+    <aside class="side" id="side"></aside>
+  </div>
+  <footer class="foot">数据是 AI 整理时写的。想看最新的，跟 AI 说‘更新看板’。</footer>
+</div>
+<script>
+(function () {
+  'use strict';
+  var DEMO = /[?&#]demo\b/.test(location.search + location.hash);
+  var FILE = DEMO ? '看板数据_示例.js' : '看板数据.js';
+  var WEEK = '日一二三四五六';
+  var D = null, SIG = '', DAY = '';
+
+  function arr(v) { return Array.isArray(v) ? v : []; }
+  function txt(v) { return v == null || typeof v === 'object' ? '' : String(v).trim(); }
+  function esc(v) { return txt(v).replace(/[&<>"']/g, function (c) { return '&#' + c.charCodeAt(0) + ';'; }); }
+  function cleanPath(p) { return txt(p).replace(/\\/g, '/').replace(/^\.?\/+/, ''); }
+  function pageName(p) { var s = cleanPath(p).replace(/\.md$/i, ''); return s.slice(s.lastIndexOf('/') + 1); }
+  function pageHref(p) {
+    return 'obsidian://open?vault=' + encodeURIComponent(txt(D && D.库文件夹) || '知识库') +
+      '&file=' + encodeURIComponent(cleanPath(p).replace(/\.md$/i, ''));
+  }
+  function pageLink(p, label, cls) {
+    var name = txt(label) || pageName(p);
+    if (!cleanPath(p)) return name ? '<span class="' + (cls || 'pg') + '">' + esc(name) + '</span>' : '';
+    return '<a class="' + (cls || 'pg') + '" href="' + esc(pageHref(p)) + '" title="在 Obsidian 里打开">' + esc(name) + '</a>';
+  }
+  function day(v) { var m = /(\d{4})\D+(\d{1,2})\D+(\d{1,2})/.exec(txt(v)); return m ? new Date(+m[1], m[2] - 1, +m[3]) : null; }
+  function today() {
+    var u = DEMO && D && day(D.更新);
+    if (u) return u;
+    var n = new Date();
+    return new Date(n.getFullYear(), n.getMonth(), n.getDate());
+  }
+  function diff(d) { return Math.round((d - today()) / 864e5); }
+  function md(d) { return (d.getFullYear() !== today().getFullYear() ? d.getFullYear() + '年' : '') + (d.getMonth() + 1) + '月' + d.getDate() + '日'; }
+  function wk(d) { return '周' + WEEK.charAt(d.getDay()); }
+  function due(v) {
+    var d = day(v);
+    if (!d) return { k: 'none', n: 1e4, t: txt(v) || '没写哪天' };
+    var n = diff(d);
+    var k = n < 0 ? 'late' : n === 0 ? 'today' : n === 1 ? 'tmr' : n <= 7 ? 'week' : 'later';
+    var t = k === 'late' ? '过了 ' + -n + ' 天' : k === 'today' ? '今天' : k === 'tmr' ? '明天' : k === 'week' ? wk(d) + ' · ' + n + ' 天后' : md(d);
+    return { k: k, n: n, d: d, t: t };
+  }
+  function todos() {
+    return arr(D.待办).map(function (x, i) { x = x || {}; return { 事: txt(x.事), 页: x.页, due: due(x.哪天), i: i }; })
+      .filter(function (x) { return x.事; })
+      .sort(function (a, b) { return a.due.n - b.due.n || a.i - b.i; });
+  }
+  function items(list, key) { return arr(list).filter(function (x) { return x && txt(x[key]); }); }
+  function stamp() {
+    var u = txt(D.更新), d = day(u);
+    if (!d) return u ? '更新于 ' + u : '';
+    var t = /(\d{1,2})[:：](\d{2})/.exec(u), ago = -diff(d);
+    return '更新于 ' + md(d) + ' ' + wk(d) + (t ? ' ' + t[1] + ':' + t[2] : '') + (ago > 0 ? '（' + ago + ' 天前）' : '');
+  }
+  function put(id, html) { var el = document.getElementById(id); el.innerHTML = html || ''; el.hidden = !html; }
+
+  function load(first) {
+    var prev = window.KANBAN, old = document.getElementById('kanban-data'), s = document.createElement('script');
+    window.KANBAN = undefined;
+    if (old) old.parentNode.removeChild(old);
+    s.id = 'kanban-data';
+    s.src = FILE + (first ? '' : '?v=' + Date.now());
+    s.onload = function () {
+      var d = window.KANBAN;
+      if (d && typeof d === 'object') return take(d);
+      window.KANBAN = prev;
+      if (!D) showNotice(true);
+    };
+    s.onerror = function () {
+      window.KANBAN = prev;
+      if (first) showNotice(false); else location.reload();
+    };
+    document.head.appendChild(s);
+  }
+  function take(d) {
+    var sig = JSON.stringify(d), dd = new Date().toDateString();
+    if (sig === SIG && dd === DAY) return;
+    SIG = sig; DAY = dd; D = d;
+    try { document.getElementById('notice').hidden = true; document.getElementById('app').hidden = false; render(); }
+    catch (e) { showNotice(true); }
+  }
+  function showNotice(broken) {
+    document.getElementById('notice').innerHTML = broken
+      ? '<b>看板的数据有地方写错了，读不出来。</b>跟 AI 说“看板打不开了，修一下”。'
+      : '<b>还没有看板的数据。</b>跟 AI 说“更新看板”。它写好以后，这页半分钟内会自己变。';
+    document.getElementById('notice').hidden = false;
+    document.getElementById('app').hidden = true;
+  }
+
+  var PALETTE = ['#D9534F', '#3B7DD8', '#4E9A3A', '#E8912D', '#8E5EA2', '#1FA2A0', '#C2577F', '#7A8899'];
+  var cv = document.getElementById('cv'), ctx = cv.getContext('2d');
+  var G = { nodes: [], links: [], by: {}, alpha: 0, view: { sx: 1, sy: 1, x: 0, y: 0 }, fit: true, hover: null, focus: null, drag: null, raf: 0 };
+  var C = {};
+
+  function blockNames() {
+    var names = items(D.分块, '名').map(function (b) { return txt(b.名); });
+    G.nodes.forEach(function (n) { if (n.block && names.indexOf(n.block) < 0) names.push(n.block); });
+    return names;
+  }
+  function blockColor(name) {
+    var i = items(D.分块, '名').map(function (b) { return txt(b.名); }).indexOf(txt(name));
+    return i < 0 ? '#8D95A6' : PALETTE[i % PALETTE.length];
+  }
+  function hash(s) {
+    var h = 2166136261;
+    for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
+    return (h >>> 0) / 4294967295;
+  }
+  function readColors() {
+    var cs = getComputedStyle(document.documentElement);
+    ['edge', 'edge-dim', 'label', 'halo', 'stage', 'ink'].forEach(function (k) { C[k] = cs.getPropertyValue('--' + k).trim(); });
+    C.font = parseFloat(cs.fontSize) || 16;
+  }
+
+  function build() {
+    var old = {}, by = {}, nodes = [], links = [], seen = {}, kept = 0;
+    G.nodes.forEach(function (n) { old[n.id] = n; });
+    items(D.关系 && D.关系.点, '页').forEach(function (p) {
+      var id = pageName(p.页);
+      if (!id || by[id]) return;
+      var parts = cleanPath(p.页).split('/'), o = old[id];
+      var n = { id: id, path: p.页, block: txt(p.块) || (parts.length > 1 ? parts[parts.length - 2] : ''), x: o ? o.x : NaN, y: o ? o.y : NaN, vx: 0, vy: 0, deg: 0, nb: {} };
+      if (o) kept++;
+      nodes.push(n); by[id] = n;
+    });
+    arr(D.关系 && D.关系.线).forEach(function (l) {
+      if (!Array.isArray(l) || l.length < 2) return;
+      var a = by[pageName(l[0])], b = by[pageName(l[1])];
+      if (!a || !b || a === b) return;
+      var key = a.id < b.id ? a.id + '|' + b.id : b.id + '|' + a.id;
+      if (seen[key]) return;
+      seen[key] = 1;
+      links.push({ a: a, b: b });
+      a.deg++; b.deg++; a.nb[b.id] = 1; b.nb[a.id] = 1;
+    });
+    G.nodes = nodes; G.links = links; G.by = by;
+    var blocks = blockNames();
+    nodes.forEach(function (n) {
+      n.color = blockColor(n.block);
+      n.r = 5 + 2.1 * Math.sqrt(n.deg);
+      if (!isNaN(n.x)) return;
+      var nb = Object.keys(n.nb).map(function (k) { return by[k]; }).filter(function (m) { return !isNaN(m.x); })[0];
+      var bi = Math.max(0, blocks.indexOf(n.block)), ang = (bi + hash(n.id) * .8) / Math.max(1, blocks.length) * Math.PI * 2;
+      var rad = nb ? 20 : 120 + hash(n.id + '.') * 80;
+      n.x = (nb ? nb.x : 0) + Math.cos(ang) * rad;
+      n.y = (nb ? nb.y : 0) + Math.sin(ang) * rad;
+    });
+    G.hover = null;
+    if (!kept) {
+      G.alpha = 1;
+      while (G.alpha > .002) step();
+      G.fit = true;
+      fitView(true);
+      draw();
+    } else {
+      G.alpha = Math.max(G.alpha, .35);
+      run();
+    }
+  }
+
+  function step() {
+    var ns = G.nodes, i, j, a, b, dx, dy, d2, d, f, al = G.alpha, cx = {}, cy = {}, cn = {};
+    for (i = 0; i < ns.length; i++) {
+      a = ns[i];
+      cx[a.block] = (cx[a.block] || 0) + a.x; cy[a.block] = (cy[a.block] || 0) + a.y; cn[a.block] = (cn[a.block] || 0) + 1;
+      for (j = i + 1; j < ns.length; j++) {
+        b = ns[j]; dx = b.x - a.x; dy = b.y - a.y; d2 = dx * dx + dy * dy;
+        if (d2 < .01) { dx = .1 + (i % 7) * .05; dy = .1 + (j % 5) * .05; d2 = dx * dx + dy * dy; }
+        f = 1100 * al / d2;
+        d = Math.sqrt(d2);
+        var gap = a.r + b.r + 10 - d;
+        if (gap > 0) f += gap / d * .5;
+        a.vx -= dx * f; a.vy -= dy * f; b.vx += dx * f; b.vy += dy * f;
+      }
+    }
+    G.links.forEach(function (l) {
+      a = l.a; b = l.b; dx = b.x - a.x; dy = b.y - a.y; d = Math.sqrt(dx * dx + dy * dy) || 1;
+      f = (d - 70) / d * al * .5 / Math.sqrt(Math.min(a.deg, b.deg));
+      a.vx += dx * f; a.vy += dy * f; b.vx -= dx * f; b.vy -= dy * f;
+    });
+    ns.forEach(function (n) {
+      if (n.fixed) { n.vx = n.vy = 0; return; }
+      n.vx += (-n.x * .018 + (cx[n.block] / cn[n.block] - n.x) * .08) * al;
+      n.vy += (-n.y * .018 + (cy[n.block] / cn[n.block] - n.y) * .08) * al;
+      n.vx *= .6; n.vy *= .6;
+      n.x += n.vx; n.y += n.vy;
+    });
+    G.alpha += -G.alpha * .0228;
+  }
+
+  function size() {
+    var w = cv.clientWidth, h = cv.clientHeight, dpr = window.devicePixelRatio || 1;
+    if (cv.width !== Math.round(w * dpr) || cv.height !== Math.round(h * dpr)) { cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); }
+    return { w: w, h: h, dpr: dpr };
+  }
+  function fitView(snap) {
+    if (!G.nodes.length) return;
+    var z = size(), x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+    G.nodes.forEach(function (n) { x0 = Math.min(x0, n.x - n.r); x1 = Math.max(x1, n.x + n.r); y0 = Math.min(y0, n.y - n.r); y1 = Math.max(y1, n.y + n.r); });
+    var sx = (z.w - 180) / Math.max(1, x1 - x0), sy = (z.h - 116) / Math.max(1, y1 - y0), m = Math.min(sx, sy);
+    sx = Math.max(.25, Math.min(2.2, sx, m * 1.45));
+    sy = Math.max(.25, Math.min(2.2, sy, m * 1.45));
+    var t = { sx: sx, sy: sy, x: z.w / 2 - (x0 + x1) / 2 * sx, y: z.h / 2 - (y0 + y1) / 2 * sy - 14 };
+    var v = G.view, k = snap ? 1 : .12;
+    ['sx', 'sy', 'x', 'y'].forEach(function (p) { v[p] += (t[p] - v[p]) * k; });
+  }
+  function scale() { return Math.max(.75, Math.min(1.35, Math.sqrt(G.view.sx * G.view.sy))); }
+  function run() {
+    if (G.raf) return;
+    G.raf = requestAnimationFrame(function frame() {
+      if (G.alpha > .002) step();
+      if (G.fit) fitView(false);
+      draw();
+      G.raf = G.alpha > .002 || G.drag ? requestAnimationFrame(frame) : 0;
+    });
+  }
+
+  function lit() {
+    var f = G.hover ? { page: G.hover.id } : G.focus;
+    if (!f) return null;
+    var set = {};
+    if (f.block != null) G.nodes.forEach(function (n) { if (n.block === f.block) set[n.id] = 2; });
+    var n = f.page && G.by[f.page];
+    if (n) { set[n.id] = 2; Object.keys(n.nb).forEach(function (k) { set[k] = set[k] || 1; }); }
+    return set;
+  }
+  function label(n, full) {
+    var s = n.id.replace(/^来源-/, '').replace(/_/g, ' ');
+    return full || s.length <= 16 ? s : s.slice(0, 15) + '…';
+  }
+  function draw() {
+    var z = size(), v = G.view, hl = lit(), fs = Math.round(C.font * .8);
+    ctx.setTransform(z.dpr, 0, 0, z.dpr, 0, 0);
+    ctx.clearRect(0, 0, z.w, z.h);
+    var X = function (n) { return n.x * v.sx + v.x; }, Y = function (n) { return n.y * v.sy + v.y; };
+    var rs = scale();
+    ctx.lineWidth = 1.2;
+    G.links.forEach(function (l) {
+      var on = hl && hl[l.a.id] && hl[l.b.id] && (hl[l.a.id] === 2 || hl[l.b.id] === 2);
+      ctx.strokeStyle = on ? (hl[l.a.id] === 2 ? l.a.color : l.b.color) : hl ? C['edge-dim'] : C.edge;
+      ctx.globalAlpha = on ? .8 : 1;
+      ctx.lineWidth = on ? 1.8 : 1.2;
+      ctx.beginPath(); ctx.moveTo(X(l.a), Y(l.a)); ctx.lineTo(X(l.b), Y(l.b)); ctx.stroke();
+    });
+    G.nodes.forEach(function (n) {
+      var r = n.r * rs;
+      ctx.globalAlpha = hl && !hl[n.id] ? .16 : 1;
+      if (n.deg >= 6) {
+        ctx.beginPath(); ctx.arc(X(n), Y(n), r + 4, 0, Math.PI * 2);
+        ctx.fillStyle = n.color; ctx.globalAlpha *= .18; ctx.fill();
+        ctx.globalAlpha = hl && !hl[n.id] ? .16 : 1;
+      }
+      ctx.beginPath(); ctx.arc(X(n), Y(n), r, 0, Math.PI * 2);
+      ctx.fillStyle = n.color; ctx.fill();
+      ctx.lineWidth = 2; ctx.strokeStyle = C.stage; ctx.stroke();
+      if (n === G.hover) { ctx.beginPath(); ctx.arc(X(n), Y(n), r + 5, 0, Math.PI * 2); ctx.lineWidth = 2; ctx.strokeStyle = n.color; ctx.stroke(); }
+    });
+    ctx.globalAlpha = 1;
+    ctx.font = fs + 'px ' + getComputedStyle(document.body).fontFamily;
+    ctx.textAlign = 'center'; ctx.textBaseline = 'top'; ctx.lineJoin = 'round';
+    var placed = [], order = G.nodes.slice().sort(function (a, b) { return ((hl && hl[b.id]) || 0) - ((hl && hl[a.id]) || 0) || b.deg - a.deg; });
+    order.forEach(function (n) {
+      var on = hl && hl[n.id];
+      if (hl && !on) return;
+      var s = label(n, on === 2), x = X(n), y = Y(n) + n.r * rs + 4, w = ctx.measureText(s).width + 6;
+      var box = [x - w / 2, y - 1, x + w / 2, y + fs + 3];
+      var clash = on !== 2 && placed.some(function (b) { return box[0] < b[2] && box[2] > b[0] && box[1] < b[3] && box[3] > b[1]; });
+      if (clash) return;
+      placed.push(box);
+      ctx.lineWidth = 4; ctx.strokeStyle = C.halo; ctx.strokeText(s, x, y);
+      ctx.fillStyle = on === 2 ? C.ink : C.label; ctx.fillText(s, x, y);
+    });
+  }
+
+  function hit(ev) {
+    var rect = cv.getBoundingClientRect(), mx = ev.clientX - rect.left, my = ev.clientY - rect.top, v = G.view, best = null, bd = Infinity;
+    var rs = scale();
+    G.nodes.forEach(function (n) {
+      var dx = n.x * v.sx + v.x - mx, dy = n.y * v.sy + v.y - my, d = Math.sqrt(dx * dx + dy * dy);
+      if (d < n.r * rs + 6 && d < bd) { bd = d; best = n; }
+    });
+    return { n: best, x: (mx - v.x) / v.sx, y: (my - v.y) / v.sy, mx: mx, my: my };
+  }
+  function setHover(n) {
+    if (G.hover === n) return;
+    G.hover = n;
+    cv.style.cursor = n ? 'pointer' : 'default';
+    var info = document.getElementById('info');
+    document.getElementById('hint').hidden = !!n;
+    info.hidden = !n;
+    if (n) info.innerHTML = '<b><span class="dot" style="background:' + n.color + '"></span>' + esc(n.id) + '</b><div class="m">' +
+      esc(n.block || '没分块') + ' · 跟 ' + n.deg + ' 页连着 · 点一下在 Obsidian 里打开</div>';
+    draw();
+  }
+  var PE = window.PointerEvent ? 'pointer' : 'mouse';
+  cv.addEventListener(PE + 'down', function (ev) {
+    var h = hit(ev);
+    if (!h.n) return;
+    G.drag = { n: h.n, mx: h.mx, my: h.my, moved: false };
+    if (cv.setPointerCapture && ev.pointerId != null) cv.setPointerCapture(ev.pointerId);
+    ev.preventDefault();
+  });
+  cv.addEventListener(PE + 'move', function (ev) {
+    var h = hit(ev), g = G.drag;
+    if (!g) return setHover(h.n);
+    if (!g.moved && Math.abs(h.mx - g.mx) + Math.abs(h.my - g.my) < 5) return;
+    g.moved = true; G.fit = false;
+    g.n.fixed = true; g.n.x = h.x; g.n.y = h.y;
+    G.alpha = Math.max(G.alpha, .25);
+    run();
+  });
+  window.addEventListener(PE + 'up', function () {
+    var g = G.drag;
+    if (!g) return;
+    G.drag = null;
+    g.n.fixed = false;
+    if (g.moved) return;
+    var a = document.createElement('a');
+    a.href = pageHref(g.n.path);
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  });
+  cv.addEventListener(PE === 'pointer' ? 'pointerleave' : 'mouseleave', function () { if (!G.drag) setHover(null); });
+
+  function focusOn(f) { G.focus = f; draw(); }
+  var side = document.getElementById('side');
+  side.addEventListener('mouseover', function (ev) {
+    var el = ev.target;
+    if (G.hover && !G.drag) setHover(null);
+    while (el && el !== side && !el.getAttribute('data-page') && el.getAttribute('data-block') == null) el = el.parentNode;
+    if (!el || el === side) return focusOn(null);
+    focusOn(el.getAttribute('data-block') != null ? { block: el.getAttribute('data-block') } : { page: el.getAttribute('data-page') });
+  });
+  side.addEventListener('mouseleave', function () { focusOn(null); });
+
+  function sec(title, small, body) { return '<section><h2>' + title + (small ? '<small>' + small + '</small>' : '') + '</h2>' + body + '</section>'; }
+  function li(p, inner) { var id = pageName(p); return '<li class="hot"' + (id ? ' data-page="' + esc(id) + '"' : '') + '>' + inner + '</li>'; }
+  function sidebar(list) {
+    var counts = {};
+    G.nodes.forEach(function (n) { counts[n.block] = (counts[n.block] || 0) + 1; });
+    var blocks = items(D.分块, '名'), h = '';
+    var chips = blockNames().map(function (name) {
+      var b = blocks.filter(function (x) { return txt(x.名) === name; })[0], n = b && b.几页 != null ? +b.几页 || 0 : counts[name] || 0;
+      return '<span class="chip" data-block="' + esc(name) + '"><span class="dot" style="background:' + blockColor(name) + '"></span>' + esc(name) + '<b>' + n + '</b></span>';
+    });
+    if (chips.length) h += sec('分成这几块', '颜色跟上面的圆点一样', '<div class="legend">' + chips.join('') + '</div>');
+    var hubs = G.nodes.slice().filter(function (n) { return n.deg; }).sort(function (a, b) { return b.deg - a.deg; }).slice(0, 5);
+    if (hubs.length) h += sec('连得最多的页', '', '<ul>' + hubs.map(function (n) {
+      return li(n.path, '<span class="deg">' + n.deg + ' 页</span><span class="dot" style="background:' + n.color + '"></span>' + pageLink(n.path));
+    }).join('') + '</ul>');
+    h += sec('要做的事', list.length ? list.length + ' 件' : '', list.length ? '<ul>' + list.slice(0, 6).map(function (x) {
+      return li(x.页, '<span class="pill" style="--tone:var(--' + (x.due.k === 'none' ? 'later' : x.due.k) + ')">' + esc(x.due.t) + '</span>' + esc(x.事) +
+        (cleanPath(x.页) ? '<span class="m">' + pageLink(x.页) + '</span>' : ''));
+    }).join('') + '</ul>' + (list.length > 6 ? '<p class="empty">还有 ' + (list.length - 6) + ' 件日子更远的。</p>' : '') : '<p class="empty">没有写了日期的事。</p>');
+    var ask = items(D.要拍板, '事');
+    h += sec('要找人拍板', ask.length ? ask.length + ' 件' : '', ask.length ? '<ul>' + ask.map(function (x) {
+      return li(x.页, esc(x.事) + '<span class="m">' + (txt(x.问谁) ? '<span class="who">问 ' + esc(x.问谁) + '</span> · ' : '') + pageLink(x.页) + '</span>');
+    }).join('') + '</ul>' : '<p class="empty">没有要找人拍板的。</p>');
+    var miss = items(D.还缺, '事');
+    h += sec('还缺的', miss.length ? miss.length + ' 处' : '', miss.length ? '<ul>' + miss.map(function (x) {
+      return li(x.页, esc(x.事) + '<span class="m">' + (txt(x.问谁) ? '问 ' + esc(x.问谁) + ' · ' : '') + pageLink(x.页) + '</span>');
+    }).join('') + '</ul>' : '<p class="empty">没有还缺的。</p>');
+    return h;
+  }
+
+  function render() {
+    var name = txt(D.库名) || '我的知识库';
+    document.title = name + ' · 看板';
+    put('title', esc(name));
+    put('sub', esc([txt(D.谁), txt(D.岗位), txt(D.业务)].filter(Boolean).join(' · ')));
+    put('stamp', esc(stamp()));
+    put('home', pageLink('首页.md', '在 Obsidian 里打开首页 ↗', 'home'));
+    readColors();
+    build();
+    document.getElementById('emptyg').hidden = G.nodes.length > 0;
+    document.getElementById('hint').hidden = !G.nodes.length;
+    side.innerHTML = sidebar(todos());
+  }
+
+  window.addEventListener('resize', function () { if (!D) return; G.fit = true; fitView(true); draw(); });
+  var mq = window.matchMedia && matchMedia('(prefers-color-scheme: dark)');
+  if (mq) (mq.addEventListener ? mq.addEventListener.bind(mq, 'change') : mq.addListener.bind(mq))(function () { readColors(); draw(); });
+
+  load(true);
+  setInterval(function () { load(false); }, 30000);
+})();
+</script>
+</body>
+</html>

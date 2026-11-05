@@ -1,0 +1,134 @@
+filters:
+  and:
+    - '!file.inFolder("_参考")'
+    - '!file.inFolder("模板")'
+    - 'note["示例"] != true'
+formulas:
+  follow_days: 'if(note["下次跟进"], (date(note["下次跟进"]) - today()).days, 999)'
+  follow_label: 'if(formula.follow_days < 0, html("<span class=\"pill red\">过了" + formula.follow_days.abs().toString() + "天</span>"), if(formula.follow_days == 0, html("<span class=\"pill red\">今天</span>"), if(formula.follow_days == 1, html("<span class=\"pill orange\">明天</span>"), html("<span class=\"pill grey\">还有" + formula.follow_days.toString() + "天</span>"))))'
+  marks: 'html(if(file.hasTag("待确认"), "<span class=\"pill orange\">要拍板</span> ", "") + if(file.hasTag("待补"), "<span class=\"pill grey\">缺资料</span>", ""))'
+summaries:
+  几页: 'values.length'
+properties:
+  file.name:
+    displayName: 页
+  formula.follow_label:
+    displayName: 跟进
+  formula.marks:
+    displayName: 标记
+views:
+  - type: table
+    name: 现在做到哪
+    filters:
+      and:
+        - 'file.path == "我的知识库.md"'
+    order:
+      - file.name
+      - note.做到哪一步
+      - note.下一步
+      - note.更新
+    columnSize:
+      file.name: 200
+      note.做到哪一步: 100
+      note.更新: 120
+      note.下一步: 520
+  - type: table
+    name: 库里都有什么
+    filters:
+      and:
+        - 'file.inFolder("wiki")'
+        - 'file.hasProperty("类型")'
+    groupBy:
+      property: note.类型
+      direction: ASC
+    order:
+      - file.name
+      - note.状态
+      - note.更新
+    columnSize:
+      file.name: 200
+      note.状态: 90
+      note.更新: 120
+    summaries:
+      file.name: 几页
+  - type: table
+    name: 最近更新
+    filters:
+      and:
+        - 'file.inFolder("wiki")'
+        - 'file.hasProperty("类型")'
+    order:
+      - file.name
+      - note.类型
+      - note.状态
+      - file.mtime
+    columnSize:
+      file.name: 200
+      note.类型: 90
+      note.状态: 90
+      file.mtime: 150
+    sort:
+      - property: file.mtime
+        direction: DESC
+    limit: 15
+  - type: table
+    name: 本周要跟进
+    filters:
+      and:
+        - 'file.inFolder("wiki")'
+        - 'formula.follow_days <= 7'
+    order:
+      - file.name
+      - note.类型
+      - note.负责人
+      - note.下次跟进
+      - formula.follow_label
+      - note.最要紧的事
+    columnSize:
+      file.name: 200
+      note.类型: 90
+      note.负责人: 90
+      note.下次跟进: 120
+      formula.follow_label: 90
+      note.最要紧的事: 410
+    sort:
+      - property: note.下次跟进
+        direction: ASC
+  - type: table
+    name: 要拍板的和还缺的
+    filters:
+      and:
+        - 'file.inFolder("wiki")'
+        - or:
+            - 'file.hasTag("待确认")'
+            - 'file.hasTag("待补")'
+    order:
+      - file.name
+      - note.类型
+      - formula.marks
+      - file.mtime
+    columnSize:
+      file.name: 200
+      note.类型: 90
+      formula.marks: 150
+      file.mtime: 150
+    sort:
+      - property: file.mtime
+        direction: DESC
+  - type: table
+    name: 还没整理的原件
+    filters:
+      and:
+        - 'file.inFolder("raw")'
+        - 'file.basename != "放原始资料"'
+        - 'file.backlinks.length == 0'
+    order:
+      - file.name
+      - file.ext
+      - file.size
+      - file.mtime
+    columnSize:
+      file.name: 200
+      file.ext: 70
+      file.size: 90
+      file.mtime: 150

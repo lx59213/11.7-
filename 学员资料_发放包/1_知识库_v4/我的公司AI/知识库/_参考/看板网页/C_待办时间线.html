@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>看板</title>
+<style>
+:root {
+  --bg: #FFFFFF; --panel: #F4F5F7; --line: #E4E6EB; --ink: #14161B; --muted: #5A6070; --faint: #8C92A0; --weekend: #EEF0F3;
+  --late: 220,53,69; --today: 234,94,10; --tmr: 196,138,0; --week: 52,92,214; --later: 120,128,145;
+  --sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0F1013; --panel: #181A1F; --line: #272A31; --ink: #ECEEF2; --muted: #A0A6B4; --faint: #6C7280; --weekend: #1E2026;
+    --late: 255,99,112; --today: 255,138,61; --tmr: 240,190,70; --week: 112,148,255; --later: 140,148,165;
+  }
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+@media (min-width: 1700px) { html { font-size: 18px; } }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 1rem/1.6 var(--sans); }
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+.wrap { max-width: 1360px; margin: 0 auto; padding: 24px 32px 28px; }
+.top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; padding-bottom: 18px; border-bottom: 2px solid var(--ink); }
+.top > div { margin-bottom: 4px; }
+h1 { margin: 0; font-size: 1.55rem; line-height: 1.3; font-weight: 700; }
+.sub { margin: 2px 0 0; color: var(--muted); font-size: .92rem; }
+.now { text-align: right; }
+.now .date { font-size: 1.9rem; line-height: 1.1; font-weight: 700; letter-spacing: .01em; font-variant-numeric: tabular-nums; }
+.now .date small { font-size: .9rem; font-weight: 500; color: rgb(var(--today)); margin-right: 8px; letter-spacing: .1em; }
+.now .meta { margin-top: 6px; font-size: .82rem; color: var(--faint); }
+.now .meta a { color: var(--muted); text-decoration: none; margin-left: 12px; }
+.now .meta a:hover { color: rgb(var(--week)); }
+.strip { display: flex; margin: 20px 0 26px; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.cell { flex: 1 1 0; min-width: 0; position: relative; padding: 8px 2px 10px; border: 0; border-left: 1px solid var(--line); background: transparent; text-align: center; cursor: default; }
+.cell:first-child { border-left: 0; }
+.cell.we { background: var(--weekend); }
+.cell.has { cursor: pointer; }
+.cell.has:not(.today):hover { background: var(--panel); }
+.cell .w { display: block; font-size: .72rem; color: var(--faint); }
+.cell .n { display: block; font-size: 1.15rem; font-weight: 650; line-height: 1.35; font-variant-numeric: tabular-nums; }
+.cell.today { background: rgb(var(--today)); color: #fff; }
+.cell.today .w { color: rgba(255,255,255,.88); }
+.cell.edge { flex: 1.4 1 0; background: var(--panel); }
+.cell.edge .n { font-size: 1.3rem; }
+.cell.edge.on .n { color: rgb(var(--tone)); }
+.dots { display: block; height: 10px; margin-top: 3px; line-height: 0; }
+.dots i { display: inline-block; width: 7px; height: 7px; margin: 0 1.5px; border-radius: 50%; background: rgb(var(--tone)); }
+.cell.today .dots i { background: #fff; }
+.grid { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); grid-gap: 36px; align-items: start; }
+.line { position: relative; margin: 0; padding: 0 0 0 30px; list-style: none; }
+.line::before { content: ""; position: absolute; left: 8px; top: 10px; bottom: 6px; width: 2px; background: var(--line); }
+.grp { position: relative; margin-bottom: 22px; scroll-margin-top: 16px; }
+.grp::before { content: ""; position: absolute; left: -29px; top: 5px; width: 14px; height: 14px; border-radius: 50%; background: var(--bg); border: 3px solid rgb(var(--tone)); }
+.grp.k-today::before { background: rgb(var(--tone)); box-shadow: 0 0 0 4px rgba(var(--tone),.2); }
+.grp h2 { margin: 0 0 10px; font-size: 1.08rem; line-height: 1.5; font-weight: 700; }
+.grp h2 span { font-weight: 400; color: var(--muted); font-size: .9rem; margin-left: 8px; }
+.grp h2 em { font-style: normal; margin-left: 8px; padding: 0 8px; border-radius: 99px; font-size: .78rem; font-weight: 600; color: rgb(var(--tone)); background: rgba(var(--tone),.12); vertical-align: 2px; }
+.grp .none { margin: -4px 0 0; color: var(--faint); font-size: .92rem; }
+.ev { display: grid; grid-template-columns: minmax(5.8em, max-content) 1fr; grid-column-gap: 14px; align-items: start; margin-bottom: 10px; padding: 12px 14px; border-radius: 10px; background: var(--panel); border-left: 4px solid rgb(var(--tone)); }
+.pill { padding: 0 10px; text-align: center; border-radius: 99px; font-size: .8rem; font-weight: 650; line-height: 1.85; white-space: nowrap; color: rgb(var(--tone)); background: rgba(var(--tone),.14); }
+.k-late .pill, .k-today .pill { color: #fff; background: rgb(var(--tone)); }
+.ev .t { margin: 0; font-size: 1.03rem; font-weight: 500; line-height: 1.6; }
+.ev .m { margin: 4px 0 0; font-size: .82rem; color: var(--muted); }
+.ev .m .far { float: right; color: var(--faint); }
+.dot { display: inline-block; width: 8px; height: 8px; margin-right: 6px; border-radius: 50%; vertical-align: 1px; }
+.pg { color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--line); }
+.pg::after { content: " ↗"; color: var(--faint); }
+.pg:hover { color: rgb(var(--week)); border-color: rgb(var(--week)); }
+.box { margin-bottom: 18px; padding: 16px 18px; border: 1px solid var(--line); border-radius: 12px; }
+.box h2 { display: flex; align-items: center; margin: 0 0 10px; font-size: 1.02rem; font-weight: 700; }
+.box h2 .ic { display: inline-block; width: 22px; height: 22px; margin-right: 9px; border-radius: 6px; font-size: .8rem; line-height: 22px; text-align: center; color: #fff; }
+.box h2 small { margin-left: auto; font-weight: 400; font-size: .82rem; color: var(--faint); }
+.box ul { list-style: none; margin: 0; padding: 0; }
+.box li { padding: 9px 0; border-top: 1px solid var(--line); }
+.box li:first-child { border-top: 0; padding-top: 2px; }
+.box .t { margin: 0; font-size: .95rem; line-height: 1.55; }
+.box .m { margin: 3px 0 0; font-size: .8rem; color: var(--muted); }
+.who { display: inline-block; margin-right: 8px; padding: 0 8px; border-radius: 99px; font-weight: 600; color: rgb(var(--tmr)); background: rgba(var(--tmr),.14); }
+.miss li { position: relative; padding-left: 22px; }
+.miss li::before { content: ""; position: absolute; left: 0; top: 14px; width: 11px; height: 11px; border: 1.5px solid var(--faint); border-radius: 3px; }
+.miss li:first-child::before { top: 7px; }
+.empty { margin: 0; color: var(--faint); font-size: .92rem; }
+.notice { margin-top: 24px; padding: 26px; border-radius: 12px; background: var(--panel); font-size: 1.05rem; line-height: 1.9; }
+.notice b { display: block; font-size: 1.2rem; }
+.foot { margin-top: 26px; padding-top: 14px; border-top: 1px solid var(--line); text-align: center; font-size: .82rem; color: var(--faint); }
+@media (max-width: 980px) { .grid { grid-template-columns: 1fr; } }
+@media (max-width: 640px) { .wrap { padding: 16px; } .now { text-align: left; } .cell.mid { display: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1 id="title">看板</h1>
+      <p class="sub" id="sub"></p>
+    </div>
+    <div class="now">
+      <div class="date" id="date"></div>
+      <div class="meta"><span id="stamp"></span><span id="home"></span></div>
+    </div>
+  </header>
+  <div class="notice" id="notice" hidden></div>
+  <main id="app" hidden>
+    <nav class="strip" id="strip" aria-label="接下来两周"></nav>
+    <div class="grid">
+      <ol class="line" id="line"></ol>
+      <aside>
+        <section class="box" id="ask"></section>
+        <section class="box" id="miss"></section>
+      </aside>
+    </div>
+  </main>
+  <footer class="foot">数据是 AI 整理时写的。想看最新的，跟 AI 说‘更新看板’。</footer>
+</div>
+<script>
+(function () {
+  'use strict';
+  var DEMO = /[?&#]demo\b/.test(location.search + location.hash);
+  var FILE = DEMO ? '看板数据_示例.js' : '看板数据.js';
+  var WEEK = '日一二三四五六';
+  var D = null, SIG = '', DAY = '';
+
+  function arr(v) { return Array.isArray(v) ? v : []; }
+  function txt(v) { return v == null || typeof v === 'object' ? '' : String(v).trim(); }
+  function esc(v) { return txt(v).replace(/[&<>"']/g, function (c) { return '&#' + c.charCodeAt(0) + ';'; }); }
+  function cleanPath(p) { return txt(p).replace(/\\/g, '/').replace(/^\.?\/+/, ''); }
+  function pageName(p) { var s = cleanPath(p).replace(/\.md$/i, ''); return s.slice(s.lastIndexOf('/') + 1); }
+  function pageHref(p) {
+    return 'obsidian://open?vault=' + encodeURIComponent(txt(D && D.库文件夹) || '知识库') +
+      '&file=' + encodeURIComponent(cleanPath(p).replace(/\.md$/i, ''));
+  }
+  function pageLink(p, label, cls) {
+    var name = txt(label) || pageName(p);
+    if (!cleanPath(p)) return name ? '<span class="' + (cls || 'pg') + '">' + esc(name) + '</span>' : '';
+    return '<a class="' + (cls || 'pg') + '" href="' + esc(pageHref(p)) + '" title="在 Obsidian 里打开">' + esc(name) + '</a>';
+  }
+  function day(v) { var m = /(\d{4})\D+(\d{1,2})\D+(\d{1,2})/.exec(txt(v)); return m ? new Date(+m[1], m[2] - 1, +m[3]) : null; }
+  function today() {
+    var u = DEMO && D && day(D.更新);
+    if (u) return u;
+    var n = new Date();
+    return new Date(n.getFullYear(), n.getMonth(), n.getDate());
+  }
+  function diff(d) { return Math.round((d - today()) / 864e5); }
+  function md(d) { return (d.getFullYear() !== today().getFullYear() ? d.getFullYear() + '年' : '') + (d.getMonth() + 1) + '月' + d.getDate() + '日'; }
+  function wk(d) { return '周' + WEEK.charAt(d.getDay()); }
+  function due(v) {
+    var d = day(v);
+    if (!d) return { k: 'none', n: 1e4, t: txt(v) || '没写哪天' };
+    var n = diff(d);
+    var k = n < 0 ? 'late' : n === 0 ? 'today' : n === 1 ? 'tmr' : n <= 7 ? 'week' : 'later';
+    var t = k === 'late' ? '过了 ' + -n + ' 天' : k === 'today' ? '今天' : k === 'tmr' ? '明天' : k === 'week' ? wk(d) + ' · ' + n + ' 天后' : md(d);
+    return { k: k, n: n, d: d, t: t };
+  }
+  function todos() {
+    return arr(D.待办).map(function (x, i) { x = x || {}; return { 事: txt(x.事), 页: x.页, due: due(x.哪天), i: i }; })
+      .filter(function (x) { return x.事; })
+      .sort(function (a, b) { return a.due.n - b.due.n || a.i - b.i; });
+  }
+  function items(list, key) { return arr(list).filter(function (x) { return x && txt(x[key]); }); }
+  function stamp() {
+    var u = txt(D.更新), d = day(u);
+    if (!d) return u ? '更新于 ' + u : '';
+    var t = /(\d{1,2})[:：](\d{2})/.exec(u), ago = -diff(d);
+    return '更新于 ' + md(d) + ' ' + wk(d) + (t ? ' ' + t[1] + ':' + t[2] : '') + (ago > 0 ? '（' + ago + ' 天前）' : '');
+  }
+  function put(id, html) { var el = document.getElementById(id); el.innerHTML = html || ''; el.hidden = !html; }
+
+  function load(first) {
+    var prev = window.KANBAN, old = document.getElementById('kanban-data'), s = document.createElement('script');
+    window.KANBAN = undefined;
+    if (old) old.parentNode.removeChild(old);
+    s.id = 'kanban-data';
+    s.src = FILE + (first ? '' : '?v=' + Date.now());
+    s.onload = function () {
+      var d = window.KANBAN;
+      if (d && typeof d === 'object') return take(d);
+      window.KANBAN = prev;
+      if (!D) showNotice(true);
+    };
+    s.onerror = function () {
+      window.KANBAN = prev;
+      if (first) showNotice(false); else location.reload();
+    };
+    document.head.appendChild(s);
+  }
+  function take(d) {
+    var sig = JSON.stringify(d), dd = new Date().toDateString();
+    if (sig === SIG && dd === DAY) return;
+    SIG = sig; DAY = dd; D = d;
+    try { render(); document.getElementById('notice').hidden = true; document.getElementById('app').hidden = false; }
+    catch (e) { showNotice(true); }
+  }
+  function showNotice(broken) {
+    document.getElementById('notice').innerHTML = broken
+      ? '<b>看板的数据有地方写错了，读不出来。</b>跟 AI 说“看板打不开了，修一下”。'
+      : '<b>还没有看板的数据。</b>跟 AI 说“更新看板”。它写好以后，这页半分钟内会自己变。';
+    document.getElementById('notice').hidden = false;
+    document.getElementById('app').hidden = true;
+  }
+
+  var PALETTE = ['#D9534F', '#3B7DD8', '#4E9A3A', '#E8912D', '#8E5EA2', '#1FA2A0', '#C2577F', '#7A8899'];
+  var DAYS = 14;
+
+  function blockOf(p) {
+    var name = pageName(p), hit = '';
+    arr(D.关系 && D.关系.点).concat(arr(D.最近)).some(function (x) {
+      if (x && txt(x.块) && pageName(x.页) === name) { hit = txt(x.块); return true; }
+      return false;
+    });
+    if (hit) return hit;
+    var parts = cleanPath(p).split('/');
+    return parts.length > 1 ? parts[parts.length - 2] : '';
+  }
+  function blockColor(name) {
+    var i = items(D.分块, '名').map(function (b) { return txt(b.名); }).indexOf(txt(name));
+    return i < 0 ? '#8C92A0' : PALETTE[i % PALETTE.length];
+  }
+  function tone(k) { return 'style="--tone:var(--' + (k === 'none' ? 'later' : k) + ')"'; }
+  function pageMeta(p) { return cleanPath(p) ? '<span class="dot" style="background:' + blockColor(blockOf(p)) + '"></span>' + pageLink(p) : ''; }
+
+  function strip(list) {
+    var t = today(), cnt = function (f) { return list.filter(f); };
+    var late = cnt(function (x) { return x.due.k === 'late'; }), far = cnt(function (x) { return x.due.k !== 'late' && x.due.k !== 'none' && x.due.n >= DAYS; });
+    var dots = function (xs) { return '<span class="dots">' + xs.slice(0, 5).map(function () { return '<i></i>'; }).join('') + '</span>'; };
+    var h = '<button type="button" class="cell edge' + (late.length ? ' has on' : '') + '" data-go="g-late" ' + tone('late') + '><span class="w">过期</span><span class="n">' + late.length + '</span>' + dots(late) + '</button>';
+    for (var i = 0; i < DAYS; i++) {
+      var d = new Date(t.getFullYear(), t.getMonth(), t.getDate() + i), xs = cnt(function (x) { return x.due.n === i; });
+      var k = i === 0 ? 'today' : i === 1 ? 'tmr' : i <= 7 ? 'week' : 'later';
+      var cls = 'cell' + (i === 0 ? ' today' : '') + (d.getDay() % 6 === 0 ? ' we' : '') + (xs.length ? ' has' : '') + (i > 7 ? ' mid' : '');
+      h += '<button type="button" class="' + cls + '" data-go="g-' + k + '" ' + tone(k) + ' title="' + md(d) + ' ' + wk(d) + (xs.length ? '：' + xs.length + ' 件' : '') + '">' +
+        '<span class="w">' + (i === 0 ? '今天' : d.getDate() === 1 ? (d.getMonth() + 1) + '月' : wk(d)) + '</span><span class="n">' + d.getDate() + '</span>' + dots(xs) + '</button>';
+    }
+    h += '<button type="button" class="cell edge' + (far.length ? ' has on' : '') + '" data-go="g-later" ' + tone('later') + '><span class="w">两周以后</span><span class="n">' + far.length + '</span>' + dots(far) + '</button>';
+    return h;
+  }
+
+  function timeline(list) {
+    var t = today(), tm = new Date(t.getFullYear(), t.getMonth(), t.getDate() + 1);
+    var groups = [
+      ['late', '已经过期', '', true],
+      ['today', '今天', md(t) + ' ' + wk(t), false],
+      ['tmr', '明天', md(tm) + ' ' + wk(tm), false],
+      ['week', '7 天内', '', true],
+      ['later', '更远', '', true],
+      ['none', '没写日子', '', true]
+    ];
+    return groups.map(function (g) {
+      var xs = list.filter(function (x) { return x.due.k === g[0]; });
+      if (!xs.length && g[3]) return '';
+      var head = '<h2>' + g[1] + (g[2] ? '<span>' + g[2] + '</span>' : '') + (xs.length ? '<em>' + xs.length + ' 件</em>' : '') + '</h2>';
+      var body = xs.length ? xs.map(function (x) {
+        var k = x.due.k, d = x.due.d;
+        var pill = k === 'week' ? wk(d) : k === 'later' ? md(d) : x.due.t;
+        var far = k === 'week' || k === 'later' ? '<span class="far">' + (k === 'week' ? md(d) : wk(d)) + ' · 还有 ' + x.due.n + ' 天</span>' : '';
+        return '<div class="ev"><span class="pill">' + esc(pill) + '</span><div><p class="t">' + esc(x.事) + '</p>' +
+          (far || cleanPath(x.页) ? '<p class="m">' + far + pageMeta(x.页) + '</p>' : '') + '</div></div>';
+      }).join('') : '<p class="none">没有要做的。</p>';
+      return '<li class="grp k-' + g[0] + '" id="g-' + g[0] + '" ' + tone(g[0]) + '>' + head + body + '</li>';
+    }).join('');
+  }
+
+  function askBox() {
+    var list = items(D.要拍板, '事');
+    return '<h2><span class="ic" style="background:rgb(var(--tmr))">？</span>要找人拍板<small>' + (list.length ? list.length + ' 件' : '') + '</small></h2>' +
+      (list.length ? '<ul>' + list.map(function (x) {
+        return '<li><p class="t">' + esc(x.事) + '</p><p class="m">' + (txt(x.问谁) ? '<span class="who">问 ' + esc(x.问谁) + '</span>' : '') + pageMeta(x.页) + '</p></li>';
+      }).join('') + '</ul>' : '<p class="empty">没有要找人拍板的。</p>');
+  }
+  function missBox() {
+    var list = items(D.还缺, '事');
+    return '<h2><span class="ic" style="background:rgb(var(--later))">…</span>还缺的<small>' + (list.length ? list.length + ' 处' : '') + '</small></h2>' +
+      (list.length ? '<ul class="miss">' + list.map(function (x) {
+        return '<li><p class="t">' + esc(x.事) + '</p><p class="m">' + (txt(x.问谁) ? '问 ' + esc(x.问谁) + ' · ' : '') + pageMeta(x.页) + '</p></li>';
+      }).join('') + '</ul>' : '<p class="empty">没有还缺的。</p>');
+  }
+
+  function render() {
+    var name = txt(D.库名) || '我的知识库', list = todos(), t = today();
+    document.title = name + ' · 看板';
+    put('title', esc(name));
+    put('sub', esc([txt(D.谁), txt(D.岗位), txt(D.业务)].filter(Boolean).join(' · ')));
+    put('date', '<small>今天</small>' + md(t) + ' ' + wk(t));
+    put('stamp', esc(stamp()));
+    put('home', pageLink('首页.md', '在 Obsidian 里打开首页'));
+    put('strip', strip(list));
+    put('line', timeline(list));
+    put('ask', askBox());
+    put('miss', missBox());
+  }
+
+  document.getElementById('strip').addEventListener('click', function (e) {
+    var el = e.target;
+    while (el && el !== this && !el.getAttribute('data-go')) el = el.parentNode;
+    var go = el && el !== this && el.className.indexOf('has') >= 0 && document.getElementById(el.getAttribute('data-go'));
+    if (go) go.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  load(true);
+  setInterval(function () { load(false); }, 30000);
+})();
+</script>
+</body>
+</html>
