@@ -2,529 +2,338 @@
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>实操演练清单</title>
 <style>
-:root{--clay:#a94b3d;--clay-deep:#8d3a2e;--clay-soft:#f4e5e0;--paper:#f7f4eb;--paper-2:#ebe6d8;--card:#fffdf7;--ink:#171513;--muted:#5d554a;--soft:#8a7d6d;--line:#d8d0bf;--moss:#536944;--ocean:#285b74;
---shadow-sm:0 2px 8px rgba(23,21,19,.04);
+:root{--clay:#a94b3d;--clay-soft:#f4e5e0;--paper:#f7f4eb;--paper-2:#ebe6d8;--card:#fffdf7;--ink:#171513;--muted:#5d554a;--soft:#8a7d6d;--line:#d8d0bf;--moss:#536944;--ocean:#285b74;
 --font-serif:"Noto Serif SC","Songti SC",Georgia,serif;--font-sans:"Inter","PingFang SC","Noto Sans SC","Microsoft YaHei",system-ui,sans-serif;--font-num:Georgia,"Times New Roman",serif;--font-mono:"JetBrains Mono",ui-monospace,monospace}
 *{box-sizing:border-box}
-body{margin:0;background:var(--paper);background-image:radial-gradient(rgba(23,21,19,.028) 1px,transparent 1px);background-size:5px 5px;color:var(--ink);font:15px/1.65 var(--font-sans)}
-.wrap{max-width:1380px;margin:0 auto;padding:40px 24px 80px}
-h1{font:600 36px/1.15 var(--font-serif);letter-spacing:-.025em;margin:0 0 8px}
-.lead{color:var(--muted);margin:0 0 22px;font-size:16px;max-width:62em}
-h2{font:600 26px/1.2 var(--font-serif);letter-spacing:-.02em;margin:48px 0 6px}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 var(--font-sans)}
+.wrap{max-width:1180px;margin:0 auto;padding:36px 24px 80px}
+h1{font:600 34px/1.15 var(--font-serif);letter-spacing:-.02em;margin:0 0 6px}
+.lead{color:var(--muted);margin:0 0 20px}
+h2{font:600 26px/1.2 var(--font-serif);margin:44px 0 4px}
 h2 small{font:400 15px var(--font-sans);color:var(--soft);margin-left:10px}
-.note{color:var(--muted);margin:0 0 14px}
-.f{font-family:var(--font-mono);font-size:.88em;background:var(--paper-2);padding:0 4px;border-radius:3px;word-break:break-all}
-.fi{display:inline-block;font-size:13px;line-height:1.5;padding:2px 9px 2px 8px;border-radius:6px;margin:3px 4px 0 0;border:1px solid var(--line);background:var(--card)}
-.fi::before{font-weight:700;margin-right:5px;font-size:12px}
-.fi.ok{border-color:#b9c3ad}.fi.ok::before{content:"有";color:var(--moss)}
-.fi.doing{border-color:#a9c0cc}.fi.doing::before{content:"在做";color:var(--ocean)}
-.fi.miss{border-color:var(--clay);background:var(--clay-soft)}.fi.miss::before{content:"缺";color:var(--clay)}
-.fi.live{border-style:dashed;color:var(--muted)}.fi.live::before{content:"现场出";color:var(--soft)}
-.uses{margin-top:6px}
-.sum{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.box{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 20px;box-shadow:var(--shadow-sm)}
-.box h3{font:600 18px/1.3 var(--font-serif);margin:0 0 8px}
-.box h3 span{font:italic 300 30px/1 var(--font-num);color:var(--clay);margin-right:6px}
-.box ul{margin:0;padding-left:18px}
-.box li{margin:4px 0;font-size:14.5px}
-.box li small{color:var(--soft)}
-.box h4{font-size:13.5px;color:var(--muted);margin:12px 0 2px;font-weight:600}
-.settled{margin:18px 0 0;padding:0;list-style:none;font-size:14.5px;color:var(--muted)}
-.settled li{margin:3px 0}.settled b{color:var(--ink)}
-.flow{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.loop{display:grid;grid-template-columns:repeat(5,1fr);margin-top:6px}
-.loop div{padding:10px;border-top:2px solid var(--ink);font-size:14px}
-.loop div b{display:block;font:italic 300 24px/1 var(--font-num);color:var(--soft);margin-bottom:4px}
-.loop div:last-child{border-top-color:var(--clay)}
-.tree{font:13.5px/1.7 var(--font-mono);background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin:0;white-space:pre;overflow-x:auto}
-.tree em{font-style:normal;color:var(--soft)}.tree b{color:var(--clay);font-weight:600}
-.legend{display:flex;flex-wrap:wrap;gap:14px;align-items:center;font-size:14px;color:var(--muted);margin:6px 0 14px}
-.tag{display:inline-block;font-size:12.5px;line-height:1.5;padding:0 8px;border-radius:999px;white-space:nowrap}
-.tag.sync{background:var(--clay);color:#fff}.tag.new{border:1px solid var(--ocean);color:var(--ocean)}.tag.free{border:1px dashed var(--soft);color:var(--muted)}
-.tl{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--card);box-shadow:var(--shadow-sm)}
-.grid{min-width:1100px}
-.head,.row{display:grid;grid-template-columns:104px 1fr 1.25fr 200px}
-.head{position:sticky;top:0;z-index:2;background:var(--ink);color:#fff;font-weight:600;font-size:15px}
-.head>div{padding:10px 14px}.head>div+div{border-left:1px solid rgba(255,255,255,.18)}
-.row{border-top:1px solid var(--line)}
-.row>div{padding:14px}.row>div+div{border-left:1px solid var(--line)}
-.row .lec{border-left:3px solid var(--ink)!important}.row .stu{border-left:3px solid var(--ocean)!important}
-.row.sync{border-bottom:3px solid var(--clay)}.row.pre{background:var(--paper)}
-.t b{display:block;font:italic 300 24px/1 var(--font-num);font-variant-numeric:tabular-nums}
-.t span{display:block;font-weight:600;margin-top:6px}
-.t em{display:block;font-style:normal;color:var(--muted);font-size:13.5px;line-height:1.45}
-.t .tag{margin-top:8px}
-.do{margin:0 0 6px;font-size:15.5px}.do b{font-weight:600}
-ol.steps{margin:0 0 6px;padding-left:20px}ol.steps li{margin:2px 0}
-dl{display:grid;grid-template-columns:40px 1fr;gap:3px 8px;margin:8px 0 0;font-size:14px}
-dt{color:var(--soft);white-space:nowrap}dd{margin:0}
-.watch{margin-top:8px;font-size:13.5px;color:var(--muted);border-left:2px solid var(--line);padding-left:8px}
-.watch b{color:var(--ink)}
-.sw{display:grid;grid-template-columns:repeat(3,1fr);margin-top:10px;border:1px solid var(--line);border-radius:8px;overflow:hidden;font-size:13.5px}
-.sw>div{padding:7px 9px;background:var(--paper)}.sw>div+div{border-left:1px solid var(--line)}
-.sw>div b{display:block;font-size:12.5px;color:var(--ocean);margin-bottom:2px}
-.sw.two{grid-template-columns:2fr 1fr}
-.kb{background:var(--paper)}
-.kb .k{border:1px solid var(--line);background:var(--card);border-radius:6px;padding:7px 9px;font-size:13px;line-height:1.5}
-.kb .k+.k{margin-top:6px}
-.kb .k.add{border-color:var(--clay);box-shadow:0 0 0 2px var(--clay-soft)}
-.kb .k.add::before{content:"新加 ";color:var(--clay);font-weight:600}
-.kb .k.off{color:var(--soft);border-style:dashed;background:transparent}
-.kb .same{color:var(--soft);font-size:13px}
-table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);font-size:14.5px}
-th,td{border-top:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}
-th{background:var(--ink);color:#fff;font-weight:600}
-td:first-child{font-weight:600;white-space:nowrap;width:150px}
-td+td,th+th{border-left:1px solid var(--line)}
-.tbl{overflow-x:auto}.tbl table{min-width:820px}
-ul.plain{margin:0;padding-left:18px}ul.plain li{margin:4px 0}
-.g4 .head,.g4 .row{grid-template-columns:96px 1.15fr 1fr 250px}
-.row .risk{background:var(--paper);font-size:13.5px}
-.risk p{margin:0 0 6px}.risk b{color:var(--ink)}
-.say{background:var(--clay-soft);border-left:3px solid var(--clay);padding:6px 10px;margin:4px 0 8px;border-radius:0 6px 6px 0;font-size:15px}
-.say::before{content:"说：";font-weight:600;color:var(--clay)}
-.say-in{background:var(--clay-soft);padding:0 4px;border-radius:3px}
-.case{margin:6px 0 16px}.case ul{margin:0;padding-left:18px}.case li{margin:4px 0;font-size:14.5px}
-.quote{margin:6px 0 16px;border-left:4px solid var(--clay)}
-.quote p{margin:0 0 8px;font-size:14.5px;color:var(--ink)}
-.case h4{margin:12px 0 4px;font-size:15px}
-ol.loopline{margin:0;padding-left:20px}ol.loopline li{margin:4px 0;font-size:14.5px}
-@media(max-width:760px){.sum,.flow{grid-template-columns:1fr}.loop{grid-template-columns:1fr 1fr}h1{font-size:28px}}
-@media print{body{background:#fff}.head{position:static}.tl{overflow:visible}.grid{min-width:0}}
+.f{font-family:var(--font-mono);font-size:.86em;background:var(--paper-2);padding:0 4px;border-radius:3px}
+.need{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--clay);border-radius:10px;padding:12px 18px}
+.need h3{margin:0 0 6px;font:600 17px var(--font-serif)}
+.need ul{margin:0;padding-left:18px}.need li{margin:3px 0;font-size:15px}
+.need li i{font-style:normal;color:var(--soft);font-size:13px;margin-left:6px}
+.seg{display:grid;grid-template-columns:120px 1fr 1fr;background:var(--card);border:1px solid var(--line);border-radius:10px;margin-top:10px;overflow:hidden}
+.seg.head{background:var(--ink);color:#fff;font-weight:600;border-color:var(--ink);position:sticky;top:0;z-index:2}
+.seg.head>div{padding:8px 14px}
+.seg>div{padding:12px 14px}
+.seg>div+div{border-left:1px solid var(--line)}
+.seg .tea{border-left:3px solid var(--ink)!important}
+.seg .stu{border-left:3px solid var(--ocean)!important}
+.seg.sync{box-shadow:inset 0 -3px 0 var(--clay)}
+.t b{display:block;font:italic 300 22px/1 var(--font-num)}
+.t span{display:block;font-weight:600;margin-top:5px}
+.t em{display:block;font-style:normal;color:var(--soft);font-size:13px}
+.t .wait{display:inline-block;margin-top:6px;font-size:12px;background:var(--clay);color:#fff;border-radius:999px;padding:0 8px}
+ol{margin:0;padding-left:20px}
+li{margin:3px 0}
+.say{color:var(--clay)}
+.got{margin-top:8px;font-size:14px;color:var(--muted);border-top:1px dashed var(--line);padding-top:6px}
+.got b{color:var(--ink)}
+.stuck{margin-top:6px;font-size:13.5px;color:var(--soft)}
+details{margin-top:40px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 18px}
+summary{cursor:pointer;font-weight:600}
+details p,details li{font-size:14.5px;color:var(--muted)}
+@media(max-width:760px){.seg{grid-template-columns:1fr}.seg>div+div{border-left:0!important;border-top:1px solid var(--line)}.seg.head{display:none}}
+@media print{.seg.head{position:static}}
 </style></head>
 <body><div class="wrap">
 
 <h1>实操演练清单：技能和智能体</h1>
-<p class="lead">按正式上课的顺序往下走，左边讲师、右边学员，同一行是同一时间。技能这块写到了每一句怎么说、投什么、学员会卡在哪；智能体这块等技能这块对完再照样细化。屏号是 11-05 合并后的课件（61 屏）。</p>
+<p class="lead">照着从上往下走一遍。左边是讲师 1、2、3，右边是学员 1、2、3，同一行同时发生。红线那行做完等全场。分钟是估的，包真跑完换实测的数。</p>
 
-<div class="sum">
- <div class="box" id="sumLec"><h3><span>0</span>讲师手里还缺</h3></div>
- <div class="box" id="sumStu"><h3><span>0</span>学员手里还缺</h3></div>
-</div>
-<ul class="settled">
- <li><b>文件签：</b><span class="fi ok">已经有</span><span class="fi doing">正在做，包真跑完就有</span><span class="fi miss">还没人做</span><span class="fi live">课上 AI 现场生成</span></li>
- <li><b>11-05 已定：</b>所有学员都用 WorkBuddy 或 Codex，不用网页聊天 AI（下面写着"只能聊天的"那几栏作废，包改好后删）；只管技能、智能体两块（知识库、工作流归泽洲、靖锋）；最外层那页叫"成果看板"；第二个智能体周六还是周日上午做，看现场；先备齐，不压时间。</li>
-</ul>
+<div class="need"><h3>上课前讲师要备好</h3><ul>
+ <li>电脑上 WorkBuddy、Codex 都登录好<i>所有学员也只用这两个，不用网页聊天 AI</i></li>
+ <li>投屏线和转接头，能接学员电脑</li>
+ <li>自己电脑的 <span class="f">我的公司AI/</span> 里有汽配店的知识库<i>在包的案例文件夹里，课前拷一份</i></li>
+ <li>包 2、包 3 新版<i>在改：同一个对话里出分、智能体改成出主图</i></li>
+ <li>屏 037、043 的口播改成新流程<i>等包定了改</i></li>
+</ul></div>
 
-<h2>课上怎么推进</h2>
-<div class="flow">
- <div class="box">
-  <h3>群里一块只发一个包，之后不再发提示词</h3>
-  <p class="note" style="margin:0 0 6px">技能开始发 <span class="f">2_skill.zip</span>，智能体开始发 <span class="f">3_Agent.zip</span>。包里的学员页一步一张卡，每张卡有"复制"按钮。</p>
-  <div class="loop">
-   <div><b>1</b>讲师说"贴第 2 步"</div>
-   <div><b>2</b>学员在学员页点第 2 张卡的"复制"，贴进 AI</div>
-   <div><b>3</b>AI 一次问一件，学员答</div>
-   <div><b>4</b>AI 出【第 2 步做完】，停下不往下做</div>
-   <div><b>5</b>全场等齐，讲师说下一步</div>
-  </div>
- </div>
- <div class="box">
-  <h3>学员电脑上只有一个文件夹</h3>
-<pre class="tree">我的公司AI/           <em>包 0：开课前发的空文件夹</em>
-├── 成果看板.html      <b>← 两天只有这一页，越写越全</b>
-├── 知识库/wiki/…      <em>上午做的</em>
-├── 2_skill/           <em>技能包</em>
-├── 技能/〖名字〗/      SKILL.md · 评分标准.md · 测试记录.md
-├── 3_Agent/           <em>智能体包</em>
-└── 智能体/〖名字〗/    AGENT.md · 评分标准.md · 测试记录.md · 智能体卡.html</pre>
- </div>
+<h2>技能<small>屏 031–038 · 讲约 20 分钟，做一个约 43 分钟</small></h2>
+<div class="seg head"><div>分钟</div><div>讲师</div><div>学员</div></div>
+
+<div class="seg">
+ <div class="t"><b>0–5</b><span>是什么</span><em>屏 033</em></div>
+ <div class="tea"><ol>
+  <li>翻到 033，问：<span class="say">"做过 skill 的举手。每天开新对话、把同一段要求再贴一遍的，举手。"</span></li>
+  <li>讲屏上：做成技能就固定下来，干净、能复用、用一次改一次。</li>
+  <li>打开 <span class="f">2_skill/案例_汽配店/做好的技能/SKILL.md</span>，滚一遍：<span class="say">"一个技能就是这样一个文件，里面写的是这家店的做法。"</span></li>
+ </ol></div>
+ <div class="stu"><ol><li>举手。</li><li>看大屏。</li></ol></div>
 </div>
 
-<h2>技能：正式上课走一遍<small>屏 031–038 · 讲约 20 分钟，做第一个约 48 分钟（含改一句再考一圈）</small></h2>
-<div class="quote box">
- <h3>TTZ 11-05 定的讲法（原话）</h3>
- <p>1、skill、agent给学员的包里都放了案例，案例包括跑流程需要的素材资料还有啥来着，AI会问学员要不要用案例，我跟学员说建议别用案例就跑自己的，当然没带素材那就跑案例。我会提前说当前阶段聊完会有个什么东西产出出来（此时我切屏幕展示一个产出的页面的样例）。同时我就在我这边的workbuddy跟AI交流，直接复制我们自己文档里的问题让AI构建skill（此时学员们有自己案例的就在那自己对话）</p>
- <p>2、案例的本质是数据核查还是信息准确性？这个要讲明白，不然人家觉得我们演示的案例不相关没说服力，就不跟了，案例本身的价值，还有我们演示的效果好坏一定要明确</p>
- <p>3、让学员会判好坏起码能借助我们的包的引导判断好坏+修改+改不坏，这样就可维护且不会受制于人</p>
- <p>0、不是看起来用了技能、agent就算用了，体现出要落地真正、长期使用的背后是有方法论的，很多细节的</p>
- <p>判定好坏、会改、改不坏，希望是让不太懂AI的老板也能轻易理解并且回去能复刻操作的，如果涉及的文件太多太乱可能不太好，最好还是通过跟AI对话然后让学员有不断有迭代、自己对AI对业务的掌控在不断提升的感觉，让他们能跑完小闭环：真正创造了skill、能看到效果好坏、通过查看产出与AI对话迭代了skill、发现skill确实变好了（分数提高了）、以上路径可循环</p>
- <p>为了方便理解，最好要用的所有文件都放一起，丢给学员用也可以，只是我们会打开压缩包打开文件，学员打不打开都行</p>
+<div class="seg">
+ <div class="t"><b>5–12</b><span>为什么</span><em>屏 034</em></div>
+ <div class="tea"><ol>
+  <li>先问：<span class="say">"广场上改商品页下载最多的技能，改完还差几处？"</span></li>
+  <li>翻出 034：左边差 7 处，右边差 1 处。</li>
+  <li>打开 <span class="f">案例_汽配店/课上对比/</span> 两份成品并排，指五点第一条：左边先讲亮度，右边先教买家核对型号。</li>
+  <li>收一句：<span class="say">"7 处里 4 处是这家店的写法，广场上的技能不可能知道。今天就把各位脑子里的这些问出来。"</span></li>
+ </ol></div>
+ <div class="stu"><ol><li>猜个数。</li><li>看两份对比。</li></ol></div>
 </div>
 
-<div class="case box">
- <h3>案例：一家跨境汽配店（虚构，规矩借了真实卖家的做法）</h3>
- <ul>
-  <li><b>店：</b>深圳的亚马逊美国汽配卖家，自有品牌 Norvex，卖车灯、雨刮、脚垫、刹车片。技能这块讲师扮<b>运营主管</b>，智能体这块扮<b>客服主管</b>，同一家店。</li>
-  <li><b>做成技能的事：</b>listing 合规改写。新品上架前，把工厂或运营给的商品页草稿，改成过得了亚马逊审核、不招投诉、买家不买错的版本。</li>
-  <li><b>本质：</b>一份要发出去的东西，发之前照两样核一遍、改对：一是<b>事实</b>，草稿里的数和说法要对得上检测报告、适配表（写 IP68 防水，报告只有 IP65）；二是<b>自家的做法</b>，老员工吃过亏才定下的写法（五点第一条先教买家核对型号）。既是数据核查，也是信息准确，而且第二样只有这家公司知道。</li>
-  <li><b>换到别的行业：</b>每家都有"发出去之前要核一遍"的东西：报价单、合同条款、招聘启事、宣传文案、给客户的回复、贷款材料、房源介绍。事实对不上会出事，自家的做法只在老员工脑子里。</li>
-  <li><b>这件事值多少：</b>改错一条，下架、被同行投诉虚标、买家买错退货；这家店每周三四十条要改。</li>
-  <li><b>演示效果（要说清楚）：</b>同一份草稿，广场下载最多的技能改完还差 7 处（3 处亚马逊通用规矩、4 处店里的写法），用包做的差 1 处。左边没拿到这家店的规矩，所以这个对比说明的是"把自家做法写进技能更好用"，不是"广场上的技能都很差"。</li>
- </ul>
- <h4>包里的案例文件夹 <span class="f">案例_汽配店/</span>（在做）</h4>
- <ul>
-  <li><b>包 2（技能）：</b>店的知识库；上次的成品（9005 灯泡商品页改前改后）；新材料（H11 大灯草稿）和平时交代的那句话；答法卡：AI 问到什么照着答什么，口气像微信打字。</li>
-  <li><b>包 3（智能体）：</b>同一个知识库；一段真实聊天（客服和买家关于雨刷售后的两轮往来）；答法卡（客服主管那一半）。上岗考它的三条消息由 AI 自己写，不用准备。</li>
-  <li><b>讲师用的就是这一套：</b>讲师在自己的 WorkBuddy 里，AI 问什么，从答法卡复制对应那段贴进去。所以讲师做的和选案例的学员做的是同一套，效果可控。</li>
- </ul>
+<div class="seg">
+ <div class="t"><b>12–15</b><span>做多了没用</span><em>屏 035、036</em></div>
+ <div class="tea"><ol>
+  <li>035：一个人做了 80 多个技能，常用的就那几个，不知道哪个好、改了有没有变差。</li>
+  <li>036：包里三个帮做技能的技能，做法已写进七步，不用另装。</li>
+ </ol></div>
+ <div class="stu"><ol><li>听。</li></ol></div>
 </div>
 
-<div class="case box">
- <h3>这一块学员要跑完的小闭环</h3>
- <ol class="loopline">
-  <li><b>做出技能：</b>AI 追问出三条判断，写成技能和评分标准，学员逐条标对不对（第 2、3 步）。</li>
-  <li><b>看到好坏：</b>同一份新材料，带技能做一份；新开对话，不带技能再做一份；再开一个对话，让不知道哪份带技能的 AI 照评分标准打分（第 4、5 步）。</li>
-  <li><b>对话改一句：</b>AI 把没过的那条和学员圈的最差处摆出来，学员说哪里不好，AI 只改技能里一句（第 6 步）。</li>
-  <li><b>分数真的变高：</b>新版再做一份、再盲打分，比旧版高才升版本，没高就退回旧版。</li>
-  <li><b>可以再来一圈：</b>AI 问"再来一圈吗"。课后用的也是这一张卡，回去出一次错就走一圈。</li>
+<div class="seg">
+ <div class="t"><b>15–20</b><span>发包</span><em>屏 037</em></div>
+ <div class="tea"><ol>
+  <li>群里发 <span class="f">2_skill.zip</span>。</li>
+  <li>投屏：解压，把 2_skill 拖进 我的公司AI/。</li>
+  <li>双击 <span class="f">2_skill/学员页.html</span>，说：<span class="say">"每步点卡上的复制，贴给 AI；AI 说【第几步做完】就停，等大家；答不上说不知道，没时间说收尾。"</span></li>
+  <li>打开 <span class="f">案例_汽配店/成果看板样例.html</span>：<span class="say">"做完手里就有这样一页。包里有案例，建议跑自己的事，没带材料的跑案例。"</span></li>
+ </ol></div>
+ <div class="stu"><ol>
+  <li>下载 2_skill.zip，解压。</li>
+  <li>把 2_skill 拖进 我的公司AI/。</li>
+  <li>双击 2_skill/学员页.html，放一边。</li>
+  <li>WorkBuddy：新建对话，工作区选 我的公司AI。Codex：在 我的公司AI 文件夹里打开。</li>
  </ol>
- <p class="note" style="margin:8px 0 0">全程靠对话推进：文件由 AI 存、成果看板由 AI 写，学员只看学员页和成果看板两个网页。</p>
- <h4>用自己的事做的人，怎么看出效果</h4>
- <p class="note" style="margin:0">就是你说的那样：第 4 步在带技能的对话里交一份新活，再新开一个对话交同样的活、不给技能，两份并排自己看；第 5 步再交给一个不知情的 AI，照自己标过的评分标准打分，分数说话。</p>
- <h4>没走到最后的人也觉得有东西</h4>
- <p class="note" style="margin:0">对。第 2 步问出来的三条判断，每条带"那一回"的原话，本身就是老员工脑子里的东西第一次写下来。能读写文件的 AI 从第 2 步起就把这个技能写进成果看板（标"做到第几步"），每步更新，没做完也看得到问出了什么。</p>
+ <div class="stuck">常见卡：工作区选成了 2_skill。</div></div>
 </div>
 
-<div class="case box">
- <h3>文件怎么到学员手里、谁来打开</h3>
- <ul>
-  <li><b>要用的都在包里：</b>案例、答法卡、成果看板样例、034 对比的两份成品和评分，全放在 2_skill/案例_汽配店/。讲师课上就从学员同一个包里打开，学员打不打开都行。<span class="f">演示备份/</span> 只当网不通时的备用。</li>
-  <li><b>压缩包学员自己解压：</b>群里发 2_skill.zip，学员下载、解压、把 2_skill 文件夹拖进 我的公司AI/。AI 碰不到微信里的文件，这一下只能学员自己做。</li>
-  <li><b>学员自己只打开两个网页：</b>一个是开头双击的 <span class="f">2_skill/学员页.html</span>，放一边，每步从这里复制；一个是第 6 步做完后双击的 <span class="f">成果看板.html</span>（只能聊天的打开 成果看板模板.html）。</li>
-  <li><b>其余文件都是 AI 自己读：</b>WorkBuddy、Codex 能读文件，学员说"用案例"，AI 自己去读 案例_汽配店/ 里的东西，学员不用打开；只能聊天的，学员页上每份案例文件都有"复制"按钮，复制贴进去。</li>
-  <li><b>AI 不替学员弹出网页：</b>有的软件能，有的不能，Windows 和 Mac 也不一样，包里不让它做。每步做完，【第几步做完】那段最后一行写清"双击哪个文件看"。成果看板已经开着的，按 F5 刷新就看到新加的。</li>
-  <li><b>什么时候出东西，是按步走的，不是攒够了自动触发：</b>第 3 步出技能文件，第 4、5 步出测试记录，第 6 步写进成果看板。每步都有【做完】那段说出了什么、存在哪。</li>
- </ul>
+<div class="seg sync">
+ <div class="t"><b>20–23</b><span>第 0 步</span><em>开工</em><span class="wait">等全场</span></div>
+ <div class="tea"><ol>
+  <li>点第 0 张卡"复制"，贴进自己的 WorkBuddy。</li>
+  <li>AI 问用自己的还是案例，回"用案例"。</li>
+  <li>双击 <span class="f">我的公司AI/成果看板.html</span>，放屏幕右边。</li>
+  <li>问：<span class="say">"看到【第 0 步做完】的举手。"</span></li>
+ </ol></div>
+ <div class="stu"><ol>
+  <li>复制第 0 张卡，贴给 AI。</li>
+  <li>AI 问用哪个，回"用自己的事"；没带材料回"用案例"。</li>
+  <li>双击 我的公司AI/成果看板.html，<b>一直开着</b>，以后每步按 F5。</li>
+ </ol>
+ <div class="got"><b>手里多了：</b>成果看板（还空着）</div></div>
 </div>
-<div class="legend"><span><span class="tag sync">全场等齐</span> 做完等全场</span><span><span class="tag new">新开对话</span> 去另一个对话贴一段再贴回来</span><span>进度是按夜里真跑的时长加学员打字慢估的，课上照实况调</span></div>
-<div class="tl"><div class="grid g4">
- <div class="head"><div>分钟 · 屏</div><div>讲师：说什么、投什么、怎么操作</div><div>学员：做什么、手里有什么、出什么</div><div>预计进度、卡点、怎么带</div></div>
 
- <div class="row pre" data-sec="技能 · 开始前">
-  <div class="t"><b>开始前</b><span>上课前备好</span></div>
-  <div class="lec"><p class="do">电脑上 WorkBuddy、Codex、一个网页聊天 AI 都登录好。讲师演示文件夹 <span class="f">我的公司AI/</span> 里放好汽配店的知识库，包 2 先别放进去，课上当着大家放。演示稿打印。</p>
-   <div class="uses"><span class="fi ok">课件（61 屏）</span><span class="fi miss">讲师电脑三种 AI 都登录好</span><span class="fi ok">讲师演示文件夹：汽配店知识库</span><span class="fi ok">演示稿（照新包重写，打印两页）</span><span class="fi miss">投屏线和转接头，能接学员电脑</span></div></div>
-  <div class="stu"><p class="do">我的公司AI/ 里有上午做的知识库；带着一件常做的事和以前做好的样子。</p>
-   <div class="uses"><span class="fi ok">包 0：我的公司AI/</span><span class="fi live">上午做的知识库</span><span class="fi ok">一件常做的事、一两份做好的成品（课前准备写了）</span><span class="fi miss">一份还没做的新材料（课前准备没写）</span><span class="fi ok">没带材料的用包里的 案例_汽配店/</span></div></div>
-  <div class="risk"><p>午饭时转一圈：看谁上午的知识库没建成、谁没带成品，记下来，开做时先去这几位旁边。</p></div>
- </div>
-
- <div class="row" data-sec="技能 · 是什么">
-  <div class="t"><b>0–5</b><span>是什么</span><em>屏 033</em></div>
-  <div class="lec">
-   <p class="do"><b>先举手勾起来：</b></p>
-   <p class="say">自己做过 skill 的举一下手。再问一个：每天开新对话，把同一段要求再贴一遍的，举手。</p>
-   <p class="do">第二次举手的人多，接着讲屏上：对话里写的提示词做完就没了，旧对话越聊越偏；做成技能就固定下来，每次干净、能复用、用一次改一次。三层：今天做到第一层，做出一个好用的；做过的我们下去带着往第二层走。</p>
-   <p class="do"><b>操作：</b>切到电脑，打开 <span class="f">演示备份/技能/做好的技能/SKILL.md</span>，滚一遍给大家看：</p>
-   <p class="say">一个技能就是这样一个文件。什么时候用、一步步怎么做、红线、一个好例子、交回前自查。每条后面括号里，是当时那一回的原话。</p>
-   <div class="uses"><span class="fi ok">屏 033</span><span class="fi ok">做好的技能/SKILL.md（换成新包真跑的那份）</span></div></div>
-  <div class="stu"><p class="do">举手，看大屏。</p></div>
-  <div class="risk"><p>别讲 SKILL.md 的格式细节，只让大家看到"一个技能就是一个文件、里面写的是这家店的做法"。</p></div>
- </div>
-
- <div class="row" data-sec="技能 · 为什么">
-  <div class="t"><b>5–12</b><span>为什么</span><em>屏 034 对比</em></div>
-  <div class="lec">
-   <p class="do"><b>先让大家猜：</b></p>
-   <p class="say">同一份商品页草稿，WorkBuddy 技能广场里改商品页这类下载最多的那个技能，改完还差几处？</p>
-   <p class="do">翻出 034：左边还差 7 处，右边用包 2 做的差 1 处。同一份草稿、同一句指令、同一个模型。</p>
-   <p class="do"><b>操作：</b>切到电脑，先打开 <span class="f">广场同类下载最多的_详情页.png</span>，证明左边是真的下载最多的；再把两份成品并排打开，指五点第一条：</p>
-   <p class="say">左边一上来讲亮度，右边先教买家核对灯泡型号。这家店拉过半年退货，一半是买错型号。这句话广场上的技能不知道，只在这家店老员工的脑子里。</p>
-   <p class="do">收一句：左边差的 7 处，4 处是这家店的写法，3 处是亚马逊的通用规矩；店里的写法，广场上的技能不可能知道。今天做的，就是把各位脑子里的这些写法问出来、写进技能。</p>
-   <div class="uses"><span class="fi ok">屏 034</span><span class="fi ok">广场同类下载最多的_详情页.png</span><span class="fi ok">对比_广场同类下载最多的.md</span><span class="fi ok">对比_用包做的.md</span><span class="fi ok">对比_评分.md</span></div></div>
-  <div class="stu"><p class="do">猜个数，看并排的两份。</p></div>
-  <div class="risk"><p>有人会问"左边是不是没调好"：说左边原样装、原样用，同一句指令，评分标准在 对比_评分.md，可以给他看。</p></div>
- </div>
-
- <div class="row" data-sec="技能 · 80 多个">
-  <div class="t"><b>12–15</b><span>做多了没用</span><em>屏 035、036</em></div>
-  <div class="lec"><p class="do"><b>035 讲入企那家：</b>一个员工做了 80 多个技能，只有他自己会用，常用的还是那几个；后来给他们做了技能仓库。落到一句：做得多没用，要做对、管得住。</p>
-   <p class="do"><b>036 一句带过：</b>包里放了三个帮做技能的技能（追问、写成技能并对比、打分），它们的做法已经写进接下来的七步，各位不用另装。</p>
-   <div class="uses"><span class="fi ok">屏 035、036</span></div></div>
-  <div class="stu"><p class="do">听。</p></div>
-  <div class="risk"><p>036 别展开讲三个技能各自怎么用，学员只照七步走。</p></div>
- </div>
-
- <div class="row" data-sec="技能 · 发包">
-  <div class="t"><b>15–20</b><span>发包，讲怎么走</span><em>屏 037</em></div>
-  <div class="lec"><p class="do"><b>群里发 2_skill.zip。</b>然后当着大家操作一遍：解压，把 2_skill 拖进 我的公司AI/，双击 学员页.html。</p>
-   <p class="do"><b>先说这一块做完手里有什么：</b>切屏打开讲师的成果看板样例，指技能那一块。</p>
-   <p class="say">这一段聊完，各位手里会多一个技能，记在这样一页上：管什么事、几条判断带当时的原话、红线、带和不带技能各打了几分。包里放了一家汽配店的案例，AI 开头会问用不用。建议别用，跑自己公司的事；没带材料的，就跑案例，和我大屏上是同一套。</p>
-   <p class="do">投屏学员页，交代三句：</p>
-   <p class="say">一、每一步在学员页点那张卡的"复制"，贴给 AI。二、AI 做完一步会出一段【第几步做完】，然后停下，等全场一起贴下一步。三、答不上就说"不知道"，时间不够就说"收尾"。</p>
-   <p class="do">讲师全程用 WorkBuddy 演示。每张卡上 WorkBuddy、Codex、网页聊天三种的做法并排写着，用 Codex 的只有开工那句不同，之后一样点复制。再说三种软件怎么开工：WorkBuddy 新建对话、工作区选 我的公司AI；Codex 在这个文件夹里打开；只能用网页聊天的，另外双击 成果看板模板.html 放一边。</p>
-   <div class="uses"><span class="fi ok">2_skill.zip 新版</span><span class="fi ok">讲师的成果看板样例（有技能 1）</span><span class="fi miss">屏 037 口播改成新流程（现在还说"总提示词、六步、拼技能卡网页"）</span></div></div>
-  <div class="stu"><p class="do">下载、解压、拖进 我的公司AI/，打开学员页放一边；按自己用的软件开好对话。</p>
-   <div class="uses"><span class="fi ok">2_skill/学员页.html（七张卡）</span><span class="fi ok">成果看板模板.html</span></div></div>
-  <div class="risk"><p><b>卡点：</b>解压后多一层文件夹（2_skill/2_skill）；WorkBuddy 工作区选成了 2_skill 而不是 我的公司AI。</p><p><b>怎么带：</b>助教走一圈只看一件事：工作区选的是不是 我的公司AI。</p></div>
- </div>
-
- <div class="row sync" data-sec="技能 · 第 0 步">
-  <div class="t"><b>20–23</b><span>第 0 步 开工</span><span class="tag sync">全场等齐</span></div>
-  <div class="lec"><p class="do"><b>从这一步起，讲师和学员同步做：</b>讲师在自己的 WorkBuddy 里做同一步，AI 问什么就从答法卡复制贴进去；学员在自己电脑上跟自己的 AI 聊。</p>
-   <p class="do"><b>操作：</b>点第 0 张卡复制，发"读 2_skill/开始.md，带我做"。AI 问"用自己的事还是案例"，回"用案例"。等 AI 回完，指【第 0 步做完】那段：</p>
-   <p class="say">以后每步做完都是这样一段：定了什么、存在哪、下一步干嘛。看到这段的举手。</p>
-   <div class="uses"><span class="fi ok">讲师演示文件夹</span><span class="fi ok">案例_汽配店/答法卡</span></div></div>
-  <div class="stu"><p class="do">发第 0 步。AI 说清能不能读写文件、读了知识库几页，建好成果看板，再问一句"用自己公司的事，还是用包里的汽配店案例"。</p>
-   <div class="sw"><div><b>WorkBuddy</b>发"读 2_skill/开始.md，带我做"</div><div><b>Codex</b>同左</div><div><b>只能聊天的</b>复制"开工"整段，填岗位；它问知识库就贴 index.md</div></div>
-   <dl><dt>产出</dt><dd>【第 0 步做完】；WorkBuddy、Codex 的文件夹里多了 成果看板.html</dd></dl></div>
-  <div class="risk"><p><b>预计：</b>3 分钟九成举手。</p><p><b>卡点：</b>AI 说找不到知识库（上午没建成或工作区不对）；只能聊天的不知道 index.md 在哪。</p><p><b>怎么带：</b>没知识库的直接回"没有"，不影响往下做。</p></div>
- </div>
-
- <div class="row sync" data-sec="技能 · 第 1 步">
-  <div class="t"><b>23–27</b><span>第 1 步 挑一件事</span><span class="tag sync">全场等齐</span></div>
-  <div class="lec"><p class="do"><b>操作：</b>贴第 1 步。AI 列三个方向，念出来，挑第一个：</p>
-   <p class="say">listing 合规改写。新品上架前，把工厂或运营给的草稿改成过得了审核、不招投诉、买家不买错的版本。每周三四十条。</p>
-   <p class="do">AI 要上次的成品：打开 上次的真实成品_9005.md，整段复制贴进去。</p>
-   <div class="uses"><span class="fi ok">演示备份/技能/上次的真实成品_9005.md</span></div></div>
-  <div class="stu"><p class="do">贴第 1 步，三个方向里挑一个（也可以说别的事），贴自己上次做的成品；没有就讲最近一次怎么做的。</p>
-   <div class="uses"><span class="fi ok">自己上次的成品</span></div>
-   <dl><dt>产出</dt><dd>【第 1 步做完】：做哪件事</dd></dl></div>
-  <div class="risk"><p><b>卡点：</b>挑得太大（"做运营"）；挑了要老板拍板的事；没带成品。</p><p><b>怎么带：</b>挑大的让他缩成"每周都做、做完交给谁"的一件；没成品的口述最近一次，或回第 0 步改用案例。</p></div>
- </div>
-
- <div class="row sync" data-sec="技能 · 第 2 步">
-  <div class="t"><b>27–37</b><span>第 2 步 问清判断</span><span class="tag sync">全场等齐</span></div>
-  <div class="lec"><p class="do"><b>操作：</b>贴第 2 步。AI 先说挑了成品里哪 3 处，再问第一处（多半是五点第一条为什么先教核对型号）。照演示稿念：</p>
-   <p class="say">拉过半年退货原因，一半是买错型号。第一条改成先教买家看旧灯泡底座、或用 Amazon Garage 核对以后，这类退货少了一大截。</p>
-   <p class="do">答完这一问就停，对大家说"一问大约一分钟，各位照这样答"，下台转。</p>
-   <div class="uses"><span class="fi ok">演示稿"AI 问到别处时"三句</span></div></div>
-  <div class="stu"><p class="do">AI 一处一处问三样：那一回、为什么、吃过什么亏，一次问一样，最多 8 问。答笼统会被追问"上次具体那一回"。</p>
-   <dl><dt>产出</dt><dd>【第 2 步做完】：三条判断，每条带那一回的原话</dd></dl></div>
-  <div class="risk"><p><b>这一步最难，也最值钱。</b></p><p><b>预计：</b>到 10 分钟，一半人问完，一半还在第 2、3 处。</p><p><b>卡点：</b>说不出"那一回"，只会说"一般都这样"；打字慢；AI 一次问好几个；三处问不齐，AI 要他再问 3 个或换一件。</p><p><b>怎么带：</b>答不出的提示他想"最近一次出事是哪单"；打字慢的用语音输入；一次问好几个的回"一次问一个"。到点还没问完的，剩下的答"不知道"，AI 写待补往下走。</p></div>
- </div>
-
- <div class="row sync" data-sec="技能 · 第 3 步">
-  <div class="t"><b>37–46</b><span>第 3 步 写技能、定评分</span><span class="tag sync">全场等齐</span></div>
-  <div class="lec"><p class="do"><b>操作：</b>贴第 3 步，投屏 AI 列的核对表。示范标两行：一行"对"；一行写着"AI 加的"，标"部分对"，说一句怎么改。</p>
-   <p class="say">标着"AI 加的"这几行，每行都要看。你没说过的，它不该替你定。</p>
-   <p class="do">标完，AI 出第二版。打开 技能/listing合规改写/SKILL.md 给大家看一眼。</p>
-   <div class="uses"><span class="fi live">讲师的核对表</span><span class="fi ok">备份：做好的技能/SKILL.md、评分标准.md</span></div></div>
-  <div class="stu"><p class="do">AI 起草技能和评分标准（3 条必须做到、3 条绝不能出现），列核对表；一次标完"对 / 部分对 / 不对"；AI 出第二版。</p>
-   <div class="sw"><div><b>WorkBuddy</b>AI 存进 技能/〖名字〗/</div><div><b>Codex</b>同左</div><div><b>只能聊天的</b>AI 给两个代码块，自己新建文本文件存进 技能/〖名字〗/</div></div>
-   <dl><dt>产出</dt><dd>SKILL.md v0.2、评分标准.md</dd></dl></div>
-  <div class="risk"><p><b>卡点：</b>全标"对"一路过；想让 AI 替标（AI 会提醒一次再等）；只能聊天的不会存成 .md。</p><p><b>怎么带：</b>看到全标"对"的，指一行"AI 加的"问他"这条你说过吗"；存文件的教一次：记事本新建，名字照 AI 写的存。</p></div>
- </div>
-
- <div class="row" data-sec="技能 · 第 4 步">
-  <div class="t"><b>46–53</b><span>第 4 步 带和不带各做一份</span><span class="tag new">新开对话</span></div>
-  <div class="lec"><p class="do"><b>操作：</b>贴第 4 步，贴 H11 大灯草稿和那句"帮我把下面这段 listing 改写好……"。</p>
-   <p class="say">这就是刚才 034 用的那份草稿。现在各位自己把那个对比做一遍。</p>
-   <p class="do">AI 带技能做完、给出代码块后，<b>慢慢演示最容易乱的一下：</b>复制代码块 → 新建对话 → 贴进去 → 等它做完 → 复制结果 → 回到原来的对话贴回。两份并排，各圈一处最好、一处最差。</p>
-   <div class="uses"><span class="fi ok">演示用新材料：H11 大灯草稿（材料/listing草稿.md，要放进演示备份）</span></div></div>
-  <div class="stu"><p class="do">贴第 4 步，贴自己的新材料和平时交代的那句话；AI 带技能做一份、给代码块；新开对话贴进去拿到不带技能的一份；复制回原对话；两份各圈一处最好、最差。</p>
-   <div class="uses"><span class="fi miss">一份还没做过的新材料</span></div>
-   <div class="sw"><div><b>WorkBuddy</b>新建一个对话</div><div><b>Codex</b>新开一个会话</div><div><b>只能聊天的</b>网页上点"新对话"</div></div>
-   <dl><dt>产出</dt><dd>测试记录.md 里两份并排</dd></dl></div>
-  <div class="risk"><p><b>卡点：</b>没带新材料；贴回时贴错了对话；新对话里顺手也贴了技能。</p><p><b>怎么带：</b>没新材料的用案例里的 H11 草稿；贴错的回原对话重贴一次就行。</p></div>
- </div>
-
- <div class="row sync" data-sec="技能 · 第 5 步">
-  <div class="t"><b>53–58</b><span>第 5 步 盲打分</span><span class="tag new">新开对话</span><span class="tag sync">全场等齐</span></div>
-  <div class="lec"><p class="do"><b>操作：</b>贴第 5 步，AI 给打分块；再新建对话贴进去，把分贴回。投屏自己那组分：</p>
-   <p class="say">打分的 AI 不知道哪份带了技能。不带技能几条、带技能几条，各位报一下自己的。</p>
-   <p class="do">请三五个人报分。有人带技能反而分低：说这正常，说明技能里那条没写清，课后改一句再考。</p>
-   <div class="uses"><span class="fi ok">讲师那组分（新包真跑的）</span></div></div>
-  <div class="stu"><p class="do">贴第 5 步；再新开对话贴打分块；分贴回来。</p>
-   <dl><dt>产出</dt><dd>不带技能几条/6，带技能几条/6，还没过的是哪条</dd></dl>
-   <div class="sw two"><div><b>WorkBuddy、Codex</b>要数字数的，AI 自己数</div><div><b>只能聊天的</b>先用 Word、WPS 数好，填在块的最后一行</div></div></div>
-  <div class="risk"><p><b>卡点：</b>只能聊天的不会数字符；分数两份一样。</p><p><b>怎么带：</b>一样的分，看"还没过的是哪条"，讲差在哪一句。</p></div>
- </div>
-
-<div class="row sync" data-sec="技能 · 第 6 步">
-  <div class="t"><b>58–66</b><span>第 6 步 看产出，改一句</span><span class="tag new">新开对话</span><span class="tag sync">全场等齐</span></div>
-  <div class="lec"><p class="do"><b>操作：</b>贴第 6 步。AI 把带技能那份没过的那条、自己圈的最差处摆出来，问哪里不好。从答法卡复制回答，AI 只改技能里一句，用新版再做一份，给打分块；新开对话打分，贴回。</p>
-   <p class="say">各位看，刚才这条没过，我跟它说了一句哪里不对，它只改了技能里这一句。再打一次分：从几条变成几条。这就是以后维护技能的办法：出一次错，改一句，再考一遍，分数高了才算数。</p>
-   <div class="uses"><span class="fi doing">案例_汽配店/答法卡（第 6 步那段）</span><span class="fi doing">讲师那组前后分数（新包真跑）</span></div></div>
-  <div class="stu"><ol class="steps"><li>贴第 6 步。AI 摆出没过的条和最差处，一次问一个：哪里不好、应该怎样。</li><li>AI 只改一句，用新版再做一份，给打分块；新开对话贴进去，分贴回。</li><li>分数高了，技能升一个版本；没高，退回旧版，AI 说为什么。AI 问"再来一圈吗"。</li></ol>
-   <dl><dt>产出</dt><dd>技能 v0.3，改了哪一句，前后两次分数</dd></dl></div>
-  <div class="risk"><p><b>这一步让人感到"掌控在变强"。</b></p><p><b>卡点：</b>一次想改好几处；分数没变高就泄气。</p><p><b>怎么带：</b>只改一句，改多了不知道是哪句起作用；没变高也是收获：知道这句不是原因，退回再试别的。</p></div>
- </div>
-
- <div class="row sync" data-sec="技能 · 第 7 步">
-  <div class="t"><b>66–68</b><span>第 7 步 记进成果看板</span><span class="tag sync">全场等齐</span></div>
-  <div class="lec"><p class="do"><b>操作：</b>贴第 7 步，AI 问"哪一处是自己定的"，回：</p>
-   <p class="say">新品上架前，运营先照店里这几条过一遍，我只看它标出来拿不准的。</p>
-   <p class="do">双击 成果看板.html 投屏：多了一块技能，判断带原话、红线、改前改后的分数、三种软件怎么用。</p>
-   <div class="uses"><span class="fi ok">讲师的成果看板（有技能 1）</span></div></div>
-  <div class="stu"><p class="do">写一句自己定的；AI 写进成果看板，问接着做吗。</p>
-   <div class="sw"><div><b>WorkBuddy</b>双击 成果看板.html</div><div><b>Codex</b>同左</div><div><b>只能聊天的</b>复制看板数据，贴进模板最下面的框，点"更新看板"</div></div>
-   <dl><dt>产出</dt><dd>成果看板上第一个技能</dd></dl></div>
-  <div class="risk"><p><b>预计：</b>到这里，快的 48 分钟，慢的还在第 3、4 步。</p><p><b>怎么带：</b>不等慢的，宣布"做完的接着做第二个，没做完的接着往下走"。</p></div>
- </div>
-
- <div class="row" data-sec="技能 · 第二个">
-  <div class="t"><b>68–100</b><span>第二个技能</span><span class="tag free">各走各的</span></div>
-  <div class="lec"><p class="do"><b>巡场。</b>先帮没走到第 6 步的走完一个；快的不拦。示范时第二个挑"每周退货差评归因"（演示稿里有答法）。</p></div>
-  <div class="stu"><p class="do">快的再贴第 1 步做第二个，约 37 分钟；慢的说"收尾"，AI 存好已有的、写进成果看板。</p>
-   <div class="uses"><span class="fi miss">第二件事的成品</span></div></div>
-  <div class="risk"><p><b>到 80 分钟左右：</b>还在第 2、3 步的提醒说"收尾"，保证每人看板上至少有一个。</p></div>
- </div>
-
- <div class="row" data-sec="技能 · 收尾">
-  <div class="t"><b>100–105</b><span>收尾</span><em>屏 038</em></div>
-  <div class="lec"><p class="do"><b>抽两三位投屏成果看板，</b>挑一条判断讲。再讲 038：技能多了要管——我们自己的技能库常驻二十个；每出一次错改一句、再考一遍、记版本；每月看一次，没人用的删掉。</p>
-   <div class="uses"><span class="fi ok">屏 038</span><span class="fi ok">2_skill/之后该怎么做.md</span><span class="fi miss">投屏线和转接头</span></div></div>
-  <div class="stu"><p class="do">成果看板截图发群。</p></div>
-  <div class="risk"><p>挑人：挑判断写得有"那一回"的，别挑全是"待补"的。</p></div>
- </div>
-</div></div>
-
-
-<h2>智能体<small>周六下午 · 第一个约 40 分钟；第二个周六还是周日上午做，看现场</small></h2>
-<div class="quote box">
- <h3>智能体案例要换（TTZ 11-05 原话），在定</h3>
- <p>agent包那个案例需要产物中能生成图片、视频，并且让大家能通过对话交互，自己提升/迭代视频质量（本质也是借助我们agent迭代，我们agent也在变强），这样觉得跟市面上区别开来，不是说都能做视频，我们这边是能一直用下去去迭代的，这样在包里就要内置我们的视频的key了，也别让AI乱生成，只根据课程节奏去生成去迭代</p>
- <p class="note" style="margin:6px 0 0"><b>11-05 已定：</b>案例做"新品主图和 15 秒短视频智能体"，同一家汽配店、同一款 H11 大灯；视频 key 用课上专用的一把，设消费上限，课后作废；所有人都用智能体（WorkBuddy 或 Codex），不许用网页聊天 AI。工具每个智能体最多出 3 次图、3 次视频，只在上岗和改一句那两步生成。下面的时间线还是售后客服那版，包改好后照新案例重写。</p>
+<div class="seg sync">
+ <div class="t"><b>23–29</b><span>第 1 步</span><em>挑一件事</em><span class="wait">等全场</span></div>
+ <div class="tea"><ol>
+  <li>贴第 1 步。AI 列三个方向，回"listing 合规改写"。</li>
+  <li>AI 要新材料：从 <span class="f">案例_汽配店/答法卡</span> 复制 H11 大灯草稿和那句话，贴进去。</li>
+  <li>AI 还没技能，先直接改一份。F5 看板：<span class="say">"这是不带技能改的，先记着。"</span></li>
+  <li>AI 要上次的成品：从答法卡复制 9005 灯泡改前改后，贴进去。</li>
+ </ol></div>
+ <div class="stu"><ol>
+  <li>贴第 1 步，挑一件事。</li>
+  <li>贴一份还没做的新活和平时交代的那句话。</li>
+  <li>等 AI 直接做一份。</li>
+  <li>贴上次做好的成品。</li>
+ </ol>
+ <div class="got"><b>看板多了：</b>"做之前"那份</div>
+ <div class="stuck">常见卡：挑得太大，让他缩成每周都做的一件；没带新活的用案例。</div></div>
 </div>
-<div class="tl"><div class="grid">
- <div class="head"><div>分钟</div><div>讲师</div><div>学员</div><div>成果看板上有什么</div></div>
 
- <div class="row pre" data-sec="智能体 · 开始前">
-  <div class="t"><b>开始前</b><span>手里已经有的</span></div>
-  <div class="lec"><p class="do">演示文件夹里已有技能 1 和成果看板，接着用。</p>
-   <div class="uses"><span class="fi ok">讲师演示文件夹：加上包 3 新版</span></div></div>
-  <div class="stu"><p class="do">我的公司AI/ 里已有知识库、技能、成果看板。</p>
-   <div class="uses"><span class="fi miss">一段和客户或同事的真实聊天（课前准备没写要带）</span><span class="fi ok">没带的用包里的 案例_汽配店/（雨刷售后那段）</span></div></div>
-  <div class="kb"><div class="k">知识库几页</div><div class="k">技能 1–2 个</div></div>
- </div>
-
- <div class="row" data-sec="智能体 · 为什么">
-  <div class="t"><b>0–6</b><span>为什么做智能体</span><em>讲对比屏 041</em></div>
-  <div class="lec"><p class="do"><b>讲对比：</b>左边是 WorkBuddy 自带的客服专家，右边是用包 3 做的；难缠买家三条，左边 7 条没做到，右边差 1 条。指第一条回复。</p>
-   <div class="uses"><span class="fi ok">屏 041 对比屏</span><span class="fi ok">演示备份/智能体/对比_三份.md</span></div></div>
-  <div class="stu"><p class="do">看大屏。</p></div>
-  <div class="kb"><div class="same">不变</div></div>
- </div>
-
- <div class="row" data-sec="智能体 · 发包">
-  <div class="t"><b>6–8</b><span>发包</span><em>群里发一次</em></div>
-  <div class="lec"><p class="do"><b>群里发 3_Agent.zip，</b>说一句：有时间的接着做第二个。</p>
-   <div class="uses"><span class="fi ok">3_Agent.zip 新版（发放包里现在还是旧版）</span><span class="fi miss">屏 043 口播改成新流程</span></div></div>
-  <div class="stu"><p class="do">解压，3_Agent 放进 我的公司AI/，打开 3_Agent/学员页.html。</p>
-   <div class="uses"><span class="fi ok">3_Agent/学员页.html（一步一张卡，还在改）</span></div>
-   <div class="sw"><div><b>WorkBuddy</b>新建对话，工作区还是 我的公司AI</div><div><b>Codex</b>同一个文件夹里打开</div><div><b>只能聊天的</b>新开对话；打开成果看板模板，点"复制数据"备用</div></div></div>
-  <div class="kb"><div class="same">不变</div></div>
- </div>
-
- <div class="row sync" data-sec="智能体 · 第 0 步">
-  <div class="t"><b>8–10</b><span>第 0 步</span><em>开工</em><span class="tag sync">全场等齐</span></div>
-  <div class="lec"><p class="do"><b>发第 0 步，</b>投屏：它读到了知识库和下午的技能。</p></div>
-  <div class="stu"><p class="do">发第 0 步，AI 读成果看板、知识库、技能/。</p>
-   <div class="uses"><span class="fi ok">成果看板模板上的"复制数据"按钮（只能聊天的用）</span></div>
-   <div class="sw"><div><b>WorkBuddy</b>复制"读 3_Agent/开始.md，带我做"发出</div><div><b>Codex</b>同左</div><div><b>只能聊天的</b>复制"开工"整段，后面贴上看板数据</div></div>
-   <dl><dt>得到</dt><dd>【第 0 步做完】：环境、知识库几页、技能几个</dd></dl></div>
-  <div class="kb"><div class="same">不变，AI 读到了</div></div>
- </div>
-
- <div class="row sync" data-sec="智能体 · 第 1 步">
-  <div class="t"><b>10–14</b><span>第 1 步</span><em>选定做哪种</em><span class="tag sync">全场等齐</span></div>
-  <div class="lec"><p class="do"><b>示范：</b>答"1"，念四句：叫售后客服助理；服务 6 个客服；交付每条买家消息一份英文回复；做成了算难缠买家也照店里做法走、不踩红线。</p>
-   <div class="uses"><span class="fi ok">演示稿智能体页：四句</span></div></div>
-  <div class="stu"><ol class="steps"><li>贴第 1 步。AI 列三种：自己岗位的、部门负责人的、老板的把关。</li><li>选一种，填四句：叫什么、服务谁、交付什么、做成了怎么算。答不上回"不会"，AI 给三个候选。</li></ol>
-   <dl><dt>得到</dt><dd>【第 1 步做完】：选的哪种，四句话</dd></dl></div>
-  <div class="kb"><div class="same">不变</div></div>
- </div>
-
- <div class="row sync" data-sec="智能体 · 第 2 步">
-  <div class="t"><b>14–23</b><span>第 2 步</span><em>说清身份和做法</em><span class="tag sync">全场等齐</span></div>
-  <div class="lec"><p class="do"><b>示范：</b>贴雨刷售后两轮，答第 2 问（最看重的三条），然后停，下台转。</p>
-   <div class="uses"><span class="fi ok">演示备份/智能体/真实对话_雨刷售后.md</span><span class="fi ok">演示稿"AI 往下问时"三句</span></div>
-   <p class="watch"><b>巡场看：</b>贴的聊天里有没有客户真名、价格。</p></div>
-  <div class="stu"><ol class="steps"><li>贴第 2 步。AI 一次问一句，共五句：贴一段真实聊天；最看重的三条；每条行业都认还是只有我们这么看；什么不接；什么交给人。</li><li>没说是哪一次的，再追问，最多 2 个。</li></ol>
-   <dl><dt>得到</dt><dd>【第 2 步做完】：三条判断、不接的、交人的</dd></dl></div>
-  <div class="kb"><div class="same">不变</div></div>
- </div>
-
- <div class="row sync" data-sec="智能体 · 第 3 步">
-  <div class="t"><b>23–31</b><span>第 3 步</span><em>写说明书和评分标准</em><span class="tag sync">全场等齐</span></div>
-  <div class="lec"><p class="do"><b>投屏核对表，</b>指"两条规矩撞车听哪条"那行：要自己填。</p>
-   <div class="uses"><span class="fi live">讲师自己的核对表</span><span class="fi ok">备份：演示备份/智能体/做好的智能体/AGENT.md</span></div></div>
-  <div class="stu"><ol class="steps"><li>贴第 3 步。AI 写说明书（它是谁、信什么、怎么做、哪些自己做哪些交人）和评分标准，列核对表。</li><li>标一次，AI 出第二版。</li></ol>
-   <div class="uses"><span class="fi live">AGENT.md v0.2</span><span class="fi live">评分标准.md</span></div>
-   <div class="sw"><div><b>WorkBuddy</b>AI 存进 智能体/〖名字〗/</div><div><b>Codex</b>同左</div><div><b>只能聊天的</b>先不存，第 6 步 AI 一次给齐</div></div></div>
-  <div class="kb"><div class="same">不变</div></div>
- </div>
-
- <div class="row" data-sec="智能体 · 第 4 步">
-  <div class="t"><b>31–41</b><span>第 4 步</span><em>上岗答三条消息</em><span class="tag new">新开对话</span></div>
-  <div class="lec"><p class="do"><b>投屏上岗结果，</b>指第三条：买家催它写"180 美金已批准"，它只回"已转主管"，备注写"车损索赔，未批准，需加急"。</p>
-   <div class="uses"><span class="fi ok">演示备份/智能体/做好的智能体/测试记录.md（旧包那遍）</span><span class="fi ok">新包真跑的测试记录</span></div></div>
-  <div class="stu"><ol class="steps"><li>贴第 4 步。AI 写好三条消息，给块 1、块 2。</li><li>新开对话，先贴块 1（普通 AI 答日常那条），等它答完再贴块 2（照说明书答三条）。</li><li>两份回答复制回原对话，说一句最差的一处；AI 判分，列两三句候选改法。</li></ol>
-   <div class="uses"><span class="fi live">测试记录.md</span></div></div>
-  <div class="kb"><div class="same">不变</div></div>
- </div>
-
- <div class="row" data-sec="智能体 · 第 5 步">
-  <div class="t"><b>41–45</b><span>第 5 步</span><em>改一句，再考一次</em><span class="tag new">新开对话</span></div>
-  <div class="lec"><p class="do"><b>巡场：</b>看挑的是不是扣分最多那句；一下改好几句的，只留一句。</p></div>
-  <div class="stu"><ol class="steps"><li>第 5 步那段填上挑的那一句，贴进去。AI 只改这一句，出第三版，给块 3。</li><li>再新开对话贴块 3，回答贴回来，AI 重判那一条。</li></ol>
-   <div class="uses"><span class="fi live">AGENT.md v0.3</span></div></div>
-  <div class="kb"><div class="same">不变</div></div>
- </div>
-
- <div class="row sync" data-sec="智能体 · 第 6 步">
-  <div class="t"><b>45–48</b><span>第 6 步</span><em>记进成果看板，写清怎么用</em><span class="tag sync">全场等齐</span></div>
-  <div class="lec"><p class="do"><b>投屏成果看板：</b>技能下面多了智能体一块，写着三种软件里各怎么用。</p>
-   <div class="uses"><span class="fi ok">讲师的成果看板（有技能和智能体）</span><span class="fi doing">讲师的智能体卡.html</span></div></div>
-  <div class="stu"><ol class="steps"><li>贴第 6 步。AI 问"哪条边界是自己定的，为什么"，写一句。</li><li>AI 写进成果看板，出智能体卡，问接着做第二个吗。</li></ol>
-   <div class="uses"><span class="fi live">智能体卡.html</span><span class="fi live">成果看板.html 多一块</span></div>
-   <div class="sw"><div><b>WorkBuddy</b>都存好，双击打开</div><div><b>Codex</b>同左</div><div><b>只能聊天的</b>AI 一次给齐四个文件自己存；看板数据贴进模板点"更新看板"</div></div></div>
-  <div class="kb"><div class="k">技能 1–2 个</div><div class="k add">智能体 1：它是谁、服务谁；最看重的三条；不接的、交人的；上岗结果；改过的一句；三种软件怎么用</div></div>
- </div>
-
- <div class="row" data-sec="智能体 · 第二个">
-  <div class="t"><b>48–86</b><span>第二个智能体</span><em>回第 1 步，可以换一种；时间不够放周日上午</em><span class="tag free">各走各的</span></div>
-  <div class="lec"><p class="do"><b>巡场，</b>先保证每人走完一个；第二个建议换一种，例如第一个是自己岗位的，第二个做老板的把关。</p></div>
-  <div class="stu"><p class="do">再贴第 1 步做第二个，约 38 分钟。来不及就说"收尾"。</p>
-   <div class="uses"><span class="fi miss">第二段真实聊天，或老板平时批事情的原话（做老板把关的要）</span></div></div>
-  <div class="kb"><div class="k">技能 1–2 个</div><div class="k">智能体 1</div><div class="k add">智能体 2</div></div>
- </div>
-
- <div class="row" data-sec="智能体 · 收尾">
-  <div class="t"><b>86–91</b><span>收尾</span></div>
-  <div class="lec"><p class="do"><b>抽两三位投屏智能体卡和成果看板；</b>讲回去第一周：每天让它做一件真事，先只给"起草后交人"的权限。</p>
-   <div class="uses"><span class="fi ok">3_Agent/之后该怎么做.md</span></div></div>
-  <div class="stu"><p class="do">成果看板截图发群。</p>
-   <div class="uses"><span class="fi ok">之后该怎么做.md</span></div></div>
-  <div class="kb"><div class="same">知识库、技能、智能体都在这一页</div></div>
- </div>
-</div></div>
-
-<h2>三种软件只在这几处不一样</h2>
-<div class="tbl"><table>
- <tr><th></th><th>WorkBuddy</th><th>Codex</th><th>只能聊天的（千问、豆包等网页）</th></tr>
- <tr><td>开工</td><td>工作区选 我的公司AI，发"读 2_skill/开始.md，带我做"</td><td>在 我的公司AI 文件夹里打开，发同一句</td><td>复制"开工"整段，填好岗位贴进去</td></tr>
- <tr><td>之后每一步</td><td colspan="3">一样：学员页点那张卡的"复制"，贴进去</td></tr>
- <tr><td>文件存哪</td><td colspan="2">AI 自己存进 技能/〖名字〗/、智能体/〖名字〗/</td><td>AI 给代码块，上面一句写存成什么，学员自己新建文本文件存</td></tr>
- <tr><td>新开对话</td><td>新建一个对话</td><td>新开一个会话</td><td>网页上点"新对话"</td></tr>
- <tr><td>成果看板怎么更新</td><td colspan="2">AI 只改 成果看板.html 里那段数据，换了对话也照文件名找</td><td>复制看板数据，贴进模板，点"更新看板"；数据留在这台电脑的浏览器里，下一块点"复制数据"带过去</td></tr>
- <tr><td>做好的技能怎么用</td><td>把 技能/〖名字〗/ 复制到 ~/.workbuddy/skills/</td><td>复制到 ~/.codex/skills/</td><td>新开对话，先贴 SKILL.md 全文，再交代事</td></tr>
- <tr><td>做好的智能体怎么用</td><td colspan="2">新开对话，说"读 智能体/〖名字〗/AGENT.md，照它做"</td><td>新开对话，先贴上岗那段和 AGENT.md 全文</td></tr>
-</table></div>
-
-<h2>掉队、走丢了怎么办</h2>
-<ul class="plain">
- <li><b>来不及：</b>说"收尾"，AI 马上存好已有的、写进成果看板，缺的写"待补"。只有这两个字算。</li>
- <li><b>换了对话、AI 忘了前面：</b>新对话先贴开工那段，再贴学员页"换了对话"那段和上一步的【做完】，再贴要做的那一步。</li>
- <li><b>AI 一次问好几个：</b>回"一次问一个"。<b>AI 没等就往下做：</b>回"停，等我贴下一段"。</li>
- <li><b>网不通、AI 卡住：</b>讲师打开 <span class="f">中台版/演示备份/</span> 讲成品；学员看学员页每步下面"做完大概长这样"。</li>
-</ul>
-
+<div class="seg sync">
+ <div class="t"><b>29–39</b><span>第 2 步</span><em>问清判断</em><span class="wait">等全场</span></div>
+ <div class="tea"><ol>
+  <li>贴第 2 步。AI 问第一处，从答法卡复制回答。</li>
+  <li>说：<span class="say">"一问一分钟，答不出就想最近出事的那一单。"</span></li>
+  <li>下台转，看谁一直答"一般都这样"。</li>
+ </ol></div>
+ <div class="stu"><ol>
+  <li>贴第 2 步。</li>
+  <li>AI 一次问一个：那一回、为什么、吃过什么亏，最多 8 问。</li>
+  <li>F5 看板。</li>
+ </ol>
+ <div class="got"><b>看板多了：</b>三条判断，每条带那一回的原话</div>
+ <div class="stuck">常见卡：说不出那一回；打字慢的用语音输入；AI 一次问好几个，回"一次问一个"。</div></div>
 </div>
-<script>
-(function(){
-  function fill(lane, boxId){
-    var box=document.getElementById(boxId), groups={miss:[],doing:[]};
-    document.querySelectorAll('.row').forEach(function(r){
-      var sec=r.getAttribute('data-sec')||'';
-      r.querySelectorAll('.'+lane+' .fi.miss, .'+lane+' .fi.doing').forEach(function(f){
-        var k=f.classList.contains('miss')?'miss':'doing', txt=f.textContent;
-        if(groups[k].some(function(x){return x.t===txt})) return;
-        groups[k].push({t:txt,s:sec});
-      });
-    });
-    box.querySelector('h3 span').textContent=groups.miss.length;
-    [['miss','还没人做'],['doing','在做，包真跑完就有']].forEach(function(g){
-      if(!groups[g[0]].length) return;
-      var h=document.createElement('h4'); h.textContent=g[1]+'（'+groups[g[0]].length+'）'; box.appendChild(h);
-      var ul=document.createElement('ul');
-      groups[g[0]].forEach(function(x){var li=document.createElement('li'); li.textContent=x.t+' '; var s=document.createElement('small'); s.textContent=x.s; li.appendChild(s); ul.appendChild(li)});
-      box.appendChild(ul);
-    });
-  }
-  fill('lec','sumLec'); fill('stu','sumStu');
-})();
-</script>
-</body></html>
+
+<div class="seg sync">
+ <div class="t"><b>39–48</b><span>第 3 步</span><em>写技能、定评分</em><span class="wait">等全场</span></div>
+ <div class="tea"><ol>
+  <li>贴第 3 步，投屏 AI 列的核对表。</li>
+  <li>标两行给大家看：一行"对"；一行写着"AI 加的"，标"部分对"。</li>
+  <li>说：<span class="say">"AI 加的每行都要看，没说过的它不该替你定。"</span></li>
+ </ol></div>
+ <div class="stu"><ol>
+  <li>贴第 3 步。</li>
+  <li>核对表一次标完：对、部分对、不对。</li>
+  <li>F5 看板。</li>
+ </ol>
+ <div class="got"><b>看板多了：</b>技能（v0.2）和 6 条评分标准</div>
+ <div class="stuck">常见卡：全标"对"，指一行"AI 加的"问他说过没有。</div></div>
+</div>
+
+<div class="seg sync">
+ <div class="t"><b>48–54</b><span>第 4 步</span><em>带技能再做，出分</em><span class="wait">等全场</span></div>
+ <div class="tea"><ol>
+  <li>贴第 4 步。AI 照技能把同一份草稿再改一份，6 条逐条打分。</li>
+  <li>F5 看板，指分数：<span class="say">"不带技能过了几条，带技能过了几条。每条后面是原文，自己能核。"</span></li>
+  <li>请三五个人报分。</li>
+ </ol></div>
+ <div class="stu"><ol>
+  <li>贴第 4 步。</li>
+  <li>等 AI 做完、打完分。</li>
+  <li>F5 看两份的分数和每条的原文。</li>
+ </ol>
+ <div class="got"><b>看板多了：</b>"做之前"和"带技能"两份的分数</div></div>
+</div>
+
+<div class="seg sync">
+ <div class="t"><b>54–61</b><span>第 5 步</span><em>看产出，改一句</em><span class="wait">等全场</span></div>
+ <div class="tea"><ol>
+  <li>贴第 5 步。AI 摆出没过的那条，从答法卡复制"哪里不好"。</li>
+  <li>AI 只改技能一句，重做，再打分。</li>
+  <li>F5 看板：<span class="say">"出一次错，改一句，再考一遍，分数高了才算数。以后维护技能就这样。"</span></li>
+ </ol></div>
+ <div class="stu"><ol>
+  <li>贴第 5 步。</li>
+  <li>告诉 AI 哪里不好。</li>
+  <li>F5 看分数从几到几。</li>
+  <li>还想改，回"再来一圈"。</li>
+ </ol>
+ <div class="got"><b>看板多了：</b>技能 v0.3、改了哪一句、前后分数</div>
+ <div class="stuck">常见卡：一次想改好几处，只改一句；分没涨就退回旧版，换一句再试。</div></div>
+</div>
+
+<div class="seg sync">
+ <div class="t"><b>61–63</b><span>第 6 步</span><em>记一句，接着做</em><span class="wait">等全场</span></div>
+ <div class="tea"><ol>
+  <li>贴第 6 步，AI 问哪处是自己定的，从答法卡复制那一句。</li>
+  <li>F5 看板投屏，宣布：<span class="say">"做完的接着做第二个，没做完的接着往下。"</span></li>
+ </ol></div>
+ <div class="stu"><ol>
+  <li>贴第 6 步，写一句自己定的。</li>
+  <li>快的再贴第 1 步做第二个；慢的说"收尾"。</li>
+ </ol>
+ <div class="got"><b>看板多了：</b>"我定的"一句，和这个技能在 WorkBuddy、Codex 里怎么用</div></div>
+</div>
+
+<div class="seg">
+ <div class="t"><b>63–95</b><span>第二个</span><em>各走各的</em></div>
+ <div class="tea"><ol><li>巡场，先帮没做完一个的走完。</li><li>到 85 分钟，提醒还在第 2、3 步的说"收尾"。</li></ol></div>
+ <div class="stu"><ol><li>做第二个，或收尾。</li></ol></div>
+</div>
+
+<div class="seg">
+ <div class="t"><b>95–100</b><span>收尾</span><em>屏 038</em></div>
+ <div class="tea"><ol><li>抽两三位，接他的电脑投屏看板。</li><li>讲 038：技能多了要管，出错改一句、再考、记版本。</li></ol></div>
+ <div class="stu"><ol><li>看板截图发群。</li></ol></div>
+</div>
+
+<h2>智能体<small>屏 039–045 · 案例换成"新品主图智能体"，包在改</small></h2>
+<div class="seg head"><div>分钟</div><div>讲师</div><div>学员</div></div>
+
+<div class="seg">
+ <div class="t"><b>0–8</b><span>是什么、为什么</span><em>屏 040–042</em></div>
+ <div class="tea"><ol>
+  <li>040：大家以为的智能体是空的；要定它是谁、目标、边界、怎么验收、主动性、谁来审。</li>
+  <li>041 对比屏<i style="font-style:normal;color:var(--clay)">（现在是售后客服的，要不要换成主图的，待定）</i>。</li>
+  <li>042：做好是一份 AGENT.md，换哪个 AI 都能用。</li>
+ </ol></div>
+ <div class="stu"><ol><li>看大屏。</li></ol></div>
+</div>
+
+<div class="seg">
+ <div class="t"><b>8–12</b><span>发包</span><em>屏 043</em></div>
+ <div class="tea"><ol>
+  <li>群里发 <span class="f">3_Agent.zip</span>。</li>
+  <li>投屏：解压，拖进 我的公司AI/，双击 3_Agent/学员页.html。</li>
+  <li>打开 <span class="f">3_Agent/案例_汽配店/成果看板样例.html</span>：<span class="say">"做完看板上多一个智能体，改之前、改之后两张图并排，各自几分。"</span></li>
+ </ol></div>
+ <div class="stu"><ol>
+  <li>下载、解压、拖进 我的公司AI/。</li>
+  <li>双击 3_Agent/学员页.html。</li>
+  <li>新建对话（Codex 照旧在这个文件夹里打开）。</li>
+ </ol></div>
+</div>
+
+<div class="seg sync">
+ <div class="t"><b>12–14</b><span>第 0 步</span><em>开工</em><span class="wait">等全场</span></div>
+ <div class="tea"><ol><li>贴第 0 步，回"用案例"。</li><li>F5 看板：AI 读到了上午的知识库和下午的技能。</li></ol></div>
+ <div class="stu"><ol><li>贴第 0 步，选自己的或案例。</li><li>看板还开着，F5。</li></ol></div>
+</div>
+
+<div class="seg sync">
+ <div class="t"><b>14–19</b><span>第 1 步</span><em>选做哪种，先出一张</em><span class="wait">等全场</span></div>
+ <div class="tea"><ol>
+  <li>贴第 1 步，选"新品主图智能体"，从答法卡复制四句话。</li>
+  <li>从答法卡复制 H11 新品简报贴进去。</li>
+  <li>AI 还没说明书，先出一张主图。F5：<span class="say">"这是不带规矩出的，先记着。"</span></li>
+ </ol></div>
+ <div class="stu"><ol>
+  <li>贴第 1 步，选一种，填四句话。</li>
+  <li>贴自己的简报或任务。</li>
+  <li>等 AI 先做一版。</li>
+ </ol>
+ <div class="got"><b>看板多了：</b>"做之前"那张图（或那份东西）</div></div>
+</div>
+
+<div class="seg sync">
+ <div class="t"><b>19–28</b><span>第 2 步</span><em>问身份和规矩</em><span class="wait">等全场</span></div>
+ <div class="tea"><ol>
+  <li>贴第 2 步，从答法卡复制店里的出图规矩：型号字看得清、不画竞品 logo、不写夸大的话、只出现测过的车型。</li>
+  <li>下台转。</li>
+ </ol></div>
+ <div class="stu"><ol><li>贴第 2 步，一问一答。</li><li>F5 看板。</li></ol>
+ <div class="got"><b>看板多了：</b>它是谁、最看重的三条、不做的、交人的</div></div>
+</div>
+
+<div class="seg sync">
+ <div class="t"><b>28–36</b><span>第 3 步</span><em>写说明书、定评分</em><span class="wait">等全场</span></div>
+ <div class="tea"><ol><li>贴第 3 步，投屏核对表，标两行。</li><li>指"两条规矩撞车听哪条"那行：要自己填。</li></ol></div>
+ <div class="stu"><ol><li>贴第 3 步，标完核对表。</li><li>F5 看板。</li></ol>
+ <div class="got"><b>看板多了：</b>AGENT.md v0.2 和看图就判得出的评分标准</div></div>
+</div>
+
+<div class="seg sync">
+ <div class="t"><b>36–42</b><span>第 4 步</span><em>照说明书出图，出分</em><span class="wait">等全场</span></div>
+ <div class="tea"><ol>
+  <li>贴第 4 步。AI 先亮出"出图说明"：<span class="say">"看，店里的规矩就是这样变成出图说明的。"</span></li>
+  <li>AI 出图，两张逐条打分。</li>
+  <li>F5 看板，两张图并排，指分数。</li>
+ </ol></div>
+ <div class="stu"><ol><li>贴第 4 步。</li><li>看出图说明，等出图。</li><li>F5 看两张图和分数。</li></ol>
+ <div class="got"><b>看板多了：</b>两张图并排，各自几分</div></div>
+</div>
+
+<div class="seg sync">
+ <div class="t"><b>42–49</b><span>第 5 步</span><em>看图改一句</em><span class="wait">等全场</span></div>
+ <div class="tea"><ol>
+  <li>贴第 5 步。AI 摆出没过的那条，从答法卡复制"哪里不好"。</li>
+  <li>AI 只改 AGENT.md 一句，再出一张，再打分。</li>
+  <li>F5：<span class="say">"改这一句，图就变了，分也涨了。它会越用越好。"</span></li>
+ </ol></div>
+ <div class="stu"><ol><li>贴第 5 步，告诉 AI 哪里不好。</li><li>F5 看三张图和分数。</li></ol>
+ <div class="got"><b>看板多了：</b>AGENT.md v0.3、改了哪一句、前后分数</div>
+ <div class="stuck">每个智能体最多出 3 张图，到数 AI 会停。</div></div>
+</div>
+
+<div class="seg sync">
+ <div class="t"><b>49–52</b><span>第 6 步</span><em>记进看板，写清怎么用</em><span class="wait">等全场</span></div>
+ <div class="tea"><ol><li>贴第 6 步，从答法卡复制"我定的"。</li><li>F5 看板投屏：技能下面多了一个智能体。</li></ol></div>
+ <div class="stu"><ol><li>贴第 6 步，写一句。</li><li>有时间的再贴第 1 步做第二个。</li></ol>
+ <div class="got"><b>看板多了：</b>这个智能体在 WorkBuddy、Codex 里怎么用</div></div>
+</div>
+
+<div class="seg">
+ <div class="t"><b>52 起</b><span>收尾</span><em>屏 044、045</em></div>
+ <div class="tea"><ol><li>抽两三位投屏看板。</li><li>044：主动性三档；045：第一天到这里。</li></ol></div>
+ <div class="stu"><ol><li>看板截图发群。</li></ol></div>
+</div>
+
+<details><summary>背景：案例是什么、为什么这样设计（演练时不用看）</summary>
+ <p><b>案例：</b>深圳一家亚马逊汽配卖家（虚构，规矩借了真实卖家的做法），品牌 Norvex。技能做"listing 合规改写"，智能体做"新品主图"，同一款 H11 大灯。</p>
+ <p><b>本质：</b>一份要发出去的东西，发之前照两样核一遍：事实对不对得上（写 IP68，报告只有 IP65）、自家吃过亏才定下的做法（先教买家核对型号）。换到别的行业就是报价单、合同、招聘启事、宣传文案、客户回复。</p>
+ <p><b>效果怎么说：</b>034 屏左边差 7 处里 3 处是亚马逊通用规矩、4 处是店里的写法；左边没拿到这家店的规矩，所以说明的是"把自家做法写进去更好用"，不是"广场的技能都差"。</p>
+ <p><b>学员跑完的小闭环：</b>做出技能 → 同一对话里看到不带和带技能各几分 → 看产出说哪里不好、改一句 → 分数真的变高 → 再来一圈。课后出一次错，也走这一圈。</p>
+ <p><b>包里都有：</b>案例、答法卡、成果看板样例、034 对比的两份成品，讲师课上就从学员同一个包里打开；学员只开学员页和成果看板两个网页，别的由 AI 读写。</p>
+ <p><b>TTZ 定的（11-05）：</b>不换对话、不找别的 AI 打分，同一对话直接出分；成果看板一直开着；所有人用 WorkBuddy 或 Codex；智能体出图不出视频，用软件自带的生图，不放 key；重点让学员看清出图背后的规矩和改一句怎么让图变好。</p>
+</details>
+
+</div></body></html>
