@@ -1431,8 +1431,10 @@ function zoomFrom(target,seq){const t=STATES[target];return{cam:t.cam,dl:t.dl,pr
 Object.assign(STATES,{
   k_kb:zoomFrom('g0',()=>{fo();cards({},false);emReset();em({nd:1,kn:1,ndd:1.4,knd:1.9},false);camGo(CAMS.emp,2.2);
     later(4.4,()=>{floor(1,420,0,760,false);em({kn:1,kd:1,kbl:1,kdd:.1,kbld:1.7},false);camGo(CAMS.build,1.6)})}),
-  k_sk:zoomFrom('g2',()=>{fo();cards({},false);emReset();em({nd:1,sk:1,ndd:1.4,skd:1.9},false);camGo(CAMS.emp,2.2);
-    later(4.4,()=>{floor(1,420,0,760,false);em({nd:1,sk:1,kn:1,kd:1,kbl:1},true);em({sk:1,kn:1,kd:1,kbl:1,sd:1,ex:1,sdd:.2,exd:1.5},false);camGo(CAMS.build,1.6)})}),
+  k_sk:zoomFrom('g2',()=>{fo();cards({},false);floor(1,420,0,760,false);emReset();em({nd:1,kn:1,kd:1,kbl:1,hd:1},true);camGo(CAMS.build,2.2);   // 11-05 靖锋：知识已经在了，再补右边的技能
+    later(1.9,()=>EM.hd.to(0,.6));
+    later(2.6,()=>em({nd:1,kn:1,kd:1,kbl:1,sk:1,skd:.2},false));
+    later(5.0,()=>em({kn:1,sk:1,kd:1,sd:1,ex:1,kbl:1,sdd:.1,exd:1.4},false))}),
   k_ag:zoomFrom('g3',()=>{fo();cards({},false);floor(1,420,0,760,false);emReset();em({kn:1,sk:1,kd:1,sd:1,ex:1,kbl:1,hd:1},true);camGo(CAMS.build,2.2);
     later(1.6,()=>EM.hd.to(0,.6));later(2.6,()=>{cards({twl:1},false);twins((r,c)=>r===0&&c===0?0:null,false);misc(1,0,false)})}),
   k_wf:zoomFrom('g5',()=>{STATES.g5.f(false);camGo(CAMS.row0low,2.2)}),
@@ -1487,7 +1489,7 @@ function drawEMP(g,px,z){
       glow(g,col,n[0],n[1],ENR*2.4,.2*aa);g.fillStyle=rgba(RGB.bg,aa);g.beginPath();g.arc(n[0],n[1],ENR*pop,0,TAU);g.fill();g.lineWidth=LW*1.5;g.strokeStyle=rgba(col,.95*aa);g.stroke();
       txt(g,lab,n[0],n[1],40,col,aa);txt(g,cap,n[0],n[1]+ENR+30*px,26,RGB.mute,aa,'center',600)}
     txt(g,'销售',X0,Y0-PR-28*px,30,RGB.mute,nd,'center',600);
-    const ga=nd*c01(kn*1.7-.8);txt(g,'公司的',EKP[0][0],EKP[0][1]-50*px,24,RGB.kb,.85*ga,'center',600);txt(g,'自己的',EKP[4][0],EKP[4][1]+50*px,24,RGB.kb,.85*ga,'center',600)}
+    const ga=nd*c01(kn*1.7-.8)*(1-c01(kd*2));txt(g,'公司的',EKP[0][0],EKP[0][1]-50*px,24,RGB.kb,.85*ga,'center',600);txt(g,'自己的',EKP[4][0],EKP[4][1]+50*px,24,RGB.kb,.85*ga,'center',600)}
   // 一件事来了：用到价格表、客户名单（知识）和报价（技能），做完出去
   const hlK=i=>cp>.01&&(i===0||i===3)?bump(ph,.95+(i===3?.15:0),1.1):0,hlS=i=>cp>.01&&i===0?bump(ph,1.05,1.1):0;
   KP.forEach((p,i)=>{const a=Math.max(c01(p.ap*2),kd>.01?1:0)*vis;if(a<.01)return;const h=hlK(i);if(h>.01)glow(g,RGB.kb,p.x,p.y,70*px,.55*h*cp);
