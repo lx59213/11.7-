@@ -118,6 +118,39 @@ h2 small { margin-left: auto; font-weight: 400; font-size: .82rem; color: var(--
 @media (prefers-reduced-motion: reduce) { .done .st.fresh .dn { animation: none; } .done a.dn { transition: none; } }
 @media (max-width: 560px) { .done .st { width: 200px; } .done .st.last { width: 290px; } }
 .done { margin-bottom: 14px; }
+/* 分数 */
+.done .st.last { width: 340px; }
+.done .st.last .dk { flex-wrap: wrap; }
+.done .plus { margin-left: 6px; padding: 0 9px; border-radius: 99px; font-style: normal; font-size: .86rem; font-weight: 750; line-height: 1.7; white-space: nowrap; font-variant-numeric: tabular-nums; color: #fff; background: var(--bc); background: color-mix(in srgb, var(--bc) 80%, #000); }
+.done .ds { margin-top: 6px; font-size: .8rem; font-weight: 650; line-height: 1.4; color: var(--muted); font-variant-numeric: tabular-nums; }
+.done .ds b { font-size: .95rem; font-weight: 750; color: var(--ink); }
+.done .st.last .ds { margin-top: 8px; font-size: .92rem; }
+.done .st.last .ds b { font-size: 1.75rem; line-height: 1; }
+.done .ds .sep { color: var(--faint); }
+.done .tr { font-style: normal; font-weight: 700; color: var(--bc); color: color-mix(in srgb, var(--bc) 82%, var(--ink)); }
+.done .dbar { display: block; height: 5px; margin-top: 8px; border-radius: 99px; background: rgba(128,128,128,.2); overflow: hidden; }
+.done .dbar i { display: block; height: 100%; border-radius: inherit; background: var(--bc); transform-origin: left; }
+.done .scs { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 6px 8px; margin: -4px 0 -4px auto; }
+.done .scs + small { margin-left: 14px; }
+.done .sc { display: inline-flex; align-items: baseline; padding: 3px 12px 4px 11px; border: 1px solid var(--bc); border-radius: 99px; font-size: .8rem; font-weight: 400; line-height: 1.3; white-space: nowrap; color: var(--muted); background: color-mix(in srgb, var(--bc) 9%, transparent); }
+.done .sc .sb { margin-right: 6px; }
+.done .sc .sn { font-size: 1.55rem; font-weight: 750; line-height: 1; color: var(--ink); font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
+.done .sc .su { margin-left: 2px; }
+.done .sc .sd { margin: 0 5px; color: var(--faint); }
+.done .sc .tr { font-size: .9rem; }
+@keyframes plusPop { from { opacity: 0; transform: scale(.55); } 60% { opacity: 1; transform: scale(1.18); } to { opacity: 1; transform: none; } }
+@keyframes barGrow { from { transform: scaleX(0); } to { transform: none; } }
+@keyframes tierPop { 0% { transform: scale(1); background: transparent; } 30% { transform: scale(1.22); background: color-mix(in srgb, var(--bc) 30%, transparent); } 100% { transform: scale(1); background: transparent; } }
+.done .st.fresh .plus { animation: plusPop .7s cubic-bezier(.2,.9,.3,1.2) .35s both; }
+.done .st.fresh .dbar i { animation: barGrow .9s cubic-bezier(.2,.8,.2,1) .2s both; }
+.done .tr.bump { display: inline-block; margin: 0 -4px; padding: 0 4px; border-radius: 6px; animation: tierPop .9s ease-out; }
+@media (prefers-reduced-motion: reduce) { .done .st.fresh .plus, .done .st.fresh .dbar i, .done .tr.bump { animation: none; } }
+@media (max-width: 560px) {
+  .done .st.last { width: 300px; }
+  .done h2 { flex-wrap: wrap; }
+  .done .scs { order: 3; flex-basis: 100%; justify-content: flex-start; margin: 8px 0 2px; }
+  .done .scs + small { order: 2; margin-left: auto; }
+}
 </style>
 </head>
 <body>
@@ -354,27 +387,69 @@ h2 small { margin-left: auto; font-weight: 400; font-size: .82rem; color: var(--
   }
 
   var DONE_TONE = { '知识库': '#3B7DD8', '技能': '#E8912D', '智能体': '#4E9A3A', '编队': '#8E5EA2' };
-  var doneLast = '', doneFirst = true, doneFresh = false;
+  var doneLast = '', doneFirst = true, doneFresh = false, scoreSeen = {};
 
+  function scoreOf(x) {
+    var s = txt(x.分);
+    if (!s || !isFinite(Number(s))) return null;
+    return Math.max(0, Math.min(100, Math.round(Number(s))));
+  }
   function doneBlock() {
     var list = items(D.成果, '名');
     if (!list.length) { doneLast = ''; return ''; }
-    var end = list[list.length - 1], sig = [end.名, end.步, end.更新].map(txt).join('|');
+    var end = list[list.length - 1], sig = [end.名, end.步, end.更新, end.分].map(txt).join('|');
     doneFresh = sig !== doneLast;
     doneLast = sig;
+    var prev = {}, top = {};
     var cards = list.map(function (x, i) {
-      var isNew = i === list.length - 1;
-      var kick = [txt(x.块), txt(x.步)].filter(Boolean).join(' · ');
-      var inner = '<span class="dk"><i class="bd"></i><span>' + esc(kick) + '</span>' + (isNew ? '<em class="tag">刚做成</em>' : '') + '</span>' +
-        '<b class="dt">' + esc(x.名) + '</b>' + (txt(x.意味着) ? '<span class="dm">' + esc(x.意味着) + '</span>' : '');
+      var isNew = i === list.length - 1, blk = txt(x.块), sc = scoreOf(x), tier = txt(x.档), gain = 0;
+      if (sc != null) {
+        gain = sc - (prev[blk] == null ? 0 : prev[blk]);
+        prev[blk] = sc;
+        top[blk] = { sc: sc, tier: tier };
+      }
+      var kick = [blk, txt(x.步)].filter(Boolean).join(' · ');
+      var score = '';
+      if (sc != null) {
+        score = isNew
+          ? '<span class="ds"><b>' + sc + '</b> 分' + (tier ? ' <span class="sep">·</span> <em class="tr">' + esc(tier) + '</em>' : '') + '</span><span class="dbar"><i style="width:' + sc + '%"></i></span>'
+          : '<span class="ds"><b>' + sc + '</b> 分</span>';
+      }
+      var inner = '<span class="dk"><i class="bd"></i><span>' + esc(kick) + '</span>' + (isNew ? '<em class="tag">刚做成</em>' : '') + (isNew && sc != null && gain > 0 ? '<em class="plus">+' + gain + ' 分</em>' : '') + '</span>' +
+        '<b class="dt">' + esc(x.名) + '</b>' + score + (txt(x.意味着) ? '<span class="dm">' + esc(x.意味着) + '</span>' : '');
       var tip = cleanPath(x.页) ? '在 Obsidian 里打开' + (txt(x.更新) ? '（' + esc(x.更新) + '）' : '') : '';
       var box = cleanPath(x.页)
         ? '<a class="dn" href="' + esc(pageHref(x.页)) + '" title="' + tip + '">' + inner + '</a>'
         : '<div class="dn"' + (txt(x.更新) ? ' title="' + esc(x.更新) + '"' : '') + '>' + inner + '</div>';
-      return '<li class="st' + (isNew ? ' last' + (doneFresh ? ' fresh' : '') : '') + '" style="--bc:' + (DONE_TONE[txt(x.块)] || '#8A94A7') + '">' +
+      return '<li class="st' + (isNew ? ' last' + (doneFresh ? ' fresh' : '') : '') + '" style="--bc:' + (DONE_TONE[blk] || '#8A94A7') + '">' +
         '<span class="node"><i></i></span>' + box + '</li>';
     }).join('');
-    return '<h2>这两天做成的<small>共 ' + list.length + ' 样</small></h2><ol class="tl">' + cards + '</ol>';
+    var chips = ['技能', '智能体', '编队'].filter(function (b) { return top[b]; }).map(function (b) {
+      var t = top[b];
+      return '<span class="sc" data-b="' + b + '" data-to="' + t.sc + '" data-tier="' + esc(t.tier) + '" style="--bc:' + DONE_TONE[b] + '">' +
+        '<span class="sb">' + b + '</span><b class="sn">' + t.sc + '</b><span class="su">分</span>' +
+        (t.tier ? '<span class="sd">·</span><em class="tr">' + esc(t.tier) + '</em>' : '') + '</span>';
+    }).join('');
+    return '<h2>这两天做成的' + (chips ? '<span class="scs">' + chips + '</span>' : '') + '<small>共 ' + list.length + ' 样</small></h2><ol class="tl">' + cards + '</ol>';
+  }
+  function scoreTick(still) {
+    Array.prototype.forEach.call(document.querySelectorAll('#done .sc'), function (el) {
+      var b = el.getAttribute('data-b'), to = Number(el.getAttribute('data-to')), tier = el.getAttribute('data-tier');
+      var seen = scoreSeen[b], num = el.querySelector('.sn'), tr = el.querySelector('.tr');
+      scoreSeen[b] = { n: to, tier: tier };
+      if (!seen || still) return;
+      if (tr && seen.tier !== tier) tr.className += ' bump';
+      if (seen.n === to) return;
+      var from = seen.n, t0 = null;
+      num.textContent = from;
+      var step = function (t) {
+        if (t0 == null) t0 = t;
+        var k = Math.min(1, (t - t0) / 800);
+        num.textContent = Math.round(from + (to - from) * (1 - Math.pow(1 - k, 3)));
+        if (k < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    });
   }
   function doneShow() {
     put('done', doneBlock());
@@ -382,6 +457,7 @@ h2 small { margin-left: auto; font-weight: 400; font-size: .82rem; color: var(--
     var still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
     var smooth = doneFresh && !doneFirst && !still;
     doneFirst = false;
+    scoreTick(still);
     requestAnimationFrame(function () {
       requestAnimationFrame(function () {
         var tl = document.querySelector('#done .tl');
