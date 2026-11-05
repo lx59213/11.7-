@@ -371,7 +371,7 @@ h1 { margin: 0; font-size: 1.55rem; line-height: 1.3; font-weight: 700; }
       ['全队排班表', '这支队每天自己跑，只把要拍板的事交上来', '很强']] }
   };
   function stageFix(arr) {
-    var last = {};
+    var ok = {}, bad = {};
     return (Array.isArray(arr) ? arr : []).map(function (x) {
       var b = STAGE[txt(x && x.块)], m = String(txt(x && x.步)).match(/\d+/);
       if (!b || !m) return x;
@@ -379,10 +379,16 @@ h1 { margin: 0; font-size: 1.55rem; line-height: 1.3; font-weight: 700; }
       if (!s) return x;
       var y = {};
       for (var k in x) y[k] = x[k];
-      y.名 = s[0]; y.意味着 = s[1]; y.档 = s[2]; y._n = i + 1; y._all = b.共; y.分 = Math.round((i + 1) / b.共 * 100);
-      var r = txt(x.结果), bk = txt(x.块);
-      if (r === '一般' || r === '没过') { y.档 = r; y.意味着 = r + '：' + (txt(x.实话) || '这一步没做到'); y.分 = last[bk] || 0; }
-      else last[bk] = y.分;
+      // 档位按过了几步算，不按做到第几步算：一般、没过的步骤不算数
+      var r = txt(x.结果), bk = txt(x.块), weak = r === '一般' || r === '没过';
+      ok[bk] = ok[bk] || 0; bad[bk] = bad[bk] || [];
+      if (weak) bad[bk].push(+m[0] + ' 步' + r); else ok[bk]++;
+      var p = ok[bk];
+      y.名 = s[0]; y._n = i + 1; y._all = b.共; y.分 = Math.round(p / b.共 * 100);
+      y.档级 = p ? b.步[p - 1][2] : '还没过一步';
+      y._欠 = bad[bk].length;
+      if (weak) { y.档 = r; y.意味着 = r + '：' + (txt(x.实话) || '这一步没做到'); }
+      else { y.档 = y.档级; y.意味着 = s[1] + (bad[bk].length ? '（第 ' + bad[bk].join('、第 ') + '，档位只算过了的 ' + p + ' 步）' : ''); }
       return y;
     });
   }
@@ -406,7 +412,7 @@ h1 { margin: 0; font-size: 1.55rem; line-height: 1.3; font-weight: 700; }
       if (sc != null) {
         gain = sc - (prev[blk] == null ? 0 : prev[blk]);
         prev[blk] = sc;
-        top[blk] = { sc: sc, tier: tier, n: x._n, all: x._all };
+        top[blk] = { sc: sc, tier: txt(x.档级) || tier, n: x._n, all: x._all, qk: x._欠 || 0 };
       }
       var kick = [blk, txt(x.步)].filter(Boolean).join(' · ');
       var score = '';
@@ -415,7 +421,7 @@ h1 { margin: 0; font-size: 1.55rem; line-height: 1.3; font-weight: 700; }
           ? '<span class="ds">' + scoreTxt(x, sc) + (tier ? ' <span class="sep">·</span> <em class="tr">' + esc(tier) + '</em>' : '') + '</span><span class="dbar"><i style="width:' + sc + '%"></i></span>'
           : '<span class="ds">' + scoreTxt(x, sc) + '</span>';
       }
-      var inner = '<span class="dk"><i class="bd"></i><span>' + esc(kick) + '</span>' + (isNew ? '<em class="tag">' + (/^(一般|没过)$/.test(txt(x.结果)) ? esc(txt(x.结果)) : '刚做成') + '</em>' : '') + (isNew && sc != null && gain > 0 ? '<em class="plus">' + (x._n ? '升到' + esc(tier) : '+' + gain + ' 分') + '</em>' : '') + '</span>' +
+      var inner = '<span class="dk"><i class="bd"></i><span>' + esc(kick) + '</span>' + (isNew ? '<em class="tag">' + (/^(一般|没过)$/.test(txt(x.结果)) ? esc(txt(x.结果)) : '刚做成') + '</em>' : '') + (isNew && sc != null && gain > 0 ? '<em class="plus">' + (x._n ? '升到' + esc(txt(x.档级) || tier) : '+' + gain + ' 分') + '</em>' : '') + '</span>' +
         '<b class="dt">' + esc(x.名) + '</b>' + score + (txt(x.意味着) ? '<span class="dm">' + esc(x.意味着) + '</span>' : '');
       var tip = cleanPath(x.页) ? '在 Obsidian 里打开' + (txt(x.更新) ? '（' + esc(x.更新) + '）' : '') : '';
       var box = cleanPath(x.页)
@@ -428,7 +434,7 @@ h1 { margin: 0; font-size: 1.55rem; line-height: 1.3; font-weight: 700; }
       var t = top[b];
       return '<span class="sc" data-b="' + b + '" data-to="' + (t.n || t.sc) + '" data-tier="' + esc(t.tier) + '" style="--bc:' + DONE_TONE[b] + '">' +
         '<span class="sb">' + b + '</span>' + (t.n ? '<b class="sn">' + t.n + '</b><span class="su">/' + t.all + ' 步</span>' : '<b class="sn">' + t.sc + '</b><span class="su">分</span>') +
-        (t.tier ? '<span class="sd">·</span><em class="tr">' + esc(t.tier) + '</em>' : '') + '</span>';
+        (t.tier ? '<span class="sd">·</span><em class="tr">' + esc(t.tier) + '</em>' : '') + (t.qk ? '<span class="sd">·</span><span class="su">' + t.qk + ' 步没过关</span>' : '') + '</span>';
     }).join('');
     return '<h2>这两天做成的' + (chips ? '<span class="scs">' + chips + '</span>' : '') + '<small>共 ' + list.length + ' 样</small></h2><ol class="tl">' + cards + '</ol>';
   }
