@@ -29,8 +29,9 @@ for src, dst, theme, w, js_anchor in JOBS:
     ins('<div id="bar"></div>', HTML)
     # 接在开场最后一步后面
     # 怎么上课 放在“开始”之前，其余接在最后
-    pre = ''.join(l for l in BEATS.splitlines(True) if "{s:'mw'" in l)
-    rest = ''.join(l for l in BEATS.splitlines(True) if "{s:'mw'" not in l)
+    # 路线页 sR（11-05 加）跟 怎么上课 一起放在“开始”之前
+    pre = ''.join(l for l in BEATS.splitlines(True) if "{s:'mw'" in l or "{s:'sR'" in l)
+    rest = ''.join(l for l in BEATS.splitlines(True) if "{s:'mw'" not in l and "{s:'sR'" not in l)
     k = s.index("{s:'sH'"); e = s.index('];', k)
     s = s[:e] + rest.replace('__W__', w) + s[e:]
     k = s.index("{s:'sH'")

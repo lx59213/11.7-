@@ -27,11 +27,12 @@ html,body{height:100%;background:#000;color:var(--ink);font-family:var(--f);over
 .sk{color:var(--sk)} .ag{color:var(--ag)} .wf{color:var(--wf)} .kb{color:var(--kb)} .mute{color:var(--mute)}
 
 /* 标题与标签 */
-.ttl{left:88px;top:58px;font-size:60px;font-weight:800;letter-spacing:.01em;line-height:1.25;text-shadow:0 2px 30px rgba(6,8,13,.9)}
-.ttl small{display:block;font-size:26px;font-weight:500;color:var(--mute);margin-top:10px;letter-spacing:.04em}
-.chip{position:absolute;transform:translate(-50%,-50%);font-size:26px;font-weight:700;padding:10px 22px;border-radius:40px;background:rgba(6,8,13,.78);border:1.5px solid #474c57;color:#d9dbe1;white-space:nowrap}
+.ttl{left:88px;top:58px;font-size:66px;font-weight:800;letter-spacing:.01em;line-height:1.25;text-shadow:0 2px 30px rgba(6,8,13,.9)}
+.ttl small{display:block;font-size:34px;font-weight:500;color:var(--mute);margin-top:10px;letter-spacing:.04em}
+.chip{position:absolute;transform:translate(-50%,-50%);font-size:30px;font-weight:700;padding:10px 22px;border-radius:40px;background:rgba(6,8,13,.78);border:1.5px solid #474c57;color:#d9dbe1;white-space:nowrap}
 .chip.rv{transform:translate(-50%,calc(-50% + 14px))} .chip.rv.vis{transform:translate(-50%,-50%)}
-.chip .o{color:var(--mute);text-decoration:line-through;text-decoration-thickness:2px;font-weight:500;margin-right:10px}
+.chip .o{color:var(--mute);font-weight:500;margin-right:10px}
+.chip .o::after{content:"  →";color:#5a606c}
 .chip.c-sk{border-color:var(--sk);color:var(--sk)} .chip.c-ag{border-color:var(--ag);color:var(--ag)}
 .chip.c-wf{border-color:var(--wf);color:var(--wf)} .chip.c-kb{border-color:var(--kb);color:var(--kb)}
 svg.lead{position:absolute;inset:0;width:1600px;height:900px;overflow:visible}
@@ -57,7 +58,7 @@ svg.lead line{stroke:#5a606c;stroke-width:1.5;stroke-dasharray:4 5}
 #cover canvas{position:absolute;inset:0}
 #cover .a{left:136px;top:150px;font-size:76px;font-weight:700}
 #cover .b{left:126px;top:260px;font-size:196px;font-weight:900;line-height:1.04;letter-spacing:-.03em}
-#cover .c{left:140px;top:742px;font-size:22px;font-weight:600;letter-spacing:.14em;opacity:.7}
+#cover .c{left:140px;top:742px;font-size:26px;font-weight:600;letter-spacing:.14em;opacity:.7}
 
 /* ===== 对照表 ===== */
 .map{left:300px;top:200px;width:1000px}
@@ -84,8 +85,9 @@ svg.lead line{stroke:#5a606c;stroke-width:1.5;stroke-dasharray:4 5}
 .tile.base em{margin-left:auto;font-style:normal;font-size:22px;color:var(--kb);border:1.5px solid var(--kb);border-radius:30px;padding:6px 18px}
 
 /* ===== 生长：计数 ===== */
-.cnt{right:80px;top:66px;font-size:26px;font-family:var(--mono);background:rgba(6,8,13,.7);border:1px solid #232834;border-radius:14px;padding:14px 22px;line-height:1.7}
-.cnt b{font-size:34px;margin-left:10px}
+.cnt{right:80px;top:66px;font-size:28px;font-family:var(--mono);background:rgba(6,8,13,.78);border:1px solid #232834;border-radius:16px;padding:18px 28px;line-height:1.5;display:grid;grid-template-columns:auto auto;column-gap:26px;align-items:baseline;color:var(--mute)}
+.cnt b{font-size:46px;text-align:right;font-variant-numeric:tabular-nums}
+.cnt .ink{color:var(--ink)}
 
 /* ===== 闭环 ===== */
 .big{left:0;right:0;top:300px;text-align:center}
@@ -132,12 +134,75 @@ svg.lead line{stroke:#5a606c;stroke-width:1.5;stroke-dasharray:4 5}
 .take .r b{font-size:30px;color:var(--mute);font-weight:600;width:120px}
 .take .r span{font-size:56px;font-weight:900;color:var(--c)}
 
+/* ===== 五级台阶（11-05 加） ===== */
+#sL .stairs{position:absolute;left:130px;top:210px;width:1340px;height:530px}
+#sL .st{position:absolute;bottom:0;width:256px;border-radius:18px 18px 0 0;background:rgba(14,17,24,.92);border:1.5px solid #2a2f3a;border-bottom:none;padding:20px 18px 0;
+  transform:scaleY(0);transform-origin:bottom;opacity:0;transition:transform .8s cubic-bezier(.2,.8,.2,1),opacity .5s,border-color .7s,background .7s}
+#sL .stairs.vis .st{transform:none;opacity:1}
+#sL .st b{display:block;font:900 54px var(--mono);color:#5a606c;transition:color .7s}
+#sL .st h4{font-size:26px;font-weight:800;margin-top:6px;line-height:1.3;white-space:nowrap}
+#sL .st p{font-size:19px;color:var(--mute);margin-top:10px;line-height:1.45}
+#sL:has(.f1.vis) .st.on{border-color:var(--sk);background:rgba(212,255,58,.06)}
+#sL:has(.f1.vis) .st.on b{color:var(--sk)}
+#sL:has(.f1.vis) .st:not(.on){opacity:.4}
+#sL .here{position:absolute;left:130px;top:772px;font-size:26px;font-weight:800;color:#07080a;background:var(--sk);border-radius:30px;padding:8px 22px}
+#sL .no{position:absolute;right:130px;top:772px;font-size:26px;font-weight:700;color:var(--mute);border:1.5px dashed #474c57;border-radius:30px;padding:8px 22px}
+
+/* ===== 对照板、收拢（11-05 按 v2 重排） ===== */
+#sC .lg{position:absolute;left:1250px;top:40px;width:310px;padding:14px 18px 10px;border-radius:16px;background:rgba(6,8,13,.8);border:1px solid #262b36;z-index:3}
+#sC .lg h6{font-size:15px;color:var(--mute);letter-spacing:.2em;margin-bottom:6px;font-weight:600}
+#sC .lr{display:flex;align-items:baseline;gap:10px;padding:8px 6px;font-size:22px;border-top:1px solid #1c2029;border-radius:8px}
+#sC .lr span{color:#c9ccd3;width:84px}
+#sC .lr i{font-style:normal;color:#5a606c}
+#sC .lr b{font-weight:900}
+#sC .lr.kb b{color:var(--kb)} #sC .lr.sk b{color:var(--sk)} #sC .lr.ag b{color:var(--ag)} #sC .lr.wf b{color:var(--wf)}
+#sC:has(.f4.vis) .lr.kb{animation:lgGlow 1.4s ease-in-out .8s 2}
+@keyframes lgGlow{50%{background:rgba(201,169,110,.2)}}
+#sC .fw{position:absolute;font-size:var(--fs);font-weight:800;color:#6b707b;white-space:nowrap;opacity:0;pointer-events:none;transform:translate(-50%,-50%);z-index:4}
+#sC:has(.f5.vis) .fw{animation:fwIn 1.9s cubic-bezier(.5,0,.2,1) var(--dl) both}
+@keyframes fwIn{0%{left:var(--x0);top:var(--y0);opacity:0}20%{left:var(--x0);top:var(--y0);opacity:.95}85%{opacity:.8}100%{left:var(--x1);top:var(--y1);opacity:0;font-size:14px}}
+#sC .map .rt{transition:none}
+#sC:has(.f5.vis) .map .rt{animation:rtHit .6s ease-out both;animation-delay:var(--hd)}
+@keyframes rtHit{0%{transform:scale(1)}40%{transform:scale(1.14);text-shadow:0 0 24px currentColor}100%{transform:none}}
+#sC .t5{left:0;right:0;top:92px;text-align:center;font-size:46px;font-weight:900}
+
+/* ===== 两列对照表（11-05）：左列拆的时候往下填，右列长的时候往上填 ===== */
+.tb{position:absolute;left:1206px;top:36px;width:356px;padding:10px 16px 6px;border-radius:16px;background:rgba(6,8,13,.84);border:1px solid #262b36;z-index:3}
+.tb .tr{display:grid;grid-template-columns:78px 1fr;align-items:center;min-height:44px;border-top:1px solid #1c2029;font-size:22px}
+.tb .tr:first-child{border-top:none}
+.tb .h{color:#e6e8ec;font-weight:800}
+.tb .a{font-weight:900;white-space:nowrap}
+.tb .a i{font-style:normal;color:#5a606c;font-weight:400;margin-right:10px}
+.tb .a.kb{color:var(--kb)} .tb .a.sk{color:var(--sk)} .tb .a.ag{color:var(--ag)} .tb .a.wf{color:var(--wf)}
+.tb .rv.vis{animation:tbIn .7s cubic-bezier(.2,1.4,.4,1)}
+@keyframes tbIn{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
+.fw{position:absolute;font-size:var(--fs);font-weight:800;color:#8b909b;white-space:nowrap;opacity:0;pointer-events:none;transform:translate(-50%,-50%);z-index:4}
+#sL:has(.f2.vis) .fw{animation:fwIn 1.9s cubic-bezier(.5,0,.2,1) var(--dl) both}
+@keyframes fwIn{0%{left:var(--x0);top:var(--y0);opacity:0}20%{left:var(--x0);top:var(--y0);opacity:.95}85%{opacity:.85}100%{left:var(--x1);top:var(--y1);opacity:0;font-size:16px}}
+#sL .l1t{position:absolute;left:130px;top:478px;font-size:22px;font-weight:800;color:#07080a;background:var(--sk);border-radius:20px;padding:4px 16px}
+
+/* ===== 五层对应页、级别条（11-05） ===== */
+#sC .m5{position:absolute;left:250px;top:252px;width:1100px}
+#sC .m5 .r{display:flex;align-items:center;height:106px;border-bottom:1px solid var(--line)}
+#sC .m5 .r:first-child{border-top:1px solid var(--line)}
+#sC .m5 .l{flex:1;text-align:right;font-size:48px;font-weight:800;padding-right:40px;color:#e6e8ec}
+#sC .m5 .ar{width:70px;text-align:center;font-size:32px;color:#5a606c}
+#sC .m5 .rt{flex:1.25;font-size:54px;font-weight:900;padding-left:36px;white-space:nowrap}
+#sC .m5 .ar,#sC .m5 .rt{opacity:0;transform:translateX(-14px);transition:opacity .6s,transform .7s cubic-bezier(.2,.8,.2,1)}
+#sC:has(.f1.vis) .m5 .ar,#sC:has(.f1.vis) .m5 .rt{opacity:1;transform:none}
+#sC .sd{position:absolute;top:252px;height:530px;width:4px;border-radius:2px}
+#sC .sd b{position:absolute;left:50%;transform:translateX(-50%);font-size:28px;white-space:nowrap}
+#sC .sd.dn{left:190px;background:linear-gradient(#8b909b,transparent)} #sC .sd.dn b{top:-40px;color:#8b909b}
+#sC .sd.up{right:190px;background:linear-gradient(transparent,var(--sk))} #sC .sd.up b{bottom:-46px;color:var(--sk)}
+#sE .cnt{top:150px}
+
 /* ===== 开始 ===== */
 .go{left:0;right:0;top:190px;text-align:center}
 .go h2{font-size:170px;font-weight:900;letter-spacing:-.02em}
 .blocks{left:200px;top:560px;width:1200px;display:flex;gap:22px}
 .blocks div{flex:1;height:150px;border-radius:20px;border:1.5px solid #2a2f3a;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:40px;font-weight:900;color:#5a606c;position:relative}
 .blocks div.on{border:2px solid var(--kb);color:var(--kb);background:rgba(201,169,110,.08)}
+.blocks div small{display:block;font-size:22px;font-weight:600;margin-top:10px;opacity:.85}
 .blocks div.on::after{content:"第一站";position:absolute;top:-20px;font-size:20px;background:var(--kb);color:#07080a;padding:6px 16px;border-radius:20px}
 
 
@@ -167,13 +232,13 @@ svg.lead line{stroke:#5a606c;stroke-width:1.5;stroke-dasharray:4 5}
 #sP .cloud::after{content:"";position:absolute;left:300px;top:300px;width:1000px;height:300px;background:radial-gradient(closest-side,#06080d 55%,transparent)}
 #sP .bigq{left:0;right:0;top:360px;text-align:center;font-size:120px;font-weight:900;letter-spacing:-.01em}
 #sP .shop{left:150px;top:150px;width:1300px;height:536px;border-radius:26px;background:#0d1017;border:1px solid #262b36;overflow:hidden}
-#sP .shop .hd{height:64px;display:flex;align-items:center;gap:12px;padding:0 26px;border-bottom:1px solid #1d212b;font-size:24px;font-weight:800;color:#c9ccd3}
+#sP .shop .hd{height:64px;display:flex;align-items:center;gap:12px;padding:0 26px;border-bottom:1px solid #1d212b;font-size:28px;font-weight:800;color:#c9ccd3}
 #sP .shop .hd i{width:14px;height:14px;border-radius:50%;background:#2a2f3a}
 #sP .shop .hd b{margin-left:14px}
 #sP .grid{position:absolute;left:30px;top:94px;right:30px;display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
 #sP .card{height:196px;border-radius:18px;background:#141821;border:1px solid #232834;padding:22px;position:relative;transition:opacity .8s,filter .8s}
 #sP .card .ic{width:54px;height:54px;border-radius:14px;background:var(--c)}
-#sP .card b{display:block;font-size:26px;margin-top:18px;color:#e6e8ec}
+#sP .card b{display:block;font-size:30px;margin-top:18px;color:#e6e8ec}
 #sP .card .add{position:absolute;right:20px;top:22px;width:46px;height:46px;border-radius:50%;border:2px solid #4a505c;color:#9aa0ab;font-size:30px;line-height:40px;text-align:center;font-weight:400}
 #sP .card .add::after{content:"+"}
 #sP .shop.vis .card .add{animation:addOn .3s forwards;animation-delay:calc(var(--i)*.55s + .9s)}
@@ -183,7 +248,7 @@ svg.lead line{stroke:#5a606c;stroke-width:1.5;stroke-dasharray:4 5}
 #sP .cur{position:absolute;width:34px;height:34px;left:0;top:0;opacity:0;z-index:5;pointer-events:none}
 #sP .shop.vis .cur{animation:curMove 4.4s ease-in-out .5s forwards}
 @keyframes curMove{0%{opacity:0;transform:translate(640px,520px)}6%{opacity:1}7.0%{transform:translate(274px,136px) scale(1)}9.1%{transform:translate(274px,136px) scale(.82)}15.6%{transform:translate(590px,136px) scale(1)}21.6%{transform:translate(590px,136px) scale(.82)}28.1%{transform:translate(906px,136px) scale(1)}34.1%{transform:translate(906px,136px) scale(.82)}40.6%{transform:translate(1221px,136px) scale(1)}46.6%{transform:translate(1221px,136px) scale(.82)}53.1%{transform:translate(274px,354px) scale(1)}59.1%{transform:translate(274px,354px) scale(.82)}65.6%{transform:translate(590px,354px) scale(1)}71.6%{transform:translate(590px,354px) scale(.82)}78.1%{transform:translate(906px,354px) scale(1)}84.1%{transform:translate(906px,354px) scale(.82)}90.6%{transform:translate(1221px,354px) scale(1)}96.6%{transform:translate(1221px,354px) scale(.82)}100%{opacity:1;transform:translate(1221px,354px) scale(1)}}
-#sP .card .gone{position:absolute;left:22px;bottom:18px;font-size:20px;color:var(--mute);opacity:0;transition:opacity .6s}
+#sP .card .gone{position:absolute;left:22px;bottom:18px;font-size:24px;color:var(--mute);opacity:0;transition:opacity .6s}
 #sP:has(.f2.vis) .card:not(.keep){opacity:.32;filter:grayscale(1)}
 #sP:has(.f2.vis) .card:not(.keep) .gone{opacity:1}
 #sP .ask{left:0;right:0;top:750px;text-align:center;font-size:64px;font-weight:900}
@@ -203,8 +268,8 @@ svg.lead line{stroke:#5a606c;stroke-width:1.5;stroke-dasharray:4 5}
 #sP .vs .wire{position:absolute;left:50%;top:300px;width:3px;height:120px;margin-left:-1.5px;background:linear-gradient(var(--sk),var(--kb))}
 #sP .vs .wire::after{content:"";position:absolute;left:-5px;top:0;width:13px;height:13px;border-radius:50%;background:#fff;animation:pulse 1.6s linear infinite}
 @keyframes pulse{to{top:110px;opacity:.2}}
-#sP .vs .kbb{position:absolute;left:60px;right:60px;top:420px;height:60px;border-radius:16px;border:2px solid var(--kb);color:var(--kb);font-size:26px;font-weight:800;display:flex;align-items:center;justify-content:center;background:rgba(201,169,110,.08)}
-#sP .vs .ok{position:absolute;left:0;right:0;top:494px;text-align:center;font-size:26px;font-weight:800;color:var(--sk);text-shadow:0 2px 20px #06080d}
+#sP .vs .kbb{position:absolute;left:60px;right:60px;top:420px;height:60px;border-radius:16px;border:2px solid var(--kb);color:var(--kb);font-size:30px;font-weight:800;display:flex;align-items:center;justify-content:center;background:rgba(201,169,110,.08)}
+#sP .vs .ok{position:absolute;left:0;right:0;top:494px;text-align:center;font-size:32px;font-weight:800;color:var(--sk);text-shadow:0 2px 20px #06080d}
 
 
 /* ===== 控场：点章节跳转、翻页、计划时间（我们加的） ===== */
@@ -234,26 +299,65 @@ body.pv #pv{display:block}
 #pv .nx{margin-top:26px;font-size:22px;line-height:1.7;color:var(--mute);padding:0 10px}
 #pv .nx b{color:var(--ink);font-weight:600}
 #pv .keys{margin-top:30px;font-size:16px;color:var(--dim)}
+
+/* ===== 怎么走：企业 AI 化三层（11-05，按泽洲的讲法：人的 AI 技能自下而上，组织自上而下，跳不过去） ===== */
+#sQ .pyr{position:absolute;left:0;right:0;bottom:92px;display:flex;flex-direction:column;align-items:center;gap:16px}
+#sQ .tier{position:relative;border-radius:24px;border:2px solid #2a2f3a;background:rgba(14,17,24,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;
+  transition:opacity .6s,filter .6s,border-color .6s,background .6s,height .8s cubic-bezier(.2,.8,.2,1),translate .8s cubic-bezier(.2,.8,.2,1),rotate .8s cubic-bezier(.2,.8,.2,1)}
+#sQ .pyr:not(.vis) .tier{opacity:0}
+@keyframes tierIn{from{opacity:0;transform:translateY(60px) scaleX(.92)}to{opacity:1;transform:none}}
+#sQ .pyr.vis .tier{animation:tierIn .9s cubic-bezier(.2,.8,.2,1) backwards}
+#sQ .pyr.vis .t1{animation-delay:.15s} #sQ .pyr.vis .t2{animation-delay:.75s} #sQ .pyr.vis .t3{animation-delay:1.35s}
+#sQ .t3{width:560px;height:128px}
+#sQ .t2{width:920px;height:128px;border-color:rgba(201,169,110,.55)}
+#sQ .t1{width:1280px;height:156px;border-color:var(--sk);background:rgba(212,255,58,.07)}
+#sQ .tier b{font-size:48px;font-weight:900;line-height:1.15}
+#sQ .t1 b{color:var(--sk)} #sQ .t2 b{color:var(--kb)}
+#sQ .tier span{font-size:30px;color:#aeb3bd;margin-top:8px;font-weight:600}
+#sQ .t1 .miss{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:44px;font-weight:900;color:#7d828d;opacity:0;transition:opacity .5s}
+#sQ:has(.q1.vis) .t1{border-style:dashed;border-color:#474c57;background:transparent}
+#sQ:has(.q1.vis) .t1>b,#sQ:has(.q1.vis) .t1>span{opacity:0}
+#sQ:has(.q1.vis) .t1 .miss{opacity:1}
+#sQ:has(.q1.vis) .t2,#sQ:has(.q1.vis) .t3{filter:grayscale(1) brightness(.7);translate:0 34px;rotate:-2.2deg;transition-delay:.35s}
+#sQ:has(.q2.vis) .t2,#sQ:has(.q2.vis) .t3{opacity:.28}
+#sQ:has(.q2.vis) .t1{height:300px;justify-content:flex-start;padding-top:30px;background:rgba(212,255,58,.09)}
+#sQ .four{position:absolute;left:34px;right:34px;bottom:30px;display:grid;grid-template-columns:repeat(4,1fr);gap:18px;opacity:0;translate:0 18px;transition:opacity .5s,translate .6s}
+#sQ:has(.q2.vis) .four{opacity:1;translate:0 0;transition-delay:.45s}
+#sQ .four em{font-style:normal;border-radius:18px;border:2px solid var(--c);padding:16px 8px 14px;text-align:center;font-size:36px;font-weight:900;color:var(--c);background:rgba(6,8,13,.7)}
+#sQ .four em i{display:block;font-style:normal;font-size:26px;color:#d9dbe1;font-weight:600;margin-top:6px}
+#sQ .t1 .tg{position:absolute;left:30px;top:-24px;font-size:28px;font-weight:900;color:#07080a;background:var(--sk);border-radius:30px;padding:6px 22px;opacity:0;transition:opacity .4s}
+#sQ:has(.q2.vis) .t1 .tg{opacity:1;transition-delay:.3s}
 </style>
 </head>
 <body>
 <div id="stage">
-  <canvas id="world" width="1600" height="900"></canvas>
+  <canvas id="world" width="3200" height="1800" style="width:1600px;height:900px"></canvas>
 
   <!-- 封面 -->
   <section class="scene" id="cover">
     <canvas id="coverBg" width="1600" height="900"></canvas>
     <div class="abs a">这两天，</div>
-    <div class="abs b">把自家公司<br>用 AI 重做一遍</div>
+    <div class="abs b">把自家公司的<br>AI 雏形搭出来</div>
     <div class="abs c">组织 AI 技能提升实操训练营　·　2026.11.7–8　·　深圳</div>
   </section>
 
 
+  <!-- 五级：企业用 AI 一级一级往上走（11-05 加） -->
+  <section class="scene" id="sL">
+    <div class="abs ttl rv" data-in="0">企业用 AI，一级一级往上走<small>每一级先备好东西，才上得去</small></div>
+    <div class="stairs rv fade" data-in="0"><div class="st on" style="left:0px;height:210px;transition-delay:0.15s"><b>L1</b><h4>各用各的</h4><p>要准备：账号、用的习惯</p></div><div class="st on" style="left:272px;height:290px;transition-delay:0.37s"><b>L2</b><h4>一个环节跑起来</h4><p>要准备：知识库、技能、智能体</p></div><div class="st on" style="left:544px;height:370px;transition-delay:0.59s"><b>L3</b><h4>一条线人机分工</h4><p>要准备：工作流、谁点头</p></div><div class="st" style="left:816px;height:450px;transition-delay:0.81s"><b>L4</b><h4>判断和数据成闭环</h4><p>要准备：数据打通，判断写进系统</p></div><div class="st" style="left:1088px;height:530px;transition-delay:1.03s"><b>L5</b><h4>AI 原生</h4><p>要准备：AI 中台和权限，组织和 AI 一起管</p></div></div>
+    <i class="f1 rv" data-in="1" data-out="2" hidden></i>
+    <div class="l1t rv" data-in="1" data-out="2">最底下：人的 AI 技能</div>
+    <div class="here rv" data-in="1" data-out="2">这两天：从 L1 走到 L3</div>
+    <div class="no rv late" data-in="1" data-out="2">跳不过去：上来就搭中台，人不会用，就搁在那</div>
+    
+  </section>
+
   <!-- 等式 -->
   <section class="scene" id="sA">
-    <div class="abs cap rv" data-in="0">一家公司的业务结果，是乘出来的</div>
+    <div class="abs cap rv" data-in="0">企业 AI 化，是乘出来的</div>
     <div class="abs eq">
-      <div class="term res rv" data-in="0">业务结果</div>
+      <div class="term res rv" data-in="0">企业 AI 化</div>
       <i class="op rv" data-in="0" style="transition-delay:.2s">=</i>
       <div class="term rv" data-in="0" style="transition-delay:.4s">业务理解</div>
       <i class="op rv" data-in="0" style="transition-delay:.55s">×</i>
@@ -273,42 +377,18 @@ body.pv #pv{display:block}
 
   <!-- 拆：你的公司 -->
   <section class="scene" id="sB">
-    <div class="abs ttl rv" data-in="0" data-out="1">先看一家公司</div>
-    <div class="abs ttl rv" data-in="1" data-out="2">做成一件事，要走一条线</div>
-    <div class="chip rv late" data-in="1" data-out="2" style="left:800px;top:350px">一条业务流程</div>
-    <div class="abs ttl rv" data-in="2" data-out="3">线上每一站，是一个人</div>
-    <div class="chip rv late" data-in="2" data-out="3" style="left:176px;top:570px">A 岗</div>
-    <div class="chip rv late" data-in="2" data-out="3" style="left:592px;top:570px">B 岗</div>
-    <div class="chip rv late" data-in="2" data-out="3" style="left:1008px;top:570px">C 岗</div>
-    <div class="chip rv late" data-in="2" data-out="3" style="left:1424px;top:570px">D 岗</div>
-    <div class="abs ttl rv" data-in="3">一个人能顶岗，靠两样</div>
-    <svg class="lead rv fade late" data-in="3"><line x1="1150" y1="330" x2="935" y2="390"/><line x1="460" y1="640" x2="760" y2="480"/></svg>
-    <div class="chip rv late" data-in="3" style="left:1260px;top:320px">本事：一步步怎么做</div>
-    <div class="chip rv late" data-in="3" style="left:360px;top:650px">懂行：客户、价格、规矩</div>
+    <div class="abs ttl rv" data-in="0" data-out="1">先看一家公司<small>老板，几个部门，各管一摊</small></div>
+    <div class="abs ttl rv" data-in="1" data-out="2">每天在做的，是一件件事<small>一件事，是几个部门的人接着干的</small></div>
+    <div class="abs ttl rv" data-in="2" data-out="3">一个员工，靠两样<small>他知道的：知识　他会做的：技能</small></div>
+    <div class="abs ttl rv" data-in="3">知识 + 技能，就是一个员工<small>一件事来了，靠这两样做完</small></div>
   </section>
 
   <!-- 换成 AI 的叫法 -->
   <section class="scene" id="sC">
-    <div class="abs ttl rv" data-in="0" data-out="1">换成 AI 的叫法</div>
-    <svg class="lead rv fade" data-in="0" data-out="1"><line x1="1150" y1="330" x2="935" y2="390"/><line x1="460" y1="640" x2="760" y2="480"/></svg>
-    <div class="chip c-sk rv late" data-in="0" data-out="1" style="left:1270px;top:320px"><span class="o">本事</span>技能</div>
-    <div class="chip c-kb rv late" data-in="0" data-out="1" style="left:360px;top:650px"><span class="o">懂行</span>知识</div>
-    <div class="abs ttl rv" data-in="1" data-out="2"><span class="sk">技能</span> + <span class="kb">知识</span> = <span class="ag">智能体</span><small>一个能顶岗的 AI</small></div>
-    <div class="chip c-ag rv late" data-in="1" data-out="2" style="left:176px;top:570px"><span class="o">A 岗</span>智能体</div>
-    <div class="chip c-ag rv late" data-in="1" data-out="2" style="left:592px;top:570px"><span class="o">B 岗</span>智能体</div>
-    <div class="chip c-ag rv late" data-in="1" data-out="2" style="left:1008px;top:570px"><span class="o">C 岗</span>智能体</div>
-    <div class="chip c-ag rv late" data-in="1" data-out="2" style="left:1424px;top:570px"><span class="o">D 岗</span>智能体</div>
-    <div class="abs ttl rv" data-in="2" data-out="3"><span class="ag">智能体</span>串起来 = <span class="wf">工作流</span></div>
-    <div class="chip c-wf rv late" data-in="2" data-out="3" style="left:800px;top:350px"><span class="o">业务流程</span>工作流</div>
-    <div class="abs ttl rv" data-in="3" data-out="4">人人都靠的底子 = <span class="kb">知识库</span><small>资料、规矩、经验、做过的事</small></div>
-    <div class="chip c-kb rv late" data-in="3" data-out="4" style="left:1390px;top:735px"><span class="o">公司的底子</span>知识库</div>
-    <div class="abs map rv" data-in="4">
-      <div class="dn"><b>拆 ↓</b></div><div class="up"><b>建 ↑</b></div>
-      <div class="r"><div class="l">一条业务流程</div><div class="ar">→</div><div class="rt wf">工作流</div></div>
-      <div class="r"><div class="l">一个人</div><div class="ar">→</div><div class="rt ag">智能体</div></div>
-      <div class="r"><div class="l">他的本事</div><div class="ar">→</div><div class="rt sk">技能</div></div>
-      <div class="r"><div class="l">公司的底子</div><div class="ar">→</div><div class="rt kb">知识库</div></div>
-    </div>
+    <i class="f1 rv" data-in="0" hidden></i>
+    <div class="abs ttl rv" data-in="0">拆完是五层，换成 AI 每层都有对应<small>学完回去，就能从下往上，用 AI 重写一遍</small></div>
+    <div class="sd dn rv fade" data-in="0"><b>拆 ↓</b></div><div class="sd up rv fade" data-in="0" style="transition-delay:1.8s"><b>建 ↑</b></div>
+    <div class="m5"><div class="r"><div class="l rv" data-in="0" style="transition-delay:0.20s">组织</div><div class="ar" style="transition-delay:3.18s">→</div><div class="rt" style="color:#e6e8ec;transition-delay:3.28s">AI 组织</div></div><div class="r"><div class="l rv" data-in="0" style="transition-delay:0.48s">事</div><div class="ar" style="transition-delay:2.86s">→</div><div class="rt" style="color:var(--wf);transition-delay:2.96s">SOP · 工作流</div></div><div class="r"><div class="l rv" data-in="0" style="transition-delay:0.76s">员工</div><div class="ar" style="transition-delay:2.54s">→</div><div class="rt" style="color:var(--ag);transition-delay:2.64s">AI 员工</div></div><div class="r"><div class="l rv" data-in="0" style="transition-delay:1.04s">技能</div><div class="ar" style="transition-delay:2.22s">→</div><div class="rt" style="color:var(--sk);transition-delay:2.32s">AI 的技能</div></div><div class="r"><div class="l rv" data-in="0" style="transition-delay:1.32s">知识</div><div class="ar" style="transition-delay:1.90s">→</div><div class="rt" style="color:var(--kb);transition-delay:2.00s">知识库</div></div></div>
   </section>
 
   <!-- 四样 -->
@@ -316,9 +396,9 @@ body.pv #pv{display:block}
     <div class="abs ttl rv" data-in="0">这两天，亲手做四样</div>
     <div class="abs tiles">
       <div class="tile rv" data-in="0" style="--c:var(--sk);transition-delay:.15s"><b>技能</b><span>把会干的，<br>写下来交给 AI</span></div>
-      <div class="tile rv" data-in="0" style="--c:var(--ag);transition-delay:.3s"><b>智能体</b><span>能顶一个岗的 AI</span></div>
+      <div class="tile rv" data-in="0" style="--c:var(--ag);transition-delay:.3s"><b>智能体</b><span>从岗位上长出来的 AI</span></div>
       <div class="tile rv" data-in="0" style="--c:var(--wf);transition-delay:.45s"><b>工作流</b><span>一件事，<br>AI 接力做完</span></div>
-      <div class="tile base rv" data-in="0" style="--c:var(--kb);transition-delay:.7s"><b>知识库</b><span>公司的底子，AI 先读过</span><em>压在最底下</em></div>
+      <div class="tile base rv" data-in="0" style="--c:var(--kb);transition-delay:.7s"><b>知识库</b><span>公司的大脑，AI 干活从这里取</span><em>压在最底下</em></div>
     </div>
   </section>
 
@@ -340,15 +420,26 @@ body.pv #pv{display:block}
 
   <!-- 长出来 -->
   <section class="scene" id="sE">
-    <div class="abs ttl rv" data-in="0" data-out="1">四样凑到一起，<br>长成一家用 AI 跑的公司</div>
-    <div class="abs ttl rv" data-in="1" data-out="2">一个<span class="sk">技能</span></div>
-    <div class="abs ttl rv" data-in="2" data-out="3"><span class="sk">技能</span>越来越多</div>
-    <div class="abs ttl rv" data-in="3" data-out="4">融成一个专家：<span class="ag">智能体</span></div>
-    <div class="abs ttl rv" data-in="4" data-out="5">专家越来越多</div>
-    <div class="abs ttl rv" data-in="5" data-out="6">串成一条业务流：<span class="wf">工作流</span></div>
-    <div class="abs ttl rv" data-in="6" data-out="7">一条条流，长成一家公司</div>
-    <div class="abs ttl rv" data-in="7">底座是<span class="kb">知识库</span><small>每跑完一单，知识库就厚一层</small></div>
-    <div class="abs cnt rv" data-in="7" id="evoCnt"></div>
+    <div class="abs ttl rv" data-in="0" data-out="1">换成 AI，也是这两样<small>知识 → 知识库　技能 → AI 的技能</small></div>
+    <div class="abs ttl rv" data-in="1" data-out="2">合起来，长出一个 AI 员工<small>知识库 + AI 的技能，人还在原位</small></div>
+    <div class="abs ttl rv" data-in="2" data-out="3">一件事，AI 员工接力做完<small>事 → SOP · 工作流，要紧处人点头</small></div>
+    <div class="abs ttl rv" data-in="3" data-out="4">组织，变成 AI 组织<small>部门还在，人人身边有 AI 员工</small></div>
+    <div class="abs ttl rv" data-in="4">越长越多，越长越快<small>人还是这 16 个人</small></div>
+    <div class="abs cnt rv" data-in="4" id="evoCnt"></div>
+  </section>
+
+  <!-- 怎么走：企业 AI 化三层（11-05） -->
+  <section class="scene" id="sQ">
+    <i class="q1 rv" data-in="1" data-out="2" hidden></i><i class="q2 rv" data-in="2" hidden></i>
+    <div class="abs ttl rv" data-in="0" data-out="1">这样的公司，怎么长出来<small>企业 AI 化，分三层</small></div>
+    <div class="abs ttl rv" data-in="1" data-out="2">顺序，跳不过去<small>人不会用，搭好的也只能搁着</small></div>
+    <div class="abs ttl rv" data-in="2">这两天，打最底下这层<small>AI 技能，是人的本事</small></div>
+    <div class="pyr rv" data-in="0">
+      <div class="tier t3"><b>组织</b><span>↓ 老板推，自上而下</span></div>
+      <div class="tier t2"><b>数据 · 知识 · 中台</b><span>公司的底子</span></div>
+      <div class="tier t1"><em class="tg">这两天</em><b>人的 AI 技能</b><span>↑ 人人会用、会搭，自下而上</span><div class="miss">人还不会用</div>
+        <div class="four"><em style="--c:var(--kb)">知识库<i>把知识交给 AI</i></em><em style="--c:var(--sk)">AI 的技能<i>教 AI 做事</i></em><em style="--c:var(--ag)">AI 员工<i>带 AI 员工</i></em><em style="--c:var(--ag)">SOP · 工作流<i>排 SOP</i></em></div></div>
+    </div>
   </section>
 
   <!-- 闭环 -->
@@ -362,9 +453,9 @@ body.pv #pv{display:block}
         <circle class="ring" cx="800" cy="480" r="270"/>
         <circle class="flow" cx="800" cy="480" r="270" transform="rotate(-90 800 480)"/>
       </svg>
-      <div class="node" style="left:800px;top:210px;--c:#f3f4f6"><b>自家公司</b><span>流程、岗位、本事、底子</span></div>
-      <div class="node" style="left:1070px;top:480px;--c:var(--sk)"><b>拆成四样</b><span>技能 · 智能体 · 工作流 · 知识库</span></div>
-      <div class="node" style="left:800px;top:750px;--c:var(--ag)"><b>用 AI 建回来</b><span>从下往上，一层层搭</span></div>
+      <div class="node" style="left:800px;top:210px;--c:#f3f4f6"><b>自家公司</b><span>流程、岗位、懂的、会干的</span></div>
+      <div class="node" style="left:1070px;top:480px;--c:var(--sk)"><b>拆成四样</b><span>知识库 · 技能 · 智能体 · 工作流</span></div>
+      <div class="node" style="left:800px;top:750px;--c:var(--ag)"><b>用 AI 长回来</b><span>从下往上，一层层长</span></div>
       <div class="node" style="left:530px;top:480px;--c:var(--kb)"><b>跑起来</b><span>每一单，写回知识库</span></div>
       <div class="abs core">转一圈<small>知识库厚一层</small></div>
     </div>
@@ -376,7 +467,7 @@ body.pv #pv{display:block}
   <section class="scene" id="sH">
     <div class="abs go rv" data-in="0"><h2>我们开始</h2></div>
     <div class="abs blocks rv" data-in="0" style="transition-delay:.3s">
-      <div class="on">知识库</div><div>技能</div><div>智能体</div><div>工作流</div>
+      <div class="on">知识库<small>知识</small></div><div>AI 的技能<small>技能</small></div><div>AI 员工<small>员工</small></div><div>SOP<small>事</small></div>
     </div>
   </section>
 
@@ -396,43 +487,26 @@ body.pv #pv{display:block}
 <script>
 /* ================= 逐步：画面 + 口播 ================= */
 const BEATS=[
- {s:'cover',k:0,w:'hidden',ch:'开场',n:`各位早。先把这两天的目标说在前面：帮各位把自家公司用 AI 重做一遍。要做的是把公司做事的那副骨架，用 AI 再搭一遍，用哪个软件倒在其次。先从各位最熟的东西开始：自己的公司。`},
-
- {s:'sA',k:0,w:'hidden',ch:'等式',n:`先给各位一个算式。一家公司的业务结果，是几样东西乘出来的：业务理解、AI 技能、数据和系统、分工和流程。是乘法，哪一项是零，结果就是零。`},
- {s:'sA',k:1,w:'hidden',ch:'等式',n:`业务理解，在座各位比我们懂；数据和系统、分工和流程，各家不一样。这两天只补一项：AI 技能。括号打开，就是海报上的这八项，都融在接下来要做的四样东西里。`},
- {s:'sA',k:2,w:'hidden',ch:'等式',n:`乘法的好处是：一项变强，整个结果跟着放大。其余三项不动，把 AI 技能这一项补上，结果就变大。`},
- {s:'sB',k:0,w:'company_f',ch:'一家公司',n:`这是一家公司。不管做什么行业，从里面看都长这样：几条业务线一起在跑，活儿在里面流。在座各位，对自己公司的这张图，比谁都熟。`},
- {s:'sB',k:1,w:'flow_f',ch:'一家公司',n:`拉近看一条。公司做成一件事，从来不是一个人做完的：从 A 岗位到 B 岗位，再到 C 岗位，一站一站往下传。这就是一条业务流程。想一下：你公司里最要紧的那件事，是怎么从头走到尾的？`},
- {s:'sB',k:2,w:'flow_f',ch:'一家公司',n:`线上每一站，都是一个人。各管一段，各司其职。`},
- {s:'sB',k:3,w:'agent_f',ch:'一家公司',n:`再拉近，看一个人。他凭什么顶得住这个岗？靠两样：一是本事，这件事一步步怎么做，他会干；二是懂行，公司的客户、价格、规矩、以前出过什么事，他都知道。两样缺一样，这个岗就顶不住。`},
-
- {s:'sC',k:0,w:'agent_ai',ch:'换成 AI',n:`好，同一张图，换成 AI 的叫法。一个人的本事，在 AI 里叫技能；他懂的那些，叫知识。`},
- {s:'sC',k:1,w:'flow_ai',ch:'换成 AI',n:`技能加知识，装到一起，就是一个能顶岗的 AI，叫智能体。外面常说的 Agent 就是它。你可以把它当成一个数字员工：有本事，也懂行。`},
- {s:'sC',k:2,w:'wf_ai',ch:'换成 AI',n:`几个智能体一站接一站，把一件事从头做到尾，这条线叫工作流。`},
- {s:'sC',k:3,w:'company_ai',ch:'换成 AI',n:`最后，是所有人都靠的那个底子：公司的资料、规矩、经验、做过的事。在 AI 里它叫知识库，压在整家公司的最底下。`},
- {s:'sC',k:4,w:'dim',ch:'换成 AI',n:`所以换成 AI，四个词各位其实早就认识：流程是工作流，人是智能体，本事是技能，公司的底子是知识库。拆的时候从上往下拆，建的时候从下往上建。`},
-
- {s:'sD',k:0,w:'dim',ch:'四样',n:`这两天，就带各位亲手做这四样：技能、智能体、工作流，还有压在最底下的知识库。每一样，都拿你自己公司的事来做。`},
-
- {s:'sP',k:0,w:'hidden',ch:'破题',n:`这四个词，技能、智能体、工作流、知识库，各位可能都听过，有的已经在用了。`},
+ {s:'cover',k:0,w:'hidden',ch:'开场',n:`各位早。先把这两天的目标说在前面：每个人亲手搭，两天下来，把自家公司的 AI 雏形搭出来、带回去。先不谈 AI，我们从一家公司是怎么运转的说起。`},
+ {s:'sB',k:0,w:'org0',ch:'拆',n:`先不谈 AI，就看一家公司。最上面是老板，下面几个部门：销售、生产、交付、客服，各管一摊。这是各位最熟的组织架构。`},
+ {s:'sB',k:1,w:'line0',ch:'拆',n:`可公司每天真正在做的，是一件件事。比如接一单生意，从接单到回款，要横着穿过好几个部门。拉近看，它是一个个员工一站一站接着干出来的：销售的、生产的、交付的、客服的。`},
+ {s:'sB',k:2,w:'emp',ch:'拆',n:`再拉近，看其中一个销售。他能把活干好，靠两样。一样是他知道的，叫知识：价格表、产品手册、公司规矩，这是公司的；客户名单、踩过的坑，这是他自己的。一样是他会做的，叫技能：报价、写方案、回客户、跟回款。`},
+ {s:'sB',k:3,w:'emp2',ch:'拆',n:`为什么是这两样？一件事来了，比如客户来询价：他得知道价格表、知道这个客户是谁，这是知识；还得会报价，这是技能。知道的加上会做的，这件事就做完了。一个员工，拆到底就是这两样：知识和技能。`},
+ {s:'sC',k:0,w:'hidden',ch:'用 AI 重写',n:`这样从上往下拆，一家公司就是五层：组织、事、员工、技能、知识。换成 AI，每一层都有对应：知识是知识库，技能是 AI 的技能，员工是 AI 员工，事写成 SOP 就是工作流，组织就是 AI 组织。这两天学完，各位回去就可以照这个，把自家公司从下往上，用 AI 重写一遍。先看看重写完是什么样。`},
+ {s:'sE',k:0,w:'g2',ch:'用 AI 重写',n:`从最底下开始。他知道的，写下来交给 AI：公司的那些进企业知识库，他自己的进个人知识库。他会做的，一样样教给 AI，就是 AI 的技能；教得越多，它会的越多。`},
+ {s:'sE',k:1,w:'g3',ch:'用 AI 重写',n:`知识库加上 AI 的技能，就长出一个 AI 员工，跟一个人靠知识和技能干活是一个道理。人还在原位，它在旁边一起干。第一天，我们做到这里。`},
+ {s:'sE',k:2,w:'g5',ch:'用 AI 重写',n:`每个岗位都可以长出一个 AI 员工。一件事写成 SOP，它们照着一站接一站做完，这就是工作流；要紧的地方，比如答应客户交期，还是人来点头。这是第二天上午做的。`},
+ {s:'sE',k:3,w:'orgai',ch:'用 AI 重写',n:`一件件事都这样跑起来，组织就变了。部门还是这几个部门，人还是这些人；每个人身边多了 AI 员工。一件事不再在部门之间来回等，AI 员工一站接一站地跑，人在要紧处点头。这就是 AI 组织。`},
+ {s:'sE',k:4,w:'g7',ch:'用 AI 重写',n:`再往后，它自己会长：技能越教越多，一个 AI 员工带出两个，两个带出四个；工作流越串越多，每跑完一单，知识库就厚一层，下一单跑得更快。人还是这 16 个人，公司能做的事翻了好几番。（让它多跑十几秒再往下）`},
+ {s:'sP',k:0,w:'hidden',ch:'破题',n:`刚才说到的这四样：知识库、技能、AI 员工也就是智能体、工作流，各位可能都听过，有的已经在用了。`},
  {s:'sP',k:1,w:'hidden',ch:'破题',n:`拿技能说。很多人用技能是这样：打开技能广场，看到好的，点个加号，加进来，聊几句。`},
  {s:'sP',k:2,w:'hidden',ch:'破题',n:`问各位一个问题：加进来的这些，现在还天天在用吗？用着不顺手的时候，改过吗？`},
  {s:'sP',k:3,w:'hidden',ch:'破题',n:`别人做的技能，做不出各位要的东西，到了真实场景会出错；人家一停更新，自己也改不动。这两天我们自己搭：长在自己公司里，接着自己的知识库，自己能改，用得越久越顺手，四样还能串起来。后面每一站都这样，先看大家以为的是什么样，再看真正用起来是什么样。`},
- {s:'sE',k:0,w:'dust',ch:'长出来',n:`那这四样凑到一起，会长成什么？我们把这家公司打散，从零开始，重做一遍。`},
- {s:'sE',k:1,w:'g1',ch:'长出来',n:`先是一个技能。很小，只会一件事。`},
- {s:'sE',k:2,w:'g2',ch:'长出来',n:`技能会越来越多。一个变两个，两个变四个。`},
- {s:'sE',k:3,w:'g3',ch:'长出来',n:`多到一定程度，它们融到一起，中间接上知识，就成了一个专家：一个智能体。`},
- {s:'sE',k:4,w:'g4',ch:'长出来',n:`专家也会越来越多，一个管一段。`},
- {s:'sE',k:5,w:'g5',ch:'长出来',n:`它们一站接一站串起来，活儿在里面流，这就是一条工作流。`},
- {s:'sE',k:6,w:'g6',ch:'长出来',n:`一条条工作流长出来、挨在一起，就是一家公司。`},
- {s:'sE',k:7,w:'g7',ch:'长出来',n:`它的底座，是知识库。每跑完一单，结果写回知识库；知识库越厚，上面每个智能体越懂行，又长出新的技能、新的流程。看右上角的数，它自己在涨。搭完它自己还在长。（让它多跑十几秒再往下）`},
+ {s:'sQ',k:0,w:'hidden',ch:'怎么走',n:`刚才那样的公司，不是一下子变出来的，也不是从技能广场加几个、买一套系统就有的。一家企业 AI 化，分三层：最底下是人的 AI 技能，人人会用、会搭，这一层得自下而上；中间是数据、知识、中台这些底子；最上面是组织，得老板自上而下去推。`},
+ {s:'sQ',k:1,w:'hidden',ch:'怎么走',n:`顺序跳不过去。常有老板问：能不能上来就搭中台、做数据治理？可以搭，但人不会用，东西就搁在那，钱花了，没有价值。人先会用了，老板往下推，才推得动。`},
+ {s:'sQ',k:2,w:'hidden',ch:'怎么走',n:`所以这两天，就打最底下这一层。这堂课叫 AI 技能提升，提升的是人的本事：会把知识交给 AI，会教 AI 做事，会带 AI 员工，会排 SOP，正好是刚才那四样。底打好了，中间和上面两层，回去再一层层往上搭。`},
+ {s:'sH',k:0,w:'hidden',ch:'开始',n:`那我们开始。从最底下开始：第一站，知识，全公司的底座。`},
 
- {s:'sF',k:0,w:'g7dim',ch:'闭环',n:`所以学会这四样，能做到什么？`},
- {s:'sF',k:1,w:'g7dim',ch:'闭环',n:`拿到自己的公司，能拆成这四样；再用这四样，建回一家用 AI 跑的公司。`},
- {s:'sF',k:2,w:'g7dim',ch:'闭环',n:`而且这是个闭环：自家公司拆成四样，用 AI 建回来，跑起来，每一单的结果写回知识库，公司就强一点；再拆，再建。外面很多课只教其中一个点；这两天，我们带各位把这一整圈转起来。`},
-
-
- {s:'sH',k:0,w:'hidden',ch:'开始',n:`那我们开始。从最底下开始：第一站，知识库。`},
 ];
 
 /* ================= 舞台缩放 ================= */
@@ -443,180 +517,338 @@ const $=s=>document.querySelector(s);
 function rng(seed){return()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
 const frac=x=>x-Math.floor(x);
 
-/* ================= 世界：一家会长的公司 ================= */
-const C={gray:[150,148,140],sk:[212,255,58],ag:[232,228,216],wf:[143,139,128],kb:[201,169,110],white:[243,244,246]};
-const R=48,FMAX=5,PMAX=4,NMAX=8;
-const rowY=(f,F)=>400+(f-(Math.max(F,4)-1)/2)*120;
-const colX=(f,p)=>800+(p-1.5)*260+(f%2?40:-40);
-const CAM={company:{x:800,y:420,z:1},flow0:{x:760,y:220,z:1.6},agent0:{x:370,y:220,z:5.5},
-  g1:{x:370,y:220,z:7.5},g2:{x:370,y:220,z:4.4},g3:{x:370,y:220,z:4.4},company5:{x:800,y:405,z:.84}};
-const base={op:1,F:4,P:4,N:6,mem:1,links:1,co:1,kb:0,cam:'company',col:[0,0,0,0]};
-const WS={hidden:{...base,op:0,col:[1,1,1,1]},
-  company_f:{...base},flow_f:{...base,cam:'flow0',ff:0},agent_f:{...base,cam:'agent0',ff:0,fa:0},
-  agent_ai:{...base,cam:'agent0',ff:0,fa:0,col:[1,0,0,1]},flow_ai:{...base,cam:'flow0',ff:0,col:[1,1,0,1]},
-  wf_ai:{...base,cam:'flow0',ff:0,col:[1,1,1,1]},company_ai:{...base,kb:1,col:[1,1,1,1]},
-  dim:{...base,kb:1,col:[1,1,1,1],op:.2},
-  dust:{...base,kb:0,co:0,links:0,dust:1,col:[1,1,1,1]},
-  g1:{op:1,F:1,P:1,N:1,loose:1,mem:0,links:0,co:0,kb:0,cam:'g1',col:[1,1,1,1]}};
-WS.g2={...WS.g1,N:6,cam:'g2'};WS.g3={...WS.g2,loose:0,mem:1,cam:'g3'};WS.g4={...WS.g3,P:4,cam:'flow0'};
-WS.g5={...WS.g4,links:1};WS.g6={...WS.g5,F:4,co:1,cam:'company'};WS.g7={...WS.g6,kb:1,evolve:1,cam:'company5'};
-WS.g7dim={...WS.g7,op:.22};
+/* ================= 世界：人、事、知识库、AI 员工（11-05 第三版：东西都写着字，字固定大小，越长越快） ================= */
+const TAU=Math.PI*2;
+const RGB={ink:[236,238,242],line:[78,84,98],sk:[212,255,58],kb:[201,169,110],bg:[6,8,13],mute:[150,156,168]};
+const rgba=(c,a)=>`rgba(${c[0]},${c[1]},${c[2]},${a<0?0:a>1?1:a})`;
+const easeIO=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+const easeOut=t=>1-Math.pow(1-t,3);
+const c01=x=>x<0?0:x>1?1:x;
+const FONT='"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif';
+let NOW=performance.now()/1000,LAST=NOW;
+class V{constructor(v){this.v=this.a=this.b=v;this.t0=0;this.d=0;this.q=[]}
+  to(b,d,dl,inst){this.q=[];if(inst){this.v=this.a=this.b=b;this.d=0;return this}if(b===this.b&&this.d===0)return this;this.a=this.v;this.b=b;this.t0=NOW+(dl||0);this.d=d||.9;return this}
+  then(b,d,dl){this.q.push([b,d,dl]);return this}
+  get(){if(this.d>0){const u=c01((NOW-this.t0)/this.d);this.v=this.a+(this.b-this.a)*easeIO(u);if(u>=1){this.d=0;if(this.q.length){const [b,d,dl]=this.q.shift();this.a=this.v;this.b=b;this.t0=NOW+(dl||0);this.d=d||.9}}}return this.v}}
+const NR=8,NC=7,TWY=66,PR=22;
+const PX=c=>380+c*260,PY=r=>250+r*140;
+const P=[],T=[],ROW=[];
+for(let r=0;r<NR;r++){P.push([]);T.push([]);ROW.push({link:new V(0),hf:new V(0),tr:new V(0)});
+  for(let c=0;c<NC;c++){P[r].push({a:new V(0),dx:new V(0)});T[r].push({a:new V(0),dots:[]})}}
+const F={fr:new V(0),fh:new V(0),bv:new V(0),bh:new V(0),fa:new V(0),fy:new V(400),fx0:new V(380),fx1:new V(380),feed:new V(0),nod:new V(0),kbl:new V(0),kh:new V(0),l0:new V(0),dl:new V(0),sk:new V(0),kn:new V(0),kd:new V(0),twl:new V(0)};
+const SK=['报价','排产','回客户'],AIK=['报价','排产','回客户','写邮件','对账','查库存'];
+const KN=[['价格表','公司的'],['产品手册','公司的'],['客户名单','自己的'],['踩过的坑','自己的']];
+const KNF=[560,650,318,404];   // 知识卡落到地基上的位置：公司的去右边，自己的在他脚下
+const AIC=AIK.map(()=>({a:new V(0)}));
+const CAMS={org:{x:522,y:391,z:.94},row0:{x:770,y:300,z:1.65},row0low:{x:770,y:330,z:1.55},agent:{x:390,y:258,z:4.0},agent0:{x:487,y:318,z:2.2},emp:{x:380,y:242.3,z:2.6},build:{x:380,y:325,z:2}};
+const cam={...CAMS.org},camT={from:{...CAMS.org},to:CAMS.org,t0:0,d:0};
+const DEPT=['销售','生产','交付','客服'],LINES=['接单 → 回款','备货 → 发货','售后 → 复购','新品 → 上架'];
+let wName='hidden',prevName='hidden',hideAt=0,cntT=0;
+let GR={on:false,rows:4,cols:4,next:0,step:0};
+const SCH=[['c',5],['r',5],['c',6],['r',6],['r',7],['c',7],['r',8]];
 
-const RW=rng(11);
-const agents=[],skills=[];
-for(let f=0;f<FMAX;f++)for(let p=0;p<PMAX;p++){const a={f,p,i:agents.length,x:colX(f,p),y:rowY(f,4),tx:0,ty:0,a:0,d:1,dT:1,m:0,want:0,on:0,appear:0,ph:RW()*6.28,sk:[]};agents.push(a);
-  for(let s=0;s<NMAX;s++){const k={ag:a,s,x:a.x,y:a.y,tx:a.x,ty:a.y,a:0,want:0,on:0,appear:0,j:RW()};a.sk.push(k);skills.push(k)}}
-const AG=(f,p)=>agents[f*PMAX+p];
-const KBP=[...Array(170)].map(()=>({u:RW(),v:RW()*2-1,sp:.006+RW()*.02,r:2+RW()*3}));
-const DUST=[...Array(90)].map(()=>({x:RW()*1600,y:RW()*900,r:.6+RW()*1.4,sp:.2+RW()*.6,ph:RW()*6.28}));
+function grid(rows,cols,inst,mode,dl0){
+  for(let r=0;r<NR;r++)for(let c=0;c<NC;c++){const on=r<rows&&c<cols;
+    const v=!on?0:mode==='row'?(r>0?.08:1):mode==='rowOnly'?(r>0?0:1):mode==='focus'?(r===0&&c===0?1:0):mode==='line'?(r>0?.3:1):1;
+    const isNew=on&&P[r][c].a.b<.05;P[r][c].a.to(v,.8,isNew&&!inst?(dl0||0)+(r*.16+c*.07):0,inst)}}
+function rows(f,inst){for(let r=0;r<NR;r++){const o=f(r)||{};const R=ROW[r];R.link.to(o.link||0,.8,o.dl||0,inst);R.hf.to(o.hf||0,.8,0,inst);R.tr.to(o.tr||0,1.2,o.dl||0,inst)}}
+function twins(f,inst){for(let r=0;r<NR;r++)for(let c=0;c<NC;c++){const d=f(r,c);T[r][c].a.to(d==null?0:1,.9,d==null?0:d,inst)}}
+function spread(on,inst,dl){for(let c=0;c<NC;c++)P[0][c].dx.to(on?(c-1.5)*16:0,1,dl||0,inst)}
+function floor(a,y,x0,x1,inst,d){F.fa.to(a,.8,0,inst);F.fy.to(y,d||1.6,0,inst);F.fx0.to(x0,2.2,a&&!inst?.5:0,inst);F.fx1.to(x1,2.2,a&&!inst?.5:0,inst)}
+function cards(o,inst){F.sk.to(o.sk||0,.8,o.sk&&!inst?(o.skd||.5):0,inst);F.kn.to(o.kn||0,.8,o.kn&&!inst?(o.knd||.5):0,inst);F.kd.to(o.kd||0,1.6,o.kd&&!inst?.4:0,inst);
+  F.kbl.to(o.kbl||0,.8,o.kbl&&!inst?2.1:0,inst);F.kh.to(o.kh||0,.7,0,inst);F.twl.to(o.twl||0,.8,o.twl&&!inst?1.2:0,inst);
+  AIC.forEach((ch,i)=>ch.a.to(i<(o.ai||0)?1:0,.9,i<(o.ai||0)&&!inst?.4+i*(i<3?.3:.42)+(i>=3?.6:0):0,inst))}
+function orgv(fr,fh,inst,dl){F.fr.to(fr,.9,fr&&!inst?.2:0,inst);F.bv.to(fr,.9,fr&&!inst?.2:0,inst);F.fh.to(fh,1.2,fh&&!inst?(dl||0):0,inst);F.bh.to(fh,1,fh&&!inst?(dl||0)+.6:0,inst)}
+function misc(feed,nod,inst){F.feed.to(feed,.9,feed&&!inst?.8:0,inst);F.nod.to(nod,.8,nod&&!inst?1.4:0,inst)}
+const H4=r=>r<4;
+function stop(){GR.on=false}
+const STATES={
+  hidden:{op:0},
+  org0:{cam:'org',f(i){stop();grid(4,4,i);rows(()=>0,i);spread(0,i);cards({},i);em({},i);floor(0,400,380,380,i);twins(()=>null,i);orgv(1,0,i);misc(0,0,i)}},
+  line0:{l0:1,dl:1,dld:3.5,cam:'row0',camDelay:2.5,cd:1.8,f(i){stop();cards({},i);em({},i);floor(0,400,380,380,i);twins(()=>null,i);misc(0,0,i);
+    if(i||BK){grid(4,4,i,'row');rows(()=>0,i);spread(1,i);orgv(0,0,i);F.l0.to(0,.5,0,i);return}
+    grid(4,4,false,'line');rows(r=>r===0?{link:1,hf:1,dl:.3}:0,false);spread(0,false);orgv(.28,0,false);
+    later(2.5,()=>{grid(4,4,false,'row');orgv(0,0,false);ROW[0].link.to(0,.8,.4);ROW[0].hf.to(0,.6,.3);spread(1,false,.5);F.l0.to(0,.5)})}},
+  staff:{dl:1,cam:'row0',f(i){stop();grid(4,4,i,'row');rows(()=>0,i);spread(1,i);cards({},i);em({},i);floor(0,400,380,380,i);twins(()=>null,i);orgv(0,0,i);misc(0,0,i)}},
+  emp:{cam:'emp',cd:1.9,f(i){stop();grid(4,4,i,'focus');rows(()=>0,i);spread(0,i);cards({},i);em({nd:1,kn:1,sk:1},i);floor(0,400,380,380,i);twins(()=>null,i);orgv(0,0,i);misc(0,0,i)}},
+  emp2:{cam:'emp',f(i){stop();grid(4,4,i,'focus');rows(()=>0,i);spread(0,i);cards({},i);em({nd:1,kn:1,sk:1,cp:1,ndd:0,knd:0,skd:0},i);floor(0,400,380,380,i);twins(()=>null,i);orgv(0,0,i);misc(0,0,i)}},
+  g0:{cam:'build',f(i){stop();grid(4,4,i,'focus');rows(()=>0,i);spread(0,i);cards({},i);em({kn:1,kd:1,kbl:1,knd:0},i);floor(1,420,0,760,i);twins(()=>null,i);orgv(0,0,i);misc(0,0,i)}},
+  g2:{cam:'build',pre:'emp',cd:2.2,f(i){stop();grid(4,4,i,'focus');rows(()=>0,i);spread(0,i);cards({},i);em({kn:1,sk:1,kd:1,sd:1,ex:1,kbl:1,knd:0,skd:0},i);floor(1,420,0,760,i);twins(()=>null,i);orgv(0,0,i);misc(0,0,i)}},
+  g3:{cam:'build',f(i){stop();grid(4,4,i,'focus');rows(()=>0,i);spread(0,i);cards({twl:1},i);em({kn:1,sk:1,kd:1,sd:1,ex:1,kbl:1,knd:0,skd:0,kdd:0,sdd:0,exd:0,kbld:0},i);floor(1,420,0,760,i);twins((r,c)=>r===0&&c===0?.4:null,i);orgv(0,0,i);misc(1,0,i)}},
+  g4:{dl:1,cam:'row0low',f(i){STATES.g5.f(i)}},
+  g5:{dl:1,cam:'row0low',cd:2,f(i){stop();grid(4,4,i,'rowOnly');rows(r=>r===0?{link:.25,tr:1,dl:i?0:1.6}:0,i);spread(0,i);cards({kh:1},i);em({kn:1,sk:1,kd:1,sd:1,ex:1,hd:1},i);floor(1,400,220,1320,i);twins((r,c)=>r===0&&c<4?(c?.5+c*.3:0):null,i);orgv(0,0,i);misc(1,1,i)}},
+  orgai:{ao:1,cd:2,camf(){return aoCam(1,0,false)},f(i){stop();aoEnter();aoCollapse(i);AO.follow=false;
+    for(let r=0;r<4;r++){AO.L[r].to(1,1.2,r?2.2+r*.25:0,i);for(let d=0;d<4;d++){AO.P[r][d].to(1,.8,r?.35+r*.15+d*.05:0,i);AO.T[r][d].to(1,.9,r?1.3+r*.2+d*.06:0,i)}}
+    AO.fr.to(1,.9,.3,i);AO.spd.to(1,.8,0,i);floor(1,aoFloorY(1),220,1320,i,1.8);cards({kh:1},i);em({kn:1,sk:1,kd:1,sd:1,ex:1,hd:1},i);misc(0,1,i)}},
+  g7:{ao:1,cd:1.2,camf(){return aoCam(AO.lvg.b,AO.mg.b,true)},f(i){stop();aoEnter();aoClear();
+    for(let r=0;r<4;r++){AO.L[r].to(1,1,0,i);for(let d=0;d<4;d++){AO.P[r][d].to(1,.8,0,i);AO.T[r][d].to(1,.9,.2,i)}}
+    AO.fr.to(1,.9,0,i);cards({kh:1},i);em({kn:1,sk:1,kd:1,sd:1,ex:1,hd:1},i);misc(0,1,i);floor(1,aoFloorY(1),220,1320,i);
+    AO.run=0;AO.spd.to(1,0,0,1);AO.spd.to(2.6,6,1.4,i);const d0=WH?1.4:0;AO.gs=GS.map(([a,b,t])=>[a,b,NOW+t+d0]);AO.gi=0;
+    if(i){while(AO.gi<AO.gs.length)aoStep(true);AO.run=2400}AO.follow=true}},
+};
+['agent_kb','agent_ai','agent_all'].forEach(k=>STATES[k]=STATES.g3);STATES.agent_f=STATES.emp;STATES.agent_k=STATES.emp2;
+Object.assign(STATES,{g1:STATES.g2,g6:STATES.orgai,wf_ai:STATES.g5,company_ai:STATES.orgai,dust:STATES.g0,company_f:STATES.org0,flow_f:STATES.line0,flow_cut:STATES.staff,dim:{op:.2,ao:1,camf:STATES.orgai.camf,f:STATES.orgai.f},g7dim:{op:.22,ao:1,camf:STATES.g7.camf,f:STATES.g7.f}});
+function growStep(inst){const [k,n]=SCH[GR.step++];if(k==='c')GR.cols=n;else GR.rows=n;
+  for(let r=0;r<GR.rows;r++)for(let c=0;c<GR.cols;c++){if(P[r][c].a.b<.5)P[r][c].a.to(1,.7,inst?0:(r*.05+c*.05)%0.6,inst);if(T[r][c].a.b<.5)T[r][c].a.to(1,.8,inst?0:.35+((r*.05+c*.05)%0.6),inst)}
+  for(let r=0;r<GR.rows;r++){if(ROW[r].tr.b<.5){ROW[r].tr.to(1,1,inst?0:.6,inst);ROW[r].link.to(.25,1,0,inst)}}
+  F.fy.to(PY(GR.rows-1)+150,1.4,0,inst);F.fx0.to(PX(0)-160,1.4,0,inst);F.fx1.to(PX(GR.cols-1)+160,1.4,0,inst)}
+function fitCam(){const W=PX(GR.cols-1)-PX(0)+120,H=PY(GR.rows-1)-PY(0)+190;const z=Math.min(1140/W,620/H,.98);
+  const xc=(PX(0)+PX(GR.cols-1))/2,yc=(PY(0)-40+PY(GR.rows-1)+150)/2;return{x:xc+150/z,y:yc-62/z,z}}
 
-let ws=WS.hidden,wName='hidden';
-const cam={x:800,y:420,z:1},v={c:[1,1,1,1],links:0,co:0,kb:0};
-const evo={start:0,last:0,F5:0,extra:new Array(agents.length).fill(0)};
-const effF=()=>ws.evolve&&evo.F5?5:ws.F;
-const nSk=ag=>Math.min(NMAX,ws.N+(ws.evolve?evo.extra[ag.i]:0));
-
-function layout(anim){
-  const now=performance.now(),F=effF();
-  agents.forEach(ag=>{
-    const want=!ws.dust&&ag.f<F&&ag.p<ws.P?1:0;
-    if(want&&!ag.want)ag.appear=anim?now+(ag.f>0?(ag.f-(ws.evolve?4:0))*480:0)+ag.p*300:now;
-    ag.want=want;ag.tx=colX(ag.f,ag.p);ag.ty=rowY(ag.f,F);
-    ag.dT=(ws.ff!=null&&ag.f!==ws.ff)?.07:(ws.fa!=null&&ag.p!==ws.fa)?.1:1;
-  });
-  skills.forEach(sk=>{const ag=sk.ag,want=ag.want&&sk.s<nSk(ag)?1:0;
-    if(want&&!sk.want)sk.appear=anim?Math.max(now,ag.appear)+(ws.evolve&&ag.a>.5?0:220+sk.s*150):now;
-    sk.want=want});
+/* ===== 一个员工 = 知识 + 技能（11-05 第五版）：两个节点向外散开；换成 AI：知识落进知识库，技能教给 AI，合起来长出 AI 员工 ===== */
+const EMK=[['价格表',0],['产品手册',0],['公司规矩',0],['客户名单',1],['踩过的坑',1]];
+const EMS=['报价','写方案','回客户','跟回款'],EMX=['写周报','查库存'];
+const CE={x:380,y:242.3,z:2.6},CB={x:380,y:325,z:2};
+const wE=(cx,cy)=>[CE.x+(cx-800)/CE.z,CE.y+(cy-450)/CE.z],wB=(cx,cy)=>[CB.x+(cx-800)/CB.z,CB.y+(cy-450)/CB.z];
+const EN={k:wE(480,470),s:wE(1120,470)},ENR=54/CE.z;
+const EKP=[[351,317],[299,385],[280,470],[299,555],[351,623]].map(p=>wE(...p));
+const ESP=[[1266,348],[1305,427],[1305,513],[1266,592]].map(p=>wE(...p));
+const EKF=[181,335,504,716,885].map(x=>wB(x,606));
+const EAI=[[945,374],[945,432],[945,490],[1105,374],[1105,432],[1105,490]].map(p=>wB(...p));
+const EM={nd:new V(0),kn:new V(0),sk:new V(0),cp:new V(0),kd:new V(0),sd:new V(0),ex:new V(0),kbl:new V(0),hd:new V(0),t0:0};
+function em(o,inst){const a=!inst;
+  EM.nd.to(o.nd||0,.7,a&&o.nd?(o.ndd||.4):0,inst);
+  EM.kn.to(o.kn||0,o.kn?1.3:.5,a&&o.kn?(o.knd||.7):0,inst);
+  EM.sk.to(o.sk||0,o.sk?1.1:.5,a&&o.sk?(o.skd||1.9):0,inst);
+  if(o.cp&&EM.cp.b<.5)EM.t0=NOW+(a?.6:0);EM.cp.to(o.cp||0,.6,a&&o.cp?.4:0,inst);
+  EM.kd.to(o.kd||0,1.6,a&&o.kd?(o.kdd||.5):0,inst);
+  EM.sd.to(o.sd||0,1.4,a&&o.sd?(o.sdd||1.7):0,inst);
+  EM.ex.to(o.ex||0,.8,a&&o.ex?(o.exd||3.1):0,inst);
+  EM.kbl.to(o.kbl||0,.8,a&&o.kbl?(o.kbld||2.0):0,inst);
+  EM.hd.to(o.hd||0,.6,0,inst)}
+function emReset(){['nd','kn','sk','cp','kd','sd','ex','kbl','hd'].forEach(k=>EM[k].to(0,0,0,1))}
+const bump=(ph,t,d)=>{const u=(ph-t)/d;return u<0||u>1?0:Math.sin(u*Math.PI)};
+function drawEMP(g,px,z){
+  const nd=EM.nd.get(),kn=EM.kn.get(),sk=EM.sk.get(),cp=EM.cp.get(),kd=EM.kd.get(),sd=EM.sd.get(),ex=EM.ex.get(),kbl=EM.kbl.get(),vis=1-EM.hd.get();
+  if(vis<.01||(kn<.01&&sk<.01&&nd<.01&&kd<.01))return;
+  const X0=PX(0),Y0=PY(0),fyv=F.fy.v,ph=cp>.01?((NOW-EM.t0)%4.4+4.4)%4.4:0;
+  // 位置：从节点里散出来 → 换成 AI 时落下去 / 挪过去
+  const KP=EMK.map(([s,own],i)=>{const ap=c01(kn*1.7-i*.16),pe=easeOutBack(ap),e=easeIO(c01(kd*1.35-(own?0:.3)-i*.04));
+    const sx=EN.k[0]+(EKP[i][0]-EN.k[0])*pe,sy=EN.k[1]+(EKP[i][1]-EN.k[1])*pe;return{s,own,ap,e,x:sx+(EKF[i][0]-sx)*e,y:sy+(EKF[i][1]-sy)*e}});
+  const SKP=EMS.map((s,i)=>{const ap=c01(sk*1.7-i*.18),pe=easeOutBack(ap),e=easeIO(c01(sd*1.3-i*.1));
+    const sx=EN.s[0]+(ESP[i][0]-EN.s[0])*pe,sy=EN.s[1]+(ESP[i][1]-EN.s[1])*pe;return{s,ap,e,x:sx+(EAI[i][0]-sx)*e,y:sy+(EAI[i][1]-sy)*e}});
+  if(nd>.01){
+    // 人 ↔ 两个节点
+    for(const [n,col,a] of [[EN.k,RGB.kb,c01(kn*3)],[EN.s,RGB.ink,c01(sk*3)]]){const dir=Math.sign(n[0]-X0);
+      g.strokeStyle=rgba(col,.5*nd*a);g.lineWidth=LW*1.1;g.beginPath();g.moveTo(X0+dir*(PR+3*px),Y0);g.lineTo(n[0]-dir*ENR,n[1]);g.stroke()}
+    // 节点 → 一样样
+    KP.forEach(p=>{if(p.ap<=0||p.e>.05)return;g.strokeStyle=rgba(RGB.kb,.35*nd);g.lineWidth=LW*.8;g.beginPath();g.moveTo(EN.k[0],EN.k[1]);g.lineTo(p.x,p.y);g.stroke()});
+    SKP.forEach(p=>{if(p.ap<=0||p.e>.05)return;g.strokeStyle=rgba(RGB.ink,.3*nd);g.lineWidth=LW*.8;g.beginPath();g.moveTo(EN.s[0],EN.s[1]);g.lineTo(p.x,p.y);g.stroke()});
+    for(const [n,lab,cap,col,a] of [[EN.k,'知识','他知道的',RGB.kb,c01(kn*3)],[EN.s,'技能','他会做的',RGB.ink,c01(sk*3)]]){const aa=nd*a;if(aa<.01)continue;const pop=.7+.3*easeOutBack(c01(a));
+      glow(g,col,n[0],n[1],ENR*2.4,.2*aa);g.fillStyle=rgba(RGB.bg,aa);g.beginPath();g.arc(n[0],n[1],ENR*pop,0,TAU);g.fill();g.lineWidth=LW*1.5;g.strokeStyle=rgba(col,.95*aa);g.stroke();
+      txt(g,lab,n[0],n[1],40,col,aa);txt(g,cap,n[0],n[1]+ENR+30*px,26,RGB.mute,aa,'center',600)}
+    txt(g,'销售',X0,Y0-PR-28*px,30,RGB.mute,nd,'center',600);
+    const ga=nd*c01(kn*1.7-.8);txt(g,'公司的',EKP[0][0],EKP[0][1]-50*px,24,RGB.kb,.85*ga,'center',600);txt(g,'自己的',EKP[4][0],EKP[4][1]+50*px,24,RGB.kb,.85*ga,'center',600)}
+  // 一件事来了：用到价格表、客户名单（知识）和报价（技能），做完出去
+  const hlK=i=>cp>.01&&(i===0||i===3)?bump(ph,.95+(i===3?.15:0),1.1):0,hlS=i=>cp>.01&&i===0?bump(ph,1.05,1.1):0;
+  KP.forEach((p,i)=>{const a=Math.max(c01(p.ap*2),kd>.01?1:0)*vis;if(a<.01)return;const h=hlK(i);if(h>.01)glow(g,RGB.kb,p.x,p.y,70*px,.55*h*cp);
+    chip(g,p.s,p.x,p.y,30,RGB.kb,a,(!p.own||p.e>.5)?RGB.kb:null)});
+  SKP.forEach((p,i)=>{const a=c01(p.ap*2)*vis;if(a<.01)return;const h=hlS(i);if(h>.01)glow(g,RGB.ink,p.x,p.y,70*px,.45*h*cp);
+    const ai=p.e>.5;if(ai)glow(g,RGB.sk,p.x,p.y,40*px,.25*a);chip(g,p.s,p.x,p.y,30,ai?RGB.sk:RGB.ink,a,ai?RGB.sk:null)});
+  if(ex>.01)EMX.forEach((s,i)=>{const a=c01(ex*2-i*.5)*vis;if(a<.01)return;const [x,y]=EAI[4+i];glow(g,RGB.sk,x,y,(40+30*(1-a))*px,.3*a);chip(g,s,x,y,30,RGB.sk,a,RGB.sk)});
+  if(cp>.01&&nd>.01){const ca=cp*nd;
+    const aIn=ph<.9?c01(ph*4):c01((1.3-ph)*3);if(aIn>.01){const u=easeIO(c01(ph/.8)),y=Y0-PR-170*px+(88*px)*u;chip(g,'客户来询价',X0,y,28,RGB.ink,ca*aIn,null);if(ph>.8){g.setLineDash([5*px,6*px]);g.strokeStyle=rgba(RGB.ink,.5*ca*aIn);g.lineWidth=LW;g.beginPath();g.moveTo(X0,y+24*px);g.lineTo(X0,Y0-PR-42*px);g.stroke();g.setLineDash([])}}
+    const flow=(from,via,t0,col)=>{const u=c01((ph-t0)/.95);if(u<=0||u>=1)return;const q=u<.5?u*2:u*2-1,A=u<.5?from:via,B=u<.5?via:[X0,Y0];
+      const x=A[0]+(B[0]-A[0])*q,y=A[1]+(B[1]-A[1])*q;glow(g,col,x,y,26*px,.9*ca);g.fillStyle=rgba(col,ca);g.beginPath();g.arc(x,y,6*px,0,TAU);g.fill()};
+    flow(EKP[0],EN.k,1.0,RGB.kb);flow(EKP[3],EN.k,1.15,RGB.kb);flow(ESP[0],EN.s,1.1,RGB.ink);
+    const gl=bump(ph,1.95,.9);if(gl>.01)glow(g,RGB.ink,X0,Y0,PR*3.4,.4*gl*ca);
+    const ao=ph<2.5?0:ph<3.5?c01((ph-2.5)*5):c01((4.1-ph)*2.2);if(ao>.01)chip(g,'报价单 ✓',X0,Y0+PR+40*px+100*px*easeOut(c01((ph-2.5)/.9)),28,RGB.ink,ca*ao,RGB.ink)}
+  if(kbl>.01){const x1=wB(343,0)[0],x2=wB(800,0)[0];txt(g,'企业知识库',x1,fyv+30*px,30,RGB.kb,kbl*vis);txt(g,'个人知识库',x2,fyv+30*px,30,RGB.kb,kbl*vis)}
 }
-function skillTarget(sk,now){const ag=sk.ag,n=Math.max(1,nSk(ag));let ang,rad;
-  if(ws.loose){ang=sk.s*2.399+now*.0002;rad=n===1?0:R*(.8+.55*((sk.s*7)%5)/5)}
-  else{ang=sk.s/n*6.283+now*.00025+ag.ph;rad=R*.6}
-  sk.tx=ag.x+Math.cos(ang)*rad;sk.ty=ag.y+Math.sin(ang)*rad}
-function scatter(){[...agents,...skills].forEach(e=>{const t=RW()*6.28,d=160+RW()*260;e.tx=e.x+Math.cos(t)*d;e.ty=e.y+Math.sin(t)*d})}
-function snap(){const now=performance.now();
-  agents.forEach(ag=>{ag.on=ag.want;ag.a=ws.dust?0:ag.want;ag.x=ag.tx;ag.y=ag.ty;ag.d=ag.dT;ag.m=ag.want&&ws.mem?1:0});
-  skills.forEach(sk=>{sk.on=sk.want;sk.a=sk.want;skillTarget(sk,now);sk.x=sk.tx;sk.y=sk.ty});
-  Object.assign(cam,CAM[ws.cam]);v.c=[...ws.col];v.links=ws.links;v.co=ws.co;v.kb=ws.kb}
-function setWorld(name,anim){
-  const prev=WS[wName],nw=WS[name];
-  if(nw.evolve&&!(prev&&prev.evolve)){
-    if(anim){evo.start=evo.last=performance.now();evo.F5=0;evo.extra.fill(0)}else{evo.F5=1;evo.extra.fill(2)}}
-  ws=nw;wName=name;
-  const W=$('#world');W.style.opacity=ws.op;W.classList.toggle('blur',ws.op>0&&ws.op<1);
-  layout(anim);
-  if(ws.dust&&anim)scatter();
-  if(!anim)snap();
+const SCHQ=[];function later(t,fn){SCHQ.push([NOW+t,fn])}
+function runLater(){for(let i=SCHQ.length-1;i>=0;i--)if(NOW>=SCHQ[i][0]){const f=SCHQ[i][1];SCHQ.splice(i,1);f()}}
+/* ===== AI 组织（11-05 第四版）：部门还在，人人身边长出 AI 员工；再往后一分二、二分四，越长越多 ===== */
+const easeOutBack=u=>{const c1=1.45,c3=c1+1;return 1+c3*Math.pow(u-1,3)+c1*Math.pow(u-1,2)};
+const LS=30,LOFF=20,SP0=44,SPJ=32;
+const AO={on:false,follow:false,coll:false,lv:1,m:0,lvg:new V(1),mg:new V(0),fr:new V(0),kf:new V(1),spd:new V(1),P:[],T:[],L:[],bv:[],bh:[],gs:null,gi:0,ft:0,run:0,rt:0,np:[0,0,0,0]};
+for(let r=0;r<4;r++){AO.P.push([]);AO.T.push([]);AO.L.push(new V(0));for(let d=0;d<4;d++){AO.P[r].push(new V(0));AO.T[r].push(new V(0))}}
+const aoHalf=m=>92+c01(m)*SP0+Math.max(0,m-1)*SPJ;
+const aoCS=m=>2*aoHalf(m)+76;
+const aoJX=j=>j===0?0:Math.sign(j)*(SP0+(Math.abs(j)-1)*SPJ);
+const aoRB=l=>140+Math.max(0,l-1)*LS+LOFF*c01(l-1);
+const aoYP=(r,l)=>250+r*aoRB(l);
+const aoLY=(r,k,l)=>aoYP(r,l)+TWY+(k>0?k*LS+LOFF:0);
+const aoBot=l=>aoYP(3,l)+TWY+Math.max(0,l-1)*LS+LOFF*c01(l-1);
+const aoFloorY=l=>aoBot(l)+62;
+function aoCam(l,m,cnt){const xL=PX(0)-aoHalf(m),xR=PX(0)+3*aoCS(m)+aoHalf(m),L=cnt?250:240,R=cnt?1170:1540,top=178,bot=aoFloorY(l)+12,ts=256;
+  const z=Math.min((R-L)/(xR-xL),(836-ts)/(bot-top),.98);return{x:(xL+xR)/2-((L+R)/2-800)/z,y:top-(ts-450)/z,z}}
+const GS=[['v',2,.9],['h',1,1.9],['v',4,2.9],['h',3,3.9]];
+function aoStep(inst){const [kd,n]=AO.gs[AO.gi++];const t0=inst?-100:NOW;
+  if(kd==='v'){const o=AO.lv;for(let k=o;k<n;k++)AO.bv[k]={t0,p:k-o};AO.lv=n;AO.lvg.to(n,1.1,0,inst)}
+  else{const o=AO.m;for(let j=o+1;j<=n;j++){AO.bh[j]={t0,p:o};AO.bh[-j]={t0,p:-o}}AO.m=n;AO.mg.to(n,1.1,0,inst)}}
+function aoClear(){AO.bv=[];AO.bh={};AO.lv=1;AO.m=0;AO.lvg.to(1,0,0,1);AO.mg.to(0,0,0,1);AO.kf.to(1,0,0,1);AO.coll=false;AO.gs=null}
+function aoReset(){AO.on=false;AO.follow=false;aoClear();AO.spd.to(1,0,0,1);AO.fr.to(0,0,0,1);
+  for(let r=0;r<4;r++){AO.L[r].to(0,0,0,1);for(let d=0;d<4;d++){AO.P[r][d].to(0,0,0,1);AO.T[r][d].to(0,0,0,1)}}}
+function aoEnter(){if(AO.on)return;AO.on=true;AO.ft=NOW;
+  for(let r=0;r<NR;r++){const R=ROW[r];if(r<4){AO.L[r].to(R.tr.v,0,0,1)}R.link.to(0,0,0,1);R.tr.to(0,0,0,1);R.hf.to(0,0,0,1);
+    for(let c=0;c<NC;c++){if(r<4&&c<4){AO.P[r][c].to(P[r][c].a.v,0,0,1);AO.T[r][c].to(T[r][c].a.v,0,0,1)}P[r][c].a.to(0,0,0,1);P[r][c].dx.to(0,0,0,1);T[r][c].a.to(0,0,0,1)}}
+  AO.fr.to(F.fr.v,0,0,1);F.fr.to(0,0,0,1);F.bv.to(0,0,0,1);F.fh.to(0,0,0,1);F.bh.to(0,0,0,1);aoClear()}
+function aoLeave(){for(let r=0;r<4;r++){for(let d=0;d<4;d++){P[r][d].a.to(AO.P[r][d].v,0,0,1);T[r][d].a.to(AO.T[r][d].v,0,0,1)}
+    ROW[r].tr.to(AO.L[r].v,0,0,1);ROW[r].link.to(.25*AO.L[r].v,0,0,1)}
+  F.fr.to(AO.fr.v,0,0,1);F.bv.to(AO.fr.v,0,0,1);aoReset()}
+function aoCollapse(inst){if(AO.lv===1&&AO.m===0)return;AO.gs=null;
+  if(inst){aoClear();return}AO.kf.to(0,.5,0);AO.lvg.to(1,1.1,.15);AO.mg.to(0,1.1,.15);AO.coll=true}
+function aoSpawn(b,dl,dur){return b?c01((NOW-b.t0-dl)/(dur||.8)):0}
+function nodAt(g,x,y,ty,nd,np,s,px){g.strokeStyle=rgba(RGB.ink,.4*nd);g.lineWidth=LW*.7;g.setLineDash([6*px,8*px]);g.beginPath();g.moveTo(x,y+PR*s+2*px);g.lineTo(x,ty-PR*s-2*px);g.stroke();g.setLineDash([]);
+  const cx=x+(PR+12)*s,cy=y-(PR+4)*s;glow(g,RGB.ink,cx,cy,22*s,.4*nd*np);g.strokeStyle=rgba(RGB.ink,nd*(.4+.6*np));g.lineWidth=LW*1.4;g.beginPath();g.moveTo(cx-8*s,cy);g.lineTo(cx-2*s,cy+6*s);g.lineTo(cx+10*s,cy-7*s);g.stroke()}
+function drawAO(g,t,px,z){
+  const lv=AO.lvg.get(),mg=AO.mg.get(),fr=AO.fr.get(),kf=AO.kf.get(),spd=AO.spd.get();const CS=aoCS(mg),HW=aoHalf(mg),X=d=>PX(0)+d*CS,EX=HW-92;
+  const s=Math.max(1,14/(PR*z)),st=Math.max(1,12/(PR*z)),top=178,bot=aoBot(lv)+46;
+  // 部门框、老板：组织还是这个组织
+  if(fr>.01){const bx=(X(0)+X(3))/2,by=top-82*px;
+    for(let d=0;d<4;d++){const x=X(d)-HW;g.fillStyle=rgba(RGB.ink,.03*fr);rr(g,x,top,2*HW,bot-top,16);g.fill();g.strokeStyle=rgba(RGB.ink,.26*fr);g.lineWidth=LW*.9;g.stroke();
+      txt(g,DEPT[d],X(d),top-30*px,38,RGB.ink,.9*fr);
+      g.strokeStyle=rgba(RGB.ink,.3*fr);g.lineWidth=LW*.8;g.beginPath();g.moveTo(bx,by+PR*s);g.bezierCurveTo(bx,by+60*px,X(d),top-96*px,X(d),top-56*px);g.stroke()}
+    person(g,bx,by,fr,RGB.ink,0,s);txt(g,'老板',bx+PR*s+14*px,by,34,RGB.ink,.85*fr,'left')}
+  // 知识库一层层变厚
+  const fa=F.fa.v,fy=F.fy.v,fx0=F.fx0.v,fx1=F.fx1.v,thick=Math.log2(lv)+Math.log2(1+2*mg)/1.4;
+  if(fa>.01)for(let i=1;i<=Math.ceil(thick-.001);i++){const a=c01(thick-i+1)*fa*(1-i/7);g.strokeStyle=rgba(RGB.kb,.6*a);g.lineWidth=2*px;g.beginPath();g.moveTo(fx0+60,fy+i*9*px);g.lineTo(fx1-60,fy+i*9*px);g.stroke()}
+  const HJ=[0];for(let j=1;j<=AO.m;j++)HJ.push(j,-j);
+  for(let r=0;r<4;r++){const yp=aoYP(r,lv),la=AO.L[r].get();AO.np[r]*=.9;
+    if(la>.01){g.strokeStyle=rgba(RGB.line,.25*la);g.lineWidth=LW;for(let d=0;d<3;d++){g.beginPath();g.moveTo(X(d)+PR*s+4*px,yp);g.lineTo(X(d+1)-PR*s-4*px,yp);g.stroke()}}
+    for(let k=0;k<8;k++){let ak,y;
+      if(k===0){ak=1;y=yp+TWY}else{const b=AO.bv[k];if(!b)continue;const u=aoSpawn(b,r*.14,.85);if(u<=0)continue;const e=easeOutBack(u),y0=aoLY(r,b.p,lv),y1=aoLY(r,k,lv);y=y0+(y1-y0)*e;ak=c01(u*3)*kf;if(ak<.01)continue}
+      if(k===0&&EX>1&&la>.5){g.strokeStyle=rgba(RGB.sk,.34*kf);g.lineWidth=LW*.9;g.beginPath();g.moveTo(X(0)-EX,y);g.lineTo(X(3)+EX,y);g.stroke()}
+      if(k===0){if(la>.01)for(let d=0;d<3;d++){const p=c01(la*1.5-d*.2);if(p<=0)continue;const a1=AO.T[r][d].v,a2=AO.T[r][d+1].v,xa=X(d)+PR*st+4*px,xb=X(d+1)-PR*st-4*px;
+          g.strokeStyle=rgba(RGB.sk,.6*Math.min(a1,a2));g.lineWidth=LW*1.2;g.beginPath();g.moveTo(xa,y);g.lineTo(xa+(xb-xa)*p,y);g.stroke()}}
+      else{g.strokeStyle=rgba(RGB.sk,.42*ak);g.lineWidth=LW;g.beginPath();g.moveTo(X(0)-EX,y);g.lineTo(X(3)+EX,y);g.stroke()}
+      for(let d=0;d<4;d++)for(const j of HJ){let x=X(d)+aoJX(j),a=ak;
+        if(k===0&&j===0){const ta=AO.T[r][d].get();if(ta<.01)continue;const pop=easeOut(c01(ta));glow(g,RGB.sk,x,y,52*pop*st,.32*ta);person(g,x,y,ta,RGB.sk,.1,st*(.7+.3*pop));continue}
+        if(j!==0){const b=AO.bh[j],u=aoSpawn(b,d*.12+r*.03,.75);if(u<=0)continue;const e=easeOutBack(u),xp=X(d)+aoJX(b.p);x=xp+(x-xp)*e;a*=c01(u*3)*kf}
+        if(a<.01)continue;{const bk=k>0?AO.bv[k]:null,bj=j!==0?AO.bh[j]:null,uu=Math.min(bk?aoSpawn(bk,r*.14,.85):1,bj?aoSpawn(bj,d*.12+r*.03,.75):1),fl=1-uu;glow(g,RGB.sk,x,y,(7+20*fl)*px,.5*a+.45*fl*a)}g.fillStyle=rgba(RGB.sk,a);g.beginPath();g.arc(x,y,2.7*px,0,TAU);g.fill()}
+      const ta=k===0?la:ak;if(ta<.01)continue;
+      for(let q=0;q<(k===0?2:1);q++){const u=(AO.ft*.17+r*.21+q*.5+k*.37)%1,x=k===0?X(0)+(X(3)-X(0))*u:X(0)-EX+(X(3)-X(0)+2*EX)*u;
+        if(k===0){glow(g,RGB.sk,x,y,22,.75*ta);g.fillStyle=rgba(RGB.sk,ta);rr(g,x-10,y-6.5,20,13,4);g.fill();if(F.nod.v>.01)AO.np[r]=Math.max(AO.np[r],Math.exp(-Math.pow((x-X(2))/36,2)))}
+        else{const len=(18+30*(spd-1))*px,gr=g.createLinearGradient(x-len,0,x,0);gr.addColorStop(0,rgba(RGB.sk,0));gr.addColorStop(1,rgba(RGB.sk,ta));g.strokeStyle=gr;g.lineWidth=3*px;g.beginPath();g.moveTo(x-len,y);g.lineTo(x,y);g.stroke();glow(g,RGB.sk,x,y,11*px,.6*ta)}}
+    }
+    if(la>.01)txt(g,LINES[r].replace(/ /g,''),X(0)-HW-16*px,yp+TWY,28,RGB.ink,.8*la,'right',600);
+    for(let d=0;d<4;d++){const a=AO.P[r][d].get();if(a>.01)person(g,X(d),yp,a,RGB.ink,0,s)}
+    const nd=F.nod.v;if(nd>.01&&AO.T[r][2].v>.5)nodAt(g,X(2),yp,yp+TWY,nd*Math.min(1,la*1.5),AO.np[r],s,px)
+  }
 }
-
-/* 发光点 */
+function aoTick(dt){if(!AO.on)return;AO.ft+=dt*AO.spd.get();
+  if(AO.gs&&AO.gi<AO.gs.length&&NOW>=AO.gs[AO.gi][2])aoStep(false);
+  if(AO.coll&&AO.kf.get()<.02){aoClear()}
+  if(AO.follow){const lv=AO.lvg.get(),mg=AO.mg.get();F.fy.to(aoFloorY(lv),0,0,1);F.fx0.to(PX(0)-aoHalf(mg)-70,0,0,1);F.fx1.to(PX(0)+3*aoCS(mg)+aoHalf(mg)+70,0,0,1);
+    if(camT.d===0){const tc=aoCam(lv,mg,true),k=1-Math.exp(-dt*2.4);cam.x+=(tc.x-cam.x)*k;cam.y+=(tc.y-cam.y)*k;cam.z=Math.exp(Math.log(cam.z)+(Math.log(tc.z)-Math.log(cam.z))*k)}}
+  if(wName==='g7'&&NOW-cntT>.1){const lv=AO.lvg.v,mg=AO.mg.v,A=Math.round(16*lv*(1+2*mg)),W=Math.round(4*lv);AO.run+=(NOW-cntT)*W*AO.spd.v*1.3;cntT=NOW;
+    const el=$('#evoCnt');if(el)el.innerHTML=`<span>人</span><b class="ink">16</b><span>AI 员工</span><b class="sk">${A}</b><span>工作流</span><b class="sk">${W}</b><span>跑完的事</span><b class="kb">${Math.floor(AO.run).toLocaleString()}</b>`}}
+const wv=$('#world'),wg=wv.getContext('2d');
+function resetAll(){for(let r=0;r<NR;r++){const R=ROW[r];R.link.to(0,0,0,1);R.hf.to(0,0,0,1);R.tr.to(0,0,0,1);for(let c=0;c<NC;c++){P[r][c].a.to(0,0,0,1);P[r][c].dx.to(0,0,0,1);T[r][c].a.to(0,0,0,1);T[r][c].dots=[]}}
+  Object.values(F).forEach(v=>v.to(v===F.fy?400:(v===F.fx0||v===F.fx1)?380:0,0,0,1));AIC.forEach(c=>c.a.to(0,0,0,1));aoReset();emReset()}
+let WH=false;
+let BK=false;
+function setWorld(name,anim,back){
+  NOW=performance.now()/1000;const s=STATES[name]||STATES.org0;BK=!!back;SCHQ.length=0;
+  const wasHidden=prevName==='hidden';prevName=name;wName=name;WH=wasHidden&&anim;
+  const op=s.op==null?1:s.op;wv.style.opacity=op;wv.classList.toggle('blur',op>0&&op<1);
+  if(op===0){hideAt=NOW;stop();AO.follow=false;return}
+  if(!s.ao&&AO.on)aoLeave();
+  if(!s.ao)AO.follow=false;
+  const labs=inst=>{F.l0.to(s.l0?1:0,.7,s.l0&&!inst?.7:0,inst);F.dl.to(s.dl?1:0,.7,s.dl&&!inst?(BK?.3:(s.dld||.6)):0,inst)};
+  if(wasHidden&&anim&&s.pre){const ps=STATES[s.pre];resetAll();ps.f(true);Object.assign(cam,CAMS[ps.cam]);s.f(false);labs(false);camT.from={...cam};camT.to=s.camf?s.camf():CAMS[s.cam];camT.t0=NOW+.7;camT.d=s.cd||1.8;return}
+  if(wasHidden&&anim){resetAll();s.f(false);labs(false);Object.assign(cam,s.camf?s.camf():CAMS[s.cam]);camT.d=0;return}
+  s.f(!anim);labs(!anim);
+  const tgt=s.camf?s.camf():CAMS[s.cam];
+  if(!anim){Object.assign(cam,tgt);camT.d=0}else{camT.from={...cam};camT.to=tgt;camT.t0=NOW+(BK?0:(s.camDelay||0));camT.d=s.cd||1.8}
+}
+function tick(){const dt=Math.min(.1,NOW-LAST);LAST=NOW;
+  if(camT.d>0){const u=c01((NOW-camT.t0)/camT.d),e=easeIO(u),a=camT.from,b=camT.to;
+    cam.x=a.x+(b.x-a.x)*e;cam.y=a.y+(b.y-a.y)*e;cam.z=Math.exp(Math.log(a.z)+(Math.log(b.z)-Math.log(a.z))*e);if(u>=1)camT.d=0}
+  if(GR.on){if(GR.step<SCH.length&&NOW>=GR.next){growStep(false);GR.next=NOW+Math.max(.55,1.25*Math.pow(.82,GR.step))}
+    if(camT.d===0){const t=fitCam(),k=1-Math.exp(-dt*1.1);cam.x+=(t.x-cam.x)*k;cam.y+=(t.y-cam.y)*k;cam.z=Math.exp(Math.log(cam.z)+(Math.log(t.z)-Math.log(cam.z))*k)}
+    if(NOW-(GR.dotT||0)>Math.max(.12,.4*Math.pow(.9,GR.step))){GR.dotT=NOW;const pool=[];for(let r=0;r<NR;r++)for(let c=0;c<NC;c++)if(T[r][c].a.v>.6&&T[r][c].dots.length<5)pool.push(T[r][c]);if(pool.length)pool[(Math.random()*pool.length)|0].dots.push(NOW)}}
+  aoTick(dt);runLater();
+}
 const SPR={};
 function sprite(c){const k=c.join();if(SPR[k])return SPR[k];const s=document.createElement('canvas');s.width=s.height=64;const g=s.getContext('2d');
-  const gr=g.createRadialGradient(32,32,0,32,32,32);gr.addColorStop(0,'rgba(255,255,255,1)');gr.addColorStop(.18,`rgba(${c},1)`);gr.addColorStop(.45,`rgba(${c},.35)`);gr.addColorStop(1,`rgba(${c},0)`);
-  g.fillStyle=gr;g.fillRect(0,0,64,64);return SPR[k]=s}
-const rgba=(c,a)=>`rgba(${c[0]|0},${c[1]|0},${c[2]|0},${a})`;
-const mix=(a,b,t)=>[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,a[2]+(b[2]-a[2])*t];
-function glow(g,c1,c2,t,x,y,r,al){if(al<=.004)return;
-  if(t<.99){g.globalAlpha=al*(1-t);g.drawImage(sprite(c1),x-r,y-r,2*r,2*r)}
-  if(t>.01){g.globalAlpha=al*t;g.drawImage(sprite(c2),x-r,y-r,2*r,2*r)}g.globalAlpha=1}
-
-const wv=$('#world'),wg=wv.getContext('2d');
-let last=performance.now(),bb={x0:300,x1:1300,y0:150,y1:650},cntT=0;
-function frame(now){
-  const dt=Math.min(.05,(now-last)/1000);last=now;
-  tick(dt,now);if(ws.op>0||+getComputedStyle(wv).opacity>0.01)draw(now);
-  requestAnimationFrame(frame)}
-function tick(dt,now){
-  if(ws.evolve){
-    if(now-evo.last>620){evo.last=now;const vis=agents.filter(a=>a.want&&evo.extra[a.i]<NMAX-6);if(vis.length){evo.extra[vis[(RW()*vis.length)|0].i]++;layout(true)}}
-    if(!evo.F5&&now-evo.start>5200){evo.F5=1;layout(true)}
+  const gr=g.createRadialGradient(32,32,0,32,32,32);gr.addColorStop(0,`rgba(${c},.9)`);gr.addColorStop(.35,`rgba(${c},.35)`);gr.addColorStop(1,`rgba(${c},0)`);g.fillStyle=gr;g.fillRect(0,0,64,64);return SPR[k]=s}
+function glow(g,c,x,y,r,a){if(a<=.004)return;g.globalAlpha=a>1?1:a;g.drawImage(sprite(c),x-r,y-r,2*r,2*r);g.globalAlpha=1}
+function rr(g,x,y,w,h,r){g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath()}
+let LW=1,PXW=1;
+function txt(g,s,x,y,px,col,a,align,w){if(a<=.01)return;g.font=`${w||700} ${px*PXW}px ${FONT}`;g.textAlign=align||'center';g.textBaseline='middle';g.fillStyle=rgba(col,a);g.fillText(s,x,y)}
+function chip(g,s,x,y,px,col,a,fill,align){if(a<=.01)return;g.font=`700 ${px*PXW}px ${FONT}`;const w=g.measureText(s).width+px*PXW*1.1,h=px*PXW*1.7;
+  const x0=align==='left'?x:align==='right'?x-w:x-w/2;rr(g,x0,y-h/2,w,h,h*.32);g.fillStyle=rgba(fill||RGB.bg,fill?.16*a:.92*a);g.fill();g.lineWidth=LW*.9;g.strokeStyle=rgba(col,.85*a);g.stroke();
+  g.textAlign='center';g.textBaseline='middle';g.fillStyle=rgba(col,a);g.fillText(s,x0+w/2,y+px*PXW*.04);return w}
+function person(g,x,y,a,col,fill,s){s=s||1;const R=PR*s;
+  g.fillStyle=rgba(RGB.bg,1);g.beginPath();g.arc(x,y,R,0,TAU);g.fill();
+  if(fill){g.fillStyle=rgba(col,fill*a);g.fill()}
+  g.lineWidth=LW*.9;g.strokeStyle=rgba(col,.42*a);g.stroke();
+  g.lineWidth=LW*1.15;g.strokeStyle=rgba(col,.96*a);const k=R/19;
+  g.beginPath();g.arc(x,y-5*k,5.6*k,0,TAU);g.stroke();
+  g.beginPath();g.moveTo(x-10*k,y+11.5*k);g.quadraticCurveTo(x-10*k,y+2.2*k,x,y+2.2*k);g.quadraticCurveTo(x+10*k,y+2.2*k,x+10*k,y+11.5*k);g.stroke()}
+function draw(){
+  const g=wg,z=cam.z,K=2,t=NOW;
+  g.setTransform(1,0,0,1,0,0);g.clearRect(0,0,wv.width,wv.height);
+  g.setTransform(K*z,0,0,K*z,K*(800-cam.x*z),K*(450-cam.y*z));
+  const px=1/z;PXW=px;LW=1.7*Math.pow(z,.45)*px;g.lineCap='round';g.lineJoin='round';
+  // 组织：竖着的部门框、横着的队伍框
+  const fr=F.fr.get(),fh=F.fh.get(),bv=F.bv.get(),bh=F.bh.get();
+  if(fr>.01){const bx=770,by=96;
+    for(let c=0;c<4;c++){const x=PX(c)-92,y=PY(0)-72,w=184,h=PY(3)-PY(0)+72+112;g.fillStyle=rgba(RGB.ink,.03*fr);rr(g,x,y,w,h,16);g.fill();g.strokeStyle=rgba(RGB.ink,.26*fr);g.lineWidth=LW*.9;g.stroke();
+      txt(g,DEPT[c],PX(c),y-30*px,38,RGB.ink,.9*fr);
+      if(bv>.01){g.strokeStyle=rgba(RGB.ink,.3*bv);g.lineWidth=LW*.8;g.beginPath();g.moveTo(bx,by+PR);g.bezierCurveTo(bx,by+60,PX(c),y-96*px,PX(c),y-56*px);g.stroke()}}
+    if(bv>.01){person(g,bx,by,bv,RGB.ink,0);txt(g,'老板',bx+PR+16,by,34,RGB.ink,.85*bv,'left')}}
+  if(fh>.01){const bx=PX(0)-290,by=(PY(0)+PY(3))/2+TWY/2;
+    for(let r=0;r<4;r++){const x=PX(0)-170,y=PY(r)-36,w=PX(3)+120-x,h=TWY+36+30;const p=c01(fh*1.6-r*.18);if(p<=0)continue;
+      g.save();g.beginPath();g.rect(x-4,y-4,(w+8)*easeOut(p),h+8);g.clip();g.fillStyle=rgba(RGB.sk,.035*fh);rr(g,x,y,w,h,16);g.fill();g.strokeStyle=rgba(RGB.sk,.38*fh);g.lineWidth=LW;g.stroke();g.restore();
+      txt(g,LINES[r].replace(/ /g,''),x+20,PY(r)+TWY/2,22,RGB.ink,.85*fh*p,'left');
+      if(bh>.01){g.strokeStyle=rgba(RGB.ink,.3*bh);g.lineWidth=LW*.8;g.beginPath();g.moveTo(bx+PR,by);g.bezierCurveTo(bx+80,by,x-60,y+h/2,x,y+h/2);g.stroke()}}
+    if(bh>.01){person(g,bx,by,bh,RGB.ink,0);txt(g,'老板',bx,by-PR-22,26,RGB.ink,.85*bh)}}
+  // 地基：知识库
+  const fa=F.fa.get(),fy=F.fy.get(),fx0=F.fx0.get(),fx1=F.fx1.get();
+  if(fa>.01&&fx1-fx0>2){const W0=fx1-fx0,n=Math.max(2,Math.ceil(W0/36));for(let j=0;j<=n;j++){const u=j/n,e=Math.sin(Math.PI*u);glow(g,RGB.kb,fx0+W0*u,fy,58,.13*fa*e)}
+    const gx=g.createLinearGradient(fx0,0,fx1,0);gx.addColorStop(0,rgba(RGB.kb,0));gx.addColorStop(.1,rgba(RGB.kb,fa));gx.addColorStop(.9,rgba(RGB.kb,fa));gx.addColorStop(1,rgba(RGB.kb,0));
+    g.strokeStyle=gx;g.lineWidth=3*px*Math.pow(z,.3);g.beginPath();g.moveTo(fx0,fy);g.lineTo(fx1,fy);g.stroke();
+    for(let i=0;i<12;i++){const u=(t*.04+i/12)%1,x=fx0+u*W0;glow(g,RGB.kb,x,fy,11*px*Math.pow(z,.4),.6*fa*Math.sin(u*Math.PI))}}
+  // 线和事
+  for(let r=0;r<NR;r++){const R=ROW[r],la=R.link.get(),hf=R.hf.get(),tr=R.tr.get();const y=PY(r);
+    const vis=[];for(let c=0;c<NC;c++){const a=P[r][c].a.get();if(a>.02)vis.push([PX(c)+P[r][c].dx.get(),a])}
+    if(la>.01)for(let j=0;j+1<vis.length;j++){const [x1,a1]=vis[j],[x2,a2]=vis[j+1];g.strokeStyle=rgba(RGB.line,la*Math.min(a1,a2));g.lineWidth=LW;g.beginPath();g.moveTo(x1+PR+4,y);g.lineTo(x2-PR-4,y);g.stroke()}
+    if(hf>.01&&vis.length>1){const x0=vis[0][0],x1=vis[vis.length-1][0],ra=Math.min(...vis.map(v=>v[1]));const u=(t*.09+r*.29)%1,x=x0+(x1-x0)*u;
+      for(let k=3;k>=1;k--){g.fillStyle=rgba(RGB.ink,.18*hf*ra/k);rr(g,x-11-k*9,y-7,22,14,4);g.fill()}
+      glow(g,RGB.ink,x,y,24,.35*hf*ra);g.fillStyle=rgba(RGB.ink,hf*ra);rr(g,x-11,y-7,22,14,4);g.fill()}
+    const tv=[];for(let c=0;c<NC;c++){const a=T[r][c].a.get();if(a>.02)tv.push([PX(c),a])}
+    if(tr>.01&&tv.length>1){const ty=y+TWY;for(let j=0;j+1<tv.length;j++){const [x1,a1]=tv[j],[x2,a2]=tv[j+1];const p=c01(tr*1.5-j*.2);if(p<=0)continue;
+        g.strokeStyle=rgba(RGB.sk,.6*Math.min(a1,a2));g.lineWidth=LW*1.2;g.beginPath();g.moveTo(x1+PR+4,ty);g.lineTo(x1+PR+4+(x2-x1-2*PR-8)*p,ty);g.stroke()}
+      const x0=tv[0][0],x1=tv[tv.length-1][0];
+      for(let k=0;k<2;k++){const u=(t*.17+r*.21+k*.5)%1;const x=x0+(x1-x0)*u;glow(g,RGB.sk,x,ty,22,.75*tr);g.fillStyle=rgba(RGB.sk,tr);rr(g,x-10,ty-6.5,20,13,4);g.fill();
+        if(r===0&&F.nod.v>.01)R.np=Math.max(R.np||0,Math.exp(-Math.pow((x-PX(2))/36,2)))}}
   }
-  const k=1-Math.exp(-dt*3),ka=1-Math.exp(-dt*2.6),kc=1-Math.exp(-dt*1.9);
-  agents.forEach(ag=>{
-    if(ag.want&&!ag.on&&now>=ag.appear){ag.on=1;if(ag.a<.05){const par=ag.p>0?AG(ag.f,ag.p-1):ag.f>0?AG(ag.f-1,0):null;
-      if(par&&par.a>.3){ag.x=par.x;ag.y=par.y}else{ag.x=ag.tx;ag.y=ag.ty}}}
-    if(!ag.want)ag.on=0;
-    ag.x+=(ag.tx-ag.x)*k;ag.y+=(ag.ty-ag.y)*k;
-    ag.a+=((ag.on?1:0)-ag.a)*ka;ag.d+=(ag.dT-ag.d)*ka;ag.m+=((ag.on&&ws.mem?1:0)-ag.m)*ka;
-  });
-  skills.forEach(sk=>{const ag=sk.ag;
-    if(sk.want&&!sk.on&&now>=sk.appear){sk.on=1;if(sk.a<.05){const par=sk.s>0?ag.sk[(sk.s-1)>>1]:null;if(par&&par.a>.3){sk.x=par.x;sk.y=par.y}else{sk.x=ag.x;sk.y=ag.y}}}
-    if(!sk.want)sk.on=0;
-    if(!ws.dust)skillTarget(sk,now);
-    const kk=Math.min(1,k*1.5);sk.x+=(sk.tx-sk.x)*kk;sk.y+=(sk.ty-sk.y)*kk;
-    sk.a+=((sk.on?1:0)-sk.a)*ka});
-  const T=CAM[ws.cam];cam.x+=(T.x-cam.x)*kc;cam.y+=(T.y-cam.y)*kc;cam.z=Math.exp(Math.log(cam.z)+(Math.log(T.z)-Math.log(cam.z))*kc);
-  for(let i=0;i<4;i++)v.c[i]+=(ws.col[i]-v.c[i])*ka;
-  v.links+=(ws.links-v.links)*ka;v.co+=(ws.co-v.co)*ka;v.kb+=(ws.kb-v.kb)*ka;
-  // 外膜随可见的智能体长大
-  const vis=agents.filter(a=>a.a>.05);
-  if(vis.length){const t={x0:Math.min(...vis.map(a=>a.x)),x1:Math.max(...vis.map(a=>a.x)),y0:Math.min(...vis.map(a=>a.y)),y1:Math.max(...vis.map(a=>a.y))};
-    for(const q in t)bb[q]+=(t[q]-bb[q])*k}
-  if(ws.evolve&&now-cntT>250){cntT=now;const S=skills.filter(s=>s.want).length,A=agents.filter(a=>a.want).length,F=effF();
-    $('#evoCnt').innerHTML=`<span class="sk">技能</span><b class="sk">${S}</b><br><span class="ag">智能体</span><b class="ag">${A}</b><br><span class="wf">工作流</span><b class="wf">${F}</b>`}
+  // 地基接到 AI 员工
+  const fe=F.feed.get();
+  if(fe>.01&&fa>.01)for(let c=0;c<4;c++){const a=T[0][c].a.v;if(a<.02)continue;const x=PX(c),y1=PY(0)+TWY+PR+2;
+    g.strokeStyle=rgba(RGB.kb,.45*fe*a);g.lineWidth=LW*.8;g.beginPath();g.moveTo(x,fy);g.lineTo(x,y1);g.stroke();
+    const u=(t*.5+c*.31)%1;glow(g,RGB.kb,x,fy-(fy-y1)*u,9,.9*fe*a)}
+  // 人
+  for(let r=0;r<NR;r++)for(let c=0;c<NC;c++){const a=P[r][c].a.v;if(a>.01)person(g,PX(c)+P[r][c].dx.v,PY(r),a,RGB.ink,0)}
+  // AI 员工
+  for(let r=0;r<NR;r++)for(let c=0;c<NC;c++){const Tw=T[r][c],a=Tw.a.v;if(a<.01)continue;const x=PX(c),y=PY(r)+TWY;
+    const pop=easeOut(c01(a));glow(g,RGB.sk,x,y,52*pop,.32*a);person(g,x,y,a,RGB.sk,.1,.7+.3*pop);
+    Tw.dots.forEach((t0,i)=>{const k=easeOut(c01((t-t0)/.5)),an=-Math.PI/2+(i-2)*.46,dx=Math.cos(an)*31,dy=Math.sin(an)*31;glow(g,RGB.sk,x+dx,y+dy,8*k,.9*a);g.fillStyle=rgba(RGB.sk,a);g.beginPath();g.arc(x+dx,y+dy,3*k,0,TAU);g.fill()})}
+  const twl=F.twl.get();if(twl>.01)txt(g,'AI 员工',PX(0)-PR-14,PY(0)+TWY,36,RGB.sk,twl,'right');
+  if(AO.on)drawAO(g,t,px,z);
+  const l0=F.l0.get();if(l0>.01)txt(g,LINES[0].replace(/ /g,''),PX(0)-92-16*px,PY(0),30,RGB.ink,.85*l0,'right');
+  const dl=F.dl.get();if(dl>.01)for(let c=0;c<4;c++){const a=P[0][c].a.v;if(a>.05)txt(g,DEPT[c],PX(c)+P[0][c].dx.v,PY(0)-PR-26*px,30,RGB.mute,dl*a,'center',600)}
+  {const kh=F.kh.get();if(kh>.01&&fa>.01){const sx=(fx0-cam.x)*z+800;if(sx>150)txt(g,'知识库',fx0-14*px,fy,32,RGB.kb,kh*fa,'right');else txt(g,'知识库',cam.x-740*px,fy-30*px,32,RGB.kb,kh*fa,'left')}}
+  drawEMP(g,px,z);
+  // 要紧的地方，人点头
+  const nd=F.nod.get();const R0=ROW[0];
+  if(nd>.01&&!AO.on){const x=PX(2),y=PY(0);const np=R0.np||0;R0.np=(R0.np||0)*.9;nodAt(g,x,y,y+TWY,nd,np,1,px)}
 }
-function draw(now){
-  const g=wg,t=now/1000,z=cam.z;
-  g.setTransform(1,0,0,1,0,0);g.clearRect(0,0,1600,900);
-  DUST.forEach(d=>{g.fillStyle=`rgba(200,210,230,${.05+.05*Math.sin(t*d.sp+d.ph)})`;g.fillRect((d.x+t*d.sp*8)%1600,d.y,d.r,d.r)});
-  g.setTransform(z,0,0,z,800-cam.x*z,450-cam.y*z);
-  const lw=1.8/Math.sqrt(z);
-  const cSk=v.c[0],cAg=v.c[1],cWf=v.c[2],cKb=v.c[3];
-  const kbY=bb.y1+130;
-  // 知识库底座
-  if(v.kb>.01){const x0=bb.x0-160,x1=bb.x1+160,w=x1-x0;
-    const gr=g.createLinearGradient(0,kbY-46,0,kbY+46);gr.addColorStop(0,rgba(C.kb,0));gr.addColorStop(.5,rgba(C.kb,.28*v.kb*(.85+.15*Math.sin(t*1.3))));gr.addColorStop(1,rgba(C.kb,0));
-    g.fillStyle=gr;g.fillRect(x0,kbY-46,w,92);
-    g.globalCompositeOperation='lighter';
-    KBP.forEach(p=>glow(g,C.kb,C.kb,1,x0+frac(p.u+t*p.sp)*w,kbY+p.v*20,p.r*2.2,.55*v.kb));
-    agents.forEach(ag=>{const al=ag.a*ag.d*v.kb;if(al<.02)return;const ex=ag.x+Math.sin(ag.ph)*36;
-      g.strokeStyle=rgba(C.kb,.22*al);g.lineWidth=lw;g.beginPath();g.moveTo(ag.x,ag.y+R*.85);g.bezierCurveTo(ag.x,ag.y+R*2.2,ex,kbY-90,ex,kbY-12);g.stroke();
-      const bz=u=>{const a=1-u;return[a*a*a*ag.x+3*a*a*u*ag.x+3*a*u*u*ex+u*u*u*ex,a*a*a*(ag.y+R*.85)+3*a*a*u*(ag.y+R*2.2)+3*a*u*u*(kbY-90)+u*u*u*(kbY-12)]};
-      let [px,py]=bz(1-frac(t*.32+ag.ph));glow(g,C.kb,C.kb,1,px,py,9,.9*al);
-      if(ws.evolve){[px,py]=bz(frac(t*.27+ag.ph*1.7));glow(g,C.wf,C.wf,1,px,py,8,.9*al)}});
-    g.globalCompositeOperation='source-over'}
-  // 公司外膜
-  if(v.co>.01){const cx=(bb.x0+bb.x1)/2,cy=(bb.y0+bb.y1)/2,hw=(bb.x1-bb.x0)/2+R+80,hh=(bb.y1-bb.y0)/2+R+64;
-    g.beginPath();for(let i=0;i<=96;i++){const th=i/96*6.283,c=Math.cos(th),s=Math.sin(th),w=1+.012*Math.sin(3*th+t*.7)+.008*Math.sin(7*th-t*1.1);
-      const x=cx+hw*w*Math.sign(c)*Math.pow(Math.abs(c),.42),y=cy+hh*w*Math.sign(s)*Math.pow(Math.abs(s),.42);i?g.lineTo(x,y):g.moveTo(x,y)}
-    g.closePath();g.fillStyle=rgba(C.white,.025*v.co);g.fill();g.strokeStyle=rgba(C.white,.32*v.co);g.lineWidth=lw*1.2;g.stroke()}
-  // 工作流：连线和流动的活儿
-  if(v.links>.01){const lc=mix(C.gray,C.wf,cWf);
-    for(let f=0;f<FMAX;f++)for(let p=0;p<PMAX-1;p++){const a=AG(f,p),b=AG(f,p+1),al=Math.min(a.a*a.d,b.a*b.d)*v.links;if(al<.02)continue;
-      const x1=a.x+R*.95,y1=a.y,x2=b.x-R*.95,y2=b.y,mx=(x1+x2)/2,my=(y1+y2)/2-22;
-      g.strokeStyle=rgba(lc,.55*al);g.lineWidth=lw*1.4;g.beginPath();g.moveTo(x1,y1);g.quadraticCurveTo(mx,my,x2,y2);g.stroke();
-      g.globalCompositeOperation='lighter';
-      for(let j=0;j<2;j++){const u=frac(t*.33+p*.31+f*.17+j*.5),q=1-u;glow(g,C.gray,C.wf,cWf,q*q*x1+2*q*u*mx+u*u*x2,q*q*y1+2*q*u*my+u*u*y2,9,al)}
-      g.globalCompositeOperation='source-over'}}
-  // 智能体：膜 + 中间的知识
-  const ac=mix(C.gray,C.ag,cAg);
-  agents.forEach(ag=>{const al=ag.a*ag.d*ag.m;if(al<.01)return;
-    g.beginPath();for(let i=0;i<=48;i++){const th=i/48*6.283,r=R*(1+.05*Math.sin(3*th+t*1.3+ag.ph)+.03*Math.sin(5*th-t+ag.ph));const x=ag.x+Math.cos(th)*r,y=ag.y+Math.sin(th)*r;i?g.lineTo(x,y):g.moveTo(x,y)}
-    g.closePath();g.fillStyle=rgba(ac,.07*al);g.fill();g.strokeStyle=rgba(ac,.75*al);g.lineWidth=lw;g.stroke();
-    g.globalCompositeOperation='lighter';glow(g,C.gray,C.kb,cKb,ag.x,ag.y,R*.42*(1+.06*Math.sin(t*2+ag.ph)),.8*al);g.globalCompositeOperation='source-over'});
-  // 技能
-  g.globalCompositeOperation='lighter';
-  skills.forEach(sk=>{const al=sk.a*sk.ag.d;if(al<.01)return;glow(g,C.gray,C.sk,cSk,sk.x,sk.y,11*(1+.12*Math.sin(t*2.4+sk.j*6)),al)});
-  g.globalCompositeOperation='source-over';
-}
+function mixk(e){return[236+(201-236)*e|0,238+(169-238)*e|0,242+(110-242)*e|0]}
+function frame(now){NOW=now/1000;tick();if(wName!=='hidden'||NOW-hideAt<1.2)draw();requestAnimationFrame(frame)}
 requestAnimationFrame(frame);
 
-/* ================= 封面：慢慢游动的细胞 ================= */
-(function(){const cv=$('#coverBg'),g=cv.getContext('2d'),R2=rng(5);
-  const cells=[...Array(9)].map(()=>({x:900+R2()*700,y:R2()*900,r:40+R2()*120,ph:R2()*6.28,sp:.1+R2()*.25}));
-  function f(now){if(!$('#cover').classList.contains('on')){cv.dataset.run='';return}const t=now/1000;g.clearRect(0,0,1600,900);
-    cells.forEach(c=>{const x=c.x+Math.sin(t*c.sp+c.ph)*40,y=c.y+Math.cos(t*c.sp*.8+c.ph)*30;
-      g.beginPath();for(let i=0;i<=48;i++){const th=i/48*6.283,r=c.r*(1+.06*Math.sin(3*th+t+c.ph)+.04*Math.sin(5*th-t*1.3));const px=x+Math.cos(th)*r,py=y+Math.sin(th)*r;i?g.lineTo(px,py):g.moveTo(px,py)}
-      g.closePath();g.strokeStyle='rgba(7,8,10,.16)';g.lineWidth=2;g.stroke();
-      g.fillStyle='rgba(7,8,10,.10)';g.beginPath();g.arc(x,y,c.r*.18,0,6.283);g.fill()});
-    requestAnimationFrame(f)}
-  window.startCover=()=>{if(!cv.dataset.run){cv.dataset.run='1';requestAnimationFrame(f)}}})();
+/* ================= 封面：干净的青柠底 ================= */
+window.startCover=()=>{};
 
 /* ================= 进度条 ================= */
 const CHS=[...new Set(BEATS.map(b=>b.ch))];
 $('#bar').innerHTML=CHS.map(c=>`<div class="ch"><b>${c}</b><i><u></u></i></div>`).join('');
 
 /* ===== 控场：章节可点、翻页按钮、计划时间 ===== */
-const PLAN0={'开场':'六 09:00','知识库':'六 09:45','技能':'六 15:00','智能体':'日 09:30','工作流':'日 15:00','收尾':'日 17:30'};
+const PLAN0={'开场':'六 09:00','知识库':'六 09:30','技能':'六 13:00','智能体':'六 16:00','工作流':'日 09:30','收尾':'日 17:30'};
 let PLAN=PLAN0;try{PLAN=Object.assign({},PLAN0,JSON.parse(localStorage.getItem('kc_plan')||'{}'))}catch(e){}
 const firstOf=c=>BEATS.findIndex(b=>b.ch===c);
 const planOf=ch=>{let ci=CHS.indexOf(ch);for(;ci>=0;ci--)if(PLAN[CHS[ci]])return [CHS[ci],PLAN[CHS[ci]]];return [null,null]};
@@ -644,13 +876,13 @@ const bc='BroadcastChannel' in window?new BroadcastChannel('kaichang'):null;
 function reveal(scene,k){scene.querySelectorAll('[data-in],[data-out]').forEach(el=>{const a=el.dataset.in!=null?+el.dataset.in:-1,b=el.dataset.out!=null?+el.dataset.out:1e9;el.classList.toggle('vis',k>=a&&k<b)})}
 function go(i,from){
   i=Math.max(0,Math.min(BEATS.length-1,i));if(i===cur&&from!=='init')return;
-  const prev=BEATS[cur],b=BEATS[i],anim=!!prev&&i===cur+1;
+  const prev=BEATS[cur],b=BEATS[i],anim=!!prev&&Math.abs(i-cur)===1;
   if(!isPV){
     if(!prev||prev.s!==b.s)document.querySelectorAll('.scene').forEach(s=>s.classList.remove('on'));
     const el=document.getElementById(b.s);el.classList.add('on');reveal(el,b.k);
     if(b.s==='cover')startCover();
     stage.classList.toggle('lime',b.s==='cover');
-    setWorld(b.w,anim);
+    setWorld(b.w,anim&&!b.wi,i<cur);
     updBar(i);setTimeout(tickCtl,0);$('#notesMeta').textContent=`${i+1} / ${BEATS.length}　·　${b.ch}`;$('#notesTx').textContent=b.n;
     history.replaceState(null,'','#'+(i+1));
   }
