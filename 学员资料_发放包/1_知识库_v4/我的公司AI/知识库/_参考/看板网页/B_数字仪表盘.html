@@ -427,7 +427,7 @@ h2 small { margin-left: auto; font-weight: 400; font-size: .82rem; color: var(--
       y.档级 = p ? b.步[p - 1][2] : '还没过一步';
       y._欠 = bad[bk].length;
       if (weak) { y.档 = r; y.意味着 = r + '：' + (txt(x.实话) || '这一步没做到'); }
-      else { y.档 = y.档级; y.意味着 = s[1] + (bad[bk].length ? '（第 ' + bad[bk].join('、第 ') + '，档位只算过了的 ' + p + ' 步）' : ''); }
+      else { y.档 = y.档级; y.意味着 = s[1] + (bad[bk].length ? '（第 ' + bad[bk].join('、第 ') + '，档位只算过了的 ' + p + ' 步）' : '') + (txt(x.实话) ? '。' + txt(x.实话) : ''); }
       return y;
     });
   }
