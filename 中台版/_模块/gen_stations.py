@@ -267,6 +267,8 @@ KEEP_SAY = {
  'm4': '动手前先说一句。随手连几个步骤，一步出错整条线就停，卡在哪也没人知道。所以包里多做了四件事：每一步是有身份的智能体；看板上看得见谁在干；拍板点真的停下来等人；改一步再跑一次。',
 }
 KEEP.pop('m1', None)   # 11-05 靖锋：知识库这一块不要“为了一直用得住，多做了四件事”这一页
+KEEP.pop('m3', None)   # 11-05 靖锋：智能体这一块也不要这一页（原第 52 页）
+DO_INTO_KEEP = {'m2'}  # 11-05 靖锋：技能的“动手”页（原第 44 页）删掉，动手的口播并进“多做了四件事”那页
 def keep_page(sid):
     name, bad, badsub, items, poster_items = KEEP[sid]
     h = (f'<div class="kp-bad pop" style="--d:.2s"><b>{bad}</b><i>↓</i><p>{badsub}</p></div>'
@@ -283,7 +285,9 @@ def keep_page(sid):
 def sec(sid, color, pages, chap=None):
     if sid in KEEP:
         pages = list(pages)
-        pages.insert([i for i, pg in enumerate(pages) if pg[0].startswith('动手')][0], keep_page(sid))
+        i = [i for i, pg in enumerate(pages) if pg[0].startswith('动手')][0]
+        if sid in DO_INTO_KEEP: pages[i] = keep_page(sid)
+        else: pages.insert(i, keep_page(sid))
     h = f'  <section class="scene mod sxs" id="{sid}" style="--c:var({color})">\n'
     if chap:
         no, name, sub, dots = chap
@@ -299,7 +303,9 @@ def beats(sid, ch, ns):
     if sid in KEEP:
         ns = [re.sub(r'这一块用到了海报上的[^。]*。', '', n) for n in ns]
         i = [j for j, n in enumerate(ns) if n.startswith('动手')][0]
-        ns.insert(i, KEEP_SAY[sid] + '这一块用到海报上的' + '、'.join(KEEP[sid][4]) + '。现在不用记，做的时候会一步步碰到；回去多用、多跟 AI 对话，就成了自己的本事。')
+        say = KEEP_SAY[sid] + '这一块用到海报上的' + '、'.join(KEEP[sid][4]) + '。现在不用记，做的时候会一步步碰到；回去多用、多跟 AI 对话，就成了自己的本事。'
+        if sid in DO_INTO_KEEP: ns[i] = say + ns[i]
+        else: ns.insert(i, say)
     for k, n in enumerate(ns):
         B.append(f" {{s:'{sid}',k:{k},w:__W__,ch:'{ch}',n:`{n}`}},\n")
 
@@ -883,10 +889,19 @@ m3_pages = [
 ]
 m3_pages.insert(len(m3_pages) - 1, up_page('m3'))
 m3_pages.insert(1, md_page('m3'))
+# 11-05 靖锋：智能体的“为什么”没了（对比页删掉以后）→ 照知识库痛点页的样子，直接给结果
+def ag_why():
+    h = '<div class="nk-li">' + ''.join(f'<div class="pop" style="--d:{.3+i*.6:.1f}s"><i>✓</i><b>{t}</b></div>'
+                                        for i, t in enumerate(['每件事，都得你开口叫', '它做完一步，你得盯着、搬到下一步', '你一走开，它就停了'])) + '</div>'
+    h += '<div class="nk-punch pop" style="--d:2.2s"><b>AI 快是快了，<br>你成了<em>跑腿的</em></b><p>它会干活，<br>可不会自己接活</p></div>'
+    return h + ('<div class="aw-cmp pop" style="--d:3.0s"><p><u>技能</u>你叫一句，它干一件</p>'
+                '<p><u class="on">智能体</u>交出去一整件，<br>干完再来找你</p></div>')
+m3_pages.insert(1, ('光有技能，<em>你是不是还这样？</em>', ag_why(), 1, ''))
 sec('m3', '--ag', m3_pages, ('03', '智能体', '能顶一个岗的 AI', '<i></i><i></i><i class="on"></i><i></i>'))
 beats('m3', '智能体', [
     '第三块，智能体，外面叫 Agent。',
     '大家以为的智能体：跟 AI 说一句，它就搭好了；或者给员工开一个 AI 软件，就算有了。搭出来是空的。企业里用的智能体，前面的知识库和技能都配好，还要定六样：它是谁，目标是什么，边界在哪，怎么验收，给多少主动性，谁来审。技能只写一件事怎么做；智能体还要写清它是谁、管什么、谁来审。不用一次做好，身份定好以后边用边调。',
+    '为什么要智能体？下午做了技能，各位想想，现在用 AI 是不是还这样：每件事都得你开口叫；它做完一步，你得盯着，再搬到下一步；你一走开，它就停了。AI 快是快了，你成了跑腿的：它会干活，可不会自己接活。智能体就是来解决这个的。技能是你叫一句，它干一件；智能体是交出去一整件，它自己查库、用技能、自己检查一遍，干完再来找你，该你拍板的才停下来问。',
     '智能体怎么来：先列出这个岗位每天干啥，圈出能交给 AI 的；再写一份岗位说明书：它是谁、做成啥样算好、啥不能碰、哪些先问人、谁来审；最后拿真消息考它。智能体，就是一份写清楚的岗位说明书。',
     '智能体做好以后，是一份 AGENT.md，换哪个 AI 都能用。WorkBuddy、Codex 都行：放进工作文件夹，开头让它照着做；想固定下来的，装进软件里，以后直接叫。',
     '动手。群里发包 3，照样解压、双击学员页，压缩包拖进同一个对话，每步复制贴给 AI。都用自己的事，做自己岗位的、部门负责人的、老板把关的都行；台上我拿周晓的询盘初回员演示。五步，五十多分钟：选定做哪种，填四句话，交给它一整件事，交出的东西里配一张图；先交给空白 AI 跑一遍，看图上、字里哪里危险；问清规矩：最看重的三条、三样绝不能出现的、交出前查哪几条、什么情况停下等拍板，写成说明书，各位逐条认；'
@@ -1220,6 +1235,11 @@ CSS = r'''
 .nk-punch b{display:block;font-size:56px;font-weight:900;line-height:1.25;color:var(--m-ink)}
 .nk-punch em{font-style:normal;color:var(--c)}
 .nk-punch p{font-size:26px;line-height:1.6;color:var(--m-mute);margin-top:22px}
+.aw-cmp{position:absolute;left:1030px;top:560px;width:470px;box-sizing:border-box;padding:22px 26px;border-radius:22px;background:var(--m-card);border:1.5px solid var(--m-line2)}
+.aw-cmp p{display:flex;align-items:flex-start;gap:16px;font-size:26px;line-height:1.45;font-weight:700;color:var(--m-ink)}
+.aw-cmp p+p{margin-top:16px}
+.aw-cmp u{flex:none;text-decoration:none;font-size:20px;font-weight:800;padding:3px 12px;margin-top:3px;border-radius:10px;border:1.5px solid var(--m-line2);color:var(--m-mute)}
+.aw-cmp u.on{border-color:var(--c);color:var(--c)}
 /* 拔高（11-05）：课上做的是最低一级，往上三级更高级的玩法，底下一句更深一层 */
 .up-st{position:absolute;bottom:240px;width:337px;box-sizing:border-box;border-radius:20px 20px 0 0;border:2px solid var(--c);border-bottom:none;padding:20px 22px 0;background:var(--m-card)}
 .up-st i{display:block;font-style:normal;font-size:18px;font-weight:800;color:var(--c);letter-spacing:.06em;margin-bottom:6px}

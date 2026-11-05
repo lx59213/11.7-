@@ -144,6 +144,19 @@ svg.lead line{stroke:#5a606c;stroke-width:1.5;stroke-dasharray:4 5}
 #sL:has(.f1.vis) .s1,#sL:has(.f1.vis) .s2,#sL:has(.f1.vis) .s3{border-color:var(--sk);background:rgba(212,255,58,.06)}
 #sL:has(.f1.vis) .s1 u,#sL:has(.f1.vis) .s2 u,#sL:has(.f1.vis) .s3 u{color:var(--sk)}
 #sL:has(.f1.vis) .s4,#sL:has(.f1.vis) .s5{opacity:.38}
+#sL .ex{position:absolute;width:256px;border-radius:16px;background:#151a24;border:1.5px solid #343a47;padding:16px 18px 18px}
+#sL .ex:after{content:'';position:absolute;left:44px;bottom:-9px;width:15px;height:15px;background:#151a24;border-right:1.5px solid #343a47;border-bottom:1.5px solid #343a47;transform:rotate(45deg)}
+#sL .e1{left:0;bottom:222px}#sL .e2{left:286px;bottom:297px}#sL .e3{left:572px;bottom:372px}
+#sL .ex h4{margin:0 0 12px;font-size:20px;font-weight:800;color:var(--ink)}#sL .ex h4 s{text-decoration:none;color:var(--mute);font-weight:600;margin-right:6px}
+#sL .ex .who{display:flex;flex-direction:column;gap:9px}#sL .ex .who div{font-size:19px;white-space:nowrap;color:var(--ink)}
+#sL .ex .who i{font-style:normal;display:inline-block;font-size:16px;font-weight:700;color:#07080a;background:var(--ag);border-radius:8px;padding:1px 7px;margin-right:8px}
+#sL .ex em{display:block;font-style:normal;font-size:18px;color:var(--mute);margin-top:12px}
+#sL .ex .fl{display:flex;flex-direction:column;align-items:flex-start}#sL .ex .fl div{font-size:19px;white-space:nowrap;border:1.5px solid #3a404d;border-radius:10px;padding:3px 10px}
+#sL .ex .fl div+div{margin-top:20px;position:relative}#sL .ex .fl div+div:before{content:'↓';position:absolute;left:14px;top:-21px;font-size:16px;color:var(--mute)}
+#sL .ex .ai{color:var(--sk);border-color:var(--sk)!important}
+#sL .ex .ch{display:flex;align-items:center;justify-content:space-between}#sL .ex .ch span{flex:none;white-space:nowrap;font-size:17px;font-weight:700;border:1.5px solid #3a404d;border-radius:9px;padding:3px 6px}#sL .ex .ch i{font-style:normal;color:var(--mute);font-size:15px}
+#sL .ex .ch .ok{border-color:var(--kb);color:var(--kb)}
+#sL .ex p{font-size:19px;line-height:1.5;margin-top:14px;color:var(--ink)}#sL .ex p b{color:var(--kb)}
 #sL .two{left:100px;width:828px;top:342px;height:60px;border:2px dashed var(--sk);border-bottom:none;border-radius:14px 14px 0 0}
 #sL .two span{position:absolute;left:50%;top:-24px;transform:translateX(-50%);font-size:26px;font-weight:800;color:#07080a;background:var(--sk);border-radius:24px;padding:6px 20px;white-space:nowrap}
 
@@ -329,6 +342,9 @@ body.pv #pv{display:block}
   <section class="scene" id="sL">
     <div class="abs ttl rv" data-in="0">企业用 AI 要一级一级往上走<small>每一级先备好东西，才上得去</small></div>
     <div class="abs lad">
+      <div class="ex e1 rv" data-in="0" data-out="1" style="transition-delay:.95s"><h4><s>比如</s>各开各的 AI</h4><div class="who"><div><i>运营</i>豆包写五点</div><div><i>客服</i>DeepSeek 回邮件</div><div><i>老板</i>Kimi 查资料</div></div><em>做法留在各人电脑里</em></div>
+      <div class="ex e2 rv" data-in="0" data-out="1" style="transition-delay:1.1s"><h4><s>比如</s>客服回消息</h4><div class="fl"><div>买家来消息</div><div class="ai">AI 查政策，写好回复</div><div>客服改几个词，发</div></div></div>
+      <div class="ex e3 rv" data-in="0" data-out="1" style="transition-delay:1.25s"><h4><s>比如</s>一款新品上架</h4><div class="ch"><span>产品</span><i>›</i><span class="ok">采购</span><i>›</i><span>运营</span><i>›</i><span>客服</span></div><p>每一步 AI 接力，<br>花钱那步<b>人点头</b></p></div>
       <div class="st s1 rv" data-in="0" style="transition-delay:.15s"><u>L1</u><b>各用各的</b><p>各人自己开 AI 聊</p></div>
       <div class="st s2 rv" data-in="0" style="transition-delay:.3s"><u>L2</u><b>一个环节跑起来</b><p>一件事交给 AI 做</p></div>
       <div class="st s3 rv" data-in="0" style="transition-delay:.45s"><u>L3</u><b>一条线人机分工</b><p>几个 AI 接力，<br>要紧的事人点头</p></div>
@@ -462,7 +478,7 @@ body.pv #pv{display:block}
 /* ================= 逐步：画面 + 口播 ================= */
 const BEATS=[
  {s:'cover',k:0,w:'hidden',ch:'开场',n:`各位早。先把这两天的目标说在前面：每个人亲手搭，两天下来，把自家公司的 AI 雏形搭出来、带回去。`},
- {s:'sL',k:0,w:'hidden',ch:'五级',n:`先看企业用 AI 的五级。L1 各用各的：每个人自己开 AI 聊，用完就散。L2 一个环节跑起来：一件事交给 AI 做。L3 一条线人机分工：几个 AI 接力，要紧的地方人点头。L4 判断和数据成闭环：客户、订单、财务的数据接进来，判断写进系统。L5 AI 原生：中台各部门共用，组织和 AI 一起管。每一级都要先备好东西，备不好就上不去，也跳不过去。`},
+ {s:'sL',k:0,w:'hidden',ch:'五级',n:`先看企业用 AI 的五级。L1 各用各的：运营拿豆包写五点，客服拿 DeepSeek 回邮件，老板拿 Kimi 查资料。每个人都省了点时间，可做法留在各人电脑里，人一走就没了，公司账上也看不出来。L2 一个环节跑起来：比如客服回消息，买家消息进来，AI 查好退货政策写好回复，客服改几个词就发。这一步是快了，可前后还靠人搬。L3 一条线人机分工：比如一款新品上架，产品、采购、运营、客服，每一步 AI 接力做，花钱那一步人点头。再往上还有 L4、L5，数据接进来、判断写进系统，最后整个组织和 AI 一起管。每一级都要先备好东西，备不好就上不去，也跳不过去。`},
  {s:'sL',k:1,w:'hidden',ch:'五级',n:`这两天，带各位从第一级走到第三级。`},
  {s:'sA',k:0,w:'hidden',ch:'等式',n:`为什么要一级一级走？看这个算式：企业 AI 化，等于员工能力、数据和语义、组织，三样相乘。哪一项是零，结果就是零。`},
  {s:'sA',k:1,w:'hidden',ch:'等式',n:`这两天补第一项：员工能力。海报上的八项，都融在接下来的四个项目里：知识库、技能、智能体、工作流。`},
@@ -504,7 +520,10 @@ const easeIO=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
 const easeOut=t=>1-Math.pow(1-t,3);
 const c01=x=>x<0?0:x>1?1:x;
 const FONT='"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif';
-let NOW=performance.now()/1000,LAST=NOW;
+let NOW=performance.now()/1000,LAST=NOW,RT=NOW;
+/* 11-05 靖锋：每块开头的动画快一点点，不能快太多 → 这四段的时钟走 1.25 倍（镜头、渐变、later 一起快，不会错开） */
+const KSP={k_kb:1.25,k_sk:1.25,k_ag:1.25,k_wf:1.25};
+function clk(r){r=r??performance.now()/1000;NOW+=Math.max(0,r-RT)*(KSP[wName]||1);RT=r}
 class V{constructor(v){this.v=this.a=this.b=v;this.t0=0;this.d=0;this.q=[]}
   to(b,d,dl,inst){this.q=[];if(inst){this.v=this.a=this.b=b;this.d=0;return this}if(b===this.b&&this.d===0)return this;this.a=this.v;this.b=b;this.t0=NOW+(dl||0);this.d=d||.9;return this}
   then(b,d,dl){this.q.push([b,d,dl]);return this}
@@ -754,7 +773,7 @@ function resetAll(){for(let r=0;r<NR;r++){const R=ROW[r];R.link.to(0,0,0,1);R.hf
 let WH=false;
 let BK=false;
 function setWorld(name,anim,back){
-  NOW=performance.now()/1000;const s=STATES[name]||STATES.org0;BK=!!back;SCHQ.length=0;
+  clk();const s=STATES[name]||STATES.org0;BK=!!back;SCHQ.length=0;
   const wasHidden=prevName==='hidden';prevName=name;wName=name;WH=wasHidden&&anim;
   const op=s.op==null?1:s.op;wv.style.opacity=op;wv.classList.toggle('blur',op>0&&op<1);
   if(op===0){hideAt=NOW;stop();AO.follow=false;return}
@@ -852,7 +871,7 @@ function draw(){
   if(nd>.01&&!AO.on){const x=PX(2),y=PY(0);const np=R0.np||0;R0.np=(R0.np||0)*.9;nodAt(g,x,y,y+TWY,nd,np,1,px)}
 }
 function mixk(e){return[236+(201-236)*e|0,238+(169-238)*e|0,242+(110-242)*e|0]}
-function frame(now){NOW=now/1000;tick();if(wName!=='hidden'||NOW-hideAt<1.2)draw();requestAnimationFrame(frame)}
+function frame(now){clk(now/1000);tick();if(wName!=='hidden'||NOW-hideAt<1.2)draw();requestAnimationFrame(frame)}
 requestAnimationFrame(frame);
 
 /* ================= 封面：干净的青柠底 ================= */
