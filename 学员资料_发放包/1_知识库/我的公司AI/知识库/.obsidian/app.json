@@ -1,0 +1,17 @@
+{
+  "defaultViewMode": "preview",
+  "showUnsupportedFiles": true,
+  "attachmentFolderPath": "raw",
+  "newFileLocation": "folder",
+  "newFileFolderPath": "raw",
+  "alwaysUpdateLinks": true,
+  "useMarkdownLinks": false,
+  "newLinkFormat": "shortest",
+  "readableLineLength": true,
+  "promptDelete": true,
+  "userIgnoreFilters": [
+    "_参考/",
+    "模板/"
+  ],
+  "showInlineTitle": false
+}

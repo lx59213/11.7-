@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>看板</title>
+<style>
+:root {
+  --bg: #EDF0F5; --card: #FFFFFF; --line: #E2E6EE; --track: #EEF1F6; --ink: #0F1728; --muted: #586378; --faint: #8A94A7;
+  --accent: #3E55F2; --shadow: 0 1px 2px rgba(15,23,40,.05), 0 6px 18px rgba(15,23,40,.05);
+  --late: 229,72,77; --today: 240,104,20; --tmr: 214,152,0; --week: 62,99,221; --later: 128,138,158; --ok: 38,153,96;
+  --sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0A0F1B; --card: #121A2A; --line: #1F2A40; --track: #1A2336; --ink: #E8EDF6; --muted: #98A4BA; --faint: #66738C;
+    --accent: #7D8CFF; --shadow: 0 0 0 1px #1A2438;
+    --late: 255,107,112; --today: 255,140,66; --tmr: 245,190,60; --week: 120,150,255; --later: 140,150,172; --ok: 64,196,128;
+  }
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+@media (min-width: 1700px) { html { font-size: 18px; } }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 1rem/1.6 var(--sans); }
+a { color: inherit; }
+.wrap { max-width: 1400px; margin: 0 auto; padding: 22px 28px 28px; }
+.top { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; margin-bottom: 18px; }
+.top > div { margin: 0 0 4px; }
+h1 { margin: 0; font-size: 1.6rem; line-height: 1.3; font-weight: 700; letter-spacing: .01em; }
+.sub { margin: 2px 0 0; color: var(--muted); font-size: .92rem; }
+.right { text-align: right; font-size: .85rem; color: var(--muted); }
+.live { display: inline-block; width: 8px; height: 8px; margin-right: 6px; border-radius: 50%; background: rgb(var(--ok)); box-shadow: 0 0 0 3px rgba(var(--ok),.18); vertical-align: 1px; }
+.home { display: inline-block; margin-top: 6px; padding: 3px 12px; border: 1px solid var(--line); border-radius: 99px; background: var(--card); text-decoration: none; color: var(--ink); font-size: .82rem; }
+.home:hover { border-color: var(--accent); color: var(--accent); }
+.card { background: var(--card); border-radius: 14px; box-shadow: var(--shadow); padding: 16px 18px; }
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); grid-gap: 14px; margin-bottom: 14px; }
+.kpi { position: relative; overflow: hidden; padding: 16px 18px 14px; }
+.kpi::after { content: ""; position: absolute; right: -30px; bottom: -40px; width: 120px; height: 120px; border-radius: 50%; background: rgba(var(--tone),.10); }
+.kpi .lab { position: relative; z-index: 1; font-size: .9rem; color: var(--muted); }
+.kpi .lab i { display: inline-block; width: 8px; height: 8px; margin-right: 8px; border-radius: 2px; background: rgb(var(--tone)); vertical-align: 1px; }
+.kpi .num { position: relative; z-index: 1; margin-top: 4px; font-size: 3rem; line-height: 1.1; font-weight: 700; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); grid-gap: 14px; margin-bottom: 14px; }
+.lists { display: grid; grid-template-columns: repeat(3, 1fr); grid-gap: 14px; align-items: start; }
+.stack > .card + .card { margin-top: 14px; }
+h2 { display: flex; align-items: baseline; margin: 0 0 12px; font-size: 1rem; font-weight: 650; }
+h2 small { margin-left: auto; font-weight: 400; font-size: .82rem; color: var(--faint); }
+.bars .row { display: grid; grid-template-columns: 5.5em 1fr 2.2em; grid-column-gap: 10px; align-items: center; margin: 9px 0; font-size: .9rem; }
+.bars .name { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; color: var(--muted); }
+.bars .track { height: 14px; border-radius: 7px; background: var(--track); overflow: hidden; }
+.bars .fill { height: 100%; border-radius: 7px; transition: width .9s cubic-bezier(.2,.8,.2,1); }
+.bars .n { text-align: right; font-weight: 650; font-variant-numeric: tabular-nums; }
+.donut { display: flex; align-items: center; }
+.donut svg { flex: none; width: 150px; height: 150px; margin-right: 20px; }
+.donut .ring { fill: none; stroke: var(--track); }
+.donut .arc { fill: none; stroke: rgb(var(--ok)); stroke-linecap: round; transition: stroke-dasharray .9s cubic-bezier(.2,.8,.2,1); }
+.donut .big { font-size: 30px; font-weight: 700; fill: var(--ink); }
+.donut .small { font-size: 12px; fill: var(--muted); }
+.legend { font-size: .9rem; color: var(--muted); }
+.legend p { margin: 0 0 6px; }
+.legend b { color: var(--ink); font-size: 1.1rem; margin: 0 2px; }
+.legend i { display: inline-block; width: 9px; height: 9px; margin-right: 7px; border-radius: 50%; vertical-align: 1px; }
+.legend .todo-raw { margin-top: 8px; font-size: .85rem; }
+.legend .todo-raw a { display: block; }
+.cols { display: flex; align-items: flex-end; height: 150px; padding-top: 6px; }
+.cols .c { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; }
+.cols .c + .c { margin-left: 10px; }
+.cols .v { font-size: 1.15rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.cols .bar { width: 100%; max-width: 46px; min-height: 4px; border-radius: 8px 8px 3px 3px; transition: height .9s cubic-bezier(.2,.8,.2,1); }
+.cols .l { margin-top: 6px; font-size: .8rem; color: var(--muted); white-space: nowrap; }
+.item { padding: 10px 0; border-top: 1px solid var(--line); }
+.item:first-of-type { border-top: 0; padding-top: 2px; }
+.item .t { margin: 0; font-size: .95rem; line-height: 1.55; }
+.item .m { margin: 4px 0 0; font-size: .8rem; color: var(--muted); }
+.pill { display: inline-block; margin-right: 8px; padding: 0 8px; border-radius: 99px; font-size: .75rem; line-height: 1.75; font-weight: 600; white-space: nowrap; color: rgb(var(--tone)); background: rgba(var(--tone),.13); vertical-align: 1px; }
+.pg { color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--line); }
+.pg::after { content: " ↗"; color: var(--faint); }
+.pg:hover { color: var(--accent); border-color: var(--accent); }
+.ask { border-top: 3px solid rgb(var(--tmr)); }
+.who { color: rgb(var(--tmr)); font-weight: 600; margin-right: 8px; }
+.dot { display: inline-block; width: 8px; height: 8px; margin-right: 7px; border-radius: 50%; vertical-align: 1px; }
+.recent .name .pg { color: var(--ink); font-weight: 600; font-size: .92rem; border: 0; }
+.recent .d { float: right; font-size: .78rem; color: var(--faint); }
+.empty { margin: 4px 0; color: var(--faint); font-size: .92rem; }
+.notice { padding: 28px; font-size: 1.05rem; line-height: 1.9; }
+.notice b { display: block; font-size: 1.2rem; }
+.foot { margin-top: 22px; text-align: center; font-size: .82rem; color: var(--faint); }
+@media (max-width: 1100px) { .lists { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 720px) { .lists { grid-template-columns: 1fr; } .wrap { padding: 16px; } .right { text-align: left; } }
+@media (prefers-reduced-motion: reduce) { .bars .fill, .donut .arc, .cols .bar { transition: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1 id="title">看板</h1>
+      <p class="sub" id="sub"></p>
+    </div>
+    <div class="right">
+      <div><span class="live"></span><span id="stamp"></span></div>
+      <span id="home"></span>
+    </div>
+  </header>
+  <div class="card notice" id="notice" hidden></div>
+  <main id="app" hidden>
+    <section class="kpis" id="kpis"></section>
+    <section class="charts" id="charts"></section>
+    <section class="lists" id="lists"></section>
+  </main>
+  <footer class="foot">数据是 AI 整理时写的。想看最新的，跟 AI 说‘更新看板’。</footer>
+</div>
+<script>
+(function () {
+  'use strict';
+  var DEMO = /[?&#]demo\b/.test(location.search + location.hash);
+  var FILE = DEMO ? '看板数据_示例.js' : '看板数据.js';
+  var WEEK = '日一二三四五六';
+  var D = null, SIG = '', DAY = '';
+
+  function arr(v) { return Array.isArray(v) ? v : []; }
+  function txt(v) { return v == null || typeof v === 'object' ? '' : String(v).trim(); }
+  function esc(v) { return txt(v).replace(/[&<>"']/g, function (c) { return '&#' + c.charCodeAt(0) + ';'; }); }
+  function cleanPath(p) { return txt(p).replace(/\\/g, '/').replace(/^\.?\/+/, ''); }
+  function pageName(p) { var s = cleanPath(p).replace(/\.md$/i, ''); return s.slice(s.lastIndexOf('/') + 1); }
+  function pageHref(p) {
+    return 'obsidian://open?vault=' + encodeURIComponent(txt(D && D.库文件夹) || '知识库') +
+      '&file=' + encodeURIComponent(cleanPath(p).replace(/\.md$/i, ''));
+  }
+  function pageLink(p, label, cls) {
+    var name = txt(label) || pageName(p);
+    if (!cleanPath(p)) return name ? '<span class="' + (cls || 'pg') + '">' + esc(name) + '</span>' : '';
+    return '<a class="' + (cls || 'pg') + '" href="' + esc(pageHref(p)) + '" title="在 Obsidian 里打开">' + esc(name) + '</a>';
+  }
+  function yes(v) { return v === true || /^(是|对|有|整理了|已整理|好了|✓|true|yes)$/i.test(txt(v)); }
+  function day(v) { var m = /(\d{4})\D+(\d{1,2})\D+(\d{1,2})/.exec(txt(v)); return m ? new Date(+m[1], m[2] - 1, +m[3]) : null; }
+  function today() {
+    var u = DEMO && D && day(D.更新);
+    if (u) return u;
+    var n = new Date();
+    return new Date(n.getFullYear(), n.getMonth(), n.getDate());
+  }
+  function diff(d) { return Math.round((d - today()) / 864e5); }
+  function md(d) { return (d.getFullYear() !== today().getFullYear() ? d.getFullYear() + '年' : '') + (d.getMonth() + 1) + '月' + d.getDate() + '日'; }
+  function wk(d) { return '周' + WEEK.charAt(d.getDay()); }
+  function due(v) {
+    var d = day(v);
+    if (!d) return { k: 'none', n: 1e4, t: txt(v) || '没写哪天' };
+    var n = diff(d);
+    var k = n < 0 ? 'late' : n === 0 ? 'today' : n === 1 ? 'tmr' : n <= 7 ? 'week' : 'later';
+    var t = k === 'late' ? '过了 ' + -n + ' 天' : k === 'today' ? '今天' : k === 'tmr' ? '明天' : k === 'week' ? wk(d) + ' · ' + n + ' 天后' : md(d);
+    return { k: k, n: n, d: d, t: t };
+  }
+  function todos() {
+    return arr(D.待办).map(function (x, i) { x = x || {}; return { 事: txt(x.事), 页: x.页, due: due(x.哪天), i: i }; })
+      .filter(function (x) { return x.事; })
+      .sort(function (a, b) { return a.due.n - b.due.n || a.i - b.i; });
+  }
+  function items(list, key) { return arr(list).filter(function (x) { return x && txt(x[key]); }); }
+  function stamp() {
+    var u = txt(D.更新), d = day(u);
+    if (!d) return u ? '更新于 ' + u : '';
+    var t = /(\d{1,2})[:：](\d{2})/.exec(u), ago = -diff(d);
+    return '更新于 ' + md(d) + ' ' + wk(d) + (t ? ' ' + t[1] + ':' + t[2] : '') + (ago > 0 ? '（' + ago + ' 天前）' : '');
+  }
+  function numbers() {
+    var n = D.数字;
+    if (n && !Array.isArray(n) && typeof n === 'object') n = Object.keys(n).map(function (k) { return { 名: k, 数: n[k] }; });
+    return arr(n).filter(function (x) { return x && txt(x.名); });
+  }
+  function put(id, html) { var el = document.getElementById(id); el.innerHTML = html || ''; el.hidden = !html; }
+
+  function load(first) {
+    var prev = window.KANBAN, old = document.getElementById('kanban-data'), s = document.createElement('script');
+    window.KANBAN = undefined;
+    if (old) old.parentNode.removeChild(old);
+    s.id = 'kanban-data';
+    s.src = FILE + (first ? '' : '?v=' + Date.now());
+    s.onload = function () {
+      var d = window.KANBAN;
+      if (d && typeof d === 'object') return take(d);
+      window.KANBAN = prev;
+      if (!D) showNotice(true);
+    };
+    s.onerror = function () {
+      window.KANBAN = prev;
+      if (first) showNotice(false); else location.reload();
+    };
+    document.head.appendChild(s);
+  }
+  function take(d) {
+    var sig = JSON.stringify(d), dd = new Date().toDateString();
+    if (sig === SIG && dd === DAY) return;
+    SIG = sig; DAY = dd; D = d;
+    try { render(); document.getElementById('notice').hidden = true; document.getElementById('app').hidden = false; }
+    catch (e) { showNotice(true); }
+  }
+  function showNotice(broken) {
+    document.getElementById('notice').innerHTML = broken
+      ? '<b>看板的数据有地方写错了，读不出来。</b>跟 AI 说“看板打不开了，修一下”。'
+      : '<b>还没有看板的数据。</b>跟 AI 说“更新看板”。它写好以后，这页半分钟内会自己变。';
+    document.getElementById('notice').hidden = false;
+    document.getElementById('app').hidden = true;
+  }
+
+  var PALETTE = ['#D9534F', '#3B7DD8', '#4E9A3A', '#E8912D', '#8E5EA2', '#1FA2A0', '#C2577F', '#7A8899'];
+  var BUCKETS = [['late', '过期'], ['today', '今天'], ['tmr', '明天'], ['week', '7 天内'], ['later', '更远']];
+  var first = true;
+
+  function blockColor(name) {
+    var i = items(D.分块, '名').map(function (b) { return txt(b.名); }).indexOf(txt(name));
+    return i < 0 ? '#8A94A7' : PALETTE[i % PALETTE.length];
+  }
+  function tone(label) {
+    var s = txt(label);
+    return /拍板|确认/.test(s) ? 'tmr' : /缺|补/.test(s) ? 'late' : /做|跟进|今天|明天|到期/.test(s) ? 'today' : /资料|原件/.test(s) ? 'ok' : 'week';
+  }
+  function card(title, small, body, cls) {
+    return '<div class="card ' + (cls || '') + '"><h2>' + title + (small ? '<small>' + small + '</small>' : '') + '</h2>' + body + '</div>';
+  }
+
+  function kpis() {
+    return numbers().map(function (x) {
+      return '<div class="card kpi" style="--tone:var(--' + tone(x.名) + ')"><div class="lab"><i></i>' + esc(x.名) +
+        '</div><div class="num" data-n="' + esc(x.数) + '">' + esc(x.数) + '</div></div>';
+    }).join('');
+  }
+  function blockChart() {
+    var list = items(D.分块, '名');
+    if (!list.length) return '';
+    var max = 1, total = 0;
+    list.forEach(function (b) { var n = +b.几页 || 0; max = Math.max(max, n); total += n; });
+    return card('每块有几页', '一共 ' + total + ' 页', '<div class="bars">' + list.map(function (b) {
+      var n = +b.几页 || 0;
+      return '<div class="row"><span class="name" title="' + esc(b.名) + '">' + esc(b.名) + '</span><span class="track"><span class="fill" style="display:block;background:' +
+        blockColor(b.名) + ';width:' + (first ? 0 : n / max * 100) + '%" data-w="' + (n / max * 100) + '"></span></span><span class="n">' + n + '</span></div>';
+    }).join('') + '</div>');
+  }
+  function rawChart() {
+    var list = items(D.资料, '名');
+    if (!list.length) return '';
+    var done = list.filter(function (x) { return yes(x.整理了吗); }).length, rest = list.filter(function (x) { return !yes(x.整理了吗); });
+    var r = 60, c = 2 * Math.PI * r, part = done / list.length * c;
+    var svg = '<svg viewBox="0 0 150 150" role="img" aria-label="资料整理了 ' + done + ' 份，一共 ' + list.length + ' 份">' +
+      '<circle class="ring" cx="75" cy="75" r="' + r + '" stroke-width="16"/>' +
+      '<circle class="arc" cx="75" cy="75" r="' + r + '" stroke-width="16" transform="rotate(-90 75 75)" stroke-dasharray="' +
+      (first ? 0 : part) + ' ' + c + '" data-part="' + part + '" data-c="' + c + '"' + (done ? '' : ' style="stroke:none"') + '/>' +
+      '<text class="big" x="75" y="80" text-anchor="middle">' + done + '<tspan class="small" dx="2">/ ' + list.length + '</tspan></text>' +
+      '<text class="small" x="75" y="102" text-anchor="middle">' + (rest.length ? '整理了 ' + Math.round(done / list.length * 100) + '%' : '都整理了') + '</text></svg>';
+    var legend = '<div class="legend"><p><i style="background:rgb(var(--ok))"></i>整理了<b>' + done + '</b>份</p>' +
+      '<p><i style="background:var(--track)"></i>还没整理<b>' + rest.length + '</b>份</p>' +
+      (rest.length ? '<div class="todo-raw">' + rest.slice(0, 4).map(function (x) { return pageLink(x.页, x.名); }).join('') +
+        (rest.length > 4 ? '<span>还有 ' + (rest.length - 4) + ' 份</span>' : '') + '</div>' : '') + '</div>';
+    return card('收进来的资料', '一共 ' + list.length + ' 份', '<div class="donut">' + svg + legend + '</div>');
+  }
+  function dueChart(list) {
+    if (!list.length) return '';
+    var count = {}, max = 1, total = 0;
+    BUCKETS.forEach(function (b) { count[b[0]] = 0; });
+    list.forEach(function (x) { if (x.due.k in count) { count[x.due.k]++; total++; } });
+    if (!total) return '';
+    BUCKETS.forEach(function (b) { max = Math.max(max, count[b[0]]); });
+    return card('要做的事，按日子分', '一共 ' + total + ' 件', '<div class="cols">' + BUCKETS.map(function (b) {
+      var h = count[b[0]] / max * 100;
+      return '<div class="c"><span class="v" style="color:' + (count[b[0]] ? 'rgb(var(--' + b[0] + '))' : 'var(--faint)') + '">' + count[b[0]] +
+        '</span><span class="bar" style="background:rgba(var(--' + b[0] + '),' + (count[b[0]] ? '.85' : '.18') + ');height:' + (first ? 0 : h) + '%" data-h="' + h + '"></span><span class="l">' + b[1] + '</span></div>';
+    }).join('') + '</div>');
+  }
+
+  function todoCard(list) {
+    var body = list.length ? list.map(function (x) {
+      var k = x.due.k === 'none' ? 'later' : x.due.k;
+      return '<div class="item"><p class="t"><span class="pill" style="--tone:var(--' + k + ')">' + esc(x.due.t) + '</span>' + esc(x.事) + '</p>' +
+        (cleanPath(x.页) ? '<p class="m">' + pageLink(x.页) + '</p>' : '') + '</div>';
+    }).join('') : '<p class="empty">没有写了日期的事。</p>';
+    return card('要做的事', list.length ? list.length + ' 件' : '', body);
+  }
+  function askCard() {
+    var list = items(D.要拍板, '事');
+    var body = list.length ? list.map(function (x) {
+      return '<div class="item"><p class="t">' + esc(x.事) + '</p><p class="m">' + (txt(x.问谁) ? '<span class="who">问 ' + esc(x.问谁) + '</span>' : '') + pageLink(x.页) + '</p></div>';
+    }).join('') : '<p class="empty">没有要找人拍板的。</p>';
+    return card('要找人拍板', list.length ? list.length + ' 件' : '', body, 'ask');
+  }
+  function missCard() {
+    var list = items(D.还缺, '事');
+    var body = list.length ? list.map(function (x) {
+      return '<div class="item"><p class="t">' + esc(x.事) + '</p><p class="m">' + (txt(x.问谁) ? '问 ' + esc(x.问谁) + ' · ' : '') + pageLink(x.页) + '</p></div>';
+    }).join('') : '<p class="empty">没有还缺的。</p>';
+    return card('还缺的', list.length ? list.length + ' 处' : '', body);
+  }
+  function recentCard() {
+    var list = items(D.最近, '页');
+    var body = list.length ? list.map(function (x) {
+      var d = day(x.更新);
+      return '<div class="item recent"><p class="t name"><span class="d">' + esc(d ? md(d) : x.更新) + '</span><span class="dot" style="background:' + blockColor(x.块) + '"></span>' +
+        pageLink(x.页) + '</p>' + (txt(x.一句话) ? '<p class="m">' + esc(x.一句话) + '</p>' : '') + '</div>';
+    }).join('') : '<p class="empty">还没有。</p>';
+    return card('最近改过的页', '', body);
+  }
+
+  function animate() {
+    var still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        [].forEach.call(document.querySelectorAll('.fill[data-w]'), function (el) { el.style.width = el.getAttribute('data-w') + '%'; });
+        [].forEach.call(document.querySelectorAll('.bar[data-h]'), function (el) { el.style.height = el.getAttribute('data-h') + '%'; });
+        [].forEach.call(document.querySelectorAll('.arc[data-part]'), function (el) { el.setAttribute('stroke-dasharray', el.getAttribute('data-part') + ' ' + el.getAttribute('data-c')); });
+      });
+    });
+    if (still) return;
+    [].forEach.call(document.querySelectorAll('.num[data-n]'), function (el) {
+      var end = +el.getAttribute('data-n'), t0 = 0;
+      if (!(end > 0) || Math.round(end) !== end) return;
+      el.textContent = '0';
+      requestAnimationFrame(function step(t) {
+        t0 = t0 || t;
+        var p = Math.min(1, (t - t0) / 900);
+        el.textContent = Math.round(end * (1 - Math.pow(1 - p, 3)));
+        if (p < 1) requestAnimationFrame(step);
+      });
+    });
+  }
+
+  function render() {
+    var name = txt(D.库名) || '我的知识库', list = todos();
+    document.title = name + ' · 看板';
+    put('title', esc(name));
+    put('sub', esc([txt(D.谁), txt(D.岗位), txt(D.业务)].filter(Boolean).join(' · ')));
+    put('stamp', esc(stamp()));
+    put('home', pageLink('首页.md', '在 Obsidian 里打开首页', 'home'));
+    put('kpis', kpis());
+    put('charts', blockChart() + rawChart() + dueChart(list));
+    put('lists', todoCard(list) + '<div class="stack">' + askCard() + missCard() + '</div>' + recentCard());
+    if (first) animate();
+    first = false;
+  }
+
+  load(true);
+  setInterval(function () { load(false); }, 30000);
+})();
+</script>
+</body>
+</html>
