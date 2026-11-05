@@ -310,7 +310,6 @@ body.pv #pv{display:block}
 #pv .nx{margin-top:26px;font-size:22px;line-height:1.7;color:var(--mute);padding:0 10px}
 #pv .nx b{color:var(--ink);font-weight:600}
 #pv .keys{margin-top:30px;font-size:16px;color:var(--dim)}
-
 :root{--m-ink:#f3f4f6;--m-mute:#8b909b;--m-line:#1f232c;--m-line2:#343a46;--m-card:#10131a;--m-card2:#171b24;--m-bg2:#06080d;--m-on:#07080a;--m-shadow:0 18px 60px rgba(0,0,0,.55);--m-code-bg:#0b0d12;--m-code-ink:#e8e6e1;--hi:#c9a96e}
 
 /* ======================= 模块通用 ======================= */
@@ -597,114 +596,89 @@ body.pv #pv{display:block}
 #m5 .m-fin2 h2{font-size:110px;font-weight:900;letter-spacing:-.01em}
 #m5 .m-fin2 p{font-size:32px;color:var(--m-mute);margin-top:26px}
 
-/* L1 到 L5 改成清爽版（11-05 靖锋：字太多、太乱）：一张图、一个数、一句这两天 */
-#m5 .lv-num{left:1190px;top:250px;width:350px;border:1.5px solid var(--m-line2);border-radius:20px;background:var(--m-card);padding:26px 28px}
-#m5 .lv-num b{display:block;font-size:64px;line-height:1.05;font-weight:900;color:var(--hi);white-space:nowrap}
-#m5 .lv-num p{font-size:24px;line-height:1.45;color:var(--m-ink);margin-top:12px}
-#m5 .lv-num span{display:block;font-size:16px;color:var(--m-mute);margin-top:12px}
-#m5 .lv-now{left:60px;right:60px;top:680px;border-top:2px solid var(--hi);padding-top:18px;font-size:32px;font-weight:800;color:var(--m-ink);display:flex;align-items:center;gap:18px}
-#m5 .lv-now em{font-style:normal;font-size:20px;font-weight:900;color:#0b0d0c;background:var(--hi);border-radius:20px;padding:5px 16px}
-#m5 .lv-tag{left:60px;top:236px;font-size:22px;font-weight:800;color:var(--m-mute)}
-#m5 .lv-isl{left:60px;top:250px;width:1070px;display:grid;grid-template-columns:repeat(4,1fr);gap:26px}
-#m5 .lv-isl div{height:150px;border:1.5px dashed var(--m-line2);border-radius:16px;background:var(--m-card);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
-#m5 .lv-isl b{font-size:30px;font-weight:800}
-#m5 .lv-isl i{font-style:normal;font-size:18px;color:var(--m-mute);border:1px solid var(--m-line2);border-radius:8px;padding:2px 10px}
-#m5 .lv-flow{left:60px;width:1070px;display:flex;align-items:center;gap:10px}
-#m5 .lv-flow b{flex:1;height:150px;border:1.5px solid var(--m-line2);border-radius:18px;background:var(--m-card);display:flex;align-items:center;justify-content:center;text-align:center;font-size:27px;font-weight:800;line-height:1.35}
-#m5 .lv-flow i{flex:none;font-style:normal;font-size:30px;color:var(--m-mute)}
-#m5 .lv-flow .kb{border-color:var(--kb)}#m5 .lv-flow .sk{border-color:var(--sk)}#m5 .lv-flow .ag{border-color:var(--ag)}#m5 .lv-flow .hp{border-color:var(--hi);border-style:dashed}
-#m5 .lv-nod{left:60px;top:476px;width:1070px;height:40px}
-#m5 .lv-nod span{position:absolute;width:190px;text-align:center;font-size:20px;font-weight:800;color:var(--hi)}
-#m5 .lv-loop{left:330px;top:212px;width:520px;height:420px}
-#m5 .lv-loop svg{position:absolute;inset:0;width:520px;height:420px}
-#m5 .lv-loop b{position:absolute;transform:translate(-50%,-50%);white-space:nowrap;font-size:24px;font-weight:800;padding:10px 18px;border-radius:14px;border:1.5px solid var(--m-line2);background:var(--m-card)}
-#m5 .lv-loop b.kb{border-color:var(--kb)}#m5 .lv-loop b.sk{border-color:var(--sk)}#m5 .lv-loop b.hp{border-color:var(--hi);border-style:dashed}
-#m5 .lv-loop em{position:absolute;left:260px;top:210px;transform:translate(-50%,-50%);font-style:normal;font-size:34px;font-weight:900;color:var(--hi)}
-#m5 .lv-lay{left:60px;top:240px;width:1070px;display:flex;flex-direction:column;gap:16px}
-#m5 .lv-lay div{height:88px;border:1.5px solid var(--m-line2);border-radius:16px;background:var(--m-card);display:flex;align-items:center;gap:24px;padding:0 26px}
-#m5 .lv-lay b{flex:none;width:150px;font-size:30px;font-weight:900}
-#m5 .lv-lay p{font-size:26px;color:var(--m-ink)}
-#m5 .lv-lay .hp{border-color:var(--hi)}#m5 .lv-lay .ag{border-color:var(--ag)}#m5 .lv-lay .sk{border-color:var(--sk)}#m5 .lv-lay .kb{border-color:var(--kb)}
-/* L1 到 L5：五张全景，结构各不同（11-05 第三遍） */
+/* L1 到 L5：五张全景（11-05 第四遍：照原来那版的实框、色块、连线、右侧五级；每级结构不同） */
 #m5 .lp{position:absolute;inset:0;pointer-events:none}
 #m5 .lp>*{position:absolute}
 #m5 .lp .st{opacity:0;transform:translateY(10px);transition:opacity .6s,transform .6s}
 #m5 .lp.vis .st{opacity:1;transform:none;transition-delay:var(--d,0s)}
-#m5 .lad{right:60px;top:56px;display:flex;gap:6px}
-#m5 .lad i{font-style:normal;font-size:17px;font-weight:800;padding:6px 12px;border-radius:8px;border:1px solid var(--m-line2);color:var(--m-mute)}
-#m5 .lad i.on{background:var(--hi);border-color:var(--hi);color:#0b0d0c}
-#m5 .band{left:60px;width:1480px;top:670px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
-#m5 .band div{border-top:3px solid var(--m-line2);padding-top:8px}
-#m5 .band div:first-child{border-color:var(--hi)}
-#m5 .band em{font-style:normal;display:block;font-size:16px;font-weight:800;color:var(--m-mute);margin-bottom:3px}
-#m5 .band p{font-size:19px;line-height:1.42;color:var(--m-ink)}
-#m5 .src{left:60px;top:768px;width:1180px;white-space:nowrap;overflow:hidden;font-size:14px;line-height:1.45;color:var(--m-mute)}
-#m5 .ev{border:1px solid var(--m-line2);border-radius:12px;background:var(--m-card);padding:12px 16px}
-#m5 .ev b{display:block;font-size:38px;line-height:1.1;font-weight:900;color:var(--m-ink)}
-#m5 .ev b small{font-size:20px;font-weight:700;margin-left:4px}
-#m5 .ev p{font-size:17px;line-height:1.42;color:var(--m-ink);margin-top:4px}
-#m5 .ev span{display:block;font-size:14px;color:var(--m-mute);margin-top:5px}
+#m5 .fr{border:2px solid #5d6576;border-radius:14px;background:#121720}
+#m5 .fr.dim{border-style:dashed;border-color:#454c5a;background:transparent}
+#m5 .fr.zt{background:#132019;border-color:#3f6b52}
+#m5 .fr.kbf{border-color:var(--kb)}
+#m5 .fr.skf{border-color:var(--sk)}
+#m5 .fr.hif{border-color:var(--hi)}
+#m5 .fr>.lb{position:absolute;left:0;top:0;bottom:0;width:120px;padding:12px 4px 0 14px;font-size:18px;white-space:nowrap;font-weight:800;color:var(--m-ink);border-right:1.5px dashed #454c5a}
+#m5 .fr>.lb small{display:block;white-space:normal;font-size:15px;font-weight:500;color:var(--m-mute);margin-top:4px;line-height:1.35}
+#m5 .fr.dim>.lb{color:var(--m-mute)}
+#m5 .in{position:absolute;display:flex;gap:10px;align-items:center}
+#m5 .dc{border:2px solid color-mix(in srgb,var(--sk) 75%,transparent);border-radius:10px;background:#181e28;padding:8px 10px}
+#m5 .dc.off{border-color:#4f5665;color:var(--m-mute)}
+#m5 .dc.on{background:color-mix(in srgb,var(--sk) 16%,#181e28)}
+#m5 .dc b{display:block;font-size:19px;margin-bottom:6px}
+#m5 .use{display:flex;align-items:center;gap:7px;font-size:15px;margin-top:6px;white-space:nowrap}
+#m5 .use i{flex:none;width:14px;height:14px;border-radius:50%;background:var(--m-ink)}
+#m5 .use em{font-style:normal;font-weight:700;padding:2px 7px;border-radius:6px;background:#323a48;color:var(--m-ink)}
+#m5 .blk{border-radius:12px;padding:10px 12px;color:#0b0d0c}
+#m5 .blk b{display:block;font-size:22px;margin-bottom:4px}
+#m5 .blk p{font-size:15px;line-height:1.4}
+#m5 .blk.kb{background:var(--kb)}#m5 .blk.sk{background:var(--sk)}#m5 .blk.ag{background:var(--ag)}#m5 .blk.wf{background:var(--wf)}
+#m5 .blk.ghost{background:transparent;border:2px dashed #4f5665;color:var(--m-mute)}
+#m5 .ch{font-size:16px;padding:4px 10px;border-radius:8px;border:1.5px solid #5d6576;background:#181e28;color:var(--m-ink);white-space:nowrap}
+#m5 .ch.kb{border-color:var(--kb)}
+#m5 .ch.off{color:var(--m-mute);border-style:dashed;border-color:#454c5a;background:transparent}
+#m5 .tg{font-size:15px;color:var(--m-mute)}
+#m5 .bx{border:2px solid #5d6576;border-radius:12px;background:#181e28;padding:10px 12px}
+#m5 .bx b{display:block;font-size:19px;margin-bottom:3px}
+#m5 .bx p{font-size:15px;line-height:1.4;color:var(--m-ink)}
+#m5 .bx.hp{border:2px dashed var(--hi)}
+#m5 .hb{display:inline-block;font-size:14px;font-weight:800;color:#0b0d0c;background:var(--hi);border-radius:5px;padding:1px 6px;margin-top:4px}
 #m5 .lp svg.ln{left:0;top:0;width:1600px;height:900px;overflow:visible}
-#m5 .lp svg.ln path{fill:none}
-#m5 .cap{font-size:16px;font-weight:800;color:var(--m-mute);letter-spacing:.04em}
-/* L1 各自为岛 */
-#m5 .isl{width:255px;height:226px;border:1.5px dashed var(--m-line2);border-radius:14px;padding:12px 14px;background:var(--m-card)}
-#m5 .isl h5{font-size:21px;margin-bottom:8px}
-#m5 .isl .u{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;font-size:16px;line-height:1.35}
-#m5 .isl .u i{flex:none;font-style:normal;font-size:15px;padding:1px 7px;border-radius:6px;border:1px solid var(--m-line2);color:var(--m-mute);white-space:nowrap}
-#m5 .isl .f{position:absolute;left:14px;right:14px;bottom:12px;font-size:15px;color:var(--m-mute);border-top:1px dashed var(--m-line2);padding-top:7px}
-/* L2 一个环节放大 */
-#m5 .dps{left:60px;top:172px;width:1080px;display:flex;gap:8px}
-#m5 .dps i{flex:1;font-style:normal;text-align:center;font-size:17px;padding:7px 0;border-radius:8px;border:1px dashed var(--m-line2);color:var(--m-mute)}
-#m5 .dps i.on{border:1.5px solid var(--sk);color:var(--m-ink);font-weight:800}
-#m5 .bx{border:1.5px solid var(--m-line2);border-radius:14px;background:var(--m-card);padding:12px 14px}
-#m5 .bx h5{font-size:20px;margin-bottom:6px}
-#m5 .bx p{font-size:16px;line-height:1.45;color:var(--m-ink)}
-#m5 .bx p u{text-decoration:none;color:var(--m-mute);margin-right:6px}
-#m5 .bx.kb{border-color:var(--kb)}#m5 .bx.sk{border-color:var(--sk)}#m5 .bx.ag{border-color:var(--ag);border-width:2.5px}
-#m5 .bx.kb h5{color:var(--kb)}#m5 .bx.sk h5{color:var(--sk)}
-/* L3 一条线：一行一个岗位 */
-#m5 .gh{font-size:16px;font-weight:800;color:var(--m-mute);text-align:center;width:128px}
-#m5 .gr{font-size:18px;font-weight:800;color:var(--m-ink);width:108px}
-#m5 .gl{left:60px;width:1080px;height:0;border-top:1px dashed var(--m-line)}
-#m5 .gc{width:128px;height:54px;border-radius:10px;border:1.5px solid var(--ag);background:var(--m-card);padding:5px 8px;font-size:15px;line-height:1.3;color:var(--m-ink)}
-#m5 .gc.ps{border-color:var(--hi);border-style:dashed;background:transparent}
-#m5 .gc.pm{width:948px;height:40px;border-color:var(--wf);display:flex;align-items:center;gap:14px;font-size:16px}
-#m5 .gc em{font-style:normal;display:inline-block;font-size:14px;font-weight:800;color:#0b0d0c;background:var(--hi);border-radius:5px;padding:0 5px;margin-top:2px}
-#m5 .kbd{border:1.5px solid var(--m-line2);border-radius:14px;background:var(--m-card);padding:12px 14px}
-#m5 .kbd h5{font-size:19px;margin-bottom:8px}
-#m5 .kbd p{display:flex;justify-content:space-between;gap:8px;font-size:16px;padding:5px 0;border-top:1px solid var(--m-line);color:var(--m-ink)}
-#m5 .kbd p span{color:var(--m-mute);white-space:nowrap}
+#m5 .lp svg.ln path,#m5 .lp svg.ln line{fill:none}
+#m5 .lp svg .fn{stroke:var(--sk);stroke-width:2.2;stroke-dasharray:6 7;animation:m5flow 1.6s linear infinite}
+#m5 .lp svg .kd{stroke:var(--kb);stroke-width:2.2;stroke-dasharray:5 6}
+#m5 .lp svg .ar{stroke:var(--m-ink);stroke-width:2.4}
+@keyframes m5flow{to{stroke-dashoffset:-26}}
+/* 右栏：五级，当前一级亮；下面是证据 */
+#m5 .rl{left:1272px;top:160px;width:268px;height:490px;padding:14px 16px}
+#m5 .rl h4{font-size:20px;margin-bottom:8px}
+#m5 .lv{border-left:4px solid #4f5665;padding:5px 0 5px 12px;margin-bottom:5px;border-radius:0 8px 8px 0;font-size:18px;font-weight:700;white-space:nowrap;color:var(--m-mute)}
+#m5 .lv u{text-decoration:none;margin-right:6px}
+#m5 .lv.on{border-color:var(--sk);background:color-mix(in srgb,var(--sk) 14%,transparent);color:var(--m-ink)}
+#m5 .lv.on u{color:var(--sk)}
+#m5 .evr{border-top:1.5px dashed #454c5a;margin-top:10px;padding-top:8px}
+#m5 .evr b{display:block;font-size:32px;line-height:1.1;font-weight:900}
+#m5 .evr b small{font-size:18px;margin-left:3px}
+#m5 .evr p{font-size:16px;line-height:1.38;margin-top:2px}
+#m5 .evr span{display:block;font-size:14px;color:var(--m-mute);margin-top:2px}
+#m5 .band{left:60px;width:1480px;top:668px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
+#m5 .band div{border-top:3px solid #4f5665;padding-top:8px}
+#m5 .band div:first-child{border-color:var(--hi)}
+#m5 .band em{font-style:normal;display:block;font-size:16px;font-weight:800;color:var(--m-mute);margin-bottom:2px}
+#m5 .band p{font-size:20px;line-height:1.4;color:var(--m-ink)}
+#m5 .src{left:60px;top:762px;width:1180px;font-size:14px;line-height:1.45;color:var(--m-mute);white-space:nowrap;overflow:hidden}
+/* L3 一行一个岗位 */
+#m5 .gh{font-size:16px;font-weight:800;color:var(--m-mute);text-align:center;width:116px}
+#m5 .gr{font-size:18px;font-weight:800;width:96px}
+#m5 .gc{width:116px;height:50px;border-radius:9px;padding:5px 8px;font-size:15px;line-height:1.3;background:var(--ag);color:#0b0d0c;font-weight:600}
+#m5 .gc.ps{background:transparent;border:2px dashed var(--hi);color:var(--m-ink)}
+#m5 .gc .hb{position:absolute;right:-6px;top:-10px;margin:0}
+#m5 .kbd p{display:flex;align-items:center;gap:8px;font-size:16px;padding:7px 0;border-top:1.5px solid #2c323d}
+#m5 .kbd p i{flex:none;width:12px;height:12px;border-radius:50%;background:#4f5665}
+#m5 .kbd p i.ok{background:var(--sk)}#m5 .kbd p i.w{background:var(--hi)}
+#m5 .kbd p span{margin-left:auto;font-size:14px;color:var(--m-mute)}
 #m5 .kbd p span.w{color:var(--hi);font-weight:800}
 /* L4 一个圈 */
-#m5 .nd{width:250px;height:92px;border:1.5px solid var(--m-line2);border-radius:14px;background:var(--m-card);padding:9px 13px;transform:translate(-50%,-50%)}
-#m5 .lp.vis .nd.st{transform:translate(-50%,-50%)}
+#m5 .nd{width:220px;height:78px;transform:translate(-50%,-50%)}
 #m5 .lp .nd.st{transform:translate(-50%,calc(-50% + 10px))}
-#m5 .nd h5{font-size:19px;margin-bottom:3px}
-#m5 .nd h5 u{text-decoration:none;color:var(--m-mute);margin-right:6px}
-#m5 .nd p{font-size:15.5px;line-height:1.38;color:var(--m-ink)}
-#m5 .nd.hp{border-color:var(--hi);border-style:dashed}
-#m5 .ctr{width:330px;text-align:center;transform:translate(-50%,-50%)}
-#m5 .lp .ctr.st{transform:translate(-50%,calc(-50% + 10px))}
-#m5 .lp.vis .ctr.st{transform:translate(-50%,-50%)}
-#m5 .ctr h4{font-size:30px;font-weight:900;margin-bottom:10px}
-#m5 .ctr p{font-size:16px;line-height:1.4;color:var(--m-ink);margin-top:7px;text-align:left;border-left:3px solid var(--kb);padding-left:10px}
-/* L5 组织图换了 */
-#m5 .ly{left:60px;width:1080px;border:1.5px solid var(--m-line2);border-radius:12px;background:var(--m-card);display:flex;align-items:center;gap:14px;padding:0 16px}
-#m5 .ly>b{flex:none;width:118px;font-size:18px}
-#m5 .ly>p{font-size:17px;color:var(--m-ink)}
-#m5 .ly .c{font-size:15.5px;padding:3px 9px;border-radius:7px;border:1px solid var(--m-line2);white-space:nowrap}
-#m5 .ly .c.kb{border-color:var(--kb)}#m5 .ly .c.sk{border-color:var(--sk)}#m5 .ly .c.ag{border-color:var(--ag)}#m5 .ly .c.wf{border-color:var(--wf)}
-#m5 .ly.org{border-color:var(--hi)}
-#m5 .zt5{background:#141a17;border-color:#2b3a33}
-#m5 .sq{width:170px;height:150px;border:1.5px solid var(--m-line2);border-radius:12px;background:var(--m-card);padding:9px 11px}
-#m5 .sq h5{font-size:18px;margin-bottom:6px}
-#m5 .sq .ic{display:flex;gap:4px;align-items:center;margin-bottom:7px;height:22px}
-#m5 .sq .ic i{display:block;width:16px;height:16px;border-radius:50%;background:var(--m-ink)}
-#m5 .sq .ic s{display:block;width:13px;height:13px;border-radius:3px;background:var(--ag);opacity:.85}
-#m5 .sq p{font-size:15px;line-height:1.35;color:var(--m-ink)}
-#m5 .who p{font-size:16.5px;line-height:1.4;padding:6px 0;border-top:1px solid var(--m-line);color:var(--m-ink)}
-#m5 .who p b{display:block;font-size:15px;color:var(--m-mute)}
+#m5 .lp.vis .nd.st{transform:translate(-50%,-50%)}
+#m5 .nd b u{text-decoration:none;color:var(--m-mute);margin-right:6px}
+#m5 .blk.ag.nd b u{color:#5b574e}
+/* L5 小队 */
+#m5 .sq{width:166px;height:104px;border:2px solid color-mix(in srgb,var(--sk) 75%,transparent);border-radius:10px;background:#181e28;padding:8px 10px}
+#m5 .sq b{display:block;font-size:18px;margin-bottom:8px}
+#m5 .sq .ic{display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+#m5 .sq .ic i{display:block;width:18px;height:18px;border-radius:50%;background:var(--m-ink)}
+#m5 .sq .ic s{display:block;width:15px;height:15px;border-radius:3px;background:var(--ag)}
 #m5 .mh{position:absolute;left:96px;top:42px;font-size:48px;font-weight:900}
 #m5 .mh small{display:block;font-size:24px;font-weight:500;color:var(--m-mute);margin-top:8px}
 
@@ -1239,16 +1213,16 @@ body.pv #pv{display:block}
     </div>
     <div class="m-eq rv fade" data-in="0" data-out="1" style="transition-delay:.6s"><div class="t r">企业 AI 化</div><i>=</i><div class="t ai">员工能力<u></u></div><i>×</i><div class="t">数据和语义</div><i>×</i><div class="t">组织</div></div>
 
-    <div class="lp rv" data-in="1" data-out="2"><div class="lad"><i class=on>L1</i><i>L2</i><i>L3</i><i>L4</i><i>L5</i></div><div class="lv-isl st" style="--d:.2s"><div><b>老板</b><i>豆包</i></div><div><b>产品</b><i>ChatGPT</i></div><div><b>运营</b><i>DeepSeek</i></div><div><b>视觉</b><i>即梦</i></div><div><b>客服</b><i>豆包</i></div><div><b>采购</b><i>Kimi</i></div><div><b>财务</b><i>DeepSeek</i></div><div><b>人事</b><i>ChatGPT</i></div></div><div class="lv-num st" style="--d:.9s"><b>75%</b><p>上班的人，已经在用 AI</p><span>微软、领英，2024</span></div><div class="lv-now st" style="--d:1.3s"><em>这两天</em>四样，先在各人手上做出来</div></div>
-    <div class="lp rv" data-in="2" data-out="3"><div class="lad"><i>L1</i><i class=on>L2</i><i>L3</i><i>L4</i><i>L5</i></div><div class="lv-tag st" style="--d:.1s">客服售后</div><div class="lv-flow st" style="top:300px;--d:.3s"><b class="">买家<br>来消息</b><i>→</i><b class="kb">查<br>知识库</b><i>→</i><b class="sk">照技能<br>起草回复</b><i>→</i><b class="hp">客服改两个词<br>就发</b></div><div class="lv-num st" style="--d:.9s"><b>7 → 1</b><p>同一位难缠买家：现成的差 7 处，自己做的差 1 处</p><span>我们实测</span></div><div class="lv-now st" style="--d:1.3s"><em>这两天</em>第一天做的三样，就是这一级</div></div>
-    <div class="lp rv" data-in="3" data-out="4"><div class="lad"><i>L1</i><i>L2</i><i class=on>L3</i><i>L4</i><i>L5</i></div><div class="lv-tag st" style="--d:.1s">一款新品，从定下来到卖出去</div><div class="lv-flow st" style="top:300px;--d:.3s"><b class="ag">产品</b><i>→</i><b class="ag">采购</b><i>→</i><b class="ag">运营</b><i>→</i><b class="ag">视觉</b><i>→</i><b class="ag">客服</b></div><div class="lv-nod st" style="--d:.7s"><span style="left:0">人点头：选哪个方向</span><span style="left:226px">人点头：花不花钱</span></div><div class="lv-num st" style="--d:.9s"><b>21%</b><p>的公司，真把流程重做了一遍</p><span>麦肯锡，2025</span></div><div class="lv-now st" style="--d:1.3s"><em>这两天</em>第四块，就走到这里</div></div>
-    <div class="lp rv" data-in="4" data-out="5"><div class="lad"><i>L1</i><i>L2</i><i>L3</i><i class=on>L4</i><i>L5</i></div><div class="lv-loop st" style="--d:.2s"><svg viewBox="0 0 520 420"><defs><marker id="lvar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10Z" fill="var(--m-mute)"/></marker></defs><ellipse cx="260" cy="210" rx="190" ry="150" fill="none" stroke="var(--m-line2)" stroke-width="2.5" stroke-dasharray="7 8"/><path d="M330 74 A190 150 0 0 1 440 160" fill="none" stroke="var(--m-mute)" stroke-width="2.5" marker-end="url(#lvar)"/><path d="M440 262 A190 150 0 0 1 330 346" fill="none" stroke="var(--m-mute)" stroke-width="2.5" marker-end="url(#lvar)"/><path d="M190 346 A190 150 0 0 1 80 262" fill="none" stroke="var(--m-mute)" stroke-width="2.5" marker-end="url(#lvar)"/><path d="M80 160 A190 150 0 0 1 190 74" fill="none" stroke="var(--m-mute)" stroke-width="2.5" marker-end="url(#lvar)"/></svg><b style="left:260px;top:60px" class="kb">数据进来</b><b style="left:450px;top:210px" class="sk">AI 按规矩判断</b><b style="left:260px;top:360px" class="hp">人拍板大事</b><b style="left:70px;top:210px">结果写回去</b><em>越跑越准</em></div><div class="lv-num st" style="--d:.9s"><b>95%</b><p>的 AI 试点没赚到钱：不记教训，错了又错</p><span>MIT，2025</span></div><div class="lv-now st" style="--d:1.3s"><em>这两天</em>知识库，就是它的底座</div></div>
-    <div class="lp rv" data-in="5" data-out="6"><div class="lad"><i>L1</i><i>L2</i><i>L3</i><i>L4</i><i class=on>L5</i></div><div class="lv-lay st" style="--d:.2s"><div class="hp"><b>人</b><p>定方向、审结果、管例外</p></div><div class="ag"><b>AI 员工</b><p>干日常的事</p></div><div class="sk"><b>AI 中台</b><p>知识库 · 技能 · 智能体 · 工作流，全公司共用</p></div><div class="kb"><b>数据</b><p>客户、订单、库存、财务</p></div></div><div class="lv-num st" style="--d:.9s"><b>人事 + IT</b><p>Moderna 把这两个部门合成一个，一个人管</p><span>Moderna，2024</span></div><div class="lv-now st" style="--d:1.3s"><em>这两天</em>四样在中台正中间；回去从知识库补起</div></div>
-    <div class="mh rv" data-in="1" data-out="2">L1 各用各的<small>人人都在用，公司看不见，也留不下</small></div>
-    <div class="mh rv" data-in="2" data-out="3">L2 一个环节跑起来<small>一件事交给 AI，人来审</small></div>
-    <div class="mh rv" data-in="3" data-out="4">L3 一条线人机分工<small>几个 AI 接力，要紧处人点头</small></div>
-    <div class="mh rv" data-in="4" data-out="5">L4 判断和数据成闭环<small>数据进来，判断写成规矩，越跑越准</small></div>
-    <div class="mh rv" data-in="5" data-out="6">L5 AI 原生<small>几个人带一群 AI，全公司共用一个中台</small></div>
+    <div class="lp rv" data-in="1" data-out="2"><div class="fr  st" style="left:60px;top:160px;width:1190px;height:314px;--d:0.1s"><div class="lb">各部门<small>各人自己开 AI，用完就散</small></div><div class="dc" style="position:absolute;left:136px;top:12px;width:250px;height:138px"><b>老板</b><div class="use"><i></i><em>豆包</em>问行业消息</div><div class="use"><i></i><em>DeepSeek</em>看报表</div><div class="use"><i></i><em>Kimi</em>读竞品财报</div></div><div class="dc" style="position:absolute;left:398px;top:12px;width:250px;height:138px"><b>产品开发</b><div class="use"><i></i><em>ChatGPT</em>读竞品差评</div><div class="use"><i></i><em>Kimi</em>读报告</div><div class="use"><i></i><em>豆包</em>起产品说明</div></div><div class="dc" style="position:absolute;left:660px;top:12px;width:250px;height:138px"><b>运营</b><div class="use"><i></i><em>ChatGPT</em>写标题五点</div><div class="use"><i></i><em>DeepSeek</em>想广告词</div><div class="use"><i></i><em>Kimi</em>读广告报表</div></div><div class="dc" style="position:absolute;left:922px;top:12px;width:250px;height:138px"><b>视觉</b><div class="use"><i></i><em>即梦</em>出主图草稿</div><div class="use"><i></i><em>Midjourney</em>场景图</div><div class="use"><i></i><em>ChatGPT</em>图上英文</div></div><div class="dc" style="position:absolute;left:136px;top:162px;width:250px;height:138px"><b>客服售后</b><div class="use"><i></i><em>DeepSeek</em>翻译回邮件</div><div class="use"><i></i><em>豆包</em>写道歉信</div><div class="use"><i></i><em>ChatGPT</em>改差评回复</div></div><div class="dc" style="position:absolute;left:398px;top:162px;width:250px;height:138px"><b>采购</b><div class="use"><i></i><em>豆包</em>比价催货</div><div class="use"><i></i><em>Kimi</em>读合同</div><div class="use"><i></i><em>DeepSeek</em>算成本</div></div><div class="dc" style="position:absolute;left:660px;top:162px;width:250px;height:138px"><b>财务</b><div class="use"><i></i><em>Kimi</em>读对账单</div><div class="use"><i></i><em>DeepSeek</em>写公式</div><div class="use"><i></i><em>豆包</em>写催款邮件</div></div><div class="dc" style="position:absolute;left:922px;top:162px;width:250px;height:138px"><b>人事</b><div class="use"><i></i><em>豆包</em>写招聘启事</div><div class="use"><i></i><em>ChatGPT</em>出面试题</div><div class="use"><i></i><em>Kimi</em>筛简历</div></div></div><div class="fr dim st" style="left:60px;top:488px;width:1190px;height:92px;--d:0.6s"><div class="lb">AI 中台</div><div class="in" style="left:136px;top:14px"><div class="blk ghost" style="width:150px;height:62px"><b style="font-size:19px">知识库</b></div><div class="blk ghost" style="width:150px;height:62px"><b style="font-size:19px">技能</b></div><div class="blk ghost" style="width:150px;height:62px"><b style="font-size:19px">智能体</b></div><div class="blk ghost" style="width:150px;height:62px"><b style="font-size:19px">工作流</b></div><span class="tg" style="margin-left:14px">还没有：提示词和资料留在各人电脑里</span></div></div><div class="fr dim st" style="left:60px;top:592px;width:1190px;height:58px;--d:0.7s"><div class="lb">数据和系统</div><div class="in" style="left:136px;top:11px"><span class="ch off">店铺后台</span><span class="ch off">ERP</span><span class="ch off">表格</span><span class="ch off">聊天和邮件</span><span class="tg">AI 读不到</span></div></div><div class="fr rl st" style="--d:.1s"><h4>五级</h4><div class="lv"><u>L5</u>AI 原生</div><div class="lv"><u>L4</u>判断和数据成闭环</div><div class="lv"><u>L3</u>一条线人机分工</div><div class="lv"><u>L2</u>一个环节跑起来</div><div class="lv on"><u>L1</u>各用各的</div><div class="evr"><b>75%</b><p>知识工作者已在工作里用 AI</p><span>微软、领英，2024</span></div><div class="evr"><b>78%</b><p>用 AI 的人里，用的是自己找的工具</p><span>同上</span></div></div><div class="band st" style="--d:1.2s"><div><em>要准备</em><p>每人一个 AI 账号；说清哪些资料能放</p></div><div><em>没备好，会卡在</em><p>用完就散，换个人从头来</p></div><div><em>这两天</em><p>四样先在各人手上做出来</p></div></div><div class="src st" style="--d:1.4s">来源：微软、领英《2024 工作趋势指数》（31 个市场 3.1 万人）。各部门用的工具是常见情形举例。</div></div>
+    <div class="lp rv" data-in="2" data-out="3"><div class="fr  st" style="left:60px;top:160px;width:1190px;height:62px;--d:0.1s"><div class="lb">各部门</div><div class="in" style="left:136px;top:9px;gap:8px"><div class="dc off" style="width:122px;height:42px;padding:7px 0;text-align:center"><b style="font-size:17px;margin:0">老板</b></div><div class="dc off" style="width:122px;height:42px;padding:7px 0;text-align:center"><b style="font-size:17px;margin:0">产品开发</b></div><div class="dc on" style="width:122px;height:42px;padding:7px 0;text-align:center"><b style="font-size:17px;margin:0">运营</b></div><div class="dc off" style="width:122px;height:42px;padding:7px 0;text-align:center"><b style="font-size:17px;margin:0">视觉</b></div><div class="dc on" style="width:122px;height:42px;padding:7px 0;text-align:center"><b style="font-size:17px;margin:0">客服售后</b></div><div class="dc off" style="width:122px;height:42px;padding:7px 0;text-align:center"><b style="font-size:17px;margin:0">采购</b></div><div class="dc off" style="width:122px;height:42px;padding:7px 0;text-align:center"><b style="font-size:17px;margin:0">财务</b></div><div class="dc off" style="width:122px;height:42px;padding:7px 0;text-align:center"><b style="font-size:17px;margin:0">人事</b></div></div></div><div class="fr skf st" style="left:60px;top:252px;width:1190px;height:398px;--d:.4s"><div style="position:absolute;left:16px;top:10px;font-size:16px;font-weight:800;color:var(--sk)">放大：客服售后，回买家消息</div><div class="bx" style="position:absolute;left:20px;top:168px;width:150px;height:84px"><b>买家消息</b><p>邮件、站内信</p></div><div class="blk kb" style="position:absolute;left:236px;top:38px;width:220px;height:92px"><b>知识库</b><p>退货政策、产品手册</p></div><div class="blk sk" style="position:absolute;left:486px;top:38px;width:220px;height:92px"><b>技能</b><p>先排查，再换新，最后退款</p></div><div class="blk ag" style="position:absolute;left:236px;top:160px;width:470px;height:114px"><b>智能体：售后客服助理</b><p>先替 6 个客服起草回复</p><p>钱、车损一律交主管</p></div><div class="bx hp" style="position:absolute;left:784px;top:160px;width:176px;height:114px"><b>交给人</b><p>客服改几个词</p><span class="hb">钱、车损：主管拍板</span></div><div class="bx" style="position:absolute;left:1004px;top:182px;width:160px;height:70px"><b>发给买家</b></div><div class="bx" style="position:absolute;left:236px;top:308px;width:928px;height:62px;display:flex;align-items:center;gap:18px"><b style="margin:0">运行记录</b><span class="ch">做了几件</span><span class="ch">交人几件</span><span class="ch">错了几件</span><span class="ch">错一次，技能改一句</span></div></div><svg class="ln st" style="--d:.9s" viewBox="0 0 1600 900"><path class="fn" d="M716 222 L80 252"/><path class="fn" d="M838 222 L1230 252"/><path class="kd" d="M370 382 V412"/><path class="kd" d="M620 382 V412"/><path class="ar" d="M232 470 H292" marker-end="url(#sxar)"/><path class="ar" d="M782 470 H842" marker-end="url(#sxar)"/><path class="ar" d="M1022 470 H1062" marker-end="url(#sxar)"/><path class="kd" d="M520 526 V560"/></svg><div class="fr rl st" style="--d:.1s"><h4>五级</h4><div class="lv"><u>L5</u>AI 原生</div><div class="lv"><u>L4</u>判断和数据成闭环</div><div class="lv"><u>L3</u>一条线人机分工</div><div class="lv on"><u>L2</u>一个环节跑起来</div><div class="lv"><u>L1</u>各用各的</div><div class="evr"><b>7 <small>处</small> → 1 <small>处</small></b><p>同一位难缠买家：现成客服专家差 7 处，照店里做法做的差 1 处</p><span>本课</span></div><div class="evr"><b>三分之二</b><p>Klarna 客服 AI 首月接的对话</p><span>Klarna，2024</span></div></div><div class="band st" style="--d:1.2s"><div><em>要准备</em><p>这件事的知识库、技能、智能体</p></div><div><em>没备好，会卡在</em><p>AI 不懂公司；技能越堆越乱</p></div><div><em>这两天</em><p>第一天做的三样，就是这一级</p></div></div><div class="src st" style="--d:1.4s">来源：Klarna 2024 年 2 月 27 日新闻稿；本课两组对比。</div></div>
+    <div class="lp rv" data-in="3" data-out="4"><div class="fr st" style="left:60px;top:160px;width:1000px;height:490px;--d:.05s"></div><div class="gh st" style="left:176px;top:172px;--d:.1s">定款</div><div class="gh st" style="left:300px;top:172px;--d:.1s">核成本</div><div class="gh st" style="left:424px;top:172px;--d:.1s">下单备货</div><div class="gh st" style="left:548px;top:172px;--d:.1s">写商品页</div><div class="gh st" style="left:672px;top:172px;--d:.1s">做图</div><div class="gh st" style="left:796px;top:172px;--d:.1s">投广告</div><div class="gh st" style="left:920px;top:172px;--d:.1s">售后反馈</div><div class="gr st" style="left:76px;top:209px;color:var(--wf);--d:.15s">项目经理</div><div class="blk wf st" style="left:176px;top:200px;width:860px;height:38px;padding:7px 12px;font-size:16px;font-weight:700;--d:.2s">智能体：派任务、催办、卡住了找人、每天汇总</div><div class="gr st" style="left:76px;top:269px;--d:.2s">产品</div><div class="gr st" style="left:76px;top:333px;--d:.2s">采购</div><div class="gr st" style="left:76px;top:397px;--d:.2s">运营</div><div class="gr st" style="left:76px;top:461px;--d:.2s">视觉</div><div class="gr st" style="left:76px;top:525px;--d:.2s">客服</div><div class="gr st" style="left:76px;top:589px;--d:.2s">老板</div><div class="gc  st" style="left:176px;top:256px;--d:0.30s">出三个<br>改款方向</div><div class="gc ps st" style="left:176px;top:576px;--d:0.40s">选方向</div><div class="gc  st" style="left:300px;top:320px;--d:0.50s">算成本和毛利</div><div class="gc ps st" style="left:300px;top:576px;--d:0.60s">不过线不做</div><div class="gc  st" style="left:424px;top:320px;--d:0.70s">起草采购单<span class="hb">人点头</span></div><div class="gc  st" style="left:548px;top:384px;--d:0.80s">照技能写</div><div class="gc  st" style="left:672px;top:448px;--d:0.90s">出主图草稿<span class="hb">人改</span></div><div class="gc  st" style="left:796px;top:384px;--d:1.00s">起广告计划<span class="hb">人点头</span></div><div class="gc  st" style="left:920px;top:512px;--d:1.10s">回买家，汇总退货原因</div><svg class="ln st" style="--d:.9s" viewBox="0 0 1600 900"><path class="ar" d="M292 281 H358 V316" marker-end="url(#sxar)"/><path class="ar" d="M416 345 H420" marker-end="url(#sxar)"/><path class="ar" d="M540 345 H606 V380" marker-end="url(#sxar)"/><path class="ar" d="M664 409 H730 V444" marker-end="url(#sxar)"/><path class="ar" d="M788 473 H854 V438" marker-end="url(#sxar)"/><path class="ar" d="M912 409 H978 V508" marker-end="url(#sxar)"/><path class="kd" style="stroke:var(--hi)" d="M234 306 V576"/><path class="kd" style="stroke:var(--hi)" d="M358 370 V576"/><path class="fn" d="M1036 537 H1046 V246 H234 V253" marker-end="url(#sxar)"/></svg><div class="tg st" style="left:726px;top:590px;width:300px;text-align:right;--d:1.2s">退货原因回到下一款</div><div class="fr kbd st" style="left:1072px;top:160px;width:178px;height:490px;padding:12px 14px;--d:.6s"><div style="font-size:19px;font-weight:800;margin-bottom:6px">看板</div><p><i class="ok"></i>定款<span class="ok">✓</span></p><p><i class="ok"></i>核成本<span class="ok">✓</span></p><p><i class="w"></i>下单备货<span class="w">等人</span></p><p><i class=""></i>写商品页<span class="">进行中</span></p><p><i class=""></i>做图<span class="">排队</span></p><p><i class=""></i>投广告<span class=""></span></p><p><i class=""></i>售后反馈<span class=""></span></p></div><div class="fr rl st" style="--d:.1s"><h4>五级</h4><div class="lv"><u>L5</u>AI 原生</div><div class="lv"><u>L4</u>判断和数据成闭环</div><div class="lv on"><u>L3</u>一条线人机分工</div><div class="lv"><u>L2</u>一个环节跑起来</div><div class="lv"><u>L1</u>各用各的</div><div class="evr"><b>21%</b><p>真把流程重新设计过的公司；这是对利润影响最大的一项</p><span>麦肯锡，2025 年 3 月</span></div></div><div class="band st" style="--d:1.2s"><div><em>要准备</em><p>一条线：谁交谁、谁拍板、错了退哪</p></div><div><em>没备好，会卡在</em><p>谁拍板没定，出了错没人担</p></div><div><em>这两天</em><p>第四块走到这里，现场串一条</p></div></div><div class="src st" style="--d:1.4s">来源：麦肯锡《AI 现状》，2025 年 3 月，1,491 人。新品流程和看板是举例。</div></div>
+    <div class="lp rv" data-in="4" data-out="5"><svg class="ln st" style="--d:.9s" viewBox="0 0 1600 900"><path id="m5lp" d="M735 233 A365 172 0 1 1 734.9 233" stroke="var(--sk)" stroke-width="2.4" stroke-dasharray="7 8" fill="none"/><circle r="10" fill="var(--sk)"><animateMotion dur="9s" repeatCount="indefinite"><mpath href="#m5lp"/></animateMotion></circle><path class="kd" d="M262 240 C420 240,480 233,623 233"/><path class="kd" d="M262 330 C440 330,470 253,623 249"/></svg><div class="bx nd st" style="left:735px;top:233px;--d:0.20s"><b><u>1</u>数据进来</b><p>订单、库存、广告、财务</p></div><div class="bx nd st" style="left:1051px;top:319px;--d:0.32s"><b><u>2</u>统一说法</b><p>一个货一个名字</p></div><div class="blk ag nd st" style="left:1051px;top:491px;--d:0.44s"><b><u>3</u>AI 按规矩判断</b><p>补货、调价、加不加广告</p></div><div class="bx hp nd st" style="left:735px;top:577px;--d:0.56s"><b><u>4</u>人拍板</b><p>超出规矩的</p></div><div class="bx nd st" style="left:419px;top:491px;--d:0.68s"><b><u>5</u>照着执行</b><p>下单、调价、改广告</p></div><div class="bx nd st" style="left:419px;top:319px;--d:0.80s"><b><u>6</u>结果写回去</b><p>赚没赚、对没对</p></div><div class="blk kb st" style="left:600px;top:350px;width:270px;height:112px;text-align:center;--d:1.0s"><b style="font-size:26px">判断写成规矩</b><p>例：毛利不过线的款，不加广告</p><p>每条写清谁定的、从哪天起</p></div><div class="fr kbf st" style="left:60px;top:160px;width:200px;height:490px;padding:14px 16px;--d:.05s"><div style="font-size:20px;font-weight:800;margin-bottom:12px">数据和系统</div><span class="ch kb" style="display:block;margin-bottom:9px;width:fit-content">店铺后台</span><span class="ch kb" style="display:block;margin-bottom:9px;width:fit-content">ERP 库存</span><span class="ch kb" style="display:block;margin-bottom:9px;width:fit-content">广告后台</span><span class="ch kb" style="display:block;margin-bottom:9px;width:fit-content">财务</span><span class="ch kb" style="display:block;margin-bottom:9px;width:fit-content">聊天和邮件</span><div class="tg" style="margin-top:6px">接进来，AI 读得到</div></div><div class="fr rl st" style="--d:.1s"><h4>五级</h4><div class="lv"><u>L5</u>AI 原生</div><div class="lv on"><u>L4</u>判断和数据成闭环</div><div class="lv"><u>L3</u>一条线人机分工</div><div class="lv"><u>L2</u>一个环节跑起来</div><div class="lv"><u>L1</u>各用各的</div><div class="evr"><b>95%</b><p>企业 AI 试点没带来利润；工具不记反馈</p><span>MIT NANDA，2025</span></div><div class="evr"><b>15%</b><p>一家汽配卖家的毛利红线</p><span>我们入企所见</span></div></div><div class="band st" style="--d:1.2s"><div><em>要准备</em><p>数据 AI 读得到；判断写成规矩</p></div><div><em>没备好，会卡在</em><p>数据散在各系统；结果不写回</p></div><div><em>这两天</em><p>知识库是它的底座</p></div></div><div class="src st" style="--d:1.4s">来源：MIT NANDA《生成式 AI 鸿沟：2025 企业 AI 现状》；我们入企所见。圈里的规矩是举例。</div></div>
+    <div class="lp rv" data-in="5" data-out="6"><div class="fr hif st" style="left:60px;top:160px;width:1190px;height:46px;--d:0.1s"><div class="lb">老板</div><div class="in" style="left:136px;top:10px;font-size:18px">定方向和红线，拍板大事</div></div><div class="fr hif st" style="left:60px;top:214px;width:1190px;height:46px;--d:0.15s"><div class="lb">一个负责人</div><div class="in" style="left:136px;top:10px;font-size:18px">人和 AI 一起分工；要加人，先说清 AI 为什么做不了</div></div><div class="fr  st" style="left:60px;top:270px;width:1190px;height:126px;--d:0.25s"><div class="lb">各部门<small>几个人带一群智能体</small></div><div class="sq" style="position:absolute;left:136px;top:10px"><b>产品开发</b><div class="ic"><i></i><s></s><s></s><s></s><s></s></div></div><div class="sq" style="position:absolute;left:310px;top:10px"><b>采购供应链</b><div class="ic"><i></i><s></s><s></s><s></s></div></div><div class="sq" style="position:absolute;left:484px;top:10px"><b>运营</b><div class="ic"><i></i><i></i><s></s><s></s><s></s><s></s><s></s><s></s><s></s></div></div><div class="sq" style="position:absolute;left:658px;top:10px"><b>视觉内容</b><div class="ic"><i></i><s></s><s></s><s></s><s></s><s></s></div></div><div class="sq" style="position:absolute;left:832px;top:10px"><b>客服售后</b><div class="ic"><i></i><s></s><s></s><s></s><s></s></div></div><div class="sq" style="position:absolute;left:1006px;top:10px"><b>财务人事</b><div class="ic"><i></i><s></s><s></s><s></s></div></div></div><svg class="ln st" style="--d:.9s" viewBox="0 0 1600 900"><path class="fn" d="M279 396 V440"/><path class="fn" d="M453 396 V440"/><path class="fn" d="M627 396 V440"/><path class="fn" d="M801 396 V440"/><path class="fn" d="M975 396 V440"/><path class="fn" d="M1149 396 V440"/></svg><div class="fr zt st" style="left:60px;top:440px;width:1190px;height:146px;--d:0.5s"><div class="lb">AI 中台<small>各部门共用</small></div><div class="in" style="left:136px;top:14px;gap:12px"><div class="blk kb" style="width:136px;height:116px"><b>知识库</b><p>制度、做法<br>判断、产品</p></div><div class="blk sk" style="width:136px;height:116px"><b>技能库</b><p>一件事怎么做</p></div><div class="blk ag" style="width:136px;height:116px"><b>智能体</b><p>一个岗位的 AI</p></div><div class="blk wf" style="width:136px;height:116px"><b>工作流</b><p>谁先谁后<br>谁点头</p></div></div><div style="position:absolute;left:740px;top:16px;display:flex;flex-direction:column;gap:9px"><div class="in" style="position:static;flex-wrap:wrap"><span class="tg" style="width:50px">能做</span><span class="ch">文字</span><span class="ch">图片</span><span class="ch">视频</span><span class="ch">代码</span></div><div class="in" style="position:static;flex-wrap:wrap;width:430px"><span class="tg" style="width:50px">管起来</span><span class="ch">权限</span><span class="ch">审批</span><span class="ch">运行记录</span><span class="ch">账号</span><span class="ch">花费</span></div></div></div><div class="fr kbf st" style="left:60px;top:594px;width:1190px;height:56px;--d:0.7s"><div class="lb">数据和语义</div><div class="in" style="left:136px;top:10px"><span class="ch kb">客户</span><span class="ch kb">商品</span><span class="ch kb">订单</span><span class="ch kb">库存</span><span class="ch kb">广告</span><span class="ch kb">财务</span><span class="ch kb">运行日志</span><span class="tg">一个东西一个说法</span></div></div><div class="fr rl st" style="--d:.1s"><h4>五级</h4><div class="lv on"><u>L5</u>AI 原生</div><div class="lv"><u>L4</u>判断和数据成闭环</div><div class="lv"><u>L3</u>一条线人机分工</div><div class="lv"><u>L2</u>一个环节跑起来</div><div class="lv"><u>L1</u>各用各的</div><div class="evr"><b>人事和 IT 合一</b><p>Moderna 2024 年合成一个部门，一个人管</p><span>Moderna 2025 年股东委托书</span></div></div><div class="band st" style="--d:1.2s"><div><em>要准备</em><p>AI 中台；人和 AI 的权限；一个人管</p></div><div><em>没备好，会卡在</em><p>跳级：员工不会用，中台没人用</p></div><div><em>这两天</em><p>四样在中台正中间</p></div></div><div class="src st" style="--d:1.4s">来源：Moderna 2025 年股东委托书；Shopify CEO 2025 年 4 月 7 日内部信。部门里几个人带几个智能体是举例。</div></div>
+    <div class="mh rv" data-in="1" data-out="2">L1 各用各的<small>人人都在用 AI，可公司看不见，也留不下</small></div>
+    <div class="mh rv" data-in="2" data-out="3">L2 一个环节跑起来<small>一个岗位的一件事交给 AI：查知识库、照技能做、交人审</small></div>
+    <div class="mh rv" data-in="3" data-out="4">L3 一条线人机分工<small>几个智能体接力，要紧的事人点头；看板上看得见</small></div>
+    <div class="mh rv" data-in="4" data-out="5">L4 判断和数据成闭环<small>数据接进来，判断写成规矩，每一单的结果写回去</small></div>
+    <div class="mh rv" data-in="5" data-out="6">L5 AI 原生<small>组织图变了：几个人带一群智能体，中台各部门共用</small></div>
     <div class="m-fin2 rv" data-in="6" style="transition-delay:.3s"><h2>回去，把公司重做一遍</h2><p>从最底下那层开始：先让 AI 读懂公司</p><p>课后两周，有问题在答疑群里问</p></div>
   </section>
 <div id="bar"></div>
