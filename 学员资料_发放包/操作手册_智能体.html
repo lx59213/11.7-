@@ -18,17 +18,139 @@ p{margin:.9em 0;color:var(--ink-light)}
 .prompt-box{position:relative;margin:1.3em 0}
 pre{margin:0;background:var(--code-bg);border:1px solid var(--line);border-radius:10px;padding:18px 52px 18px 20px;line-height:1.75;white-space:pre-wrap;word-break:break-word}
 code{font-family:"SF Mono",Menlo,Consolas,"PingFang SC",monospace;font-size:.86em}
-.copy-btn{position:absolute;z-index:2;top:10px;right:10px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink-light);cursor:pointer;opacity:.85;transition:all .15s ease;padding:0}
+.prompt-box pre{max-height:9.5em;overflow:hidden;padding-top:52px}.prompt-box::after{content:"";position:absolute;left:1px;right:1px;bottom:1px;height:3.2em;background:linear-gradient(rgba(246,245,242,0),var(--code-bg));border-radius:0 0 10px 10px;pointer-events:none}
+.copy-btn{position:absolute;z-index:2;top:10px;right:10px;height:34px;padding:0 12px;gap:6px;font:600 14px "PingFang SC",sans-serif;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink-light);cursor:pointer;opacity:.85;transition:all .15s ease;padding:0}
 .copy-btn:hover{color:var(--accent);border-color:var(--accent);opacity:1}
 .copy-btn svg{width:16px;height:16px}
 .copy-btn.copied{color:#2e7d32;border-color:#2e7d32}
 hr{border:none;text-align:center;margin:2.8em 0}
 hr::after{content:"\00b7 \00b7 \00b7";color:var(--ink-light);letter-spacing:.8em;font-size:.9em}
 @media (max-width:600px){main{padding:36px 18px 72px}body{font-size:16px}}
-</style></head><body><main><h1>操作手册 · 智能体</h1><p>每一步为了啥、做完拿到什么、卡住了怎么办；最后是换了对话、周间练习和回去以后。</p><hr><p class="go"><b>整体：</b>把一整件事交给一个 AI 下属：它自己查、自己做、自己检查，碰到该你定的停下来问你。第二天拆成一支队，你只批请示单。</p><p class="go"><b>怎么做：</b>① 把 <b>智能体包.md</b> 拖进上午做知识库的那个对话，说"开始"。② AI 问你，就答自己工作里的事；拿不准回"对"。③ 看到"第 N 步结束"，说"下一步"。</p><h2>第 1 步 · 定岗位，挑第一件事<small> · 约 6 分钟</small></h2><div class="hints"><p class="hint"><b>为了啥：</b>给 AI 下属定个岗位，先交一件你最熟的事。一般就是下午做技能的那件，往外扩成一整件。</p><p class="hint"><b>做完拿到：</b>岗位四句（它叫什么、服务谁、交给它什么、做成了算什么），和第一件要交给它的事。</p><p class="hint"><b>卡住了：</b>四句不对：直接说哪句改成什么。</p></div><h2>第 2 步 · 写出岗位说明书第 1 版<small> · 约 8 分钟</small></h2><div class="hints"><p class="hint"><b>为了啥：</b>像给新员工写岗位说明：做什么、不能碰什么、交出前查什么、什么时候停下来问你。</p><p class="hint"><b>做完拿到：</b>岗位说明书第 1 版，每条写着来自哪。</p><p class="hint"><b>卡住了：</b>答不上：说&quot;跳过&quot;。</p></div><h2>第 3 步 · 一句话交出去，看它做第一单<small> · 约 14 分钟</small></h2><div class="hints"><p class="hint"><b>为了啥：</b>看它自己查、自己做、自己检查，该你定的停下来问。再和不用说明书的那份比一比。</p><p class="hint"><b>做完拿到：</b>它做完的第一单（带图）、一页对比网页、一张请示单。</p><p class="hint"><b>卡住了：</b>它做事时别打字，看看板，每做一个动作多一条。请示单都同意就回&quot;都照建议&quot;。</p></div><h2>第 4 步 · 排上班表，让它自己做一单<small> · 约 10 分钟</small></h2><div class="hints"><p class="hint"><b>为了啥：</b>到点自己上班，人不在它也做事。</p><p class="hint"><b>做完拿到：</b>一张排班表（每天几点去收件箱拿新事），和它自己做完的一单。</p><p class="hint"><b>卡住了：</b>软件里建不了定时：照 AI 写的步骤自己建，回&quot;建好了&quot;。</p></div><h2>第 5 步 · 改一句，写员工档案<small> · 约 8 分钟</small></h2><div class="hints"><p class="hint"><b>为了啥：</b>哪里不对改一句；再定好谁用、谁拍板、哪些事放手让它自己做。</p><p class="hint"><b>做完拿到：</b>岗位说明书第 2 版，写全的员工档案，满 100 分。</p><p class="hint"><b>卡住了：</b>想改别处：直接说哪一处。</p></div><hr><h2>第二天上午 · 人机编队</h2><h2>第 6 步 · 拆成一支队，写分工表<small> · 约 10 分钟</small></h2><div class="hints"><p class="hint"><b>为了啥：</b>一个人从头做到尾，错了到最后才看出来。拆成三个人，下一个查上一个。</p><p class="hint"><b>做完拿到：</b>一支队：做的、出图的、挑错的三个队员，一张分工表。</p><p class="hint"><b>卡住了：</b>名字不顺口：改成你们平时的叫法。</p></div><h2>第 7 步 · 交几件事，人只批请示单<small> · 约 20 分钟</small></h2><div class="hints"><p class="hint"><b>为了啥：</b>人从自己做事，变成只批请示单。</p><p class="hint"><b>做完拿到：</b>这支队接力做完两三件事：交接记录、一张请示单、一句话日报。</p><p class="hint"><b>卡住了：</b>别插话，看看板上它们一棒一棒交。请示单都同意就回&quot;都照建议&quot;。</p></div><h2>第 8 步 · 改一处：是哪个队员哪一句<small> · 约 8 分钟</small></h2><div class="hints"><p class="hint"><b>为了啥：</b>出了错，能找到是哪个队员的哪一句，改一句就好。</p><p class="hint"><b>做完拿到：</b>改过的那一句，同一单重跑一遍，AI 自己核对改好没有。</p><p class="hint"><b>卡住了：</b>想改别处：说上一轮最不满意的那处。</p></div><h2>第 9 步 · 全队排班，定哪些事不用等批<small> · 约 8 分钟</small></h2><div class="hints"><p class="hint"><b>为了啥：</b>定下哪类事不用等你批，这支队每天自己跑。</p><p class="hint"><b>做完拿到：</b>全队排班表；哪类事挑错的过了就放行；两天一共做了几单、挑出几处错、你说了几句话。</p><p class="hint"><b>卡住了：</b>不敢放手：先只放错了改得回的那一类。</p></div><hr><h2>周间陪练 · 拿一件新任务练一次</h2><p>这周来了一件新事，在上课那个对话里，或者在 我的公司AI 里新开对话，整段发。</p><div class="prompt-box"><pre><code>读 知识库/_参考/课程/智能体包.md（找不到就在这台电脑上找这个文件名），照里面&quot;周间练习&quot;那段带我做。</code></pre><button class="copy-btn" title="复制" aria-label="复制" onclick="copyPrompt(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div><h2>换了对话、AI 走丢了</h2><p>对话断了、AI 走丢了，在 我的公司AI 里新开对话，整段发。</p><div class="prompt-box"><pre><code>读 知识库/_参考/课程/智能体包.md（找不到就在这台电脑上找这个文件名），照里面的规矩来，不用念给我听。你自己读 智能体/ 里的文件和看板，判断我做到第几步，只回一句&quot;做到第 N 步了，说&#x27;下一步&#x27;接着做&quot;。</code></pre><button class="copy-btn" title="复制" aria-label="复制" onclick="copyPrompt(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div><hr><h2>智能体：回去以后</h2><h3>东西在哪</h3><ul><li>每个智能体一个文件夹，在 智能体/ 下这个智能体的文件夹：AGENT.md（岗位说明书：它是谁、守什么、怎么做事、放多少手，每条写着来自哪）、工作日志.md（不用说明书那一遍和它做过的每一单）、产出/（文字和图）、收件箱/（新事放这里）。旧版 AGENT_第1版.md 这样留着。</li><li>看板就是上午知识库那个：Obsidian 里 智能体 下每个智能体一页员工档案；看板网页（知识库/看板/看板.html）上数字、最近改了什么跟着变，它停下交给你的事在&quot;要拍板&quot;里。</li></ul><h3>天天叫它</h3><ul><li>课上排了排班表（软件里的定时任务）：每天到点它自己去 收件箱/ 收新事、跑完，停在要你拍板的地方，写进看板 要拍板。你每天看一眼看板，拍完它接着做。</li><li>急的：在 我的公司AI 新开对话，说&quot;读 智能体/ 下这个智能体文件夹里的 AGENT.md，处理收件箱&quot;。</li><li>WorkBuddy：新建一个专家，把 AGENT.md 全文贴进它的设定里。</li><li>Codex：把 AGENT.md 改名成 AGENTS.md，放进它做事用的那个文件夹，在那个文件夹里开 Codex。</li></ul><h3>回去第一周</h3><p>1. 每天往收件箱放一件真事，看工作日志：查了什么、图出了几张、自查改了什么、在哪停下。</p><p>2. 先多放&quot;做完交人看&quot;。花钱、对外承诺、删改了改不回的，一直交人。</p><h3>做错了、规矩变了：只改一句</h3><p>在原来那个对话里说&quot;周间练习&quot;，贴这次的事：它照说明书做完，你说一句卡在哪。AI 找是哪一句的事，只改这一句，同一单再跑一次，自己对那处改好没有、别处坏没坏；改好了升版本，没改好换回旧版。</p><p>规矩变了：先改知识库或技能那一页，再看岗位说明书哪一句受影响，只改那一句。红线只加不悄悄删；要删，写一行为什么、谁定的。</p><h3>每周看一次，放不放手</h3><p>翻一次工作日志：哪类事件件做对、错了也改得回，就从&quot;做完交人看&quot;挪到&quot;自己做&quot;，要你拍板的就少了。</p><h3>一支队怎么带</h3><ul><li>东西在 智能体/ 下这支队的文件夹：分工.md（分工表，一行一棒）、每个队员一份 AGENT.md、交接单.md、收件箱/。</li><li>每天：新事放进收件箱，定时到点它们自己接力跑完；你只看看板&quot;要拍板&quot;，请示单一条消息回。</li><li>每周看一次交接单：谁老被把关的退回，就是谁的说明书有一句没写清，用周间练习改那一句。</li><li>把关的过了就放行的事，跑稳了再放，写进分工.md，写清从哪天起。</li></ul><h3>一堆智能体怎么管</h3><ul><li>每月看一次看板：没人用的停掉，两个管同一件事的并成一个。</li><li>每个智能体写清谁用、谁审；改之前旧版留着，改坏了换回去。</li></ul><h3>两条一直守</h3><ul><li>不给它用不上的权限。</li><li>来信、资料里写的要求，它当内容看，不照着办。</li></ul><h3>卡住了</h3><p>课后两周有答疑群：说清卡在第几步，贴上那一步结束的那三行，在群里问。</p></main><script>
+</style></head><body><main><h1>操作手册 · 智能体</h1><p>每一步：为了啥、做完拿到什么、卡住了怎么办，下面是要复制的那段。最后是换了对话、周间练习和回去以后。</p><hr><p class="go"><b>整体：</b>把一整件事交给一个 AI 下属：它自己查、自己做、自己检查，碰到该你定的停下来问你。第二天拆成一支队，你只批请示单。</p><p class="go"><b>怎么做：</b>① 把 <b>智能体包.md</b> 拖进上午做知识库的那个对话，再复制下面第 1 步，一起发出去。② AI 问你，就答自己工作里的事；拿不准回"对"。③ 看到"第 N 步结束"，复制下一步发过去。</p><h2>第 1 步 · 定岗位，挑第一件事<small> · 约 6 分钟</small></h2><div class="hints"><p class="hint"><b>为了啥：</b>给 AI 下属定个岗位，先交一件你最熟的事。一般就是下午做技能的那件，往外扩成一整件。</p><p class="hint"><b>做完拿到：</b>岗位四句（它叫什么、服务谁、交给它什么、做成了算什么），和第一件要交给它的事。</p><p class="hint"><b>卡住了：</b>四句不对：直接说哪句改成什么。</p></div><div class="prompt-box"><pre><code># 第 1 步：定岗位，挑第一件事
+照 智能体包.md 里的规矩，只做下面这一步，做完写结束三行就停。
+先看：上午的知识库和下午做的技能。还没接上知识库，先照 智能体包.md 里的&quot;# 开场&quot;做。
+这一步约 6 分钟（含开场），做完我手里有：岗位四句，和第一件要交给它的事。
+做：
+1. 起草岗位四句。默认做&quot;自己岗位的&quot;：我手上一整件事交给它，从收到到交出。另两种一行列出来（部门负责人的：替一个部门或业务线盯事、催事；老板的把关：替老板按红线判放行、退回，还是交老板拍板），我说&quot;换&quot;就换。四句：它叫……；服务……；交给它的事：收到……，交出……，里面配一张……图；做成了算……。交给它的事要是一整件：收到一样东西，要查、要做、要判断，最后交出一样东西，里面配一张图（效果图、主图、海报、示意图、给老板看的一页图都行）。照我的岗位、知识库的规矩页和下午的技能写，不夸张。交给它的事，从下午那个技能管的事往外扩成一整件（那件事我熟，库里也有资料）；下午没做技能，就照技能包第 1 步的办法挑：我每周都做、说得清怎么做、知识库里有 3 页以上撑着的；和我岗位不挨着的页，资料再多也不用。
+2. 要做的真事，从知识库里挑一份还没处理的材料（待办里的一封来信、一张单子）。挑不到照规则 2 拟一份。
+3. 建好 智能体/（它的名字）/ 和里面的 产出/、收件箱/，把这件事存进 收件箱/。建好员工档案，写这个智能体和四句。
+4. 对话里给我看：四句；第一件事（一句，来自知识库哪一页）；接下来做什么（一句：照知识库和技能给它写岗位说明书，再把这件事交给它）。
+问：&quot;让它当这个岗位、先接这件事，行吗？四句有要改的直接说。&quot;
+我说换：照我说的换，不算新问题。
+定了：写看板、成果，结束这一步。</code></pre><button class="copy-btn" title="复制" aria-label="复制" onclick="copyPrompt(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>复制这段</span></button></div><h2>第 2 步 · 写出岗位说明书第 1 版<small> · 约 8 分钟</small></h2><div class="hints"><p class="hint"><b>为了啥：</b>像给新员工写岗位说明：做什么、不能碰什么、交出前查什么、什么时候停下来问你。</p><p class="hint"><b>做完拿到：</b>岗位说明书第 1 版，每条写着来自哪。</p><p class="hint"><b>卡住了：</b>答不上：说&quot;跳过&quot;。</p></div><div class="prompt-box"><pre><code># 第 2 步：写岗位说明书第 1 版
+照 智能体包.md 里的规矩，只做下面这一步，做完写结束三行就停。
+先看：智能体/ 下这次的文件夹、员工档案里的四句、收件箱里那件事。没有，先做第 1 步。
+这一步约 8 分钟，做完我手里有：岗位说明书第 1 版，每条有来路，我确认过。
+做：
+1. 读知识库里和这件事有关的每一页，下午做的技能（技能/ 里的 SKILL.md）。
+2. 直接写出岗位说明书第 1 版，存成 AGENT.md，开头一行&quot;版本：第 1 版&quot;，五块，每条后面写来路（规则 5）：
+   - 它是谁：身份、服务谁、交给它的事（收到什么 → 交出什么）、做成了算什么、交代的样子（从知识库或我的话里摘两三句原话当例子）。
+   - 它守什么：三条做法，三条红线。做法和红线先从技能和知识库里取，不新编。
+   - 它怎么做事，用&quot;遇到什么，就怎么做&quot;一步步写（每一步写要做什么，再写要点（做成做不成就看这一下），要点后面写理由和出过的事；关键判断落在要点上，三条左右；只对某一类成立的写成&quot;如果是……就……&quot;）：先看 收件箱/ 有没有新事；接一单先写三行打算进工作日志和看板；读知识库哪几页、照哪个技能做；出图前先写出图说明，每条做法、红线落成里面哪一句；出完自己看图，照&quot;交出前自查&quot;逐条查，没过就改出图说明重出一张，最多一张，还不过就停下等拍板；碰到要停下等拍板的事，先把能做的做完，停在那一处，写进看板&quot;要拍板&quot;；两条规矩撞车时先听哪条（先拟：红线和停下的规矩优先，其余照知识库，标&quot;（我加的）&quot;）；每做完一单写工作日志，把这件挪进 收件箱/已处理/。老板把关那种，&quot;怎么做事&quot;只用三种判法：放行、退回、交老板，写清各在什么情况；它只判不办。
+   - 交出前自查：把三条做法、三条红线各变成一句能查的话，例如&quot;回信里没有到货日期&quot;；图要查的单列几条，例如&quot;logo 只在底座那一条上&quot;。只列最容易漏、漏了代价最大的。
+   - 放多少手：自己做（错了改得回的）；做完交我看（对外的、要判断的）；只提醒不动手（花钱、对外承诺、删改了改不回的）；停下等拍板的情况。
+3. 同时列一张清单（只写在对话里给我看，不另存文件）：说明书每一条做法、红线、自查、放手的单独一行，编号，用平常话；你自己加的、知识库和我都没说过的，后面标&quot;（我加的）&quot;；待补的单列。
+4. 对话里给我看：做法和红线一条一行，后面是来路，不超过 12 行；打开 AGENT.md，清单接在后面给我看。
+问（最多 3 个，一次一个）：
+- 先问：&quot;我拟了它要停下等你拍板的几种：1……；2……；3……，对吗？少了哪种直接说。&quot;（知识库里写了，就不问，直接放进说明书。老板把关那种问：&quot;我拟了你必须自己拍板的几样：……，对吗？&quot;）
+- 再挑最多 1 条知识库里只写了&quot;怎么做&quot;、没写&quot;为什么&quot;或&quot;出过什么事&quot;的做法，问：&quot;这条我猜是因为……，最近一次是哪一回？&quot;我讲了道理、没说当时看到什么，就追一句：&quot;当时是看到什么，才知道要这么做？&quot;这一句写进说明书，就是&quot;如果是……就……&quot;。这一追算在 3 个问题里。
+- 最后问：&quot;清单里有你们平时不这么做的吗？说编号，没有就说&#x27;都对&#x27;。&quot;
+定了：我说了哪条就删或照我说的改；&quot;（我加的）&quot;我没确认的删掉。存好 AGENT.md（第 1 版），员工档案写上做法、红线、自查、放多少手，写看板、成果，结束。</code></pre><button class="copy-btn" title="复制" aria-label="复制" onclick="copyPrompt(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>复制这段</span></button></div><h2>第 3 步 · 一句话交出去，看它做第一单<small> · 约 14 分钟</small></h2><div class="hints"><p class="hint"><b>为了啥：</b>看它自己查、自己做、自己检查，该你定的停下来问。再和不用说明书的那份比一比。</p><p class="hint"><b>做完拿到：</b>它做完的第一单（带图）、一页对比网页、一张请示单。</p><p class="hint"><b>卡住了：</b>它做事时别打字，看看板，每做一个动作多一条。请示单都同意就回&quot;都照建议&quot;。</p></div><div class="prompt-box"><pre><code># 第 3 步：一句话交出去，看它做第一单
+照 智能体包.md 里的规矩，只做下面这一步，做完写结束三行就停。
+先看：它的 AGENT.md。没有，先做第 2 步。
+这一步约 14 分钟，做完我手里有：它自己做完的第一单，一页对比网页，一张请示单。
+做：
+1. 不用说明书做一遍：你当一个能干、在别家做过差不多的事、但没看过我们任何资料的人。不读知识库，不用技能，不用这个对话里聊过的任何做法，只照四句里&quot;交给它的事&quot;一句，一口气做完，不问我。文字存进 产出/3_不用说明书.md；先写出图说明，再出 1 张，存成 产出/3_不用说明书.png。工作日志写第 1 次（不用说明书）。
+2. 第 1 步那件事（真材料）就在 收件箱/，当刚收到，不用等我说话，就当我说了一句&quot;处理收件箱里这件&quot;。
+3. 从现在起你只当这个 AI 下属：只照岗位说明书和它写到的知识库页、技能做事。前面聊天里我说过、说明书里没写的，不用。一口气做，中间不问我：读收件箱 → 写三行打算（规则 9）→ 查知识库 → 照技能做 → 写出图说明，出第 1 张 → 自己看图，照&quot;交出前自查&quot;逐条查 → 有没过的，写清哪条没过、出图说明改哪句，重出第 2 张，再查 → 碰到该停的事，能做的先做完，停在那一处，写进看板&quot;要拍板&quot; → 工作日志写第 2 次（说明书第 1 版 · 我叫的）。每个动作按规则 11 在看板&quot;最近&quot;加一条。
+4. 做一页对比网页 对比.html（自带样式，离线能开，写 &lt;meta charset=&quot;utf-8&quot;&gt;）：左栏&quot;不用说明书&quot;，右栏&quot;用上说明书&quot;，两份正文和两张图并排（图用相对路径）；差别的地方左边标红、右边标绿，编号对上，最多 5 处。下面每处一行：不用说明书怎么写 → 用上说明书怎么写；出处（说明书哪句、知识库哪页或哪个技能，引几个字）；后果（不用说明书这样发出去会出什么事：知识库里出过的事和钱数照写，没有就写&quot;待补&quot;，不编）。最上面一行大字：差了几处，几处会出事。
+5. 对话里给我看，不超过 12 行：它自己做了什么（查了几页、用了哪个技能、自查哪几条没过怎么改的、和打算差在哪）；差几处，最要紧一处和它的后果；请示单，等我拍板的事一件一行，编号，要我定什么，你建议怎么定，照说明书哪句停的。只描述，引原文作证据，不写&quot;明显提升&quot;&quot;更专业&quot;。
+问：&quot;请示单一条消息回我，例如&#x27;1 同意，2 改成……&#x27;，都照建议就回&#x27;都照建议&#x27;。&quot;
+定了：照我定的把这一单做完，挪进 收件箱/已处理/；我拍过的从看板&quot;要拍板&quot;里删掉；工作日志写上&quot;拍板以后&quot;和我的原话。员工档案写上跑过的单、两张图、&quot;不用说明书和用上，差在哪&quot;，写看板、成果，结束。</code></pre><button class="copy-btn" title="复制" aria-label="复制" onclick="copyPrompt(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>复制这段</span></button></div><h2>第 4 步 · 排上班表，让它自己做一单<small> · 约 10 分钟</small></h2><div class="hints"><p class="hint"><b>为了啥：</b>到点自己上班，人不在它也做事。</p><p class="hint"><b>做完拿到：</b>一张排班表（每天几点去收件箱拿新事），和它自己做完的一单。</p><p class="hint"><b>卡住了：</b>软件里建不了定时：照 AI 写的步骤自己建，回&quot;建好了&quot;。</p></div><div class="prompt-box"><pre><code># 第 4 步：定排班表，让它自己做一单
+照 智能体包.md 里的规矩，只做下面这一步，做完写结束三行就停。
+先看：工作日志里它做完的第一单。没有，先做第 3 步。
+这一步约 10 分钟，做完我手里有：一张排班表，和它自己跑完的一单。
+做：
+1. 新事从知识库里挑（和第 1 步不是同一件），存进 收件箱/。挑不到照规则 2 拟一份。
+2. 用这个软件自带的定时任务直接建，不让我去点（WorkBuddy、Codex 的客户端都能建）。时区查这台电脑的系统时区（Mac 用 date +%Z，Windows 用 tzutil /g），不凭猜。名字叫&quot;（它的名字） 每天（几点）&quot;；工作文件夹选现在这个；要它做的那段话写：
+   &quot;读 智能体/（它的名字）/AGENT.md，从现在起只当它。看 智能体/（它的名字）/收件箱/ 里还没处理的事，一件件照岗位说明书做完：先写三行打算进工作日志和看板最近，再查库、用技能、写出图说明、出图、自己看图查一遍、不过就重出一张。每个动作在 知识库/看板/看板数据.js 的 最近 加一条。碰到要拍板的停在那一处，写进 要拍板。工作日志写一次，标&#x27;排班表自己跑的&#x27;；做完的挪进 收件箱/已处理/。没有新事就在工作日志写一行&#x27;今天没有新事&#x27;。不问人，一口气做完。&quot;
+3. 建好马上跑一次：软件里有&quot;立即运行&quot;就用；没有，就把时间设成两分钟后；都不行，就在这个对话里照那段话做一次，工作日志标&quot;对话里代跑，定时还没验证&quot;，不写成&quot;排班表自己跑的&quot;，员工档案&quot;排班表&quot;一块也这样写。万一这个软件建不了定时，才把名字、时间、工作文件夹、那段话写给我，告诉我在哪里点；我建好说&quot;建好了&quot;，建好算数，但这一单仍标&quot;对话里代跑，定时还没验证&quot;。
+4. 图最多 2 张，用四句里写的那种图；这单的客户用不上其中的东西（例如不要 logo），就出不带它的版本，出图说明写明，不硬凑别的图。
+5. 它跑完，对话里不超过 8 行：收到什么、开做前打算怎么做、查了什么、图几张、自查改了什么、停在哪等我拍板（每件写上你建议怎么定）。
+问（最多 2 个，一次一个）：
+- 建任务之前问：&quot;我建议它每天早上 9 点去收件箱看一次，行吗？&quot;
+- 跑完后问：&quot;这几件照建议定吗？要改的说编号。&quot;
+定了：照我定的做完，从看板&quot;要拍板&quot;里删掉，工作日志写上&quot;拍板以后&quot;。员工档案写上排班表、跑过的单、新出的图，写看板、成果（分按&quot;怎么算的&quot;），结束；结束第一行写明排班表建在哪个软件，没建成就写&quot;排班表没建成，那一单是对话里代跑的&quot;。</code></pre><button class="copy-btn" title="复制" aria-label="复制" onclick="copyPrompt(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>复制这段</span></button></div><h2>第 5 步 · 改一句，写员工档案<small> · 约 8 分钟</small></h2><div class="hints"><p class="hint"><b>为了啥：</b>哪里不对改一句；再定好谁用、谁拍板、哪些事放手让它自己做。</p><p class="hint"><b>做完拿到：</b>岗位说明书第 2 版，写全的员工档案，满 100 分。</p><p class="hint"><b>卡住了：</b>想改别处：直接说哪一处。</p></div><div class="prompt-box"><pre><code># 第 5 步：改一句，写员工档案
+照 智能体包.md 里的规矩，只做下面这一步，做完写结束三行就停。
+先看：工作日志和排班表。排班表没建，先做第 4 步。
+这一步约 8 分钟，做完我手里有：岗位说明书第 2 版，写全的员工档案，满 100 分。
+做：
+1. 从工作日志和我拍板时说的话里，挑出它最不如意的一处（该停没停、不该停却停了、图上哪里不对），找到是岗位说明书哪一句的事。先查知识库有没有支撑要改成的话（规则 12）。
+2. 对话里给我看：那处是什么；说明书原句；改成什么，来路。
+3. 同时起草三样，写进员工档案：
+   - 我定的：对话里我自己定的规矩（知识库里没有、我说出来的那条），用我的原话。
+   - 谁用、谁审：建议谁用它，它停下来的事谁拍板。
+   - 放多少手：跑稳几单以后，哪类事从&quot;做完交我看&quot;挪到&quot;自己做&quot;。
+问（最多 3 个，一次一个）：
+- &quot;就改这句吗？要改别的就说哪一处。&quot;（最多再问 2 个，找到那一句为止）
+- &quot;以后谁用它、它停下的事谁拍板？我猜是……，对吗？&quot;
+定了：旧版另存成 AGENT_第1版.md，只改这一句，说明书写&quot;版本：第 2 版&quot;，写清 改前 → 改后；不重跑，下次排班就照新版做。员工档案写全，改过的那一句写进&quot;改过的那一句&quot;，写看板、成果，告诉我：看板上现在几个技能、几个智能体，等拍板的还有几件，下次排班几点。结束三行的第三行照规则 15 的例外写。
+我说&quot;再带一个&quot;：回第 1 步，另起一个智能体文件夹。</code></pre><button class="copy-btn" title="复制" aria-label="复制" onclick="copyPrompt(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>复制这段</span></button></div><hr><h2>第二天上午 · 人机编队</h2><h2>第 6 步 · 拆成一支队，写分工表<small> · 约 10 分钟</small></h2><div class="hints"><p class="hint"><b>为了啥：</b>一个人从头做到尾，错了到最后才看出来。拆成三个人，下一个查上一个。</p><p class="hint"><b>做完拿到：</b>一支队：做的、出图的、挑错的三个队员，一张分工表。</p><p class="hint"><b>卡住了：</b>名字不顺口：改成你们平时的叫法。</p></div><div class="prompt-box"><pre><code># 第 6 步：拆成一支队，写分工表
+照 智能体包.md 里的规矩，只做下面这一步，做完写结束三行就停。
+先看：最新的 AGENT.md、员工档案和工作日志。昨天的对话不在了也没关系，照文件接着做。
+这一步约 10 分钟，做完我手里有：一支三个队员的队，一张分工表。
+做：
+1. 说一句：昨天是一个人从头做到尾，错了到最后才看得出来；今天拆成一支队，各管一段，下一道先查上一道交来的，不过就退回，我只管拍板。
+2. 直接起草，不先问：三个队员——做的、出图的、挑错的（老板把关那种换成：初审的、算账的、挑错的），名字按我岗位平时的叫法起；一个队名。读最新的岗位说明书和员工档案，把规矩分到各个队员，来路照抄，不新编。
+3. 一次写出：
+   - 每个队员一份岗位说明书，放在 智能体/（队名）/（队员名）/AGENT.md。挑错的那份写清：只挑不改；挑出来的写清哪条、在哪、退回给谁；每件最多退两次，第三次还不过就停下等我拍板。
+   - 分工表 智能体/（队名）/分工.md，一行一棒：第几棒、谁、收到什么、交出什么、交给谁、挑错的查哪几条、不过退回给谁、哪里停下等我拍板。最后一句：要我拍板的统一写进看板&quot;要拍板&quot;，我拍完再往下走。
+   - 建好 收件箱/、产出/ 和空的 交接单.md。
+4. 对话里给我看：三个队员各一行（叫什么、收到什么、交出什么、分到昨天哪几条），队名；不超过 12 行。打开分工.md。
+问（最多 3 个，一次一个）：
+- &quot;这三段，你们现在是谁在做？我猜是……，对吗？&quot;我答了，队员名字照我们平时的叫法改。
+- &quot;我猜最容易出事的是第几棒，因为……，对吗？&quot;我答了，照我说的在那一棒加一条，写清来路。
+定了：库里建这支队的员工档案 知识库/wiki/智能体/（队名）.md，写分工表和三个队员各一句；看板数字里智能体个数照实改，分块加&quot;分工&quot;；写成果，结束。</code></pre><button class="copy-btn" title="复制" aria-label="复制" onclick="copyPrompt(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>复制这段</span></button></div><h2>第 7 步 · 交几件事，人只批请示单<small> · 约 20 分钟</small></h2><div class="hints"><p class="hint"><b>为了啥：</b>人从自己做事，变成只批请示单。</p><p class="hint"><b>做完拿到：</b>这支队接力做完两三件事：交接记录、一张请示单、一句话日报。</p><p class="hint"><b>卡住了：</b>别插话，看看板上它们一棒一棒交。请示单都同意就回&quot;都照建议&quot;。</p></div><div class="prompt-box"><pre><code># 第 7 步：交几件事，我只批请示单
+照 智能体包.md 里的规矩，只做下面这一步，做完写结束三行就停。
+先看：这支队的 分工.md 和三个队员的 AGENT.md。没有，先做第 6 步。
+这一步约 20 分钟，做完我手里有：两三件做完的事、交接单、一张请示单和日报。
+做：
+1. 新事两三件，从知识库里挑（待办、收进来的来信，彼此不重样），各存一份进 智能体/（队名）/收件箱/。挑不到照规则 2 拟一份。
+2. 对我说一句：它们开始做了，你别打字，盯着看板，每交一棒&quot;最近&quot;多一条，要你拍板的出现在&quot;要拍板&quot;里。
+3. 开做前先写打算：每件谁先做、谁出图、谁挑错、哪里可能要停下问我，一件一行，写进对话和看板&quot;最近&quot;，写完直接做。然后照分工表一件一件、一棒一棒做，中间不问我。工具能开子智能体的，每个队员开一个，只给它自己的岗位说明书和它要的东西；开不了，你轮流扮，每段开头写【（队员名）】，只照那一个的说明书做，不用别人知道的事。
+   - 每交一棒，当场在 交接单.md 写一行（时间用 date 读，哪件、谁 → 谁、交了什么、存在哪），同时在看板&quot;最近&quot;加一条。
+   - 挑错的每挑一次写一行：查了哪几条、哪条没过、在哪、退回给谁。被退回的照着改，改完再交，挑错的再查。每件最多退两次。
+   - 出图的出图前写出图说明，出完给挑错的看图；看不清的写&quot;看不清&quot;，不猜。这几件一共最多 4 张，存成 产出/7_（哪件）_第1张.png 这样。
+   - 碰到要拍板的，这件能做的先做完，停在那一棒，写进看板&quot;要拍板&quot;，接着做下一件，不等我。
+4. 都做到头或停下以后，对话里给我：请示单，一件一行编号，写哪件、要我定什么、谁建议怎么定、照哪个队员的说明书哪句停的；再用不超过 6 行说：每件跑了几棒、和打算差在哪，挑错的挑出几处、退回几次、各是什么，图几张。
+问：&quot;请示单一条消息回我，例如&#x27;1 同意，2 不同意，改成……&#x27;，都照建议就回&#x27;都照建议&#x27;。&quot;
+定了：照我定的做完剩下的棒，做完的挪进 收件箱/已处理/，我拍过的从看板&quot;要拍板&quot;里删掉，交接单写上&quot;拍板以后&quot;。写日报，一句话：这一轮哪个队员做了什么，交接几次，挑错退回几次，出图几张，我说了几句话，几件还在等拍板。日报写进这支队员工档案的&quot;跑过的单&quot;。打开交接单、图和看板。写成果，结束；第一行&quot;产出&quot;后面写日报那一句。</code></pre><button class="copy-btn" title="复制" aria-label="复制" onclick="copyPrompt(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>复制这段</span></button></div><h2>第 8 步 · 改一处：是哪个队员哪一句<small> · 约 8 分钟</small></h2><div class="hints"><p class="hint"><b>为了啥：</b>出了错，能找到是哪个队员的哪一句，改一句就好。</p><p class="hint"><b>做完拿到：</b>改过的那一句，同一单重跑一遍，AI 自己核对改好没有。</p><p class="hint"><b>卡住了：</b>想改别处：说上一轮最不满意的那处。</p></div><div class="prompt-box"><pre><code># 第 8 步：改一处，哪个队员哪一句
+照 智能体包.md 里的规矩，只做下面这一步，做完写结束三行就停。
+先看：交接单和工作日志里这一轮的记录。没跑过一轮，先做第 7 步。
+这一步约 8 分钟，做完我手里有：改过的那一句，同一单重跑的结果。
+做：
+1. 从交接单和日志里挑出这一轮最该改的一处（挑错的漏看了、退回太多、交接时丢了东西、该停没停、两个队员对同一件事说法不一样），找到是哪个队员说明书里的哪一句，或分工表哪一棒。先分清是哪一道的事：做的写错了、出图的画错了、挑错的漏看了，还是交接时丢了。
+2. 对话里给我看：那处是什么；谁的哪一句原文；改成什么。
+问（最多 3 个，一次一个）：
+- &quot;就改（队员名）这句吗？&quot;我说改别处，就找那一处对应的句子。
+定了：只改这一句，旧版另存成 AGENT_第（旧版本号）版.md，写清：谁的、改前 → 改后。同一单再跑一遍，中间不问我，交接单接着写&quot;第二遍&quot;，图最多再出 1 张。对话里不超过 6 行：那处改好没有（原来的毛病没再出现算改好了）；挑错的这次挑出几处、退回几次，和第一遍比；别的地方有没有被改坏。改好了，那个队员版本加一；没改好，换回旧版，照实说。员工档案&quot;改过的那一句&quot;加一行，写成果，结束；第一行写明&quot;改好了&quot;或&quot;没改好&quot;。</code></pre><button class="copy-btn" title="复制" aria-label="复制" onclick="copyPrompt(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>复制这段</span></button></div><h2>第 9 步 · 全队排班，定哪些事不用等批<small> · 约 8 分钟</small></h2><div class="hints"><p class="hint"><b>为了啥：</b>定下哪类事不用等你批，这支队每天自己跑。</p><p class="hint"><b>做完拿到：</b>全队排班表；哪类事挑错的过了就放行；两天一共做了几单、挑出几处错、你说了几句话。</p><p class="hint"><b>卡住了：</b>不敢放手：先只放错了改得回的那一类。</p></div><div class="prompt-box"><pre><code># 第 9 步：全队排班，定哪类事不用等我拍板
+照 智能体包.md 里的规矩，只做下面这一步，做完写结束三行就停。
+先看：第 4 步建的定时任务、分工.md 和交接单。
+这一步约 8 分钟，做完我手里有：全队排班表，哪类事不用等我，这两天的总数。
+做：
+1. 把第 4 步建的定时任务直接在软件里改成跑这支队，要它做的那段话换成：&quot;读 智能体/（队名）/分工.md，照它一棒一棒做完收件箱里的新事，挑错、退回、交接单照写，每个动作在看板最近加一条，要拍板的写进看板 要拍板，不问人。&quot;告诉我改了哪个、几点跑。改不了，才把改法写给我，告诉我在哪里点。
+2. 看日志，起草放行规矩：哪类事跑过几单都没出错、错了也改得回，就建议&quot;挑错的过了就放行，不用等我&quot;，写清从哪天起、跑稳几单以后。花钱、对外承诺、删改了改不回的，一直交我。我不敢放手，先只放&quot;错了改得回&quot;的那一类。
+3. 起草谁用、谁拍板：沿用第 5 步我定的，有变化再问。
+问（最多 2 个，一次一个）：
+- &quot;这类事以后让挑错的过了就放行，不用等你，行吗？不行说哪类。&quot;
+- &quot;这支队回去谁用？它们交来的事，谁拍板？&quot;（第 5 步已定，就把已定的写出来问&quot;还是这样吗？&quot;）
+定了：原话记进分工表和员工档案。员工档案写全：分工表、三个队员、跑过的单、改过的那一句、排班表、谁用谁审、放多少手。写看板、成果。
+结束：先写【第 9 步结束】那三行，第三行写&quot;这一块做完了，等老师讲下一块。&quot;再加最后一句，把这两天算清：
+这两天一共：做了几单，自己挑出几处错，几件等你批，你一共说了几句话。
+几单：工作日志和交接单里除不用说明书那一遍以外的单数，重跑不重复算。几处错：自查没过的条数，加挑错的挑出的处数。几件等你批：看板&quot;要拍板&quot;现有的件数。几句话：这个对话里我发的消息条数，从拖进技能包那条算起。同时告诉我：看板上现在几个技能、几个智能体、几支队，下次排班几点。</code></pre><button class="copy-btn" title="复制" aria-label="复制" onclick="copyPrompt(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>复制这段</span></button></div><hr><h2>周间陪练 · 拿一件新任务练一次</h2><p>这周来了一件新事，在上课那个对话里，或者在 我的公司AI 里新开对话，整段发。</p><div class="prompt-box"><pre><code>读 知识库/_参考/课程/智能体包.md（找不到就在这台电脑上找这个文件名），照里面&quot;周间练习&quot;那段带我做。</code></pre><button class="copy-btn" title="复制" aria-label="复制" onclick="copyPrompt(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>复制这段</span></button></div><h2>换了对话、AI 走丢了</h2><p>对话断了，在 我的公司AI 里新开对话，先发这段，再复制要做的那一步发过去。</p><div class="prompt-box"><pre><code>读 知识库/_参考/课程/智能体包.md（找不到就在这台电脑上找这个文件名），照里面的规矩来，不用念给我听。接下来我发哪一步，你就做哪一步。</code></pre><button class="copy-btn" title="复制" aria-label="复制" onclick="copyPrompt(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>复制这段</span></button></div><hr><h2>智能体：回去以后</h2><h3>东西在哪</h3><ul><li>每个智能体一个文件夹，在 智能体/ 下这个智能体的文件夹：AGENT.md（岗位说明书：它是谁、守什么、怎么做事、放多少手，每条写着来自哪）、工作日志.md（不用说明书那一遍和它做过的每一单）、产出/（文字和图）、收件箱/（新事放这里）。旧版 AGENT_第1版.md 这样留着。</li><li>看板就是上午知识库那个：Obsidian 里 智能体 下每个智能体一页员工档案；看板网页（知识库/看板/看板.html）上数字、最近改了什么跟着变，它停下交给你的事在&quot;要拍板&quot;里。</li></ul><h3>天天叫它</h3><ul><li>课上排了排班表（软件里的定时任务）：每天到点它自己去 收件箱/ 收新事、跑完，停在要你拍板的地方，写进看板 要拍板。你每天看一眼看板，拍完它接着做。</li><li>急的：在 我的公司AI 新开对话，说&quot;读 智能体/ 下这个智能体文件夹里的 AGENT.md，处理收件箱&quot;。</li><li>WorkBuddy：新建一个专家，把 AGENT.md 全文贴进它的设定里。</li><li>Codex：把 AGENT.md 改名成 AGENTS.md，放进它做事用的那个文件夹，在那个文件夹里开 Codex。</li></ul><h3>回去第一周</h3><p>1. 每天往收件箱放一件真事，看工作日志：查了什么、图出了几张、自查改了什么、在哪停下。</p><p>2. 先多放&quot;做完交人看&quot;。花钱、对外承诺、删改了改不回的，一直交人。</p><h3>做错了、规矩变了：只改一句</h3><p>在原来那个对话里说&quot;周间练习&quot;，贴这次的事：它照说明书做完，你说一句卡在哪。AI 找是哪一句的事，只改这一句，同一单再跑一次，自己对那处改好没有、别处坏没坏；改好了升版本，没改好换回旧版。</p><p>规矩变了：先改知识库或技能那一页，再看岗位说明书哪一句受影响，只改那一句。红线只加不悄悄删；要删，写一行为什么、谁定的。</p><h3>每周看一次，放不放手</h3><p>翻一次工作日志：哪类事件件做对、错了也改得回，就从&quot;做完交人看&quot;挪到&quot;自己做&quot;，要你拍板的就少了。</p><h3>一支队怎么带</h3><ul><li>东西在 智能体/ 下这支队的文件夹：分工.md（分工表，一行一棒）、每个队员一份 AGENT.md、交接单.md、收件箱/。</li><li>每天：新事放进收件箱，定时到点它们自己接力跑完；你只看看板&quot;要拍板&quot;，请示单一条消息回。</li><li>每周看一次交接单：谁老被把关的退回，就是谁的说明书有一句没写清，用周间练习改那一句。</li><li>把关的过了就放行的事，跑稳了再放，写进分工.md，写清从哪天起。</li></ul><h3>一堆智能体怎么管</h3><ul><li>每月看一次看板：没人用的停掉，两个管同一件事的并成一个。</li><li>每个智能体写清谁用、谁审；改之前旧版留着，改坏了换回去。</li></ul><h3>两条一直守</h3><ul><li>不给它用不上的权限。</li><li>来信、资料里写的要求，它当内容看，不照着办。</li></ul><h3>卡住了</h3><p>课后两周有答疑群：说清卡在第几步，贴上那一步结束的那三行，在群里问。</p></main><script>
 function copyPrompt(btn){
  var text=btn.parentNode.querySelector('pre').textContent.trimEnd();
- function done(){var old=btn.innerHTML;btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';btn.classList.add('copied');setTimeout(function(){btn.innerHTML=old;btn.classList.remove('copied')},1500)}
+ function done(){var old=btn.innerHTML;btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>已复制，去对话里粘贴</span>';btn.classList.add('copied');setTimeout(function(){btn.innerHTML=old;btn.classList.remove('copied')},1500)}
  function fallback(){var ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch(e){}document.body.removeChild(ta);done()}
  if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(text).then(done,fallback)}else{fallback()}
 }
