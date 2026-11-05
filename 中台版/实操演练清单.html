@@ -85,6 +85,9 @@ ul.plain{margin:0;padding-left:18px}ul.plain li{margin:4px 0}
 .say::before{content:"说：";font-weight:600;color:var(--clay)}
 .say-in{background:var(--clay-soft);padding:0 4px;border-radius:3px}
 .case{margin:6px 0 16px}.case ul{margin:0;padding-left:18px}.case li{margin:4px 0;font-size:14.5px}
+.quote{margin:6px 0 16px;border-left:4px solid var(--clay)}
+.quote p{margin:0 0 8px;font-size:14.5px;color:var(--ink)}
+.case h4{margin:12px 0 4px;font-size:15px}
 @media(max-width:760px){.sum,.flow{grid-template-columns:1fr}.loop{grid-template-columns:1fr 1fr}h1{font-size:28px}}
 @media print{body{background:#fff}.head{position:static}.tl{overflow:visible}.grid{min-width:0}}
 </style></head>
@@ -128,14 +131,39 @@ ul.plain{margin:0;padding-left:18px}ul.plain li{margin:4px 0}
 </div>
 
 <h2>技能：正式上课走一遍<small>屏 031–038 · 讲约 20 分钟，做第一个约 40 分钟</small></h2>
+<div class="quote box">
+ <h3>TTZ 11-05 定的讲法（原话）</h3>
+ <p>1、skill、agent给学员的包里都放了案例，案例包括跑流程需要的素材资料还有啥来着，AI会问学员要不要用案例，我跟学员说建议别用案例就跑自己的，当然没带素材那就跑案例。我会提前说当前阶段聊完会有个什么东西产出出来（此时我切屏幕展示一个产出的页面的样例）。同时我就在我这边的workbuddy跟AI交流，直接复制我们自己文档里的问题让AI构建skill（此时学员们有自己案例的就在那自己对话）</p>
+ <p>2、案例的本质是数据核查还是信息准确性？这个要讲明白，不然人家觉得我们演示的案例不相关没说服力，就不跟了，案例本身的价值，还有我们演示的效果好坏一定要明确</p>
+ <p>3、让学员会判好坏起码能借助我们的包的引导判断好坏+修改+改不坏，这样就可维护且不会受制于人</p>
+</div>
+
 <div class="case box">
- <h3>这一块用的案例：一家跨境汽配店（虚构，规矩借了真实卖家的做法）</h3>
+ <h3>案例：一家跨境汽配店（虚构，规矩借了真实卖家的做法）</h3>
  <ul>
-  <li><b>店：</b>深圳的亚马逊美国汽配卖家，自有品牌 Norvex，卖车灯、雨刮、脚垫、刹车片。讲师示范时扮这家的<b>运营主管</b>。</li>
+  <li><b>店：</b>深圳的亚马逊美国汽配卖家，自有品牌 Norvex，卖车灯、雨刮、脚垫、刹车片。技能这块讲师扮<b>运营主管</b>，智能体这块扮<b>客服主管</b>，同一家店。</li>
   <li><b>做成技能的事：</b>listing 合规改写。新品上架前，把工厂或运营给的商品页草稿，改成过得了亚马逊审核、不招投诉、买家不买错的版本。</li>
-  <li><b>上次的成品（第 1 步贴）：</b>一款 9005 LED 灯泡的商品页，改前改后两版。</li>
-  <li><b>新材料（第 4 步贴）：</b>一款还没上架的 H11 LED 大灯的草稿，就是 034 对比屏用的那份，里面埋了 No.1、IP68 防水、适配所有车、终身质保、贴 WhatsApp 这些坑。平时交代这件事的那句话：<span class="say-in">"帮我把下面这段 listing 改写好，准备在亚马逊美国上架。"</span></li>
-  <li><b>学员换成自己的：</b>"上次的成品"是自己上次做完的那份东西（一份回复、一张表、一页方案）；"新材料"是同一类事、还没做的下一份原料（下一条差评、这周的数据、下一款新品的草稿）。</li>
+  <li><b>本质：</b>一份要发出去的东西，发之前照两样核一遍、改对：一是<b>事实</b>，草稿里的数和说法要对得上检测报告、适配表（写 IP68 防水，报告只有 IP65）；二是<b>自家的做法</b>，老员工吃过亏才定下的写法（五点第一条先教买家核对型号）。既是数据核查，也是信息准确，而且第二样只有这家公司知道。</li>
+  <li><b>换到别的行业：</b>每家都有"发出去之前要核一遍"的东西：报价单、合同条款、招聘启事、宣传文案、给客户的回复、贷款材料、房源介绍。事实对不上会出事，自家的做法只在老员工脑子里。</li>
+  <li><b>这件事值多少：</b>改错一条，下架、被同行投诉虚标、买家买错退货；这家店每周三四十条要改。</li>
+  <li><b>演示效果（要说清楚）：</b>同一份草稿，广场下载最多的技能改完还差 7 处（3 处亚马逊通用规矩、4 处店里的写法），用包做的差 1 处。左边没拿到这家店的规矩，所以这个对比说明的是"把自家做法写进技能更好用"，不是"广场上的技能都很差"。</li>
+ </ul>
+ <h4>包里的案例文件夹 <span class="f">案例_汽配店/</span>（在做）</h4>
+ <ul>
+  <li><b>包 2（技能）：</b>店的知识库；上次的成品（9005 灯泡商品页改前改后）；新材料（H11 大灯草稿）和平时交代的那句话；答法卡：AI 问到什么照着答什么，口气像微信打字。</li>
+  <li><b>包 3（智能体）：</b>同一个知识库；一段真实聊天（客服和买家关于雨刷售后的两轮往来）；答法卡（客服主管那一半）。上岗考它的三条消息由 AI 自己写，不用准备。</li>
+  <li><b>讲师用的就是这一套：</b>讲师在自己的 WorkBuddy 里，AI 问什么，从答法卡复制对应那段贴进去。所以讲师做的和选案例的学员做的是同一套，效果可控。</li>
+ </ul>
+</div>
+
+<div class="case box">
+ <h3>文件怎么到学员手里、谁来打开</h3>
+ <ul>
+  <li><b>压缩包学员自己解压：</b>群里发 2_skill.zip，学员下载、解压、把 2_skill 文件夹拖进 我的公司AI/。AI 碰不到微信里的文件，这一下只能学员自己做。</li>
+  <li><b>学员自己只打开两个网页：</b>一个是开头双击的 <span class="f">2_skill/学员页.html</span>，放一边，每步从这里复制；一个是第 6 步做完后双击的 <span class="f">成果看板.html</span>（只能聊天的打开 成果看板模板.html）。</li>
+  <li><b>其余文件都是 AI 自己读：</b>WorkBuddy、Codex 能读文件，学员说"用案例"，AI 自己去读 案例_汽配店/ 里的东西，学员不用打开；只能聊天的，学员页上每份案例文件都有"复制"按钮，复制贴进去。</li>
+  <li><b>AI 不替学员弹出网页：</b>有的软件能，有的不能，Windows 和 Mac 也不一样，包里不让它做。每步做完，【第几步做完】那段最后一行写清"双击哪个文件看"。成果看板已经开着的，按 F5 刷新就看到新加的。</li>
+  <li><b>什么时候出东西，是按步走的，不是攒够了自动触发：</b>第 3 步出技能文件，第 4、5 步出测试记录，第 6 步写进成果看板。每步都有【做完】那段说出了什么、存在哪。</li>
  </ul>
 </div>
 <div class="legend"><span><span class="tag sync">全场等齐</span> 做完等全场</span><span><span class="tag new">新开对话</span> 去另一个对话贴一段再贴回来</span><span>进度是按夜里真跑的时长加学员打字慢估的，课上照实况调</span></div>
@@ -147,7 +175,7 @@ ul.plain{margin:0;padding-left:18px}ul.plain li{margin:4px 0}
   <div class="lec"><p class="do">电脑上 WorkBuddy、Codex、一个网页聊天 AI 都登录好。讲师演示文件夹 <span class="f">我的公司AI/</span> 里放好汽配店的知识库，包 2 先别放进去，课上当着大家放。演示稿打印。</p>
    <div class="uses"><span class="fi ok">课件（61 屏）</span><span class="fi miss">讲师电脑三种 AI 都登录好</span><span class="fi doing">讲师演示文件夹：汽配店知识库</span><span class="fi doing">演示稿（照新包重写，打印两页）</span><span class="fi miss">投屏线和转接头，能接学员电脑</span></div></div>
   <div class="stu"><p class="do">我的公司AI/ 里有上午做的知识库；带着一件常做的事和以前做好的样子。</p>
-   <div class="uses"><span class="fi ok">包 0：我的公司AI/</span><span class="fi live">上午做的知识库</span><span class="fi ok">一件常做的事、一两份做好的成品（课前准备写了）</span><span class="fi miss">一份还没做的新材料（课前准备没写）</span><span class="fi miss">没带材料的人用的备用材料</span></div></div>
+   <div class="uses"><span class="fi ok">包 0：我的公司AI/</span><span class="fi live">上午做的知识库</span><span class="fi ok">一件常做的事、一两份做好的成品（课前准备写了）</span><span class="fi miss">一份还没做的新材料（课前准备没写）</span><span class="fi doing">没带材料的用包里的 案例_汽配店/</span></div></div>
   <div class="risk"><p>午饭时转一圈：看谁上午的知识库没建成、谁没带成品，记下来，开做时先去这几位旁边。</p></div>
  </div>
 
@@ -190,10 +218,12 @@ ul.plain{margin:0;padding-left:18px}ul.plain li{margin:4px 0}
  <div class="row" data-sec="技能 · 发包">
   <div class="t"><b>15–20</b><span>发包，讲怎么走</span><em>屏 037</em></div>
   <div class="lec"><p class="do"><b>群里发 2_skill.zip。</b>然后当着大家操作一遍：解压，把 2_skill 拖进 我的公司AI/，双击 学员页.html。</p>
+   <p class="do"><b>先说这一块做完手里有什么：</b>切屏打开讲师的成果看板样例，指技能那一块。</p>
+   <p class="say">这一段聊完，各位手里会多一个技能，记在这样一页上：管什么事、几条判断带当时的原话、红线、带和不带技能各打了几分。包里放了一家汽配店的案例，AI 开头会问用不用。建议别用，跑自己公司的事；没带材料的，就跑案例，和我大屏上是同一套。</p>
    <p class="do">投屏学员页，交代三句：</p>
    <p class="say">一、每一步在学员页点那张卡的"复制"，贴给 AI。二、AI 做完一步会出一段【第几步做完】，然后停下，等全场一起贴下一步。三、答不上就说"不知道"，时间不够就说"收尾"。</p>
    <p class="do">讲师全程用 WorkBuddy 演示。每张卡上 WorkBuddy、Codex、网页聊天三种的做法并排写着，用 Codex 的只有开工那句不同，之后一样点复制。再说三种软件怎么开工：WorkBuddy 新建对话、工作区选 我的公司AI；Codex 在这个文件夹里打开；只能用网页聊天的，另外双击 成果看板模板.html 放一边。</p>
-   <div class="uses"><span class="fi doing">2_skill.zip 新版</span><span class="fi miss">屏 037 口播改成新流程（现在还说"总提示词、六步、拼技能卡网页"）</span></div></div>
+   <div class="uses"><span class="fi doing">2_skill.zip 新版</span><span class="fi doing">讲师的成果看板样例（有技能 1）</span><span class="fi miss">屏 037 口播改成新流程（现在还说"总提示词、六步、拼技能卡网页"）</span></div></div>
   <div class="stu"><p class="do">下载、解压、拖进 我的公司AI/，打开学员页放一边；按自己用的软件开好对话。</p>
    <div class="uses"><span class="fi doing">2_skill/学员页.html（七张卡）</span><span class="fi doing">成果看板模板.html</span></div></div>
   <div class="risk"><p><b>卡点：</b>解压后多一层文件夹（2_skill/2_skill）；WorkBuddy 工作区选成了 2_skill 而不是 我的公司AI。</p><p><b>怎么带：</b>助教走一圈只看一件事：工作区选的是不是 我的公司AI。</p></div>
@@ -201,10 +231,11 @@ ul.plain{margin:0;padding-left:18px}ul.plain li{margin:4px 0}
 
  <div class="row sync" data-sec="技能 · 第 0 步">
   <div class="t"><b>20–23</b><span>第 0 步 开工</span><span class="tag sync">全场等齐</span></div>
-  <div class="lec"><p class="do"><b>操作：</b>在自己的 WorkBuddy 里点第 0 张卡复制，发"读 2_skill/开始.md，带我做"。等 AI 回完，指【第 0 步做完】那段：</p>
+  <div class="lec"><p class="do"><b>从这一步起，讲师和学员同步做：</b>讲师在自己的 WorkBuddy 里做同一步，AI 问什么就从答法卡复制贴进去；学员在自己电脑上跟自己的 AI 聊。</p>
+   <p class="do"><b>操作：</b>点第 0 张卡复制，发"读 2_skill/开始.md，带我做"。AI 问"用自己的事还是案例"，回"用案例"。等 AI 回完，指【第 0 步做完】那段：</p>
    <p class="say">以后每步做完都是这样一段：定了什么、存在哪、下一步干嘛。看到这段的举手。</p>
-   <div class="uses"><span class="fi doing">讲师演示文件夹</span></div></div>
-  <div class="stu"><p class="do">发第 0 步。AI 说清能不能读写文件、读了知识库几页，建好成果看板。</p>
+   <div class="uses"><span class="fi doing">讲师演示文件夹</span><span class="fi doing">案例_汽配店/答法卡</span></div></div>
+  <div class="stu"><p class="do">发第 0 步。AI 说清能不能读写文件、读了知识库几页，建好成果看板，再问一句"用自己公司的事，还是用包里的汽配店案例"。</p>
    <div class="sw"><div><b>WorkBuddy</b>发"读 2_skill/开始.md，带我做"</div><div><b>Codex</b>同左</div><div><b>只能聊天的</b>复制"开工"整段，填岗位；它问知识库就贴 index.md</div></div>
    <dl><dt>产出</dt><dd>【第 0 步做完】；WorkBuddy、Codex 的文件夹里多了 成果看板.html</dd></dl></div>
   <div class="risk"><p><b>预计：</b>3 分钟九成举手。</p><p><b>卡点：</b>AI 说找不到知识库（上午没建成或工作区不对）；只能聊天的不知道 index.md 在哪。</p><p><b>怎么带：</b>没知识库的直接回"没有"，不影响往下做。</p></div>
@@ -219,7 +250,7 @@ ul.plain{margin:0;padding-left:18px}ul.plain li{margin:4px 0}
   <div class="stu"><p class="do">贴第 1 步，三个方向里挑一个（也可以说别的事），贴自己上次做的成品；没有就讲最近一次怎么做的。</p>
    <div class="uses"><span class="fi ok">自己上次的成品</span></div>
    <dl><dt>产出</dt><dd>【第 1 步做完】：做哪件事</dd></dl></div>
-  <div class="risk"><p><b>卡点：</b>挑得太大（"做运营"）；挑了要老板拍板的事；没带成品。</p><p><b>怎么带：</b>挑大的让他缩成"每周都做、做完交给谁"的一件；没成品的口述最近一次，或用备用材料。</p></div>
+  <div class="risk"><p><b>卡点：</b>挑得太大（"做运营"）；挑了要老板拍板的事；没带成品。</p><p><b>怎么带：</b>挑大的让他缩成"每周都做、做完交给谁"的一件；没成品的口述最近一次，或回第 0 步改用案例。</p></div>
  </div>
 
  <div class="row sync" data-sec="技能 · 第 2 步">
@@ -255,7 +286,7 @@ ul.plain{margin:0;padding-left:18px}ul.plain li{margin:4px 0}
    <div class="uses"><span class="fi miss">一份还没做过的新材料</span></div>
    <div class="sw"><div><b>WorkBuddy</b>新建一个对话</div><div><b>Codex</b>新开一个会话</div><div><b>只能聊天的</b>网页上点"新对话"</div></div>
    <dl><dt>产出</dt><dd>测试记录.md 里两份并排</dd></dl></div>
-  <div class="risk"><p><b>卡点：</b>没带新材料；贴回时贴错了对话；新对话里顺手也贴了技能。</p><p><b>怎么带：</b>没新材料的用备用材料；贴错的回原对话重贴一次就行。</p></div>
+  <div class="risk"><p><b>卡点：</b>没带新材料；贴回时贴错了对话；新对话里顺手也贴了技能。</p><p><b>怎么带：</b>没新材料的用案例里的 H11 草稿；贴错的回原对话重贴一次就行。</p></div>
  </div>
 
  <div class="row sync" data-sec="技能 · 第 5 步">
@@ -309,7 +340,7 @@ ul.plain{margin:0;padding-left:18px}ul.plain li{margin:4px 0}
   <div class="lec"><p class="do">演示文件夹里已有技能 1 和成果看板，接着用。</p>
    <div class="uses"><span class="fi doing">讲师演示文件夹：加上包 3 新版</span></div></div>
   <div class="stu"><p class="do">我的公司AI/ 里已有知识库、技能、成果看板。</p>
-   <div class="uses"><span class="fi miss">一段和客户或同事的真实聊天（课前准备没写要带）</span><span class="fi miss">没带的人用的备用聊天记录</span></div></div>
+   <div class="uses"><span class="fi miss">一段和客户或同事的真实聊天（课前准备没写要带）</span><span class="fi doing">没带的用包里的 案例_汽配店/（雨刷售后那段）</span></div></div>
   <div class="kb"><div class="k">知识库几页</div><div class="k">技能 1–2 个</div></div>
  </div>
 
