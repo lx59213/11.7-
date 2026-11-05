@@ -233,11 +233,7 @@ svg.lead line{stroke:#5a606c;stroke-width:1.5;stroke-dasharray:4 5}
 #sA .gl{left:0;right:0;top:430px;text-align:center;font-size:24px;color:var(--mute)}
 
 /* ===== 破题（我们加的） ===== */
-#sP .cloud span{position:absolute;font-weight:800;color:#1b1f28;white-space:nowrap;animation:fl 7s ease-in-out infinite alternate}
-#sP .cloud span:nth-child(3n){animation-duration:9s;animation-delay:-3s}#sP .cloud span:nth-child(3n+1){animation-duration:11s;animation-delay:-6s}
 @keyframes fl{to{transform:translate(26px,-18px)}}
-#sP .cloud::after{content:"";position:absolute;left:300px;top:300px;width:1000px;height:300px;background:radial-gradient(closest-side,#06080d 55%,transparent)}
-#sP .bigq{left:0;right:0;top:360px;text-align:center;font-size:120px;font-weight:900;letter-spacing:-.01em}
 #sP .shop{left:150px;top:150px;width:1300px;height:536px;border-radius:26px;background:#0d1017;border:1px solid #262b36;overflow:hidden}
 #sP .shop .hd{height:64px;display:flex;align-items:center;gap:12px;padding:0 26px;border-bottom:1px solid #1d212b;font-size:28px;font-weight:800;color:#c9ccd3}
 #sP .shop .hd i{width:14px;height:14px;border-radius:50%;background:#2a2f3a}
@@ -256,27 +252,36 @@ svg.lead line{stroke:#5a606c;stroke-width:1.5;stroke-dasharray:4 5}
 #sP .shop.vis .cur{animation:curMove 4.4s ease-in-out .5s forwards}
 @keyframes curMove{0%{opacity:0;transform:translate(640px,520px)}6%{opacity:1}7.0%{transform:translate(274px,136px) scale(1)}9.1%{transform:translate(274px,136px) scale(.82)}15.6%{transform:translate(590px,136px) scale(1)}21.6%{transform:translate(590px,136px) scale(.82)}28.1%{transform:translate(906px,136px) scale(1)}34.1%{transform:translate(906px,136px) scale(.82)}40.6%{transform:translate(1221px,136px) scale(1)}46.6%{transform:translate(1221px,136px) scale(.82)}53.1%{transform:translate(274px,354px) scale(1)}59.1%{transform:translate(274px,354px) scale(.82)}65.6%{transform:translate(590px,354px) scale(1)}71.6%{transform:translate(590px,354px) scale(.82)}78.1%{transform:translate(906px,354px) scale(1)}84.1%{transform:translate(906px,354px) scale(.82)}90.6%{transform:translate(1221px,354px) scale(1)}96.6%{transform:translate(1221px,354px) scale(.82)}100%{opacity:1;transform:translate(1221px,354px) scale(1)}}
 #sP .card .gone{position:absolute;left:22px;bottom:18px;font-size:24px;color:var(--mute);opacity:0;transition:opacity .6s}
-#sP:has(.f2.vis) .card:not(.keep){opacity:.32;filter:grayscale(1)}
-#sP:has(.f2.vis) .card:not(.keep) .gone{opacity:1}
 #sP .ask{left:0;right:0;top:750px;text-align:center;font-size:64px;font-weight:900}
-#sP .vs{left:120px;right:120px;top:190px;display:flex;gap:60px}
-#sP .vs .side{flex:1;height:540px;border-radius:26px;border:1px solid #232834;position:relative;overflow:hidden}
-#sP .vs .side.l{background:#0b0d12;filter:grayscale(1)}
-#sP .vs .side.r{background:radial-gradient(700px 500px at 50% 40%,rgba(212,255,58,.07),transparent);border-color:#3a4a14}
-#sP .vs .lb{position:absolute;left:36px;top:30px;font-size:34px;font-weight:900;color:var(--mute)}
-#sP .vs .side.r .lb{color:var(--sk)}
-#sP .vs .one{position:absolute;left:50%;top:190px;width:150px;height:150px;margin-left:-75px;border-radius:30px;background:#3a3f4a;animation:drift 5s ease-in-out infinite}
+#sP .card .tg{position:absolute;left:92px;top:38px;font-size:22px;font-weight:700;color:#8b909b}
+#sP .shop.vis .card:not(.keep){animation:pDim .8s ease 5.3s forwards}
+#sP .shop.vis .card:not(.keep) .gone{animation:pShow .6s ease 5.5s forwards}
+@keyframes pDim{to{opacity:.32;filter:grayscale(1)}}
+@keyframes pShow{to{opacity:1}}
+@keyframes pIn{from{opacity:0;transform:translateY(16px)}}
+#sP .ask.vis{animation:pIn .6s ease 5.9s backwards}
+#sP .dif{left:88px;right:88px;top:246px;display:flex;gap:48px}
+#sP .pt{flex:1;height:534px;border-radius:26px;border:1.5px solid #262b36;background:rgba(14,17,24,.9);padding:34px 40px;position:relative}
+#sP .pt u{text-decoration:none;display:inline-flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:50%;background:var(--sk);color:#07080a;font:900 30px var(--mono);vertical-align:middle}
+#sP .pt h3{display:inline-block;margin-left:18px;font-size:48px;font-weight:900;vertical-align:middle}
+#sP .pt p{font-size:28px;color:var(--mute);margin-top:14px}
+#sP .lay{margin-top:28px}
+#sP .lay div{display:flex;align-items:center;height:62px;border-top:1px solid #1c2029;font-size:32px}
+#sP .lay b{width:120px;text-align:right;font-weight:800;color:#c9ccd3}
+#sP .lay i{font-style:normal;color:#5a606c;width:76px;text-align:center}
+#sP .lay em{font-style:normal;font-weight:900;font-size:36px;white-space:nowrap}
+#sP .pt.vis .lay div{animation:pIn .5s ease backwards;animation-delay:calc(.35s + var(--i)*.14s)}
+#sP .stp{position:absolute;left:40px;right:40px;bottom:40px;height:290px}
+#sP .stp div{position:absolute;bottom:0;width:31%;border-radius:18px;display:flex;justify-content:center;padding-top:22px;font-size:36px;font-weight:900;transform-origin:bottom}
+#sP .stp .s1{left:0;height:120px;background:var(--sk);color:#07080a}
+#sP .stp .s2{left:34.5%;height:200px;border:2.5px solid var(--sk);color:#e6e8ec;background:#141821}
+#sP .stp .s3{right:0;height:280px;border:2.5px dashed var(--sk);color:#9aa0ab;background:#10131a}
+@keyframes stIn{from{opacity:0;transform:scaleY(.2)}}
+#sP .pt.vis .stp div{animation:stIn .7s cubic-bezier(.2,.8,.2,1) backwards}
+#sP .pt.vis .stp .s1{animation-delay:.35s}#sP .pt.vis .stp .s2{animation-delay:.65s}#sP .pt.vis .stp .s3{animation-delay:.95s}
 @keyframes drift{50%{transform:translate(18px,-14px) rotate(4deg)}}
-#sP .vs .lk{position:absolute;left:0;right:0;top:494px;text-align:center;font-size:34px;font-weight:800;color:#6b707b}
-#sP .vs .mine{position:absolute;left:50%;top:150px;width:150px;height:150px;margin-left:-75px;border-radius:30px;background:var(--sk);display:flex;align-items:center;justify-content:center;font:900 40px var(--mono);color:#07080a}
-#sP .vs .mine em{font-style:normal;position:absolute;opacity:0;animation:ver 6s infinite}
-#sP .vs .mine em:nth-child(2){animation-delay:2s}#sP .vs .mine em:nth-child(3){animation-delay:4s}
 @keyframes ver{0%,4%{opacity:0;transform:translateY(12px)}8%,30%{opacity:1;transform:none}34%,100%{opacity:0;transform:translateY(-12px)}}
-#sP .vs .wire{position:absolute;left:50%;top:300px;width:3px;height:120px;margin-left:-1.5px;background:linear-gradient(var(--sk),var(--kb))}
-#sP .vs .wire::after{content:"";position:absolute;left:-5px;top:0;width:13px;height:13px;border-radius:50%;background:#fff;animation:pulse 1.6s linear infinite}
 @keyframes pulse{to{top:110px;opacity:.2}}
-#sP .vs .kbb{position:absolute;left:60px;right:60px;top:420px;height:60px;border-radius:16px;border:2px solid var(--kb);color:var(--kb);font-size:30px;font-weight:800;display:flex;align-items:center;justify-content:center;background:rgba(201,169,110,.08)}
-#sP .vs .ok{position:absolute;left:0;right:0;top:494px;text-align:center;font-size:32px;font-weight:800;color:var(--sk);text-shadow:0 2px 20px #06080d}
 
 
 /* ===== 控场：点章节跳转、翻页、计划时间（我们加的） ===== */
@@ -306,7 +311,6 @@ body.pv #pv{display:block}
 #pv .nx b{color:var(--ink);font-weight:600}
 #pv .keys{margin-top:30px;font-size:16px;color:var(--dim)}
 
-  transition:opacity .6s,filter .6s,border-color .6s,background .6s,height .8s cubic-bezier(.2,.8,.2,1),translate .8s cubic-bezier(.2,.8,.2,1),rotate .8s cubic-bezier(.2,.8,.2,1)}
 </style>
 </head>
 <body>
@@ -389,16 +393,10 @@ body.pv #pv{display:block}
 
   <!-- 破题 -->
   <section class="scene" id="sP">
-    <div class="abs cloud rv fade" data-in="0" data-out="1" style="inset:0"><span style="left:268px;top:424px;font-size:70px">skill</span><span style="left:108px;top:860px;font-size:56px">技能</span><span style="left:708px;top:616px;font-size:22px">智能体</span><span style="left:399px;top:58px;font-size:22px">技能包</span><span style="left:816px;top:91px;font-size:28px">SOP</span><span style="left:1088px;top:454px;font-size:22px">智能体</span><span style="left:213px;top:248px;font-size:70px">AI 员工</span><span style="left:86px;top:610px;font-size:56px">AI 员工</span><span style="left:61px;top:246px;font-size:22px">SOP</span><span style="left:232px;top:316px;font-size:44px">技能包</span><span style="left:1067px;top:140px;font-size:56px">工作流</span><span style="left:1107px;top:855px;font-size:70px">Agent</span><span style="left:171px;top:615px;font-size:56px">工作流</span><span style="left:722px;top:119px;font-size:56px">知识库</span><span style="left:1115px;top:81px;font-size:56px">智能体</span><span style="left:976px;top:716px;font-size:56px">知识库</span><span style="left:603px;top:496px;font-size:56px">SOP</span><span style="left:700px;top:326px;font-size:28px">专家团</span><span style="left:1391px;top:818px;font-size:28px">工作流</span><span style="left:1136px;top:327px;font-size:56px">智能体</span><span style="left:663px;top:766px;font-size:44px">专家团</span><span style="left:1207px;top:94px;font-size:22px">Agent</span><span style="left:816px;top:188px;font-size:34px">技能包</span><span style="left:961px;top:451px;font-size:22px">工作流</span><span style="left:1102px;top:606px;font-size:34px">智能体</span><span style="left:1383px;top:378px;font-size:56px">skill</span><span style="left:1147px;top:836px;font-size:44px">专家团</span><span style="left:151px;top:296px;font-size:44px">智能体</span><span style="left:84px;top:768px;font-size:70px">智能体</span><span style="left:1285px;top:611px;font-size:70px">Agent</span><span style="left:542px;top:753px;font-size:44px">专家团</span><span style="left:6px;top:492px;font-size:34px">skill</span><span style="left:1211px;top:139px;font-size:44px">工作流</span><span style="left:406px;top:806px;font-size:34px">技能</span><span style="left:1472px;top:273px;font-size:44px">工作流</span><span style="left:976px;top:102px;font-size:28px">SOP</span><span style="left:782px;top:582px;font-size:34px">专家团</span><span style="left:841px;top:583px;font-size:34px">工作流</span><span style="left:694px;top:719px;font-size:44px">SOP</span><span style="left:269px;top:104px;font-size:28px">知识库</span><span style="left:435px;top:694px;font-size:28px">工作流</span><span style="left:953px;top:623px;font-size:28px">技能</span><span style="left:537px;top:24px;font-size:28px">Agent</span><span style="left:1054px;top:398px;font-size:56px">SOP</span><span style="left:612px;top:148px;font-size:70px">AI 员工</span><span style="left:1224px;top:690px;font-size:70px">技能包</span></div>
-    <div class="abs bigq rv" data-in="0" data-out="1">这四个词，都听过</div>
-    <div class="abs shop rv fade" data-in="1" data-out="3"><div class="hd"><i></i><i></i><i></i><b>技能广场</b></div>
-      <div class="grid"><div class="card keep" style="--c:var(--sk)"><div class="ic"></div><b>爆款文案</b><span class="add" style="--i:0"></span><span class="gone">没再打开</span></div><div class="card" style="--c:var(--ag)"><div class="ic"></div><b>竞品分析</b><span class="add" style="--i:1"></span><span class="gone">没再打开</span></div><div class="card" style="--c:var(--wf)"><div class="ic"></div><b>周报生成</b><span class="add" style="--i:2"></span><span class="gone">没再打开</span></div><div class="card" style="--c:var(--kb)"><div class="ic"></div><b>小红书笔记</b><span class="add" style="--i:3"></span><span class="gone">没再打开</span></div><div class="card" style="--c:var(--ag)"><div class="ic"></div><b>数据看板</b><span class="add" style="--i:4"></span><span class="gone">没再打开</span></div><div class="card keep" style="--c:var(--sk)"><div class="ic"></div><b>会议纪要</b><span class="add" style="--i:5"></span><span class="gone">没再打开</span></div><div class="card" style="--c:var(--kb)"><div class="ic"></div><b>客服话术</b><span class="add" style="--i:6"></span><span class="gone">没再打开</span></div><div class="card" style="--c:var(--wf)"><div class="ic"></div><b>PPT 生成</b><span class="add" style="--i:7"></span><span class="gone">没再打开</span></div></div>
-      <svg class="cur" viewBox="0 0 24 24"><path d="M4 2l15 9-7 1.6L9 20z" fill="#fff" stroke="#07080a" stroke-width="1.2"/></svg></div>
-    <i class="f2 rv" data-in="2" hidden></i>
-    <div class="abs ask rv" data-in="2" data-out="3">加进来的，天天在用吗？</div>
-    <div class="abs vs rv fade" data-in="3">
-      <div class="side l"><div class="lb">别人做的</div><div class="one"></div><div class="lk">做不出想要的，也改不了</div></div>
-      <div class="side r"><div class="lb">自己搭的</div><div class="mine"><em>v1</em><em>v2</em><em>v3</em></div><div class="wire"></div><div class="ok">接着公司的知识库，自己能改</div><div class="kbb">公司的知识库</div></div>
+    <div class="abs ttl rv" data-in="0">我们不一样的，就两点<small>做出来的，要用得起来</small></div>
+    <div class="abs dif">
+      <div class="pt rv" data-in="0"><u>1</u><h3>先看全局</h3><p>每样东西，在公司里是哪一层</p><div class="lay"><div style="--i:0"><b>组织</b><i>→</i><em style="color:#e6e8ec">AI 组织</em></div><div style="--i:1"><b>事</b><i>→</i><em style="color:var(--wf)">SOP · 工作流</em></div><div style="--i:2"><b>员工</b><i>→</i><em style="color:var(--ag)">AI 员工</em></div><div style="--i:3"><b>技能</b><i>→</i><em style="color:var(--sk)">AI 的技能</em></div><div style="--i:4"><b>知识</b><i>→</i><em style="color:var(--kb)">知识库</em></div></div></div>
+      <div class="pt rv" data-in="1"><u>2</u><h3>做到可开发、可维护</h3><p>自己能改，用得越久越顺手</p><div class="stp"><div class="s1">可开发</div><div class="s2">可维护</div><div class="s3">可进化</div></div></div>
     </div>
   </section>
 
@@ -407,11 +405,20 @@ body.pv #pv{display:block}
     <div class="abs ttl rv" data-in="0" data-out="1">换成 AI，也是这两样<small>知识 → 知识库　技能 → AI 的技能</small></div>
     <div class="abs ttl rv" data-in="1" data-out="2">合起来，长出一个 AI 员工<small>知识库 + AI 的技能，人还在原位</small></div>
     <div class="abs ttl rv" data-in="2" data-out="3">一件事，AI 员工接力做完<small>事 → SOP · 工作流，要紧处人点头</small></div>
-    <div class="abs ttl rv" data-in="3" data-out="4">组织，变成 AI 组织<small>部门还在，人人身边有 AI 员工</small></div>
-    <div class="abs ttl rv" data-in="4">越长越多，越长越快<small>人还是这 16 个人</small></div>
-    <div class="abs cnt rv" data-in="4" id="evoCnt"></div>
+    <div class="abs ttl rv" data-in="3" data-out="4">AI 人机协同<small>部门还在，人人身边有 AI 员工</small></div>
+    <div class="abs ttl rv" data-in="4" data-out="5">越长越多，越长越快<small>人还是这 16 个人</small></div>
+    <div class="abs cnt rv" data-in="4" data-out="5" id="evoCnt"></div>
+    <div class="abs ttl rv" data-in="5">组织，跟着重新设计<small>日常的事 AI 员工跑，人去做更有意义的事</small></div>
   </section>
 
+
+  <!-- 每块开头：回到开头拆的那个员工（11-05；build.py 把这几拍挪到各块第一拍后面） -->
+  <section class="scene" id="sK">
+    <div class="abs ttl rv" data-in="0" data-out="1">从最底下补起：知识<small>他知道的，交给 AI</small></div>
+    <div class="abs ttl rv" data-in="1" data-out="2">往上一层：技能<small>他会做的，教给 AI</small></div>
+    <div class="abs ttl rv" data-in="2" data-out="3">再往上：AI 员工<small>知识库 + AI 的技能</small></div>
+    <div class="abs ttl rv" data-in="3">最后：一件事<small>AI 员工照 SOP 接力</small></div>
+  </section>
 
   <!-- 闭环 -->
   <section class="scene" id="sF">
@@ -472,13 +479,16 @@ const BEATS=[
  {s:'sE',k:0,w:'g2',ch:'用 AI 重写',n:`从最底下开始。他知道的，写下来交给 AI：公司的那些进企业知识库，他自己的进个人知识库。他会做的，一样样教给 AI，就是 AI 的技能；教得越多，它会的越多。`},
  {s:'sE',k:1,w:'g3',ch:'用 AI 重写',n:`知识库加上 AI 的技能，就长出一个 AI 员工，跟一个人靠知识和技能干活是一个道理。人还在原位，它在旁边一起干。第一天，我们做到这里。`},
  {s:'sE',k:2,w:'g5',ch:'用 AI 重写',n:`每个岗位都可以长出一个 AI 员工。一件事写成 SOP，它们照着一站接一站做完，这就是工作流；要紧的地方，比如答应客户交期，还是人来点头。这是第二天上午做的。`},
- {s:'sE',k:3,w:'orgai',ch:'用 AI 重写',n:`一件件事都这样跑起来，组织就变了。部门还是这几个部门，人还是这些人；每个人身边多了 AI 员工。一件事不再在部门之间来回等，AI 员工一站接一站地跑，人在要紧处点头。这就是 AI 组织。`},
+ {s:'sE',k:3,w:'orgai',ch:'用 AI 重写',n:`一件件事都这样跑起来，就是人机协同。部门还是这几个部门，人还是这些人；每个人身边多了 AI 员工。一件事不再在部门之间来回等，AI 员工一站接一站地跑，人在要紧处点头。`},
  {s:'sE',k:4,w:'g7',ch:'用 AI 重写',n:`再往后，它自己会长：技能越教越多，一个 AI 员工带出两个，两个带出四个；工作流越串越多，每跑完一单，知识库就厚一层，下一单跑得更快。人还是这 16 个人，公司能做的事翻了好几番。（让它多跑十几秒再往下）`},
- {s:'sP',k:0,w:'hidden',ch:'破题',n:`刚才说到的这四样：知识库、技能、AI 员工也就是智能体、工作流，各位可能都听过，有的已经在用了。`},
- {s:'sP',k:1,w:'hidden',ch:'破题',n:`拿技能说。很多人用技能是这样：打开技能广场，看到好的，点个加号，加进来，聊几句。`},
- {s:'sP',k:2,w:'hidden',ch:'破题',n:`问各位一个问题：加进来的这些，现在还天天在用吗？用着不顺手的时候，改过吗？`},
- {s:'sP',k:3,w:'hidden',ch:'破题',n:`别人做的技能，做不出各位要的东西，到了真实场景会出错；人家一停更新，自己也改不动。这两天我们自己搭：长在自己公司里，接着自己的知识库，自己能改，用得越久越顺手，四样还能串起来。后面每一站都这样，先看大家以为的是什么样，再看真正用起来是什么样。`},
+ {s:'sE',k:5,w:'re',ch:'用 AI 重写',n:`再往后，组织本身也会重新设计。接单、备货、售后这些日常的事，AI 员工一单单在跑，人不用再被日常的事拴在一个个岗位上，部门的墙也可以重新画。人抽出来，组成新的小队：陪大客户、开新市场、想新产品，还有一队专门带 AI 员工、改 SOP。还是这 16 个人，做的是更有意义的事。这就是开头那个算式的最后一项：组织。这两天先补第一项，员工能力；组织怎么改，是往后的路。`},
+ {s:'sP',k:0,w:'hidden',ch:'破题',n:`外面讲技能、讲智能体的课很多。很多人下载了一堆、自己也做过一些，回头一看，大多放在那里，用不起来。我们不一样的，就两点。第一，先看全局：每样东西在公司里是哪一层。知识进知识库，会做的事变成 AI 的技能，两样合起来是 AI 员工，串起来是工作流，最后落到组织上。知道它放在哪一层，才知道它该接什么、给谁用。`},
+ {s:'sP',k:1,w:'hidden',ch:'破题',n:`第二，做得更精：做到可开发、可维护。自己能改，规矩变了跟着改，坏了能修，用得越久越顺手；再往后还能自己长，那是可进化。这样做出来的东西，才不会放在那里。好，看看这两天怎么安排。`},
  {s:'sH',k:0,w:'hidden',ch:'开始',n:`那我们开始。从最底下开始：第一站，知识，全公司的底座。`},
+ {s:'sK',k:0,w:'k_kb',after:'m1',ch:'知识库',n:`还记得这张图吗？这是公司用 AI 重写以后的样子。怎么搭出来？从最底下补起。拉近看一个销售：他知道的，价格表、产品手册、公司规矩，他自己的客户、踩过的坑，写下来交给 AI，公司的进企业知识库，他自己的进个人知识库。`},
+ {s:'sK',k:1,w:'k_sk',after:'m2',ch:'技能',n:`还是这张图，往上一层。还是那个销售，这回看他会做的：报价、写方案、回客户、跟回款。一件事一步步怎么做，写下来教给 AI，就是 AI 的技能。上午的知识库，已经铺在底下了。`},
+ {s:'sK',k:2,w:'k_ag',after:'m3',ch:'智能体',n:`再往上一层。知识库有了，技能也有了，合起来就长出一个 AI 员工，也就是智能体，跟一个人靠知识和技能干活是一个道理。人还在原位，它在旁边一起干。`},
+ {s:'sK',k:3,w:'k_wf',after:'m4',ch:'工作流',n:`最后一层，是一件事。每个岗位都有了 AI 员工，把做法写成 SOP，它们一站接一站接力，这就是工作流。要紧的地方，比如答应客户交期，还是人点头。`},
 
 ];
 
@@ -552,15 +562,31 @@ const STATES={
   g5:{dl:1,cam:'row0low',cd:2,f(i){stop();grid(4,4,i,'rowOnly');rows(r=>r===0?{link:.25,tr:1,dl:i?0:1.6}:0,i);spread(0,i);cards({kh:1},i);em({kn:1,sk:1,kd:1,sd:1,ex:1,hd:1},i);floor(1,400,220,1320,i);twins((r,c)=>r===0&&c<4?(c?.5+c*.3:0):null,i);orgv(0,0,i);misc(1,1,i)}},
   orgai:{ao:1,cd:2,camf(){return aoCam(1,0,false)},f(i){stop();aoEnter();aoCollapse(i);AO.follow=false;
     for(let r=0;r<4;r++){AO.L[r].to(1,1.2,r?2.2+r*.25:0,i);for(let d=0;d<4;d++){AO.P[r][d].to(1,.8,r?.35+r*.15+d*.05:0,i);AO.T[r][d].to(1,.9,r?1.3+r*.2+d*.06:0,i)}}
-    AO.fr.to(1,.9,.3,i);AO.spd.to(1,.8,0,i);floor(1,aoFloorY(1),220,1320,i,1.8);cards({kh:1},i);em({kn:1,sk:1,kd:1,sd:1,ex:1,hd:1},i);misc(0,1,i)}},
+    AO.fr.to(1,.9,.3,i);AO.rd.to(0,.9,0,i);AO.spd.to(1,.8,0,i);floor(1,aoFloorY(1),220,1320,i,1.8);cards({kh:1},i);em({kn:1,sk:1,kd:1,sd:1,ex:1,hd:1},i);misc(0,1,i)}},
   g7:{ao:1,cd:1.2,camf(){return aoCam(AO.lvg.b,AO.mg.b,true)},f(i){stop();aoEnter();aoClear();
     for(let r=0;r<4;r++){AO.L[r].to(1,1,0,i);for(let d=0;d<4;d++){AO.P[r][d].to(1,.8,0,i);AO.T[r][d].to(1,.9,.2,i)}}
-    AO.fr.to(1,.9,0,i);cards({kh:1},i);em({kn:1,sk:1,kd:1,sd:1,ex:1,hd:1},i);misc(0,1,i);floor(1,aoFloorY(1),220,1320,i);
+    AO.fr.to(1,.9,0,i);AO.rd.to(0,.9,0,i);cards({kh:1},i);em({kn:1,sk:1,kd:1,sd:1,ex:1,hd:1},i);misc(0,1,i);floor(1,aoFloorY(1),220,1320,i);
     AO.run=0;AO.spd.to(1,0,0,1);AO.spd.to(2.6,6,1.4,i);const d0=WH?1.4:0;AO.gs=GS.map(([a,b,t])=>[a,b,NOW+t+d0]);AO.gi=0;
     if(i){while(AO.gi<AO.gs.length)aoStep(true);AO.run=2400}AO.follow=true}},
+  re:{ao:1,cd:2.6,camDelay:.3,camf(){return CRE},f(i){STATES.g7.f(true);AO.follow=false;misc(0,0,i);
+    floor(1,aoFloorY(4),PX(0)-aoHalf(3)-70,PX(0)+3*aoCS(3)+aoHalf(3)+70,true);AO.rd.to(1,3.4,(i||BK)?0:.4,i||BK)}},
 };
 ['agent_kb','agent_ai','agent_all'].forEach(k=>STATES[k]=STATES.g3);STATES.agent_f=STATES.emp;STATES.agent_k=STATES.emp2;
 Object.assign(STATES,{g1:STATES.g2,g6:STATES.orgai,wf_ai:STATES.g5,company_ai:STATES.orgai,dust:STATES.g0,company_f:STATES.org0,flow_f:STATES.line0,flow_cut:STATES.staff,dim:{op:.2,ao:1,camf:STATES.orgai.camf,f:STATES.orgai.f},g7dim:{op:.22,ao:1,camf:STATES.g7.camf,f:STATES.g7.f}});
+/* 每块开头（11-05 靖锋：先回到全景，再拉近到这一块，不要一下跳进去）：全景停一秒，周围淡掉，镜头拉近 */
+function camGo(to,d){camT.from={...cam};camT.to=to;camT.t0=NOW;camT.d=d}
+const fo=()=>{grid(4,4,false,'focus');rows(()=>0,false);spread(0,false);twins(()=>null,false);orgv(0,0,false);misc(0,0,false)};
+function zoomFrom(target,seq){const t=STATES[target];return{cam:t.cam,dl:t.dl,pre:'orgai',zoom:1,camDelay:1.0,cd:2.2,
+  f(i){if(i||BK){t.f(true);return}later(1.0,seq)}}}
+Object.assign(STATES,{
+  k_kb:zoomFrom('g0',()=>{fo();cards({},false);emReset();em({nd:1,kn:1,ndd:1.4,knd:1.9},false);camGo(CAMS.emp,2.2);
+    later(4.4,()=>{floor(1,420,0,760,false);em({kn:1,kd:1,kbl:1,kdd:.1,kbld:1.7},false);camGo(CAMS.build,1.6)})}),
+  k_sk:zoomFrom('g2',()=>{fo();cards({},false);emReset();em({nd:1,sk:1,ndd:1.4,skd:1.9},false);camGo(CAMS.emp,2.2);
+    later(4.4,()=>{floor(1,420,0,760,false);em({nd:1,sk:1,kn:1,kd:1,kbl:1},true);em({sk:1,kn:1,kd:1,kbl:1,sd:1,ex:1,sdd:.2,exd:1.5},false);camGo(CAMS.build,1.6)})}),
+  k_ag:zoomFrom('g3',()=>{fo();cards({},false);floor(1,420,0,760,false);emReset();em({kn:1,sk:1,kd:1,sd:1,ex:1,kbl:1,hd:1},true);camGo(CAMS.build,2.2);
+    later(1.6,()=>EM.hd.to(0,.6));later(2.6,()=>{cards({twl:1},false);twins((r,c)=>r===0&&c===0?0:null,false);misc(1,0,false)})}),
+  k_wf:zoomFrom('g5',()=>{STATES.g5.f(false);camGo(CAMS.row0low,2.2)}),
+});
 function growStep(inst){const [k,n]=SCH[GR.step++];if(k==='c')GR.cols=n;else GR.rows=n;
   for(let r=0;r<GR.rows;r++)for(let c=0;c<GR.cols;c++){if(P[r][c].a.b<.5)P[r][c].a.to(1,.7,inst?0:(r*.05+c*.05)%0.6,inst);if(T[r][c].a.b<.5)T[r][c].a.to(1,.8,inst?0:.35+((r*.05+c*.05)%0.6),inst)}
   for(let r=0;r<GR.rows;r++){if(ROW[r].tr.b<.5){ROW[r].tr.to(1,1,inst?0:.6,inst);ROW[r].link.to(.25,1,0,inst)}}
@@ -635,6 +661,12 @@ const easeOutBack=u=>{const c1=1.45,c3=c1+1;return 1+c3*Math.pow(u-1,3)+c1*Math.
 const LS=30,LOFF=20,SP0=44,SPJ=32;
 const AO={on:false,follow:false,coll:false,lv:1,m:0,lvg:new V(1),mg:new V(0),fr:new V(0),kf:new V(1),spd:new V(1),P:[],T:[],L:[],bv:[],bh:[],gs:null,gi:0,ft:0,run:0,rt:0,np:[0,0,0,0]};
 for(let r=0;r<4;r++){AO.P.push([]);AO.T.push([]);AO.L.push(new V(0));for(let d=0;d<4;d++){AO.P[r].push(new V(0));AO.T[r].push(new V(0))}}
+/* 组织重新设计（11-05）：部门墙拆掉，日常的事留给 AI 员工跑，16 个人抽出来组成新小队，每队一个部门出一个人 */
+AO.rd=new V(0);
+const CRE={x:1094,y:190,z:.355},wR=(sx,sy)=>[CRE.x+(sx-800)/CRE.z,CRE.y+(sy-450)/CRE.z];
+const RTX=[380,660,940,1220],RTL=['陪大客户','开新市场','想新产品','带 AI 员工'],RBOSS=wR(800,232);
+const RPP=[0,1,2,3].map(r=>[0,1,2,3].map(d=>{const [x,y]=wR(RTX[(r+d)%4]+(d-1.5)*46,312);return{x,y,k:r*4+d}}));
+const bzp=(a,b,c,d,u)=>{const v=1-u;return v*v*v*a+3*v*v*u*b+3*v*u*u*c+u*u*u*d};
 const aoHalf=m=>92+c01(m)*SP0+Math.max(0,m-1)*SPJ;
 const aoCS=m=>2*aoHalf(m)+76;
 const aoJX=j=>j===0?0:Math.sign(j)*(SP0+(Math.abs(j)-1)*SPJ);
@@ -650,7 +682,7 @@ function aoStep(inst){const [kd,n]=AO.gs[AO.gi++];const t0=inst?-100:NOW;
   if(kd==='v'){const o=AO.lv;for(let k=o;k<n;k++)AO.bv[k]={t0,p:k-o};AO.lv=n;AO.lvg.to(n,1.1,0,inst)}
   else{const o=AO.m;for(let j=o+1;j<=n;j++){AO.bh[j]={t0,p:o};AO.bh[-j]={t0,p:-o}}AO.m=n;AO.mg.to(n,1.1,0,inst)}}
 function aoClear(){AO.bv=[];AO.bh={};AO.lv=1;AO.m=0;AO.lvg.to(1,0,0,1);AO.mg.to(0,0,0,1);AO.kf.to(1,0,0,1);AO.coll=false;AO.gs=null}
-function aoReset(){AO.on=false;AO.follow=false;aoClear();AO.spd.to(1,0,0,1);AO.fr.to(0,0,0,1);
+function aoReset(){AO.on=false;AO.follow=false;aoClear();AO.spd.to(1,0,0,1);AO.fr.to(0,0,0,1);AO.rd.to(0,0,0,1);
   for(let r=0;r<4;r++){AO.L[r].to(0,0,0,1);for(let d=0;d<4;d++){AO.P[r][d].to(0,0,0,1);AO.T[r][d].to(0,0,0,1)}}}
 function aoEnter(){if(AO.on)return;AO.on=true;AO.ft=NOW;
   for(let r=0;r<NR;r++){const R=ROW[r];if(r<4){AO.L[r].to(R.tr.v,0,0,1)}R.link.to(0,0,0,1);R.tr.to(0,0,0,1);R.hf.to(0,0,0,1);
@@ -668,17 +700,26 @@ function drawAO(g,t,px,z){
   const lv=AO.lvg.get(),mg=AO.mg.get(),fr=AO.fr.get(),kf=AO.kf.get(),spd=AO.spd.get();const CS=aoCS(mg),HW=aoHalf(mg),X=d=>PX(0)+d*CS,EX=HW-92;
   const s=Math.max(1,14/(PR*z)),st=Math.max(1,12/(PR*z)),top=178,bot=aoBot(lv)+46;
   // 部门框、老板：组织还是这个组织
-  if(fr>.01){const bx=(X(0)+X(3))/2,by=top-82*px;
-    for(let d=0;d<4;d++){const x=X(d)-HW;g.fillStyle=rgba(RGB.ink,.03*fr);rr(g,x,top,2*HW,bot-top,16);g.fill();g.strokeStyle=rgba(RGB.ink,.26*fr);g.lineWidth=LW*.9;g.stroke();
-      txt(g,DEPT[d],X(d),top-30*px,38,RGB.ink,.9*fr);
-      g.strokeStyle=rgba(RGB.ink,.3*fr);g.lineWidth=LW*.8;g.beginPath();g.moveTo(bx,by+PR*s);g.bezierCurveTo(bx,by+60*px,X(d),top-96*px,X(d),top-56*px);g.stroke()}
+  const rd=AO.rd.get(),rT=rd*3.4,dw=fr*(1-c01(rT/.9));
+  if(fr>.01){const bx0=(X(0)+X(3))/2,by0=top-82*px,bu=easeIO(c01((rT-1.6)/1.2)),bx=bx0+(RBOSS[0]-bx0)*bu,by=by0+(RBOSS[1]-by0)*bu;
+    if(dw>.01)for(let d=0;d<4;d++){const x=X(d)-HW;g.fillStyle=rgba(RGB.ink,.03*dw);rr(g,x,top,2*HW,bot-top,16);g.fill();g.strokeStyle=rgba(RGB.ink,.26*dw);g.lineWidth=LW*.9;g.stroke();
+      txt(g,DEPT[d],X(d),top-30*px,38,RGB.ink,.9*dw);
+      g.strokeStyle=rgba(RGB.ink,.3*dw);g.lineWidth=LW*.8;g.beginPath();g.moveTo(bx0,by0+PR*s);g.bezierCurveTo(bx0,by0+60*px,X(d),top-96*px,X(d),top-56*px);g.stroke()}
+    if(rd>.01){const ca=c01((rT-2.2)/.8),ln=c01((rT-2.5)/.7),gx0=X(0)-HW,gw=2*HW+3*CS;
+      for(let t=0;t<4;t++){const [ax,ay]=wR(RTX[t]-118,278),[bx1,by1]=wR(RTX[t]+118,392);
+        if(ca>.01){g.fillStyle=rgba(RGB.ink,.045*ca);rr(g,ax,ay,bx1-ax,by1-ay,16*px);g.fill();g.strokeStyle=rgba(RGB.ink,.32*ca);g.lineWidth=LW*.9;g.stroke();
+          const [cx,cy]=wR(RTX[t],362);chip(g,RTL[t],cx,cy,28,RGB.ink,ca,RGB.ink)}
+        if(ln>.01){const [tx,ty]=wR(RTX[t],278);g.strokeStyle=rgba(RGB.ink,.32*ln*fr);g.lineWidth=LW*.8;g.beginPath();g.moveTo(bx,by+PR*s);g.bezierCurveTo(bx,by+34*px,tx,ty-34*px,tx,ty);g.stroke();
+          const [sx0,sy0]=wR(RTX[t],392),ex=gx0+(t+.5)/4*gw,ey=top+4*px,c1y=sy0+(ey-sy0)*.65,c2y=ey-(ey-sy0)*.65;
+          g.setLineDash([6*px,7*px]);g.strokeStyle=rgba(RGB.sk,.55*ln);g.lineWidth=LW;g.beginPath();g.moveTo(sx0,sy0);g.bezierCurveTo(sx0,c1y,ex,c2y,ex,ey);g.stroke();g.setLineDash([]);
+          const u=(NOW*.55+t*.27)%1,qx=bzp(sx0,sx0,ex,ex,u),qy=bzp(sy0,c1y,c2y,ey,u);glow(g,RGB.sk,qx,qy,16*px,.8*ln);g.fillStyle=rgba(RGB.sk,ln);g.beginPath();g.arc(qx,qy,3.5*px,0,TAU);g.fill()}}}
     person(g,bx,by,fr,RGB.ink,0,s);txt(g,'老板',bx+PR*s+14*px,by,34,RGB.ink,.85*fr,'left')}
   // 知识库一层层变厚
   const fa=F.fa.v,fy=F.fy.v,fx0=F.fx0.v,fx1=F.fx1.v,thick=Math.log2(lv)+Math.log2(1+2*mg)/1.4;
   if(fa>.01)for(let i=1;i<=Math.ceil(thick-.001);i++){const a=c01(thick-i+1)*fa*(1-i/7);g.strokeStyle=rgba(RGB.kb,.6*a);g.lineWidth=2*px;g.beginPath();g.moveTo(fx0+60,fy+i*9*px);g.lineTo(fx1-60,fy+i*9*px);g.stroke()}
   const HJ=[0];for(let j=1;j<=AO.m;j++)HJ.push(j,-j);
   for(let r=0;r<4;r++){const yp=aoYP(r,lv),la=AO.L[r].get();AO.np[r]*=.9;
-    if(la>.01){g.strokeStyle=rgba(RGB.line,.25*la);g.lineWidth=LW;for(let d=0;d<3;d++){g.beginPath();g.moveTo(X(d)+PR*s+4*px,yp);g.lineTo(X(d+1)-PR*s-4*px,yp);g.stroke()}}
+    if(la>.01&&rT<1.2){g.strokeStyle=rgba(RGB.line,.25*la*(1-rT/1.2));g.lineWidth=LW;for(let d=0;d<3;d++){g.beginPath();g.moveTo(X(d)+PR*s+4*px,yp);g.lineTo(X(d+1)-PR*s-4*px,yp);g.stroke()}}
     for(let k=0;k<8;k++){let ak,y;
       if(k===0){ak=1;y=yp+TWY}else{const b=AO.bv[k];if(!b)continue;const u=aoSpawn(b,r*.14,.85);if(u<=0)continue;const e=easeOutBack(u),y0=aoLY(r,b.p,lv),y1=aoLY(r,k,lv);y=y0+(y1-y0)*e;ak=c01(u*3)*kf;if(ak<.01)continue}
       if(k===0&&EX>1&&la>.5){g.strokeStyle=rgba(RGB.sk,.34*kf);g.lineWidth=LW*.9;g.beginPath();g.moveTo(X(0)-EX,y);g.lineTo(X(3)+EX,y);g.stroke()}
@@ -695,9 +736,12 @@ function drawAO(g,t,px,z){
         else{const len=(18+30*(spd-1))*px,gr=g.createLinearGradient(x-len,0,x,0);gr.addColorStop(0,rgba(RGB.sk,0));gr.addColorStop(1,rgba(RGB.sk,ta));g.strokeStyle=gr;g.lineWidth=3*px;g.beginPath();g.moveTo(x-len,y);g.lineTo(x,y);g.stroke();glow(g,RGB.sk,x,y,11*px,.6*ta)}}
     }
     if(la>.01)txt(g,LINES[r].replace(/ /g,''),X(0)-HW-16*px,yp+TWY,28,RGB.ink,.8*la,'right',600);
-    for(let d=0;d<4;d++){const a=AO.P[r][d].get();if(a>.01)person(g,X(d),yp,a,RGB.ink,0,s)}
+    for(let d=0;d<4;d++){const a=AO.P[r][d].get();if(a<=.01)continue;let x=X(d),y=yp;
+      if(rd>.001){const q=RPP[r][d],u=easeIO(c01((rT-.55-q.k*.09)/1.3)),lift=Math.sin(u*Math.PI);x+=(q.x-x)*u;y+=(q.y-y)*u-lift*50*px;if(lift>.02)glow(g,RGB.ink,x,y,36*px,.3*lift)}
+      person(g,x,y,a,RGB.ink,0,s)}
     const nd=F.nod.v;if(nd>.01&&AO.T[r][2].v>.5)nodAt(g,X(2),yp,yp+TWY,nd*Math.min(1,la*1.5),AO.np[r],s,px)
   }
+  if(rd>.01){const ac=c01((rT-2.6)/.8);if(ac>.01)chip(g,'日常的事，AI 员工在跑',X(3)+HW+26*px,aoYP(1.5,lv)+TWY,28,RGB.sk,ac,RGB.sk,'left')}
 }
 function aoTick(dt){if(!AO.on)return;AO.ft+=dt*AO.spd.get();
   if(AO.gs&&AO.gi<AO.gs.length&&NOW>=AO.gs[AO.gi][2])aoStep(false);
@@ -719,7 +763,7 @@ function setWorld(name,anim,back){
   if(!s.ao&&AO.on)aoLeave();
   if(!s.ao)AO.follow=false;
   const labs=inst=>{F.l0.to(s.l0?1:0,.7,s.l0&&!inst?.7:0,inst);F.dl.to(s.dl?1:0,.7,s.dl&&!inst?(BK?.3:(s.dld||.6)):0,inst)};
-  if(wasHidden&&anim&&s.pre){const ps=STATES[s.pre];resetAll();ps.f(true);Object.assign(cam,CAMS[ps.cam]);s.f(false);labs(false);camT.from={...cam};camT.to=s.camf?s.camf():CAMS[s.cam];camT.t0=NOW+.7;camT.d=s.cd||1.8;return}
+  if(wasHidden&&anim&&s.pre&&!(BK&&s.zoom)){const ps=STATES[s.pre];resetAll();ps.f(true);Object.assign(cam,ps.camf?ps.camf():CAMS[ps.cam]);if(!s.ao&&AO.on)aoLeave();s.f(false);labs(false);camT.from={...cam};camT.to=s.camf?s.camf():CAMS[s.cam];camT.t0=NOW+(s.zoom?s.camDelay:.7);camT.d=s.cd||1.8;return}
   if(wasHidden&&anim){resetAll();s.f(false);labs(false);Object.assign(cam,s.camf?s.camf():CAMS[s.cam]);camT.d=0;return}
   s.f(!anim);labs(!anim);
   const tgt=s.camf?s.camf():CAMS[s.cam];

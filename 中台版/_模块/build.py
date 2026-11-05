@@ -32,6 +32,18 @@ for src, dst, theme, w, js_anchor in JOBS:
     # 路线页 sR（11-05 加）跟 怎么上课 一起放在“开始”之前
     pre = ''.join(l for l in BEATS.splitlines(True) if "{s:'mw'" in l or "{s:'sR'" in l)
     rest = ''.join(l for l in BEATS.splitlines(True) if "{s:'mw'" not in l and "{s:'sR'" not in l)
+    # 每块开头回到开头拆的那个员工：开场里带 after:'m1' 的拍，挪到那一块第一拍后面（modules.html 由 gen_stations.py 生成，不在那里改）
+    for l in [l for l in s.splitlines(True) if re.search(r"after:'m\d'", l)]:
+        s = s.replace(l, '', 1)
+        key = "{s:'%s',k:0," % re.search(r"after:'(m\d)'", l).group(1)
+        assert rest.count(key) == 1, key
+        j = rest.index('\n', rest.index(key)) + 1
+        rest = rest[:j] + l + rest[j:]
+    # 技能这块先分享上午的知识库，再进技能（11-05 靖锋）：把“先请几位上台”那一拍挪到“第二块，技能”前面
+    i2 = rest.index("{s:'m2',k:0,"); j2 = rest.index("{s:'m2',k:1,")
+    l0 = rest[rest.rfind('\n', 0, i2) + 1:rest.index('\n', i2) + 1]; l1 = rest[rest.rfind('\n', 0, j2) + 1:rest.index('\n', j2) + 1]
+    assert '上午做的知识库' in l1, '技能第 1 拍不再是分享，挪动规则要改'
+    rest = rest.replace(l1, '', 1).replace(l0, l1 + l0, 1)
     k = s.index("{s:'sH'"); e = s.index('];', k)
     s = s[:e] + rest.replace('__W__', w) + s[e:]
     k = s.index("{s:'sH'")
