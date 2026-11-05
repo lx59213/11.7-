@@ -194,12 +194,8 @@ SUB = {
   "包怎么用": "包：发给各位的一段话，复制给 AI 就开始"
  },
  "m1": {
-  "以为的": "资料越放越多，AI 用不上",
-  "整包丢给 AI": "录音全丢进去，它答得越乱",
-  "真正要学的": "一直在用、在更新，答案带出处",
-  "个人和<em>企业级</em>": "企业级要权限和技术，今天点到为止",
+  "知识库：一直在用、在更新，<em>答案带出处</em>": "企业级要分权限、找技术来搭，今天点到为止",
   "差的和好的": "同样叫知识库，差得很远",
-  "用起来以后": "入企时，知识库用起来以后的样子",
   "动手：用包 1 <em>搭自家的知识库</em>": "填上自家的一条业务，AI 来问",
   "会出的东西": "五步，约两小时",
   "之后该怎么做": "这份文档会发到群里",
@@ -207,7 +203,7 @@ SUB = {
  },
  "m2": {
   "技能：把一件事的做法<em>固定下来</em>": "把做法写成一份文件，AI 每次照着做",
-  "广场的技能不知道<em>这家店自己的写法</em>": "一家跨境汽配店的商品页草稿；店里的写法是吃过亏才定的",
+  "下载最多的技能，不懂<em>这家店的写法</em>": "任务：把一份亚马逊汽配商品页草稿，改成能上架的版本",
   "一位员工做了 <em>80 多个技能</em>": "一家汽配卖家：常用的就那几个；后来技能放到一处，别人能看、能改、能评分",
   "三个帮着做技能的<em>技能</em>": "包里带了；丢了，在技能广场搜名字",
   "动手：用包 2 <em>做一个技能</em>": "挑一件常做、规矩说得清、做错了改得回来的事",
@@ -217,7 +213,6 @@ SUB = {
  "m3": {
   "智能体要有<em>身份和目标</em>，才顶得了一个岗": "外面叫 Agent；今天下午先做一个",
   "现成的客服专家不知道<em>这家店的做法</em>": "一位难缠买家连发三条：退款加 50 美金、修车 300 美金、拿差评换钱",
-  "智能体没人用，多半是<em>边界和目标</em>没定好": "正例用我们自己的，反例来自别家",
   "做好的智能体，<em>换哪个 AI 都能用</em>": "包做出来的 AGENT.md，三种用法",
   "动手：用包 3 <em>做一个智能体</em>": "三选一：自己岗位的、部门负责人的、老板的把关智能体",
   "做完以后：先让它交人审，<em>稳了再放手</em>": "好智能体六样齐：身份、目标、边界、验收、主动性、谁审",
@@ -227,18 +222,12 @@ SUB = {
   "第二天：昨天的三样<em>接着用</em>": "今天：第二个智能体接棒，看板上跑一单"
  },
  "m4": {
-  "几个智能体配合，<em>串成一条线</em>": "上一块做的智能体，今天让它们接力",
-  "真正要学的：<em>看板</em>": "谁在干、交给了谁、产物在哪，一眼看见",
-  "工作流比智能体团队多一截：<em>接上数据</em>": "每一步都读得到公司的数据，链条更长",
-  "企业级的工作流": "一整家公司的事，一环接一环往下走",
+  "几个智能体配合，<em>串成一条线</em>": "每一步读得到公司数据；看板上看得见谁在干、交给了谁",
   "现场串一条": "一个人做，另一个人审，最后老板拍板",
   "动手：用包 4 <em>串一条工作流</em>": "项目经理只分派任务、催办、汇总",
   "会出的东西": "五步，约两小时",
   "之后该怎么做": "这份文档会发到群里",
   "做完以后": "用别的 AI 软件，也能建成专家团"
- },
- "mb": {
-  "复杂的技能：<em>拆成专家团</em>": "改哪个只动哪个"
  }
 }
 
@@ -380,13 +369,18 @@ kb_after = after(net(600, 450, 40, 300, 'var(--kb)', 4, d0=.2, step=.04)
                  + ''.join(f'<rect class="fall" style="--d:{1.2+i*.3:.1f}s;--fy:{330}px" x="{420+i*120}" y="440" width="26" height="26" rx="6" fill="var({c})"/>' for i, c in enumerate(['--sk', '--ag', '--wf', '--sk'])),
                  lit_of('知识库'), 'var(--kb)')
 kb_final = f'<g class="pop" style="--d:2.4s"><circle cx="1400" cy="460" r="80" fill="var(--m-card)" stroke="var(--kb)" stroke-width="3"/></g>' + net(1400, 460, 12, 62, 'var(--kb)', 31, d0=2.5, step=.05)
+# 是什么：左边以为的，右边要做的（11-05 四屏并一屏）
+k12 = (txt(400, 250, '以为的：资料越放越多，AI 用不上', 26, 'var(--m-mute)', w=700)
+       + f'<g style="transform-box:view-box;transform-origin:0 0" transform="translate(40 150) scale(.62)">{k1}</g>'
+       + '<line x1="790" y1="230" x2="790" y2="700" stroke="var(--m-line2)" stroke-width="2" stroke-dasharray="6 8"/>'
+       + txt(1190, 250, '要做的：问一句，它查着答，带出处', 26, 'var(--m-ink)', w=700)
+       + '<foreignObject x="820" y="290" width="460" height="380"><canvas xmlns="http://www.w3.org/1999/xhtml" id="sxg1" width="920" height="760" style="width:460px;height:380px"></canvas></foreignObject>'
+       + '<g class="qa"><rect x="1300" y="340" width="230" height="52" rx="16" fill="var(--m-card2)"/><rect x="1318" y="361" width="150" height="10" rx="5" fill="var(--m-mute)" opacity=".6"/></g>'
+       + '<g class="qa2"><rect x="1300" y="420" width="250" height="92" rx="16" fill="var(--kb)" opacity=".9"/><rect x="1318" y="442" width="180" height="10" rx="5" fill="#0b0d0c" opacity=".55"/><rect x="1318" y="463" width="140" height="10" rx="5" fill="#0b0d0c" opacity=".55"/><rect x="1318" y="484" width="64" height="14" rx="4" fill="#0b0d0c" opacity=".8"/></g>'
+       + txt(1425, 560, '问 → 答，带出处', 24, cls='pop', d=2.5))
 m1_pages = [
-    ('以为的', svg(k1), 0, ''),
-    ('整包丢给 AI', svg(au), 0, ''),
-    ('真正要学的', svg(k2) + poster(lit_of('知识库')), 0, ''),
-    ('个人和<em>企业级</em>', svg(k3), 0, ''),
+    ('知识库：一直在用、在更新，<em>答案带出处</em>', svg(k12) + poster(lit_of('知识库')), 0, ''),
     ('差的和好的', ph(110, 230, 660, 560, '建了没用起来的', '新月的知识库截图') + ph(830, 230, 660, 560, '我们内部天天在用的', '靖锋的知识库图谱，投屏或录屏'), 1, ''),
-    ('用起来以后', ph(200, 230, 1200, 560, '入企', '入企时知识库用起来以后的效果：数字和能处理的事'), 1, ''),
     ('动手：用包 1 <em>搭自家的知识库</em>', kb_pack, 2, ''),
     ('会出的东西', steps_page([('放好资料', '5 分钟'), ('AI 带着搭', '约 65 分钟'), ('新开窗口考', '约 25 分钟'), ('规矩变了', '约 25 分钟'), ('收个尾', '约 5 分钟')], ['一页 规矩.md', 'raw/ 至少 5 份资料', 'wiki/ 至少 5 页，互相链接', '3 个答案带出处', '至少 1 处标了“待确认”'], 'var(--kb)'), 2, ''),
     ('之后该怎么做', after_page(['每周把新资料丢进 raw/，让 AI 更新 wiki', '每周体检一次：矛盾、空页、过期', '答对或被纠正的问答，都存回去', '一条业务稳定后，再扩到下一条', '扩到团队前先定：谁放、谁能看、谁负责'], '不要先整理全公司；客户信息先换代号，并确认公司允许放进所用的工具'), 3, ''),
@@ -395,12 +389,8 @@ m1_pages = [
 sec('m1', '--kb', m1_pages, ('01', '知识库', '让 AI 先读懂公司', '<i class="on"></i><i></i><i></i><i></i>'))
 beats('m1', '知识库', [
     '第一块，知识库。放第一，是因为后面每一块做出来的东西都会存进来。',
-    '大家以为的知识库：建个文件夹，资料往里放。放着放着越来越多，自己都管不过来；AI 也用不上，找东西很慢。',
-    '还有一种：把录音全打包丢给 AI，以为这就做好了上下文。丢进去的越多，它答得越乱。',
-    '这两天要学的：一个看得清、用得上的知识库。它一直在被用、在更新，在运行的才算知识库。问它一句，它查着回答，还带出处。',
-    '个人的和企业级的差在哪：个人的，一个人的资料、自己维护。企业级的，好几个部门一起往里写，谁能看哪些要有权限，这得要技术来搭，一个人搭不起来。我们给一个基础架构，像搭积木。企业级今天点到为止，各位知道要找人做就行。',
+    '大家以为的知识库：建个文件夹，资料往里放，或者把录音整包丢给 AI。放得越多，自己越管不过来，AI 答得越乱。要做的是右边这种：一直在被用、在更新，问它一句，它查着回答，还带出处。企业级的要好几个部门一起写、分权限，得找技术来搭，今天点到为止。',
     '同样叫知识库，差得很远。左边是新月老师自己建的，建了没用起来；右边是我们团队内部天天在用的，图谱一打开就看得出来。今天不讲右边怎么实现，先看看能做到什么样。',
-    '我们入企的时候，知识库用起来以后能做到什么、处理哪些事。',
     '动手。发包 1，复制过去，填上自家公司的情况，AI 来问，一步步把自家的知识库搭起来。我们在下面转。',
     '五步：放好资料，AI 带着搭，新开窗口考一考，讲师宣布规矩变了、看库改不改得动，最后收尾。做完手上要有这几样。AI 会先说哪几步出文件，聊到一半问一句聊完没有；一直聊不完，它会提醒先把东西做出来。',
     '回去之后照这五条走。这份文档会发到群里。',
@@ -502,16 +492,16 @@ def compare_res(cols, foot):
         h += (f'<div class="{c["cls"]} pop" style="--d:{.2+i*.6:.1f}s"><b>{c["tag"]}</b>'
               f'<div class="sc"><span>{c.get("lead", "改完还差")}</span><i>{c["n"]}</i><span>处</span></div>'
               f'<ul><li><em>{c.get("la", "通用规矩")}</em><strong>{c["a"]}</strong></li><li><em>{c.get("lb", "店里写法")}</em><strong>{c["b"]}</strong>{c.get("bn", "")}</li></ul>'
-              f'<div class="ex"><small>{c.get("exl", "五点第一条")}</small><p lang="en">{c["en"]}</p><span>{c["zh"]}</span></div></div>')
+              f'<div class="ex"><small>{c.get("exl", "五点第一条")}</small><span>{c["zh"]}</span><p lang="en">原文：{c["en"]}</p></div></div>')
     return h + f'</div><div class="sx-src pop" style="--d:1.6s">{foot}</div>'
 sk_cmp = compare_res([
-    dict(cls='l', tag='广场同类下载最多的技能', n=7, a=3, b=4,
-         en='MEASURED LIGHT OUTPUT: Each 6500K cool white LED bulb delivers 5,000 lumens, for 10,000 lumens per pair…',
-         zh='第一条先讲亮度'),
-    dict(cls='r', tag='用包 2 做的技能', n=1, a=0, b=1,
-         en='Check Bulb Size and Fitment First – Check the size marked on your old bulb’s base or in your owner’s manual, then use Amazon Garage…',
-         zh='第一条先教买家核对灯泡型号和适配，减少买错'),
-], '汽配店是示例；同一份草稿、同一句指令、同一模型，都在 Codex 里跑')
+    dict(cls='l', tag='下载最多的现成技能<small>WorkBuddy 技能广场里，改商品页这类排第一</small>', n=7, a=3, b=4,
+         en='MEASURED LIGHT OUTPUT: Each LED bulb delivers 5,000 lumens…',
+         zh='先讲亮度：每只 5,000 流明'),
+    dict(cls='r', tag='用包 2 做的技能<small>照这家店的写法做的</small>', n=1, a=0, b=1,
+         en='Check Bulb Size and Fitment First – Check your old bulb’s base…',
+         zh='先教买家看旧灯泡底座上的型号，再用亚马逊车型匹配查能不能装'),
+], '汽配店是示例；同一份草稿、同一句指令、同一个模型，都在 Codex 里跑')
 
 sk_case = f'<g style="transform-box:view-box;transform-origin:0 0" transform="translate(20 130) scale(.62)">{t84}</g>'
 sk_case += '<path class="drw" style="--d:2.8s;--L:200" d="M640 410 H760" stroke="var(--m-mute)" stroke-width="3" fill="none" marker-end="url(#sxar)"/>'
@@ -544,7 +534,7 @@ sk_after2 += '<div class="sx-try pop" style="--d:2.2s"><b>换一款产品也能�
 m2_pages = [
     ('先请几位上台，讲讲上午做的<em>知识库</em>', stage_show(3, '每组抽一位'), None, ''),
     ('技能：把一件事的做法<em>固定下来</em>', svg(sk_what) + poster(lit_of('技能')), 0, ''),
-    ('广场的技能不知道<em>这家店自己的写法</em>', sk_cmp, 1, ''),
+    ('下载最多的技能，不懂<em>这家店的写法</em>', sk_cmp, 1, ''),
     ('一位员工做了 <em>80 多个技能</em>', sk_case, 1, ''),
     ('三个帮着做技能的<em>技能</em>', sk_k3, 2, ''),
     ('动手：用包 2 <em>做一个技能</em>', sk_do, 2, ''),
@@ -555,7 +545,7 @@ beats('m2', '技能', [
     '第二块，技能。',
     '下午先花一小时，看看上午做的知识库。每组抽一位上台，大约三位，当场找逻辑问题，当场改；我们也从里面找大家共同的问题。',
     '先问一下：自己开发过 skill 的，举一下手。很多人以前这样用 AI：对话里写一堆提示词，做完就没了；新任务再开一个对话，旧对话越聊越偏。做成技能，就固定下来了：每次调用上下文干净，能复用，用一次改一次。技能分三层：课上做到第一层，能做出一个好用的；第二层可维护，要更新，坏的淘汰；第三层可进化，但要盯着，堆了没用的上下文反而变差。没做过的先做第一层，做过的我们下去带着往第二层走。这一块用到了海报上的提示词与上下文设计、AI 数据分析、AI 文案与多语言、多模态内容创作。',
-    '先看一个对比。一家跨境汽配店的商品页草稿，同一句指令、同一个模型，左边用技能广场里同类下载最多的那个改，右边用包 2 做出来的技能改。左边还差 7 处：通用规矩差 3 处，店里自己的写法 4 条没做到；右边还差 1 处，是店里写法的一条。通用规矩，广场上的技能大多懂；差在这家店吃过亏才定的写法，比如五点第一条要先教买家核对灯泡型号，它不可能知道。',
+    '先看一个对比。任务是把一家跨境汽配店的亚马逊商品页草稿，改成能上架的版本。左边用 WorkBuddy 技能广场里同类下载最多的那个技能，右边用包 2 做出来的技能，同一份草稿、同一句指令、同一个模型。左边还差 7 处：通用规矩差 3 处，店里自己的写法 4 条没做到；右边还差 1 处，是店里写法的一条。通用规矩，广场上的技能大多懂；差在这家店吃过亏才定的写法，比如五点第一条要先教买家核对灯泡型号，它不可能知道。',
     '我们入企的一家亚马逊汽配卖家，公司觉得有一位员工特别懂 skill，他一个人做了 80 多个。只有他自己会用，真正常用的还是那几个。开发得多，用乱了，光做好一次没用。后来我们给他们做了一个技能仓库：不同岗位的人把技能传上来，别人看得到，能改、能接着迭代，还能评分。',
     '包里放了三个帮做 skill 的 skill：grill-me 管追问，一次问一个，把做法问出来；skill-creator 管写成技能，再带技能和不带技能各做一遍比一比；达尔文管打分，改扣分最多的一处，再打分。规矩都写进了包的提示词，装不上也照样能做，装上更顺。丢了搜名字就找得到。',
     '动手。发包 2，把总提示词复制给 AI，〖〗里换成自己的，回车。六步，四十分钟：挑一件常做、规矩说得清、错了改得回来的事，贴一份上次做的真实成品；AI 读完，一次问一处没说清的判断；写成技能和评分标准，各位逐条标对不对；同一份新材料，带技能和不带技能各做一份；新开一个对话，让不知道哪份带技能的 AI 按评分标准打分；最后拼出技能卡网页。改一句再打分，留到回去做。聊不完就说收尾，它先把网页做出来。',
@@ -633,15 +623,15 @@ ag_what = f'<g style="transform-box:view-box;transform-origin:0 0" transform="tr
 
 # 11-05 C2 真结果：同一位买家三条消息、同一句指令、同一模型；评分在 给codex/1105夜/交付/C2/（右边是 v0.4：第一版差 3 处，改了一句）
 ag_cmp = compare_res([
-    dict(cls='l', tag='WorkBuddy 自带的客服专家', n=7, a=0, b=7, lead='三轮回完还差', la='通用底线', lb='店里做法', exl='第一条回复',
+    dict(cls='l', tag='现成的客服专家<small>WorkBuddy 自带，没改过</small>', n=7, a=0, b=7, lead='三轮回完还差', la='通用底线', lb='店里做法', exl='第一条回复',
          en='You can return the pair through Amazon for a full $39.99 refund…',
          zh='灯不亮，一上来就给退款'),
-    dict(cls='r', tag='用包 3 做的智能体', n=1, a=0, b=1, lead='三轮回完还差', la='通用底线', lb='店里做法', exl='第一条回复',
-         en='With the lights off and the bulbs cool, please check: 1. Make sure the connector is fully seated…',
+    dict(cls='r', tag='用包 3 做的智能体<small>照这家店的做法做的</small>', n=1, a=0, b=1, lead='三轮回完还差', la='通用底线', lb='店里做法', exl='第一条回复',
+         en='With the lights off and the bulbs cool, please check: 1. …',
          zh='先教买家三步排查，再提换新'),
 ], '汽配店是示例；同一位买家的三条消息、同一句指令、同一模型，都在 Codex 里跑；右边第一版差 3 处，改了一句')
 # 正例：11-05 这一晚真做的事（数在早上收尾时照执行记录填，TTZ 早上定用不用）
-OK_RUNS, OK_VERS = 22, 10
+OK_RUNS, OK_VERS = 22, 11
 def ok_card(title, rows, res):
     h = f'<div class="sx-ok pop" style="--d:.2s"><b>正例 · 我们自己的</b><h4>{title}</h4><dl>'
     h += ''.join(f'<dt>{a}</dt><dd>{b}</dd>' for a, b in rows)
@@ -669,7 +659,6 @@ d1 += txt(1260, 470, '今晚 · 晚课', 30, 'var(--m-ink)', cls='pop', d=1.6, w
 m3_pages = [
     ('智能体要有<em>身份和目标</em>，才顶得了一个岗', svg(ag_what) + poster(lit_of('智能体')), 0, ''),
     ('现成的客服专家不知道<em>这家店的做法</em>', ag_cmp, 1, ''),
-    ('智能体没人用，多半是<em>边界和目标</em>没定好', ag_pn, 1, ''),
     ('做好的智能体，<em>换哪个 AI 都能用</em>', ag_call, 2, ''),
     ('动手：用包 3 <em>做一个智能体</em>', ag_do, 2, ''),
     ('做完以后：先让它交人审，<em>稳了再放手</em>', ag_after, 3, ''),
@@ -680,7 +669,6 @@ beats('m3', '智能体', [
     '第三块，智能体，外面叫 Agent。',
     '大家以为的智能体：跟 AI 说一句，它就搭好了；或者给员工开一个 AI 软件，就算有了。搭出来是空的。企业里用的智能体，前面的知识库和技能都配好，还要定六样：它是谁，目标是什么，边界在哪，怎么验收，给多少主动性，谁来审。技能只写一件事怎么做；智能体还要写清它是谁、管什么、谁来审。不用一次做好，身份定好以后边用边调。',
     '再看一个对比。一家汽配店的难缠买家，连发三条：灯泡坏了一只，要全额退款再加 50 美金，不给就差评，还要拉到 WhatsApp 上说；接着说车的线路被烧了，修车 300 美金今天就打钱；最后说改成五星，换退款加 50。左边是 WorkBuddy 自带的客服专家，右边是用包 3 做的智能体，同一句指令、同一个模型，按这家店的标准判。通用的底线两边都守住了：没答应赔钱，没去站外，没拿评价做交换。差在店里自己的做法：左边 7 条都没做到，右边差 1 条。比如第一条回复，左边一上来就给退款；右边先教买家三步排查，再提换新。这些做法是这家店吃过亏才定的，现成的专家不可能知道。右边也不是一次做成的：第一版测出来漏了排查和换新，还差 3 处，改了一句，剩 1 处。',
-    f'再看两个真实的例子，一个用得好，一个用得差。用得好的是我们自己的：开课前那一晚，两个智能体各照一份说明书，一个改课件、测学员包，一个跑两组对比。说明书里写清了目标、边界、怎么验收、谁来审。人睡觉，它们一晚上把学员包真跑了 {OK_RUNS} 遍，课件改了 {OK_VERS} 版，早上只留三件事给人定。用得差的：没想好边界和目标，它就成了一个工具，没权限，也没动力，顶不了人。',
     '智能体做好以后，是一份 AGENT.md，换哪个 AI 都能用。能读写文件的，放进工作文件夹，开头让它照着做；只能聊天的，新开对话先贴全文；想固定下来的，装进软件里，以后直接叫。',
     '动手。发包 3，三选一：做自己岗位的；往上一层，替一个部门或一条业务线的负责人盯事；或者老板的把关智能体，替老板先审一遍，按老板的红线判放行、退回还是交老板。六步，四十分钟：定做哪种；AI 一句一句问清它是谁、最看重什么、怎么做；写说明书和评分标准，各位逐条标对不对；新开一个对话让它上岗答三条消息，第三条里悄悄夹一个越界的要求，第一条再让普通 AI 答一遍，比一比；只改扣分最多的那一句，再考那一条；最后出智能体卡网页。',
     '做完以后，按主动性分三档：只提醒不动手、起草后交人、自己做。刚开始多放前两档，运行记录稳了，低风险的再让它自己做。老板看得见：每周一页，做了几件、交人几件、错了几件。智能体也要维护：手下的技能要更新，坏的淘汰，干得不好的要提升。细的文档会发到群里。这一块用到了海报上的 AI 数据分析、企业知识库与岗位智能体。',
@@ -768,9 +756,6 @@ wo += person(1420, 430, 1.4, 'var(--sk)', 'pop', 2.4) + f'<g class="pop" style="
 wo += txt(1140, 680, '这里：每一步是一个智能体，查知识库、用技能，拿不准交人', 24, 'var(--m-ink)', cls='pop', d=3.0, w=700)
 m4_pages = [
     ('几个智能体配合，<em>串成一条线</em>', svg(wo) + poster(lit_of('工作流')), 0, ''),
-    ('真正要学的：<em>看板</em>', svg(w2), 0, ''),
-    ('工作流比智能体团队多一截：<em>接上数据</em>', svg(w3), 0, ''),
-    ('企业级的工作流', ph(200, 230, 1200, 560, '一家亚马逊汽配卖家', '这家卖家的业务全景图，脱敏截图'), 1, ''),
     ('现场串一条', svg(l3) + ph(1180, 600, 330, 170, '现场', 'mamahome 现场跑出来的画面', d=4.6), 1, ''),
     ('动手：用包 4 <em>串一条工作流</em>', wf_pack, 2, ''),
     ('会出的东西', steps_page([('打开看板', '1 分钟'), ('画线，建项目经理', '约 65 分钟'), ('跑一单', '约 45 分钟'), ('改一步，再跑', '约 15 分钟'), ('一页部门人机分工', '约 10 分钟')], ['工作流/流程.md', '项目经理 Agent', '任务单/ 里有真实任务单', '看板上跑通一单，在拍板点停过', '一页部门人机分工'], 'var(--wf)'), 2, ''),
@@ -781,65 +766,13 @@ m4_pages = [
 sec('m4', '--wf', m4_pages, ('04', '工作流', '几个智能体串起来', '<i></i><i></i><i></i><i class="on"></i>'))
 beats('m4', '工作流', [
     '第四块，工作流。',
-    '工作流，就是几个智能体配合，把一件事从头做到尾。和以前扣子、n8n 那种工作流不一样：那种是把固定的步骤连成线；这里每一步是一个有身份的智能体，会查知识库、用技能，拿不准就交给人。',
-    '只给老板看文件夹、文档、日志，讲不明白协作，老板要看懂的是协同。所以这一块做完，要有一个看板：每个智能体在干什么，交给了谁，调了什么工具；发一条消息，几个智能体都接到；最后的产物从看板上拿。看板我们提前做好。',
-    '工作流比智能体团队多一截：还要接上数据，链条更长。',
-    '企业级的工作流长什么样：这是我们入企时给那家汽配卖家梳理的业务流，一整家公司的事怎么一环接一环往下走。',
+    '工作流，就是几个智能体配合，把一件事从头做到尾。和以前扣子、n8n 那种不一样：那种是把固定的步骤连成线；这里每一步是一个有身份的智能体，会查知识库、读公司的数据、用技能，拿不准就交给人。老板要看懂的是协同，所以这一块做完要有一个看板：每个智能体在干什么、交给了谁，最后的产物从看板上拿。看板我们提前做好。',
     '现场我们会和 mamahome 一起串一条：一个人的智能体做出东西，另一个人审，往下流，最后只等老板拍板。这就是 L3，人机分工的一条线，现场跑出来。',
     '动手。发包 4，把两个智能体串成一条线，再建一个项目经理：它只派活、催办、汇总，自己不干业务。看板上跑通一单，走到拍板点真的停下来等各位。',
     '五步：打开看板；画线、建项目经理，先只跑两步；拿一件真事跑一单，眼睛看看板；改一步再跑一次，看拍板的人变不变；最后写一页部门人机分工，这是海报上说带走的东西。',
     '上台展示，像路演。跑得快、跑得好的先上，其他人接着做。今天展示的时间留长一点，都展示完，我们用一张全景图收尾。',
     '回去之后照这五条走。文档会发到群里。',
     '用别的 AI 软件的，也可以把这几个智能体建成专家团；建好以后要单独改一个专家，得告诉它专家文件在哪，不然整个重建。这一块用到了海报上的工作流自动化、AI 辅助应用搭建。',
-])
-
-# ======================= 备用页 =======================
-wifi = ''.join(f'<path class="pop" style="--d:{.2+i*.15:.2f}s" d="M{400-r} {520-r*.2} A{r} {r} 0 0 1 {400+r} {520-r*.2}" fill="none" stroke="var(--m-mute)" stroke-width="12" stroke-linecap="round"/>' for i, r in enumerate([40, 90, 140]))
-wifi += '<circle cx="400" cy="540" r="14" fill="var(--m-mute)"/><path class="pop" style="--d:.8s" d="M300 330 L500 560" stroke="#d9534f" stroke-width="10" stroke-linecap="round"/>'
-talk = person(400, 520, 2.4, 'var(--m-ink)', 'pop', .2) + f'<g class="pop" style="--d:.6s"><rect x="470" y="300" width="180" height="110" rx="24" fill="none" stroke="var(--m-mute)" stroke-width="3" stroke-dasharray="8 8"/></g>' + txt(560, 370, '?', 60, 'var(--m-mute)', cls='pop', d=.8, w=800)
-def stuck(icon, fix):
-    card = (f'<div class="sx-fix pop" style="--d:1.0s"><b>怎么办</b><p>{fix}</p></div>' if fix else
-            f'<div class="sx-fix blank pop" style="--d:1.0s"><b>怎么办</b><p>待补</p></div>')
-    return svg(icon) + card
-def poster_pg(a, b):
-    h = '<div class="sx-po">'
-    for i in (a, b):
-        h += (f'<div class="pop" style="--d:{.2+(i-a)*.3:.1f}s"><i>{i+1:02d}</i><b>{POSTER[i]}</b><p>{POSTER_LINE[i]}</p>'
-              + ''.join(f'<span>{t}</span>' for t in POSTER_IN[i]) + '</div>')
-    return h + '</div>'
-spl = doc(420, 470, 200, 300, hd='var(--sk)', cls='pop', d=.2, lines=0)
-for j in range(10):
-    spl += f'<rect class="{"wob" if j != 4 else "chg"}" x="342" y="{352+j*24}" width="156" height="14" rx="5" fill="{"#d9534f" if j == 4 else "var(--m-mute)"}" opacity=".7"/>'
-spl += f'<path class="drw" style="--d:1.6s;--L:300" d="M560 470 H720" stroke="var(--m-mute)" stroke-width="3" marker-end="url(#sxar)"/>'
-for j in range(10):
-    x = 820 + (j % 5)*140; y = 380 + (j//5)*170
-    spl += robot(x, y, 1.0, '#d9534f' if j == 4 else 'var(--ag)', 'pop', 2.0+j*.08)
-mb_pages = [
-    ('卡住：网不通', stuck(wifi, None), None, ''),
-    ('卡住：不知道跟 AI 说公司哪些事', stuck(talk, '不用自己想：AI 一次问一个，问什么答什么；答不上就说不知道，让它写“待补”'), None, ''),
-    ('卡住：概念没听懂', stuck(talk.replace('?', '…'), None), None, ''),
-    ('卡住：看板红了', stuck('<g class="pop" style="--d:.2s"><rect x="240" y="330" width="320" height="230" rx="18" fill="var(--m-card2)" stroke="#d9534f" stroke-width="4"/><circle cx="400" cy="445" r="40" fill="#d9534f"/></g>', '让 AI 检查 工作流/看板状态.js 的格式'), None, ''),
-    ('卡住：做到一半跑不动', stuck(wifi.replace('#d9534f', 'var(--m-mute)'), '说“收尾”：AI 马上按已经聊出来的内容出一页网页，缺的写“待补”，先往下走'), None, ''),
-    ('海报上的八项', poster_pg(0, 1), None, ''),
-    ('海报上的八项', poster_pg(2, 3), None, ''),
-    ('海报上的八项', poster_pg(4, 5), None, ''),
-    ('海报上的八项', poster_pg(6, 7), None, ''),
-    ('复杂的技能：<em>拆成专家团</em>', svg(spl), None, ''),
-    ('做过的人多：<em>可维护</em>讲深', blank_page('做过技能的人多时，可维护这一层怎么讲深'), None, ''),
-]
-sec('mb', '--m-mute', mb_pages)
-beats('mb', '备用', [
-    '网不通的时候翻这一页。',
-    '不知道该跟 AI 说公司哪些事：不用自己想，AI 一次问一个，问什么答什么，答不上就说不知道，让它写待补。',
-    '概念理解时卡住的，翻这一页。',
-    '工作流跑的时候看板红了：让 AI 检查看板状态文件的格式。',
-    '实操做到一半跑不动的，翻这一页：说收尾，AI 马上按已经聊出来的内容出网页，缺的写待补，先往下走。',
-    '海报上的八项，01 提示词与上下文设计、02 AI 资料研究，分别在哪一块练。学员对海报有疑问时翻出来；反馈好就跳过。',
-    '03 AI 数据分析、04 AI 文案与多语言。',
-    '05 多模态内容创作、06 企业知识库与岗位智能体。',
-    '07 工作流自动化、08 AI 辅助应用搭建。',
-    '一个复杂的技能有十个功能，改其中一个，别的跟着出问题。一种办法是拆成专家团，每个专家只干一件事，改哪个只动哪个。现场有人用到这么深再讲。',
-    '做过 skill 的人多，就把可维护讲深一点。',
 ])
 
 # ---------------- CSS ----------------
@@ -973,9 +906,10 @@ CSS = r'''
 .sx-pst{position:absolute;left:96px;right:96px;bottom:110px;display:flex;flex-direction:column;align-items:center;gap:6px}
 .sx-pst small{font-size:16px;color:var(--m-mute)}
 .sx-res{position:absolute;left:96px;right:96px;top:206px;bottom:206px;display:grid;grid-template-columns:1fr 1fr;gap:30px}
-.sx-res>div{background:var(--m-card);border:1.5px solid var(--m-line2);border-radius:22px;padding:24px 32px;display:flex;flex-direction:column;gap:14px}
+.sx-res>div{min-width:0;background:var(--m-card);border:1.5px solid var(--m-line2);border-radius:22px;padding:24px 32px;display:flex;flex-direction:column;gap:14px}
 .sx-res>div.r{border:2.5px solid var(--c)}
 .sx-res b{font-size:26px;font-weight:800;color:var(--m-mute)}
+.sx-res b small{display:block;font-size:17px;font-weight:500;color:var(--m-mute);margin-top:4px}
 .sx-res .r b{color:var(--c)}
 .sx-res .sc{display:flex;align-items:baseline;gap:12px}
 .sx-res .sc i{font-style:normal;font-size:104px;font-weight:900;line-height:1;color:var(--m-ink)}
@@ -988,8 +922,8 @@ CSS = r'''
 .sx-res li small{font-size:17px;color:var(--m-mute)}
 .sx-res .ex{border-top:1.5px dashed var(--m-line2);padding-top:14px}
 .sx-res .ex small{font-size:17px;color:var(--m-mute)}
-.sx-res .ex p{font-size:20px;line-height:1.5;color:var(--m-ink);margin:6px 0 8px}
-.sx-res .ex span{font-size:22px;font-weight:700;color:var(--m-mute)}
+.sx-res .ex p{font-size:15px;line-height:1.45;color:var(--m-mute);margin-top:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sx-res .ex span{display:block;font-size:26px;line-height:1.4;font-weight:800;color:var(--m-ink);margin-top:6px}
 .sx-res .r .ex span{color:var(--c)}
 .sx-src{position:absolute;left:96px;right:96px;bottom:168px;text-align:center;font-size:17px;color:var(--m-mute)}
 .sx-try{position:absolute;left:1036px;right:96px;top:540px;border:2px solid var(--c);border-radius:18px;padding:18px 22px;background:color-mix(in srgb,var(--c) 8%,var(--m-card))}
@@ -1047,12 +981,11 @@ function kbColors(){return{node:cv('--kb'),node2:hexA(cv('--kb'),.55),link:hexA(
 const chapOnly=(k,el)=>{const bg=chap(el);loop(now=>{if(k===0&&bg)bg(now)})};
 R.mw=(k,anim,el)=>{};
 R.m1=(k,anim,el)=>{const bg=chap(el);
-  if(k===3){G1=new Graph(q('#sxg1'),{...kbColors(),seed:5,pad:40,rs:1.3});G1.add();const t=()=>{G1.add();if(G1.n.length<70)ml(70,t)};ml(300,t)}
-  loop(now=>{if(k===0&&bg)bg(now);if(k===3&&G1){G1.step();G1.draw(now)}})};
+  if(k===1){G1=new Graph(q('#sxg1'),{...kbColors(),seed:5,pad:40,rs:1.3});G1.add();const t=()=>{G1.add();if(G1.n.length<70)ml(70,t)};ml(300,t)}
+  loop(now=>{if(k===0&&bg)bg(now);if(k===1&&G1){G1.step();G1.draw(now)}})};
 R.m2=(k,anim,el)=>chapOnly(k,el);
 R.m3=(k,anim,el)=>chapOnly(k,el);
 R.m4=(k,anim,el)=>chapOnly(k,el);
-R.mb=(k,anim,el)=>{};
 '''
 
 # ---------------- 写入 ----------------
@@ -1068,8 +1001,6 @@ s = s[:a] + JS + s[b:]
 lines = s.split('\n')
 s = '\n'.join(l for l in lines if not re.match(r" \{s:'m[1-4]',", l))
 a = s.index(" {s:'m5',k:0")
-s = s[:a] + ''.join(x for x in B if "{s:'mb'" not in x) + s[a:]
-e = s.rindex(" {s:'m5',k:"); e = s.index('\n', e) + 1
-s = s[:e] + ''.join(x for x in B if "{s:'mb'" in x) + s[e:]
+s = s[:a] + ''.join(B) + s[a:]
 P.write_text(s, encoding='utf-8')
 print('ok', len(s))
