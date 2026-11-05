@@ -350,13 +350,48 @@ h1 { margin: 0; font-size: 1.55rem; line-height: 1.3; font-weight: 700; }
   var DONE_TONE = { '知识库': '#3B7DD8', '技能': '#E8912D', '智能体': '#4E9A3A', '编队': '#8E5EA2' };
   var doneLast = '', doneFirst = true, doneFresh = false, scoreSeen = {};
 
+
+  var STAGE = {
+    '技能': { 共: 5, 起: 1, 步: [
+      ['挑好的事', '上午的知识库接上了，挑好了一件你最拿手、库里资料最厚的事', '起步'],
+      ['技能第 1 版', '判断、红线都写下来了，每条写着来自知识库哪一页或你的哪句话', '有雏形'],
+      ['两份对比', '同一份材料，用上技能那份能直接用；不用技能那份差在哪、会出什么事，一条条摆着', '能用'],
+      ['技能第 2 版', '会改了：哪里不对就改那一句，重做一遍，那处好了、别处没坏', '好用'],
+      ['技能做完', '谁用、谁改都写清，装进软件，以后交代这件事 AI 自己照它做', '很强']] },
+    '智能体': { 共: 5, 起: 1, 步: [
+      ['岗位和第一件事', '知识库和技能都接上了，岗位定下来，第一件要交给它的事也挑好了', '起步'],
+      ['岗位说明书第 1 版', '它有了身份和规矩：做什么、不能碰什么、什么时候停下来问人', '有雏形'],
+      ['第一单', '一句话交出去，它自己查库、出图、查出毛病重做，该停的地方停下交请示单', '能用'],
+      ['排班表', '它会自己上班了：每天到点去收件箱拿新事，做完等批', '好用'],
+      ['岗位说明书第 2 版', '带出来一个能用的 AI 下属：改过一句，放多少手、谁来审都定了', '很强']] },
+    '编队': { 共: 4, 起: 6, 步: [
+      ['分工表', '一个人变成一支队：做的、出图的、挑错的各管一段', '有雏形'],
+      ['第一轮日报', '这支队自己接力做完几件事，人只批请示单', '能用'],
+      ['改过的那一句', '队伍出错能找到是哪个队员哪一句，改一句就好', '好用'],
+      ['全队排班表', '这支队每天自己跑，只把要拍板的事交上来', '很强']] }
+  };
+  function stageFix(arr) {
+    return (Array.isArray(arr) ? arr : []).map(function (x) {
+      var b = STAGE[txt(x && x.块)], m = String(txt(x && x.步)).match(/\d+/);
+      if (!b || !m) return x;
+      var i = +m[0] - b.起, s = b.步[i];
+      if (!s) return x;
+      var y = {};
+      for (var k in x) y[k] = x[k];
+      y.名 = s[0]; y.意味着 = s[1]; y.档 = s[2]; y._n = i + 1; y._all = b.共; y.分 = Math.round((i + 1) / b.共 * 100);
+      return y;
+    });
+  }
+  function scoreTxt(x, sc) {
+    return x._n ? '<b>' + x._n + '</b>/' + x._all + ' 步' : '<b>' + sc + '</b> 分';
+  }
   function scoreOf(x) {
     var s = txt(x.分);
     if (!s || !isFinite(Number(s))) return null;
     return Math.max(0, Math.min(100, Math.round(Number(s))));
   }
   function doneBlock() {
-    var list = items(D.成果, '名');
+    var list = items(stageFix(D.成果), '名');
     if (!list.length) { doneLast = ''; return ''; }
     var end = list[list.length - 1], sig = [end.名, end.步, end.更新, end.分].map(txt).join('|');
     doneFresh = sig !== doneLast;
@@ -367,16 +402,16 @@ h1 { margin: 0; font-size: 1.55rem; line-height: 1.3; font-weight: 700; }
       if (sc != null) {
         gain = sc - (prev[blk] == null ? 0 : prev[blk]);
         prev[blk] = sc;
-        top[blk] = { sc: sc, tier: tier };
+        top[blk] = { sc: sc, tier: tier, n: x._n, all: x._all };
       }
       var kick = [blk, txt(x.步)].filter(Boolean).join(' · ');
       var score = '';
       if (sc != null) {
         score = isNew
-          ? '<span class="ds"><b>' + sc + '</b> 分' + (tier ? ' <span class="sep">·</span> <em class="tr">' + esc(tier) + '</em>' : '') + '</span><span class="dbar"><i style="width:' + sc + '%"></i></span>'
-          : '<span class="ds"><b>' + sc + '</b> 分</span>';
+          ? '<span class="ds">' + scoreTxt(x, sc) + (tier ? ' <span class="sep">·</span> <em class="tr">' + esc(tier) + '</em>' : '') + '</span><span class="dbar"><i style="width:' + sc + '%"></i></span>'
+          : '<span class="ds">' + scoreTxt(x, sc) + '</span>';
       }
-      var inner = '<span class="dk"><i class="bd"></i><span>' + esc(kick) + '</span>' + (isNew ? '<em class="tag">刚做成</em>' : '') + (isNew && sc != null && gain > 0 ? '<em class="plus">+' + gain + ' 分</em>' : '') + '</span>' +
+      var inner = '<span class="dk"><i class="bd"></i><span>' + esc(kick) + '</span>' + (isNew ? '<em class="tag">刚做成</em>' : '') + (isNew && sc != null && gain > 0 ? '<em class="plus">' + (x._n ? '升到' + esc(tier) : '+' + gain + ' 分') + '</em>' : '') + '</span>' +
         '<b class="dt">' + esc(x.名) + '</b>' + score + (txt(x.意味着) ? '<span class="dm">' + esc(x.意味着) + '</span>' : '');
       var tip = cleanPath(x.页) ? '在 Obsidian 里打开' + (txt(x.更新) ? '（' + esc(x.更新) + '）' : '') : '';
       var box = cleanPath(x.页)
@@ -387,8 +422,8 @@ h1 { margin: 0; font-size: 1.55rem; line-height: 1.3; font-weight: 700; }
     }).join('');
     var chips = ['技能', '智能体', '编队'].filter(function (b) { return top[b]; }).map(function (b) {
       var t = top[b];
-      return '<span class="sc" data-b="' + b + '" data-to="' + t.sc + '" data-tier="' + esc(t.tier) + '" style="--bc:' + DONE_TONE[b] + '">' +
-        '<span class="sb">' + b + '</span><b class="sn">' + t.sc + '</b><span class="su">分</span>' +
+      return '<span class="sc" data-b="' + b + '" data-to="' + (t.n || t.sc) + '" data-tier="' + esc(t.tier) + '" style="--bc:' + DONE_TONE[b] + '">' +
+        '<span class="sb">' + b + '</span>' + (t.n ? '<b class="sn">' + t.n + '</b><span class="su">/' + t.all + ' 步</span>' : '<b class="sn">' + t.sc + '</b><span class="su">分</span>') +
         (t.tier ? '<span class="sd">·</span><em class="tr">' + esc(t.tier) + '</em>' : '') + '</span>';
     }).join('');
     return '<h2>这两天做成的' + (chips ? '<span class="scs">' + chips + '</span>' : '') + '<small>共 ' + list.length + ' 样</small></h2><ol class="tl">' + cards + '</ol>';
