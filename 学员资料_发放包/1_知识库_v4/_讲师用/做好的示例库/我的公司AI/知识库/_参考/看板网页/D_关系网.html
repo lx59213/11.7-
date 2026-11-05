@@ -556,6 +556,7 @@ canvas { position: absolute; left: 0; top: 0; width: 100%; height: 100%; touch-a
       ['全队排班表', '这支队每天自己跑，只把要拍板的事交上来', '很强']] }
   };
   function stageFix(arr) {
+    var last = {};
     return (Array.isArray(arr) ? arr : []).map(function (x) {
       var b = STAGE[txt(x && x.块)], m = String(txt(x && x.步)).match(/\d+/);
       if (!b || !m) return x;
@@ -564,6 +565,9 @@ canvas { position: absolute; left: 0; top: 0; width: 100%; height: 100%; touch-a
       var y = {};
       for (var k in x) y[k] = x[k];
       y.名 = s[0]; y.意味着 = s[1]; y.档 = s[2]; y._n = i + 1; y._all = b.共; y.分 = Math.round((i + 1) / b.共 * 100);
+      var r = txt(x.结果), bk = txt(x.块);
+      if (r === '一般' || r === '没过') { y.档 = r; y.意味着 = r + '：' + (txt(x.实话) || '这一步没做到'); y.分 = last[bk] || 0; }
+      else last[bk] = y.分;
       return y;
     });
   }
@@ -596,7 +600,7 @@ canvas { position: absolute; left: 0; top: 0; width: 100%; height: 100%; touch-a
           ? '<span class="ds">' + scoreTxt(x, sc) + (tier ? ' <span class="sep">·</span> <em class="tr">' + esc(tier) + '</em>' : '') + '</span><span class="dbar"><i style="width:' + sc + '%"></i></span>'
           : '<span class="ds">' + scoreTxt(x, sc) + '</span>';
       }
-      var inner = '<span class="dk"><i class="bd"></i><span>' + esc(kick) + '</span>' + (isNew ? '<em class="tag">刚做成</em>' : '') + (isNew && sc != null && gain > 0 ? '<em class="plus">' + (x._n ? '升到' + esc(tier) : '+' + gain + ' 分') + '</em>' : '') + '</span>' +
+      var inner = '<span class="dk"><i class="bd"></i><span>' + esc(kick) + '</span>' + (isNew ? '<em class="tag">' + (/^(一般|没过)$/.test(txt(x.结果)) ? esc(txt(x.结果)) : '刚做成') + '</em>' : '') + (isNew && sc != null && gain > 0 ? '<em class="plus">' + (x._n ? '升到' + esc(tier) : '+' + gain + ' 分') + '</em>' : '') + '</span>' +
         '<b class="dt">' + esc(x.名) + '</b>' + score + (txt(x.意味着) ? '<span class="dm">' + esc(x.意味着) + '</span>' : '');
       var tip = cleanPath(x.页) ? '在 Obsidian 里打开' + (txt(x.更新) ? '（' + esc(x.更新) + '）' : '') : '';
       var box = cleanPath(x.页)
