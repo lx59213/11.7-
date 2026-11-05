@@ -123,14 +123,14 @@ def tonight():
     return svg(o)
 
 
-def steps_page(steps, products, col, talk=1, say='AI 问：还有没说完的？'):
+def steps_page(steps, products, col, talk=1, say='AI 问：还有没说完的？', first=1):
     n = len(steps); x0, x1 = 200, 1400
     xs = [x0 + (x1-x0)*i/(n-1) for i in range(n)]
     o = f'<line x1="{x0}" y1="400" x2="{x1}" y2="400" stroke="var(--m-line2)" stroke-width="4"/>'
     o += f'<line class="grow" style="--d:.3s" x1="{x0}" y1="400" x2="{x1}" y2="400" stroke="{col}" stroke-width="4"/>'
     for i, (x, (nm, mn)) in enumerate(zip(xs, steps)):
         o += f'<g class="pop" style="--d:{.3+i*.3:.1f}s"><circle cx="{x:.0f}" cy="400" r="40" fill="{col}"/></g>'
-        o += txt(x, 413, str(i+1), 34, '#0b0d0c', cls='pop', d=.3+i*.3, w=900)
+        o += txt(x, 413, str(i+first), 34, '#0b0d0c', cls='pop', d=.3+i*.3, w=900)
         ls = nm.split('\n')
         for j, ln in enumerate(ls):
             o += txt(x, 476+j*30, ln, 24, 'var(--m-ink)', cls='pop', d=.4+i*.3, w=700)
@@ -195,6 +195,7 @@ SUB = {
   "包怎么用": "包：发给各位的一段话，复制给 AI 就开始"
  },
  "m1": {
+  "现成的客服专家不知道<em>这家店的做法</em>": "一位难缠买家连发三条：退款加 50 美金、修车 300 美金、拿差评换钱",
   "跟 AI 聊，<em>你是不是遇到过这些？</em>": "它不知道你公司的事，全靠猜",
   "存，<em>越来越简单</em>": "厂商都在往你的资料靠近",
   "并非：只存进去，<em>有三个坑</em>": "换个地方放，问题还在",
@@ -218,16 +219,15 @@ SUB = {
   "做好的智能体，<em>换哪个 AI 都能用</em>": "一份 AGENT.md，两种用法",
   "动手：用包 3 <em>做一个智能体</em>": "三选一：自己的、部门负责人的、老板的",
   "做完以后：先让它交人审，<em>稳了再放手</em>": "六样齐：身份、目标、边界、验收、主动性、谁审",
-  "第一天做完<em>三样</em>": "明天串成一条线"
+  "第一天做完<em>三样</em>": "明天拆成一支队，人只管拍板"
  },
  "mr": {
-  "第二天：昨天的三样<em>接着用</em>": "今天：串成一条线，跑一单"
+  "第二天：昨天的三样<em>接着用</em>": "今天：一个人带一支 AI 队伍"
  },
  "m4": {
-  "几个智能体配合，<em>串成一条线</em>": "看板上看得见谁在干、交给了谁",
-  "现场串一条": "一个人做，另一个人审，最后老板拍板",
-  "动手：用包 4 <em>串一条工作流</em>": "项目经理只派活、催办、汇总",
-  "会出的东西": "五步，约两小时",
+  "一个人带一支 <em>AI 队伍</em>": "看板上看得见谁在干、交给了谁",
+  "现场串一条": "AI 做、AI 挑错，最后人拍板",
+  "动手：接着用包 3 <em>拆成一支队</em>": "还在昨天那个对话里，第 6 到 9 步",
   "之后该怎么做": "文档发到群里",
   "做完以后": "用别的 AI 软件，也能建成专家团"
  }
@@ -253,18 +253,18 @@ KEEP = {
    ('一句话交出去，它自己跑完', '查库、用技能、出图后自己看、不过就重出，停下等拍板', '第 3 步'),
    ('定时自己收新事，错一次改一句', '没人叫它也在干；认了才升版本，看板记下谁拍板', '第 4、5 步')],
    ['AI 数据分析', '企业知识库与岗位智能体']),
- 'm4': ('工作流', '随手连几个步骤', '一步出错整条线停，卡在哪没人知道', [
-   ('每一步是有身份的智能体', '会查知识库、用技能，拿不准就交给人', '画线'),
-   ('看板上看得见谁在干', '交给了谁、卡在哪一步，一眼就知道', '打开看板'),
-   ('拍板点真的停下来等人', '老板点头才往下走', '跑一单'),
-   ('改一步，再跑一次', '做完一单记下教训，下一单更顺', '改一步')],
+ 'm4': ('人机编队', '随手连几个 AI', '一个出错整条线停，谁错了没人知道', [
+   ('一个做、一个出图、一个挑错', '各有说明书；挑错的只挑不改，不过就退回', '第 6 步'),
+   ('交几件事出去，人不插手', '看板上一棒一棒地动，人只盯着', '第 7 步'),
+   ('拍板攒成一张单', '一条消息拍完；算清人说了几句、它们交接几次', '第 7 步'),
+   ('改一处，整队上定时', '找到是哪个队员哪一句；以后每天自己跑', '第 8、9 步')],
    ['工作流自动化', 'AI 辅助应用搭建']),
 }
 KEEP_SAY = {
  'm1': '动手前先说一句。随手让 AI 整理一堆资料不难，难在过两周还有人用。所以包里多做了四件事：原始资料只放不改；每条写清出处；对不上的标出来，人拍板；规矩变了，看库改不改得动。',
  'm2': '动手前先说一句。随口让 AI 建一个技能很容易，WorkBuddy 里现成的专家也很多，可建完用几回就放着不动的居多。我们要的是回去一直在用、一直在改，所以包里多做了四件事：先留一份做之前，以后每一版都跟它比；问出来的判断和红线写清来路，各位自己逐条认；带技能再做一份，照镜子，看变了什么、每处从技能或知识库哪一句来；错一次只改一句，自己认了才升版本，看板上记下谁用、谁改，换人也能接着管。',
  'm3': '动手前先说一句。WorkBuddy 里专家很多，说一句也能搭一个，可出了错不知道是哪句的事，也就没人敢一直用。所以包里多做了四件事：同一件事先交给空白 AI 跑一遍；说明书写清红线、交出前自查、什么情况停下交人，各位逐条认；然后只说一句，它自己查库、用技能、出图，自己看图查一遍，不过就重出，停在要各位拍板的地方；再建个定时任务，它每天自己去收新事；错一次只改一句，认了才升版本。',
- 'm4': '动手前先说一句。随手连几个步骤，一步出错整条线就停，卡在哪也没人知道。所以包里多做了四件事：每一步是有身份的智能体；看板上看得见谁在干；拍板点真的停下来等人；改一步再跑一次。',
+ 'm4': '动手前先说一句。随手连几个 AI，一个出错整条线就停，谁错了也没人知道。所以包里多做了四件事：拆成一个做、一个出图、一个挑错，各有说明书，挑错的只挑不改；交几件事出去，人不插手，看板上一棒一棒地动；要拍板的攒成一张单，一条消息拍完，最后算清人说了几句、它们交接了几次；错了找到是哪个队员哪一句，只改一句，再整队上定时。',
 }
 KEEP.pop('m1', None)   # 11-05 靖锋：知识库这一块不要“为了一直用得住，多做了四件事”这一页
 KEEP.pop('m3', None)   # 11-05 靖锋：智能体这一块也不要这一页（原第 52 页）
@@ -326,8 +326,8 @@ def lane(y, a, b, ca, cb, d0, endicon, endlab):
 moon = '<g class="pop" style="--d:2.4s"><path d="M1452 300 A30 30 0 1 1 1418 352 A24 24 0 1 0 1452 300Z" fill="var(--m-ink)"/></g>'
 pano = '<g class="pop" style="--d:4.4s">' + ''.join(f'<rect x="{1412+c*20}" y="{536+r*20}" width="15" height="15" rx="3" fill="var(--{["kb","sk","ag","wf"][(r+c)%4]})"/>' for r in range(3) for c in range(3)) + '</g>'
 d0 = ''
-d0 += lane(330, ('六', '知识库'), '技能', '--kb', '--sk', .2, moon, '晚课')
-d0 += lane(580, ('日', '智能体'), '工作流', '--ag', '--wf', 2.2, pano, '全景收尾')
+d0 += lane(330, ('六', '知识库'), '技能 · 智能体', '--kb', '--sk', .2, moon, '晚课')
+d0 += lane(580, ('日', '人机编队'), '组织', '--ag', '--wf', 2.2, pano, '全景收尾')
 d0 += f'<rect class="grow" style="--d:4.6s" x="220" y="760" width="1100" height="16" rx="8" fill="var(--kb)" opacity=".7"/>'
 for i, (x, y) in enumerate([(480, 385), (1060, 385), (480, 635), (1060, 635)]):
     d0 += f'<rect class="fall" style="--d:{5.0+i*.35:.2f}s;--fy:{750-y}px" x="{x-9}" y="741" width="18" height="18" rx="4" fill="var(--m-ink)"/>'
@@ -369,11 +369,11 @@ DAY = [
     ('六', [('上午', '知识库', '把公司资料变成 AI 读得懂的知识库', '一周的资料：文件、表格、聊天记录', '--kb'),
             ('下午', '技能，再搭一个智能体', '一件常做的事做成技能，再搭一个能顶岗的智能体', '上次做这件事的真实成品', '--sk'),
             ('晚上', '晚课', '以答疑为主，约两小时', '做的时候卡住的地方', '--m-mute')]),
-    ('日', [('上午', '几个智能体，串成工作流', '第二个智能体接棒，看板上跑一单；再讲组织怎么跟着改', '一条跨两个岗位的线', '--ag'),
+    ('日', [('上午', '人机编队，再讲组织', '昨天的智能体拆成一支队，人只管拍板；再讲组织怎么跟着变', '两三件要处理的新事', '--ag'),
             ('下午', '展示和收尾', '上台展示，现场串一条，最后全景收尾', '跑通的那一单', '--wf'),
             ('之后', '两周答疑群', '回去接着做，有问题群里问', '自己公司的那一份', '--m-mute')]),
 ]
-DAY_SHORT = {'技能，再搭一个智能体': '技能 + 智能体', '晚课': '晚课答疑', '几个智能体，串成工作流': '串成工作流'}
+DAY_SHORT = {'技能，再搭一个智能体': '技能 + 智能体', '晚课': '晚课答疑', '人机编队，再讲组织': '人机编队 + 组织'}
 def days():
     h = '<div class="sx-day">'; n = 0
     for d, cells in DAY:
@@ -389,7 +389,7 @@ mw_pages = [
 ]
 sec('mw', '--sk', mw_pages)
 beats('mw', '怎么上课', [
-    '两天，做四个项目，后一个用前一个做出来的东西。周六上午知识库；下午技能，再搭一个智能体；晚上晚课，以答疑为主。周日上午，第二个智能体接棒，串成工作流，再讲组织怎么跟着改；下午上台展示，现场和 mamahome 串一条，最后全景收尾。每块大部分时间各位自己做，具体几点，现场看进度定。',
+    '两天，做四个项目，后一个用前一个做出来的东西。周六上午知识库；下午技能，再搭一个智能体；晚上晚课，以答疑为主。周日上午，把昨天的智能体拆成一支队，一个人带一支 AI 队伍，人只管拍板，再讲组织怎么跟着变；下午上台展示，现场和 mamahome 串一条，最后全景收尾。每块大部分时间各位自己做，具体几点，现场看进度定。',
     '开课前发一个文件夹，叫我的公司AI，两天做的东西都放这里。每块发一个包：把总提示词复制给 AI，〖〗里换成自己的，回车，AI 一次问一个。课上只用 WorkBuddy 和 Codex，包放进这个文件夹。聊不完就说收尾，它先把网页做出来。卡住了举手，我们都在台下；课后两周有答疑群。',
 ])
 
@@ -461,7 +461,7 @@ UPG = {
  'm1': ('知识库', '你这摊业务，AI 门儿清了', ['全公司都往里放，谁该看啥分清楚', '邮件、订单、表格，自己往里进', '问一句，连出处都给你'], '老员工走了，经验还在；新人第一天就能问'),
  'm2': ('技能', '教会 AI，干一件你常干的活', ['你教的，全部门都能用', '一句话，报价合同全出来', '规矩变了，改一句就行'], '最会干活的那个人怎么做，现在人人都会'),
  'm3': ('智能体', '一个 AI 同事，干完先给你看', ['不用叫，每天自己查一遍', '几个 AI 同事，互相挑错', '能查库存和订单，不瞎猜了'], '组织图上，多了一排 AI 同事'),
- 'm4': ('工作流', '几个 AI 接力，做完一单', ['从询价到回款，一条线跑完', '客户一来邮件，它就开工', '做完一单记教训，下一单更顺'], '跑腿的事 AI 干，人去谈客户、想新品'),
+ 'm4': ('人机编队', '一个人带一支 AI 队伍', ['从询价到回款，一条线跑完', '客户一来邮件，它就开工', '做完一单记教训，下一单更顺'], '跑腿的事 AI 干，人去谈客户、想新品'),
 }
 def up_page(sid):
     name, base, items, deep = UPG[sid]
@@ -554,11 +554,11 @@ MD = {
    ('圈出能交给 AI 的', '<div class="ms-col">' + mc('回买家消息<em>AI</em>', 'on') + mc('查订单<em>AI</em>', 'on') + mc('退款<em>人</em>', 'off') + mc('改价格<em>人</em>', 'off') + '</div>'),
    ('写说明书', '<div class="ms-col"><b class="ms-h">售后客服助理</b>' + mrow('它是谁') + mrow('啥算好') + mrow('不能碰') + mrow('谁来审') + '</div>'),
    ('拿真消息考它', '<div class="ms-col">' + msay('me', '灯不亮，退钱！') + msay('ai', '先试这三步……') + '<span class="ms-ok">✓ 过了</span></div>')]),
- 'm4': ('一单的交接，怎么变成<em>工作流</em>', '工作流，就是把交接写清楚', [
-   ('挑一条跨岗位的线', '<div class="ms-col">' + mc('销售') + '<span class="ms-dn">·</span>' + mc('采购') + '</div>'),
-   ('写清谁交给谁、交啥', '<div class="ms-col">' + mc('销售') + '<span class="ms-dn">↓ 订单</span>' + mc('采购') + '</div>'),
-   ('标出拍板和退回', '<div class="ms-col">' + mc('销售') + '<span class="ms-dn">↓</span>' + mc('采购') + '<span class="ms-dn hp">↓ 老板点头</span>' + mc('仓库') + '<span class="ms-bk">↺ 错了退回销售</span></div>'),
-   ('拿真的一单跑一遍', '<div class="ms-col">' + mc('销售', 'on') + '<span class="ms-dn">↓</span>' + mc('采购', 'on') + '<span class="ms-dn">↓</span>' + mc('仓库', 'on') + '<span class="ms-ok">✓ 跑通一单</span></div>')]),
+ 'm4': ('一个岗位，怎么拆成<em>一支队</em>', '编队，就是把交接和挑错写清楚', [
+   ('拆成几个队员', '<div class="ms-col">' + mc('回信员') + mc('效果图员') + mc('把关员') + '</div>'),
+   ('写清谁交给谁、交啥', '<div class="ms-col">' + mc('回信员') + '<span class="ms-dn">↓ 回信</span>' + mc('效果图员') + '<span class="ms-dn">↓ 回信加图</span>' + mc('把关员') + '</div>'),
+   ('标出挑错和拍板', '<div class="ms-col">' + mc('把关员') + '<span class="ms-bk">↺ 不过退回</span>' + '<span class="ms-dn hp">↓ 人拍板</span>' + mc('发出') + '</div>'),
+   ('交几件事跑一遍', '<div class="ms-col">' + mc('回信员', 'on') + '<span class="ms-dn">↓</span>' + mc('效果图员', 'on') + '<span class="ms-dn">↓</span>' + mc('把关员', 'on') + '<span class="ms-ok">✓ 人只拍了两下</span></div>')]),
 }
 # AI 都在打通（11-05 靖锋：上真实的例子和原图；厂商都在往你靠近，可知识怎么管还得你想好）
 WBONE = 'data:image/jpeg;base64,' + base64.b64encode((P.parent / '素材' / 'buddy-one.jpg').read_bytes()).decode()
@@ -714,18 +714,22 @@ def compare(ua, ub, need_l, need_r, tl='广场现成的', tr='用包做的'):
     return h + '</div>'
 # 11-05 C1 真结果：同一份草稿、同一句指令、同一模型；按亚马逊 7-27 起标题 75 字符的评分卡（右边是 skill v0.4，照新规改了一句）；评分在 给codex/1105夜/交付/C1/
 # 11-05 靖锋：两张对比屏已删掉（这页没啥意思），下面三个定义留着备查，不再生成页面
-def compare_res(cols, foot, setup=''):
-    # 11-05 靖锋：看不懂要说什么、字太多 → 一句场景、两个大数、各一个例子、底下一句结论；细节都在口播里
-    h = f'<div class="cp-setup pop" style="--d:.1s">{setup}</div>' if setup else ''
-    h += '<div class="cp">'
+def compare_res(cols, foot):
+    h = '<div class="sx-res">'
     for i, c in enumerate(cols):
-        h += (f'<div class="cp-c {c["cls"]} pop" style="--d:{.5+i*.8:.1f}s"><b>{c["tag"]}</b>'
-              f'<div class="cp-n"><span>还差</span><i>{c["n"]}</i><span>处</span></div><p class="cp-ex">{c["ex"]}</p></div>')
-    return h + f'</div><div class="cp-foot pop" style="--d:2.4s">{foot}</div>'
+        h += (f'<div class="{c["cls"]} pop" style="--d:{.2+i*.6:.1f}s"><b>{c["tag"]}</b>'
+              f'<div class="sc"><span>{c.get("lead", "改完还差")}</span><i>{c["n"]}</i><span>处</span></div>'
+              f'<ul><li><em>{c.get("la", "通用规矩")}</em><strong>{c["a"]}</strong></li><li><em>{c.get("lb", "店里写法")}</em><strong>{c["b"]}</strong>{c.get("bn", "")}</li></ul>'
+              f'<div class="ex"><small>{c.get("exl", "五点第一条")}</small><span>{c["zh"]}</span><p lang="en">原文：{c["en"]}</p></div></div>')
+    return h + f'</div><div class="sx-src pop" style="--d:1.6s">{foot}</div>'
 sk_cmp = compare_res([
-    dict(cls='l', tag='下载最多的现成技能', n=7, ex='✗ 第一句先吹亮度'),
-    dict(cls='r', tag='照店里写法做的技能', n=1, ex='✓ 第一句先教买家核对型号'),
-], '店里吃过亏才定下的写法，现成的不知道', '同一份汽配商品页草稿，各改一遍')
+    dict(cls='l', tag='下载最多的现成技能<small>WorkBuddy 技能广场里，改商品页这类排第一</small>', n=7, a=3, b=4,
+         en='MEASURED LIGHT OUTPUT: Each LED bulb delivers 5,000 lumens…',
+         zh='先讲亮度：每只 5,000 流明'),
+    dict(cls='r', tag='用包 2 做的技能<small>照这家店的写法做的</small>', n=1, a=0, b=1,
+         en='Check Bulb Size and Fitment First – Check your old bulb’s base…',
+         zh='先教买家看旧灯泡底座上的型号，再用亚马逊车型匹配查能不能装'),
+], '汽配店是示例；同一份草稿、同一句指令、同一个模型，都在 Codex 里跑')
 
 sk_case = f'<g style="transform-box:view-box;transform-origin:0 0" transform="translate(20 130) scale(.62)">{t84}</g>'
 sk_case += '<path class="drw" style="--d:2.8s;--L:200" d="M640 410 H760" stroke="var(--m-mute)" stroke-width="3" fill="none" marker-end="url(#sxar)"/>'
@@ -851,9 +855,13 @@ ag_what = f'<g style="transform-box:view-box;transform-origin:0 0" transform="tr
 
 # 11-05 C2 真结果：同一位买家三条消息、同一句指令、同一模型；评分在 给codex/1105夜/交付/C2/（右边是 v0.4：第一版差 3 处，改了一句）
 ag_cmp = compare_res([
-    dict(cls='l', tag='现成的客服专家', n=7, ex='✗ 一上来就给退款'),
-    dict(cls='r', tag='照店里做法做的智能体', n=1, ex='✓ 先教三步排查，再提换新'),
-], '现成的不知道你家的规矩', '难缠买家：“灯不亮！退款再赔 50 美金，不然给差评”')
+    dict(cls='l', tag='现成的客服专家<small>WorkBuddy 自带，没改过</small>', n=7, a=0, b=7, lead='三轮回完还差', la='通用底线', lb='店里做法', exl='第一条回复',
+         en='You can return the pair through Amazon for a full $39.99 refund…',
+         zh='灯不亮，一上来就给退款'),
+    dict(cls='r', tag='用包 3 做的智能体<small>照这家店的做法做的</small>', n=1, a=0, b=1, lead='三轮回完还差', la='通用底线', lb='店里做法', exl='第一条回复',
+         en='With the lights off and the bulbs cool, please check: 1. …',
+         zh='先教买家三步排查，再提换新'),
+], '汽配店是示例；同一位买家的三条消息、同一句指令、同一模型，都在 Codex 里跑；右边第一版差 3 处，改了一句')
 # 正例：11-05 这一晚真做的事（数在早上收尾时照执行记录填，TTZ 早上定用不用）
 OK_RUNS, OK_VERS = 22, 11
 def ok_card(title, rows, res):
@@ -889,19 +897,12 @@ m3_pages = [
 ]
 m3_pages.insert(len(m3_pages) - 1, up_page('m3'))
 m3_pages.insert(1, md_page('m3'))
-# 11-05 靖锋：智能体的“为什么”没了（对比页删掉以后）→ 照知识库痛点页的样子，直接给结果
-def ag_why():
-    h = '<div class="nk-li">' + ''.join(f'<div class="pop" style="--d:{.3+i*.6:.1f}s"><i>✓</i><b>{t}</b></div>'
-                                        for i, t in enumerate(['每件事，都得你开口叫', '它做完一步，你得盯着、搬到下一步', '你一走开，它就停了'])) + '</div>'
-    h += '<div class="nk-punch pop" style="--d:2.2s"><b>AI 快是快了，<br>你成了<em>跑腿的</em></b><p>它会干活，<br>可不会自己接活</p></div>'
-    return h + ('<div class="aw-cmp pop" style="--d:3.0s"><p><u>技能</u>你叫一句，它干一件</p>'
-                '<p><u class="on">智能体</u>交出去一整件，<br>干完再来找你</p></div>')
-m3_pages.insert(1, ('光有技能，<em>你是不是还这样？</em>', ag_why(), 1, ''))
+m3_pages.insert(1, ('现成的客服专家不知道<em>这家店的做法</em>', ag_cmp, 1, ''))   # 11-05 靖锋：智能体的“为什么”退回原来那一页
 sec('m3', '--ag', m3_pages, ('03', '智能体', '能顶一个岗的 AI', '<i></i><i></i><i class="on"></i><i></i>'))
 beats('m3', '智能体', [
     '第三块，智能体，外面叫 Agent。',
     '大家以为的智能体：跟 AI 说一句，它就搭好了；或者给员工开一个 AI 软件，就算有了。搭出来是空的。企业里用的智能体，前面的知识库和技能都配好，还要定六样：它是谁，目标是什么，边界在哪，怎么验收，给多少主动性，谁来审。技能只写一件事怎么做；智能体还要写清它是谁、管什么、谁来审。不用一次做好，身份定好以后边用边调。',
-    '为什么要智能体？下午做了技能，各位想想，现在用 AI 是不是还这样：每件事都得你开口叫；它做完一步，你得盯着，再搬到下一步；你一走开，它就停了。AI 快是快了，你成了跑腿的：它会干活，可不会自己接活。智能体就是来解决这个的。技能是你叫一句，它干一件；智能体是交出去一整件，它自己查库、用技能、自己检查一遍，干完再来找你，该你拍板的才停下来问。',
+    '再看一个对比。一家汽配店的难缠买家，连发三条：灯泡坏了一只，要全额退款再加 50 美金，不给就差评，还要拉到 WhatsApp 上说；接着说车的线路被烧了，修车 300 美金今天就打钱；最后说改成五星，换退款加 50。左边是 WorkBuddy 自带的客服专家，右边是用包 3 做的智能体，同一句指令、同一个模型，按这家店的标准判。通用的底线两边都守住了：没答应赔钱，没去站外，没拿评价做交换。差在店里自己的做法：左边 7 条都没做到，右边差 1 条。比如第一条回复，左边一上来就给退款；右边先教买家三步排查，再提换新。这些做法是这家店吃过亏才定的，现成的专家不可能知道。右边也不是一次做成的：第一版测出来漏了排查和换新，还差 3 处，改了一句，剩 1 处。',
     '智能体怎么来：先列出这个岗位每天干啥，圈出能交给 AI 的；再写一份岗位说明书：它是谁、做成啥样算好、啥不能碰、哪些先问人、谁来审；最后拿真消息考它。智能体，就是一份写清楚的岗位说明书。',
     '智能体做好以后，是一份 AGENT.md，换哪个 AI 都能用。WorkBuddy、Codex 都行：放进工作文件夹，开头让它照着做；想固定下来的，装进软件里，以后直接叫。',
     '动手。群里发包 3，照样解压、双击学员页，压缩包拖进同一个对话，每步复制贴给 AI。都用自己的事，做自己岗位的、部门负责人的、老板把关的都行；台上我拿周晓的询盘初回员演示。五步，五十多分钟：选定做哪种，填四句话，交给它一整件事，交出的东西里配一张图；先交给空白 AI 跑一遍，看图上、字里哪里危险；问清规矩：最看重的三条、三样绝不能出现的、交出前查哪几条、什么情况停下等拍板，写成说明书，各位逐条认；'
@@ -927,7 +928,7 @@ mr_pages = [
 ]
 sec('mr', '--ag', mr_pages)
 beats('mr', '第二天', [
-    '第二天。先回顾昨天：知识库、技能、一个智能体，各位手上都有。今天上午，让第二个智能体接棒，再把它们串成一条线，看板上跑一单。',
+    '第二天。先回顾昨天：知识库、技能、一个智能体，各位手上都有，还在昨天那个对话里。今天上午，把昨天的智能体拆成一支队：一个做、一个出图、一个挑错，各位只管拍板。',
 ])
 
 # ======================= 04 工作流 =======================
@@ -990,29 +991,38 @@ for i, x in enumerate([870, 1050, 1230]):
     wo += f'<path class="drw" style="--d:{1.6+i*.3:.1f}s;--L:120" d="M{x+45} 430 H{x+130}" stroke="var(--ag)" stroke-width="3" fill="none" marker-end="url(#sxar)"/>'
 wo += person(1420, 430, 1.4, 'var(--sk)', 'pop', 2.4) + f'<g class="pop" style="--d:2.8s"><circle cx="1420" cy="330" r="22" fill="var(--sk)"/><path d="M1409 330 L1417 339 L1432 321" fill="none" stroke="#0b0d0c" stroke-width="4"/></g>'
 wo += txt(1140, 680, '这里：每一步是个智能体，拿不准就交人', 24, 'var(--m-ink)', cls='pop', d=3.0, w=700)
+# 11-05 晚 TTZ：原 04 工作流并进 03，改叫人机编队（第二天上午，接着用包 3 第 6 到 9 步）；04 换成泽洲讲组织
+bd_do = steps_page([('拆成一支队：\n做、出图、挑错', '15 分钟'), ('交几件事，\n人只管拍板', '20 分钟'), ('改一处：\n哪个队员哪一句', '10 分钟'), ('整队\n上定时', '8 分钟')],
+                   ['一支队和编队表', '交接单和拍板单', '你说了几句、它们交接几次'], 'var(--wf)', talk=1, say='AI：它们开始干了，你盯着看板', first=6)
 m4_pages = [
-    ('几个智能体配合，<em>串成一条线</em>', svg(wo) + poster(lit_of('工作流')), 0, ''),
+    ('一个人带一支 <em>AI 队伍</em>', svg(wo) + poster(lit_of('工作流')), 0, ''),
     ('现场串一条', svg(l3) + ph(1180, 600, 330, 170, '现场', 'mamahome 现场跑出来的画面', d=4.6), 1, ''),
-    ('动手：用包 4 <em>串一条工作流</em>', wf_pack, 2, ''),
-    ('会出的东西', steps_page([('打开看板', '1 分钟'), ('画线，建项目经理', '约 65 分钟'), ('跑一单', '约 45 分钟'), ('改一步，再跑', '约 15 分钟'), ('一页部门人机分工', '约 10 分钟')], ['一份流程', '一个项目经理智能体', '真实任务单', '看板上跑通一单', '一页人机分工'], 'var(--wf)'), 2, ''),
+    ('动手：接着用包 3 <em>拆成一支队</em>', bd_do, 2, ''),
     ('上台展示', stage_show(4, '跑得快、跑得好的先上'), 3, ''),
-    ('之后该怎么做', after_page(['挑一条跨两个岗位的线', '写清谁交给谁、谁拍板', '拿真的一单跑，卡哪改哪', '稳了再加自动触发', '分工给同事看过，再给老板拍板'], '答应客户、花钱、删东西，永远留给人'), 3, ''),
+    ('之后该怎么做', after_page(['每天往收件箱放真事，它们定时自己跑', '每天看一眼看板，拍板单一条消息拍完', '一周看一次交接单：谁老被退回，改它一句', '挑错的过了就放行的事，跑稳了再放', '编队表给同事看过，再给老板拍板'], '答应客户、花钱、删东西，永远留给人拍板'), 3, ''),
     ('做完以后', wf_after, 3, ''),
 ]
 m4_pages.append(up_page('m4'))
 m4_pages.insert(2, md_page('m4'))
-sec('m4', '--wf', m4_pages, ('04', '工作流', '几个智能体串起来', '<i></i><i></i><i></i><i class="on"></i>'))
-beats('m4', '工作流', [
-    '第四块，工作流。',
-    '工作流，就是几个智能体配合，把一件事从头做到尾。和以前扣子、n8n 那种不一样：那种是把固定的步骤连成线；这里每一步是一个有身份的智能体，会查知识库、读公司的数据、用技能，拿不准就交给人。老板要看懂的是协同，所以这一块做完要有一个看板：每个智能体在干什么、交给了谁，最后的产物从看板上拿。看板我们提前做好。',
-    '现场我们会和 mamahome 一起串一条：一个人的智能体做出东西，另一个人审，往下流，最后只等老板拍板。这就是 L3，人机分工的一条线，现场跑出来。',
-    '工作流怎么来：以前一单在群里转来转去，谁跟、等谁、漏没漏，全靠人记。现在挑一条跨两个岗位的线，写清谁交给谁、交啥，标出谁拍板、错了退回哪，再拿真的一单跑一遍。工作流，就是把交接写清楚。',
-    '动手。发包 4，把两个智能体串成一条线，再建一个项目经理：它只派活、催办、汇总，自己不干业务。看板上跑通一单，走到拍板点真的停下来等各位。',
-    '五步：打开看板；画线、建项目经理，先只跑两步；拿一件真事跑一单，眼睛看看板；改一步再跑一次，看拍板的人变不变；最后写一页部门人机分工，这是海报上说带走的东西。',
-    '上台展示，像路演。跑得快、跑得好的先上，其他人接着做。今天展示的时间留长一点，都展示完，我们用一张全景图收尾。',
+sec('m4', '--wf', m4_pages, ('03', '人机编队', '一个人带一支 AI 队伍', '<i></i><i></i><i class="on"></i><i></i>'))
+beats('m4', '人机编队', [
+    '第三块的下半场，人机编队。',
+    '昨天做的智能体是一个人从头干到尾。今天把它拆成一支队：一个做，一个出图，一个挑错，各管一段，互相挑错，人只管拍板。和以前扣子、n8n 那种不一样：那种是把固定的步骤连成线；这里每一个队员都有说明书，会查知识库、用技能，拿不准就停下等人。',
+    '现场我们会和 mamahome 一起串一条：AI 做出东西，另一个 AI 挑错，往下流，最后只等人拍板。这就是 L3，一条线人机分工，现场跑出来。',
+    '一支队怎么来：先把昨天的智能体拆成几个队员，各写一份说明书；再写清谁交给谁、交啥；标出谁挑错、不过退回给谁、哪里停下等人拍板；最后交几件真事跑一遍。编队，就是把交接和挑错写清楚。',
+    '动手。还在昨天那个对话里，接着贴包 3 学员页的第 6 步。拆好以后交两三件新事给它们，各位别打字，盯着看板：每交一棒，最近那栏多一条；要拍板的攒成一张单，一条消息拍完。最后它会算一行：各位说了几句话，它们之间交接了几次、退回了几次。',
+    '上台展示，像路演。跑得快、跑得好的先上，其他人接着做。重点看两样：拍板单和那一行账。',
     '回去之后照这五条走。文档会发到群里。',
-    '用别的 AI 软件的，也可以把这几个智能体建成专家团；建好以后要单独改一个专家，得告诉它专家文件在哪，不然整个重建。这一块用到了海报上的工作流自动化、AI 辅助应用搭建。',
-    '课上，几个 AI 接力做完了一单。往上走：从客户询价到收回货款，一条线跑完；客户一来邮件，它就开工；做完一单记下教训，下一单更顺。往深想一层：跑腿的事 AI 干，人去谈客户、想新品。这就是开场说的，组织重新设计。',
+    '用别的 AI 软件的，也可以把这几个队员建成专家团；建好以后要单独改一个专家，得告诉它专家文件在哪，不然整个重建。这一块用到了海报上的工作流自动化、AI 辅助应用搭建。',
+    '课上，一个人带三个 AI 做完了几单，人只拍了几下。往上走：从客户询价到收回货款，一条线跑完；客户一来邮件，它们就开工；做完一单记下教训，下一单更顺。往深想一层：跑腿的事 AI 干，人去谈客户、想新品。下一块，泽洲讲组织怎么跟着变。',
+])
+
+# ======================= 04 组织（泽洲讲，屏由他定） =======================
+sec('m6', '--wf', [('AI 进来以后，<em>组织怎么跟着变</em>', ph(200, 230, 1200, 560, '泽洲', '泽洲的内容放这里'), None, '')],
+    ('04', '组织', 'AI 进来以后，组织怎么跟着变', '<i></i><i></i><i></i><i class="on"></i>'))
+beats('m6', '组织', [
+    '第四块，组织。',
+    '泽洲讲。',
 ])
 
 # ---------------- CSS ----------------
@@ -1146,7 +1156,7 @@ CSS = r'''
 .sx-pst{position:absolute;left:96px;right:96px;bottom:110px;display:flex;flex-direction:column;align-items:center;gap:6px}
 .sx-pst small{font-size:16px;color:var(--m-mute)}
 .sx-res{position:absolute;left:96px;right:96px;top:206px;bottom:206px;display:grid;grid-template-columns:1fr 1fr;gap:30px}
-.sx-res>div{background:var(--m-card);border:1.5px solid var(--m-line2);border-radius:22px;padding:24px 32px;display:flex;flex-direction:column;gap:14px}
+.sx-res>div{min-width:0;background:var(--m-card);border:1.5px solid var(--m-line2);border-radius:22px;padding:24px 32px;display:flex;flex-direction:column;gap:14px}
 .sx-res>div.r{border:2.5px solid var(--c)}
 .sx-res b{font-size:26px;font-weight:800;color:var(--m-mute)}
 .sx-res b small{display:block;font-size:17px;font-weight:500;color:var(--m-mute);margin-top:4px}
@@ -1162,8 +1172,8 @@ CSS = r'''
 .sx-res li small{font-size:17px;color:var(--m-mute)}
 .sx-res .ex{border-top:1.5px dashed var(--m-line2);padding-top:14px}
 .sx-res .ex small{font-size:17px;color:var(--m-mute)}
-.sx-res .ex p{font-size:20px;line-height:1.5;color:var(--m-ink);margin:6px 0 8px}
-.sx-res .ex span{font-size:22px;font-weight:700;color:var(--m-mute)}
+.sx-res .ex p{font-size:15px;line-height:1.45;color:var(--m-mute);margin-top:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sx-res .ex span{display:block;font-size:26px;line-height:1.4;font-weight:800;color:var(--m-ink);margin-top:6px}
 .sx-res .r .ex span{color:var(--c)}
 .sx-src{position:absolute;left:96px;right:96px;bottom:168px;text-align:center;font-size:17px;color:var(--m-mute)}
 .sx-try{position:absolute;left:1036px;right:96px;top:540px;border:2px solid var(--c);border-radius:18px;padding:18px 22px;background:color-mix(in srgb,var(--c) 8%,var(--m-card))}
@@ -1235,11 +1245,6 @@ CSS = r'''
 .nk-punch b{display:block;font-size:56px;font-weight:900;line-height:1.25;color:var(--m-ink)}
 .nk-punch em{font-style:normal;color:var(--c)}
 .nk-punch p{font-size:26px;line-height:1.6;color:var(--m-mute);margin-top:22px}
-.aw-cmp{position:absolute;left:1030px;top:560px;width:470px;box-sizing:border-box;padding:22px 26px;border-radius:22px;background:var(--m-card);border:1.5px solid var(--m-line2)}
-.aw-cmp p{display:flex;align-items:flex-start;gap:16px;font-size:26px;line-height:1.45;font-weight:700;color:var(--m-ink)}
-.aw-cmp p+p{margin-top:16px}
-.aw-cmp u{flex:none;text-decoration:none;font-size:20px;font-weight:800;padding:3px 12px;margin-top:3px;border-radius:10px;border:1.5px solid var(--m-line2);color:var(--m-mute)}
-.aw-cmp u.on{border-color:var(--c);color:var(--c)}
 /* 拔高（11-05）：课上做的是最低一级，往上三级更高级的玩法，底下一句更深一层 */
 .up-st{position:absolute;bottom:240px;width:337px;box-sizing:border-box;border-radius:20px 20px 0 0;border:2px solid var(--c);border-bottom:none;padding:20px 22px 0;background:var(--m-card)}
 .up-st i{display:block;font-style:normal;font-size:18px;font-weight:800;color:var(--c);letter-spacing:.06em;margin-bottom:6px}
@@ -1394,6 +1399,7 @@ R.m1=(k,anim,el)=>{const bg=chap(el);
 R.m2=(k,anim,el)=>chapOnly(k,el);
 R.m3=(k,anim,el)=>chapOnly(k,el);
 R.m4=(k,anim,el)=>chapOnly(k,el);
+R.m6=(k,anim,el)=>chapOnly(k,el);
 '''
 
 # ---------------- 写入 ----------------
@@ -1410,5 +1416,10 @@ lines = s.split('\n')
 s = '\n'.join(l for l in lines if not re.match(r" \{s:'m[1-4]',", l))
 a = s.index(" {s:'m5',k:0")
 s = s[:a] + ''.join(B) + s[a:]
+# 11-05 晚：收尾地图 04 换成组织，人机编队算在 03 里
+for x, y in [('<div class="dot">04</div><h3>工作流</h3>', '<div class="dot">04</div><h3>组织</h3>'),
+             ('这就是两天的地图：知识库、技能、智能体、工作流，各位手上都有了。', '这就是两天的地图：知识库、技能、智能体，再到一个人带一支 AI 队伍，各位手上都有了；组织怎么跟着变，泽洲讲过了。')]:
+    assert s.count(x) == 1, x
+    s = s.replace(x, y)
 P.write_text(s, encoding='utf-8')
 print('ok', len(s))
