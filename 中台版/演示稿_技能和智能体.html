@@ -2,95 +2,82 @@
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>演示稿 · 技能和智能体</title>
 <style>
-:root{--clay:#a94b3d;--clay-soft:#f4e5e0;--paper:#f7f4eb;--card:#fffdf7;--ink:#171513;--muted:#5d554a;--soft:#8a7d6d;--line:#d8d0bf;
+:root{--clay:#a94b3d;--clay-soft:#f4e5e0;--paper:#f7f4eb;--paper-2:#ebe6d8;--card:#fffdf7;--ink:#171513;--muted:#5d554a;--soft:#8a7d6d;--line:#d8d0bf;
 --font-serif:"Noto Serif SC","Songti SC",Georgia,serif;--font-sans:"Inter","PingFang SC","Noto Sans SC","Microsoft YaHei",system-ui,sans-serif;--font-num:Georgia,"Times New Roman",serif}
 *{box-sizing:border-box}
-body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.65 var(--font-sans)}
-.page{max-width:860px;margin:0 auto;padding:36px 28px 28px}
+body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.6 var(--font-sans)}
+.page{max-width:900px;margin:0 auto;padding:36px 28px 28px}
 h1{font:600 28px/1.2 var(--font-serif);letter-spacing:-.02em;margin:0 0 6px}
-.lead{color:var(--muted);margin:0 0 18px}
-.lead b{color:var(--ink)}
+.lead{color:var(--muted);margin:0 0 16px}.lead b{color:var(--ink)}
 h2{font:600 21px/1.3 var(--font-serif);margin:0 0 10px;padding-bottom:6px;border-bottom:2px solid var(--ink)}
 h2 span{font:400 14px var(--font-sans);color:var(--soft);margin-left:8px}
 table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line)}
-th,td{border-top:1px solid var(--line);padding:9px 10px;vertical-align:top;text-align:left}
+th,td{border-top:1px solid var(--line);padding:8px 9px;vertical-align:top;text-align:left}
 th{font-weight:600;font-size:13px;color:var(--muted);background:var(--paper)}
-td.no{width:74px;white-space:nowrap}
-td.no b{display:block;font:italic 300 26px/1 var(--font-num);color:var(--clay)}
-td.no small{color:var(--muted);font-size:13px}
-td.open{width:210px;font-size:13.5px;color:var(--muted)}
-td.open code{font:12.5px/1.5 ui-monospace,monospace;color:var(--ink);word-break:break-all}
-td p{margin:0 0 6px}td p:last-child{margin:0}
-.say{background:var(--clay-soft);border-left:3px solid var(--clay);padding:6px 9px;margin:4px 0 6px;border-radius:0 6px 6px 0}
-.say::before{content:"念：";font-weight:600;color:var(--clay)}
-.alt{margin-top:12px;font-size:14px}
-.alt b{display:block;margin-bottom:4px}
-.alt ul{margin:0;padding-left:18px}.alt li{margin:2px 0}
-.oops{margin-top:12px;border:1px solid var(--line);background:var(--card);padding:10px 12px;font-size:14px}
+td.no{width:66px;white-space:nowrap}
+td.no b{display:block;font:italic 300 24px/1 var(--font-num);color:var(--clay)}
+td.no small{color:var(--muted);font-size:12.5px}
+td.get{width:220px;font-size:13.5px;color:var(--muted)}
+td.get code,td code{font:12.5px/1.5 ui-monospace,monospace;color:var(--ink);word-break:break-all}
+td p{margin:0 0 5px}td p:last-child{margin:0}
+.say{background:var(--clay-soft);border-left:3px solid var(--clay);padding:5px 9px;margin:4px 0 5px;border-radius:0 6px 6px 0}
+.say::before{content:"答：";font-weight:600;color:var(--clay)}
+.wait{display:inline-block;font-size:12px;font-weight:600;background:var(--ink);color:#fff;border-radius:999px;padding:0 9px;margin-top:3px}
+.show{display:block;margin-top:3px}
+.show::before{content:"屏上：";font-weight:600;color:var(--ink)}
+.sub td{background:var(--paper-2);font-weight:600;font-size:13.5px}
+.oops{margin-top:10px;border:1px solid var(--line);background:var(--card);padding:9px 12px;font-size:14px}
 .oops b{margin-right:6px}
-section+section{margin-top:28px}
-@media print{body{background:#fff;font-size:12.5px;line-height:1.55}.page{padding:0;max-width:none}h1{font-size:22px}.lead{margin-bottom:10px}h2{font-size:18px}th,td{padding:6px 8px}td.no b{font-size:22px}td.open{width:190px;font-size:11.5px}td.open code{font-size:11px}.say{padding:4px 8px}.alt,.oops{font-size:12px;margin-top:8px}section{break-after:page}section:last-child{break-after:auto}table{background:#fff}@page{size:A4;margin:11mm}}
-@media(max-width:640px){td.open{width:auto;display:block;border-top:0}td.no{width:auto}table,tbody,tr,td{display:block}th{display:none}}
+.oops ul{margin:4px 0 0;padding-left:18px}.oops li{margin:2px 0}
+section+section{margin-top:26px}
+@media print{body{background:#fff;font-size:11.2px;line-height:1.42}.page{padding:0;max-width:none}h1{font-size:20px}.lead{margin-bottom:8px}h2{font-size:16px;margin-bottom:6px}th,td{padding:4px 6px}td.no b{font-size:19px}td.get{width:190px;font-size:11px}td.get code,td code{font-size:10.5px}.say{padding:2px 7px;margin:2px 0}.oops{font-size:11px;margin-top:6px;padding:6px 9px}section{break-after:auto}h2{break-after:avoid}table{background:#fff}tr{break-inside:avoid}@page{size:A4;margin:10mm}}
+@media(max-width:640px){td.get{width:auto;display:block;border-top:0}td.no{width:auto}table,tbody,tr,td{display:block}th{display:none}}
 </style></head>
 <body><div class="page">
 <h1>演示稿：技能、智能体两块</h1>
-<p class="lead">打印两页，课上低头看。备份都在 <b>中台版/演示备份/</b>：网不通、AI 卡住，直接打开备份讲成品。</p>
+<p class="lead">打印带上台。台上用 Codex 或 WorkBuddy，工作区选 <b>演示备份/讲师演示文件夹/我的公司AI</b>，开工答"用案例"。<b>全程一个对话，不新开。</b>要贴的段落在学员页点复制；要答的照学员页最后的 <b>答法卡</b>（同一份在 案例_汽配店/答法卡.md）。成果看板第 0 步建好，双击开着，每步 F5。要切给学员看的样例和对比，就在包里 <b>案例_汽配店/课上看的/</b>；网不通、AI 卡住，打开 <b>中台版/演示备份/</b> 翻到对应那一步念。分钟是真跑估的；屏号对的是正式课件，课件改了以课件为准。</p>
 
 <section>
-<h2>一　技能<span>屏 046–053</span></h2>
+<h2>一　技能<span>一个技能约 40 分钟，第 5 步每多一圈约 5 分钟</span></h2>
 <table>
-<tr><th>屏</th><th>讲什么、做什么</th><th>手边打开</th></tr>
-<tr><td class="no"><b>049</b><small>为什么</small></td><td>
-<p>先说清左边是技能广场里同类下载最多的那个，不是我们做的。同一份商品页草稿、同一句指令、同一个模型，按这家店的标准判：左边改完还差 7 处，通用规矩 3 处、店里写法 4 处；右边还差 1 处。</p>
-<p>指五点第一条：左边先讲亮度，右边先教买家核对灯泡型号。这家店拉过半年退货原因，一半是买错型号。</p>
-</td><td class="open"><code>技能/对比_广场同类下载最多的.md</code><br><code>技能/对比_用包做的.md</code><br><code>技能/对比_评分.md</code><br><code>技能/广场同类下载最多的_详情页.png</code></td></tr>
-<tr><td class="no"><b>052</b><small>示范前两问</small></td><td>
-<p>打开包 2 的学员页，复制总提示词，〖岗位〗填“运营主管”，回车。</p>
-<p>AI 问挑哪件事：</p>
-<div class="say">listing 合规改写。新品上架前，把工厂或运营给的草稿改成过得了亚马逊审核、不招投诉、买家不买错的版本。每周三四十条，出了事就是下架、投诉、退货。</div>
-<p>AI 要上次的成品：贴“上次的真实成品”全文。</p>
-<p>AI 问第一处判断（多半问五点第一条）：</p>
-<div class="say">拉过半年退货原因，一半是买错型号。第一条改成先教买家看旧灯泡底座、或用 Amazon Garage 核对以后，这类退货少了一大截。</div>
-<p>示范到这里停，打开技能卡：做完大概长这样。卡上的分用另一张评分标准，和 049 的 7、1 不相干。</p>
-</td><td class="open"><code>技能/上次的真实成品_9005.md</code><br><code>技能/做好的技能/技能卡.html</code></td></tr>
-<tr><td class="no"><b>053</b><small>结尾</small></td><td>
-<p>技能里只写了灯泡，有一句“拿不准就照亚马逊规矩来”。拿它改一款脚垫的商品页，草稿里埋了 6 处坑，其中抗菌、促销两处技能没写过；它自己查了亚马逊规矩，6 处全改好。</p>
-<p>规矩变了也跟得上：亚马逊 7 月 27 日起标题上限改成 75 个字符，技能改了一条规矩，例子跟着换，再考一遍只差 1 处。</p>
-</td><td class="open"><code>技能/换产品_脚垫.md</code></td></tr>
+<tr><th>屏</th><th>讲什么、贴什么、怎么答</th><th>这一步做完、手边开着</th></tr>
+<tr><td class="no"><b>看</b><small>屏 036 起</small></td><td><p>切成果看板样例：一个技能做完就是这一块。两行分数：自家做法 1.5/3 → 带技能 3/3，守住红线 2.5/3 → 3/3；判断、红线后面都带着原话。</p></td><td class="get"><code>2_skill/案例_汽配店/课上看的/成果看板样例.html</code></td></tr>
+<tr><td class="no"><b>比</b><small>屏 037 后，开文件</small></td><td><p>左边是技能广场里同类下载最多的那个，不是我们做的。同一份商品页草稿、同一句指令、同一个模型，按这家店的标准判：左边改完还差 7 处，通用规矩 3、店里写法 4；右边还差 1 处。指五点第一条：左边先讲亮度，右边先教买家核对灯泡型号。</p></td><td class="get"><code>课上看的/对比_*.md</code> 三份</td></tr>
+<tr class="sub"><td colspan="3">屏 040 示范：全场跟着走第一个技能。AI 每步给一段【第 N 步做完】就停，等全场都看到这一段、按了 F5，再贴下一段。</td></tr>
+<tr><td class="no"><b>0</b><small>开工 3′</small></td><td><p>发"读 2_skill/开始.md，带我做"。</p><div class="say">用案例。</div><span class="show">最外层多了 成果看板.html，双击打开，一直开着。</span><span class="wait">等齐：全场都开着成果看板</span></td><td class="get">学员页、答法卡、成果看板</td></tr>
+<tr><td class="no"><b>1</b><small>先做一份 7′</small></td><td><p>贴第 1 步。三个方向里答 listing 合规改写（答法卡）。AI 要新材料：贴 <code>新材料_H11大灯草稿.md</code>；它这时没有技能，直接做一份"做之前"。再贴 <code>上次的真实成品_9005.md</code>。</p><p>点一句："做之前"不评好坏，第 4 步和带技能的一起打分。</p></td><td class="get">看板 F5：多了这个技能，"做到第 1 步"</td></tr>
+<tr><td class="no"><b>2</b><small>追问 8′</small></td><td><p>贴第 2 步。AI 挑三处，一处一处问那一回、为什么、吃过的亏。照答法卡挑对应那段念，多半是标题顺序、五点第一条、解码器：</p><div class="say">2025 年 1 月拉了半年退货原因，一半是买错型号。第一条改成先教买家看旧灯泡底座或说明书、用 Amazon Garage 确认适配，这类退货少了一大截。</div><p>最后问哪三样绝不能出现，照卡答。点一句：答"一般都这样"它不放行；三条判断就是后面打分的三条自家做法。</p></td><td class="get">看板 F5：判断、红线带原话上来了</td></tr>
+<tr><td class="no"><b>3</b><small>写技能 6′</small></td><td><p>贴第 3 步。核对表：一致的回"对"；"五点第一条写适配车型"那类照卡回"部分对"；AI 加的回"不对"。评分标准 6 条从这里定死。</p><span class="show">双击 <code>技能/listing合规改写/SKILL.md</code>，指括号里的依据。</span></td><td class="get">SKILL.md v0.2、评分标准</td></tr>
+<tr><td class="no"><b>4</b><small>打分 6′</small></td><td><p>贴第 4 步。AI 照技能把同一份材料再做一份，两份用同一把尺逐条判：做到、部分做到、没做到，每条引原文。</p><span class="show">真跑：自家做法 1.5/3 → 3/3，守住红线 2.5/3 → 3/3。</span><p>点一句：差就差在三条自家做法，通用的红线两边都差不多。</p><span class="wait">等齐：全场 F5 看两行分数</span></td><td class="get">看板 F5：两行分数</td></tr>
+<tr><td class="no"><b>5</b><small>改一句 5′</small></td><td><p>贴第 5 步。AI 摆出没做到的条，问哪里最不好；全做到了就问还有哪里不满意：</p><div class="say">五点第一条再直白一点：开头一句就教买家看旧灯泡底座上的型号。</div><p>它只改 SKILL.md 一句、重做、同一把尺再打分，分数没降才升 v0.3。问再来一圈：台上答"不来了"。</p></td><td class="get">看板 F5：改过的一句、v0.3</td></tr>
+<tr><td class="no"><b>6</b><small>记全 5′</small></td><td><p>贴第 6 步。哪一处是自己定的：</p><div class="say">新品上架前，运营先照店里这几条过一遍，我只看它标出来拿不准的。</div><p>AI 问接着做吗：答"做"。示范停在这里，第二个各按各的节奏做；用案例的照答法卡做"每周退货差评归因"。</p></td><td class="get">看板 F5：这个技能写全了</td></tr>
+<tr><td class="no"><b>收</b><small>屏 041</small></td><td><p>技能里只写了灯泡，有一句"拿不准就照亚马逊规矩来"。拿它改一款脚垫的商品页，6 处坑全改好，其中抗菌、促销两处技能没写过。以后哪次做错了，还是第 5 步那段：改一句，分数不降才升版本。</p></td><td class="get"><code>演示备份/技能/换产品_脚垫.md</code></td></tr>
 </table>
-<div class="alt"><b>AI 问到别处时（店里写法，挑一句念）</b><ul>
-<li>标题顺序：品牌、灯泡型号、产品名、流明和色温，不超过 75 个字符；车型年份放不下就写进五点第一条。车型堆在前面那次，手机上看不到型号，买错退货一个月多了一倍。</li>
-<li>解码器：单列在五点第三条，写明盒子里没有。以前埋在第五条，买家没看到，装上报错就差评。</li>
-<li>亮度：只写实测流明，不写比卤素亮几倍。写过 300%，被同行投诉虚标，listing 压了两周。</li>
+<div class="oops"><b>翻车时</b><ul>
+<li>AI 一次问好几个：回"一次问一个"。没等贴就往下做：回"停，等我贴下一段"。时间不够：说"收尾"。</li>
+<li>"做之前"分就很高：AI 会说通用 AI 已经做得不错、问要不要换一件；台上答"不换"，讲一句"值得做成技能的是自家门道多的事"。</li>
+<li>网不通：<code>演示备份/技能/每步做完_listing合规改写.md</code> 念对应那段；做好的三份在 <code>做好的技能/listing合规改写/</code>。</li>
 </ul></div>
-<div class="oops"><b>翻车时</b>AI 一次问好几个：回“一次问一个”。时间不够：说“收尾”，它马上出网页，缺的写待补。网不通：打开备份讲。</div>
 </section>
 
 <section>
-<h2>二　智能体<span>屏 054–061</span></h2>
+<h2>二　智能体：新品主图助理<span>约 47 分钟，出图每次一两分钟</span></h2>
 <table>
-<tr><th>屏</th><th>讲什么、做什么</th><th>手边打开</th></tr>
-<tr><td class="no"><b>056</b><small>为什么</small></td><td>
-<p>先说清左边是 WorkBuddy 自带的客服专家，不是我们做的。一位难缠买家连发三条：退款再加 50 美金，修车 300 美金，拿差评换钱。同一句指令、同一个模型，按这家店的标准判。</p>
-<p>通用的底线两边都守住了；差在店里的做法：左边 7 条都没做到，右边差 1 条。指第一条回复：左边一上来给退款，右边先教三步排查，再提换新。右边第一版差 3 处，改了一句，剩 1 处。</p>
-</td><td class="open"><code>智能体/对比_自带客服专家.md</code><br><code>智能体/对比_用包做的.md</code><br><code>智能体/对比_评分.md</code></td></tr>
-<tr><td class="no"><b>059</b><small>示范前两问</small></td><td>
-<p>打开包 3 的学员页，复制总提示词，〖岗位〗填“客服主管”，回车。</p>
-<p>AI 列出三种，答“1”（自己岗位的）。AI 请填四句：</p>
-<div class="say">它叫售后客服助理；服务我们 6 个客服，先替他们回买家消息；交付每条买家消息一份英文回复，涉及钱、车损的，回复里说已转主管，另给主管一行备注；做成了算难缠买家的消息也照店里的做法走、不踩红线，客服改几个词就能发。</div>
-<p>AI 要一段真实对话：贴“雨刷售后两轮”全文。</p>
-<p>示范到这里停，打开智能体卡：做完大概长这样。卡上的分用另一张评分标准，和 056 的 7、1 不相干。</p>
-</td><td class="open"><code>智能体/真实对话_雨刷售后.md</code><br><code>智能体/做好的智能体/智能体卡.html</code></td></tr>
-<tr><td class="no"><b>059</b><small>结尾</small></td><td>
-<p>上岗考试：第三条消息里夹一个越界的要求，还催、还讲情面。</p>
-<div class="say">买家催它直接写“180 美金已批准”，它只回“已转主管”，给主管的备注写“车损索赔，未批准，需加急”。</div>
-</td><td class="open"><code>智能体/做好的智能体/测试记录.md</code></td></tr>
+<tr><th>屏</th><th>讲什么、贴什么、怎么答</th><th>这一步做完、手边开着</th></tr>
+<tr><td class="no"><b>看</b><small>屏 045 起</small></td><td><p>切成果看板样例：技能下面多了一个智能体，三张主图并排，做之前、照说明书、改一句后，两行分数 1.5/3 → 3/3、2/3 → 3/3。</p></td><td class="get"><code>3_Agent/案例_汽配店/课上看的/成果看板样例.html</code></td></tr>
+<tr><td class="no"><b>比</b><small>屏 046 后，开文件</small></td><td><p>同一份 H11 简报、同一个模型。左边只说"给这款做一张亚马逊主图"；右边用包 3 做出来的说明书。另开对话盲打分：自家做法左 1.5/3、右 3/3，红线两边都 3/3。指型号字：左边看不到 H11，右边灯座上 H11 清楚，一只横放露底座、一只竖放露灯珠。</p></td><td class="get"><code>课上看的/主图对比/</code> 两张图、评分.md</td></tr>
+<tr class="sub"><td colspan="3">屏 048 示范：一样每步等全场看到【做完】、按了 F5。出图只在第 1、4、5 步，每次先亮出图说明。用案例的还是运营主管。</td></tr>
+<tr><td class="no"><b>0</b><small>开工 4′</small></td><td><p>发"读 3_Agent/开始.md，带我做"。</p><div class="say">用案例。</div></td><td class="get">看板上已有技能</td></tr>
+<tr><td class="no"><b>1</b><small>先出一张 8′</small></td><td><p>贴第 1 步。三种答"1"；四句照答法卡；任务贴 <code>新品简报_H11.md</code>。它没有说明书，先亮出图说明，再出第 1 张。</p><p>点一句：等图的时候看它的出图说明，里面没有一句店里的规矩。</p></td><td class="get">双击 <code>产出/1_做之前.png</code></td></tr>
+<tr><td class="no"><b>2</b><small>问规矩 11′</small></td><td><p>贴第 2 步。五问照答法卡：贴 <code>给美工的交代.md</code>；三条做法：</p><div class="say">灯座上的型号字要看得清；一对两只都在，一只露底座、一只露灯珠；纯白底，产品占画面八成以上。</div><p>三样绝不能出现：盒子里没有的东西、任何字和角标、车标和别家 logo。追问哪一次，照卡念。</p></td><td class="get">看板 F5：规矩带原话上来了</td></tr>
+<tr><td class="no"><b>3</b><small>说明书 6′</small></td><td><p>贴第 3 步。核对表：一致的"对"，AI 加的"不对"，撞车那行"要好看和守规矩撞上，守规矩"。评分标准 6 条写成看图就判得出，从这里定死。</p></td><td class="get">AGENT.md v0.2、评分标准</td></tr>
+<tr><td class="no"><b>4</b><small>再出一张 6′</small></td><td><p>贴第 4 步。它先亮出新的出图说明，指着说每条规矩落在哪一句，再出第 2 张；两张同一把尺打分。</p><span class="show">真跑：自家做法 1.5/3 → 3/3，红线 2/3 → 3/3。</span><span class="wait">等齐：出图要一两分钟，先照评分标准看第 1 张</span></td><td class="get">两张并排，看板 F5</td></tr>
+<tr><td class="no"><b>5</b><small>改一句 8′</small></td><td><p>贴第 5 步。哪里最不好：</p><div class="say">两只灯泡上的 H11 都要看得清，买家放大哪一只都认得出型号。</div><p>它只改 AGENT.md 一句，亮出新说明、标出变了哪里，出第 3 张，再打分。课上最多 3 张，再来一圈只改说明书。</p></td><td class="get">三张并排，看板 F5</td></tr>
+<tr><td class="no"><b>6</b><small>记全 4′</small></td><td><p>贴第 6 步。哪条规矩是自己定的：</p><div class="say">主图先让它出初稿，我只看型号字和有没有多画东西；这几条是我们吃亏换来的，它照着出就行。</div><p>看板上写着怎么用：WorkBuddy 新建专家贴 AGENT.md；Codex 改名 AGENTS.md 放进文件夹。接着做第二个：台上答"今天先到这"。</p></td><td class="get">看板 F5：写全了</td></tr>
 </table>
-<div class="alt"><b>AI 往下问时（挑一句念）</b><ul>
-<li>最看重的三条：规矩以外的钱一分都交主管；说到车损一个字不认责任，交主管；买家要的是灯亮，先排查再换新，换新优先于退款。AI 问行业都这么做、还是只有我们这么看：三条都是“只有我们这么看”。</li>
-<li>不接的：加 WhatsApp、电话、邮箱；拿评价谈条件；法律、保险问题。</li>
-<li>交人的：钱超出规矩；车损、事故、受伤；买家说要提 A-to-z 或找律师；同一个买家第三次还不满意。</li>
+<div class="oops"><b>翻车时</b><ul>
+<li>出不了图：AI 会直说没有生图工具；切 <code>课上看的/图/</code> 三张讲，流程照走。</li>
+<li>网不通：<code>演示备份/智能体/每步做完_新品主图助理.md</code> 念对应那段；做好的在 <code>做好的智能体/新品主图助理/</code>。</li>
 </ul></div>
-<div class="oops"><b>翻车时</b>同上。另：上岗那步要新开对话，先贴块 1，等它答完再贴块 2。</div>
 </section>
 </div></body></html>
