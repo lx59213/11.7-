@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>实操时间线 · 技能和智能体</title>
+<title>实操演练清单</title>
 <style>
 :root{--clay:#a94b3d;--clay-deep:#8d3a2e;--clay-soft:#f4e5e0;--paper:#f7f4eb;--paper-2:#ebe6d8;--card:#fffdf7;--ink:#171513;--muted:#5d554a;--soft:#8a7d6d;--line:#d8d0bf;--moss:#536944;--ocean:#285b74;
 --shadow-sm:0 2px 8px rgba(23,21,19,.04);
@@ -87,13 +87,84 @@ ul.plain{margin:0;padding-left:18px}
 ul.plain li{margin:4px 0}
 .ask{margin-top:40px;border:2px solid var(--clay);border-radius:12px;padding:16px 20px;background:var(--card)}
 .ask h3{font:600 18px var(--font-serif);margin:0 0 8px;color:var(--clay-deep)}
+/* 演练清单 */
+.decide{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:8px}
+.decide .box{border-top:4px solid var(--clay)}
+.decide .box h3{font-size:17px}
+.decide p{margin:0 0 8px;font-size:14.5px}
+.decide .rec{color:var(--clay-deep);font-weight:600}
+.st{display:inline-block;font-size:12.5px;line-height:1.55;padding:0 8px;border-radius:999px;white-space:nowrap;font-weight:600}
+.st.ok{background:var(--moss);color:#fff}
+.st.doing{border:1px solid var(--ocean);color:var(--ocean)}
+.st.todo{border:1px solid var(--clay);color:var(--clay)}
+.st.you{background:var(--clay);color:#fff}
+.plan td:first-child{width:118px}
+.plan td:nth-child(2){width:96px;white-space:nowrap;color:var(--muted);font-weight:400}
+.plan td ul{margin:0;padding-left:16px}
+.plan td li{margin:3px 0}
+.plan tr.day td{background:var(--paper-2);font:600 16px var(--font-serif);padding:8px 12px}
+.plan td.prep li .st{margin-right:6px}
+@media(max-width:760px){.decide{grid-template-columns:1fr}}
 @media(max-width:760px){.flow{grid-template-columns:1fr}.loop{grid-template-columns:1fr 1fr}h1{font-size:28px}}
 @media print{body{background:#fff}.head{position:static}.tl{overflow:visible}.grid{min-width:0}}
 </style></head>
 <body><div class="wrap">
 
-<h1>实操时间线：技能和智能体</h1>
-<p class="lead">两块各约 90 分钟。分钟从这一块开始算，钟点以两天安排为准；每步分钟是现在包里写的，真跑完再换成实测的数。左边讲师、右边学员，同一行是同一时间。</p>
+<h1>实操演练清单</h1>
+<p class="lead">照课程顺序从头顺一遍：每一段讲什么、发什么、讲师手里要备什么、备好没有。技能和智能体两块再往下有逐分钟的时间线。屏号是课件 v11（72 屏）的。</p>
+
+<h2>先定这三件，后面才排得下去</h2>
+<div class="decide">
+ <div class="box"><h3>1　周六下午排不下</h3>
+  <p>看上午的知识库 60 分钟，技能约 90，智能体做两个约 90，加起来约 4 小时，还没算休息。</p>
+  <p>课件 057 写的是第二天上午"第二个智能体接棒"，和包 3 里"每人至少做两个、接着做吗"对不上。</p>
+  <p class="rec">建议：周六智能体只做一个（约 50 分钟），第二个放到周日上午，在工作流里做成第一个的下一棒。</p></div>
+ <div class="box"><h3>2　包 1、包 4 还是旧做法</h3>
+  <p>知识库、工作流两个包是 11-04 的：一大段总提示词，不记看板，只能聊天的 AI 走不了工作流（要改文件）。</p>
+  <p>包 4 学员页写"周日下午"，课件写周日上午。</p>
+  <p class="rec">建议：包 1 也改成一步一段，做完记进同一个看板；包 4 一样改，只能聊天的学员和旁边能改文件的同学一组跑。</p></div>
+ <div class="box"><h3>3　两个"看板"撞名</h3>
+  <p>开课前发的文件夹里已经有 <span class="f">工作流/看板.html</span>，是看一单跑到哪一步的；新做的成果页放在最外层，也叫 <span class="f">看板.html</span>。</p>
+  <p>学员和讲师嘴上都说"看板"，会混。</p>
+  <p class="rec">建议：最外层的改叫"成果看板"，工作流那个照旧叫看板。</p></div>
+</div>
+
+<h2>两天全流程和要备的东西</h2>
+<p class="note"><span class="st ok">好了</span> 已做好　<span class="st doing">在做</span> 正在改或真跑　<span class="st todo">没备</span> 还没人做　<span class="st you">要你给</span> 要 TTZ 给或去要</p>
+<div class="tbl"><table class="plan">
+ <tr><th>段</th><th>屏</th><th>讲什么、做什么</th><th>讲师手里要备的</th></tr>
+ <tr class="day"><td colspan="4">开课前</td></tr>
+ <tr><td>群里发包 0</td><td>—</td><td>发 <span class="f">0_开课前发.zip</span>：一个 <span class="f">我的公司AI/</span> 文件夹，里面有知识库、技能、智能体、工作流四个空架子。学员装好 WorkBuddy 或 Codex 并登录。</td>
+  <td class="prep"><ul><li><span class="st ok">好了</span>包 0（11-04）；要等问题 3 定了，看板名字跟着改</li><li><span class="st you">要你给</span>谁在群里发、哪天发</li><li><span class="st todo">没备</span>讲师电脑：WorkBuddy、Codex 都登录好，再开一个网页聊天的，三种都能现场演示</li></ul></td></tr>
+
+ <tr class="day"><td colspan="4">周六上午</td></tr>
+ <tr><td>开场</td><td>001–033</td><td>五级、三样相乘的算式、一家公司拆开、换成 AI 的叫法、四样、破题、长出来的动画、闭环、两天怎么上。</td>
+  <td class="prep"><ul><li><span class="st ok">好了</span>课件 v11</li><li><span class="st todo">没备</span>017、020、031 三屏有字出界，以前就有</li><li><span class="st todo">没备</span>033 口播还在说"把总提示词复制给 AI、回车"，要改成"每块发一个包，每步贴一段"</li><li>028 动画让它多跑十几秒再翻</li></ul></td></tr>
+ <tr><td>知识库</td><td>034–041</td><td>讲大家以为的知识库和真正用起来的；发包 1；动手约 2 小时：放资料、AI 带着搭、新开对话考三道、讲师宣布规矩变了、收尾。</td>
+  <td class="prep"><ul><li><span class="st you">要你给</span>037 左右两张截图：新月老师建了没用起来的、我们团队天天在用的（去要新月、靖锋）</li><li><span class="st todo">没备</span>第 4 步"讲师宣布规矩变了"：宣布哪一条、怎么说</li><li><span class="st todo">没备</span>讲师自己示范用的知识库，和网不通时的备份</li><li><span class="st doing">在做</span>包 1 要不要改成一步一段，看问题 2</li></ul></td></tr>
+
+ <tr class="day"><td colspan="4">周六下午</td></tr>
+ <tr><td>看上午的知识库</td><td>042–043</td><td>每组抽一位上台，大约三位，当场找逻辑问题、当场改；讲大家共同的问题。约 1 小时。</td>
+  <td class="prep"><ul><li><span class="st todo">没备</span>学员电脑接投屏的线和转接头</li><li><span class="st todo">没备</span>怎么挑人：午饭时转一圈先看好</li></ul></td></tr>
+ <tr><td>技能</td><td>044–049</td><td>讲技能三层、对比屏（7 处对 1 处）、80 多个技能用乱了、三个帮做技能的技能；发包 2，一步一段做；技能库怎么管。逐分钟见下面"技能"。</td>
+  <td class="prep"><ul><li><span class="st doing">在做</span>包 2 改成一步一段，正在 Codex 上真跑两个技能</li><li><span class="st doing">在做</span>演示稿、演示备份照新包重做</li><li><span class="st todo">没备</span>048 口播还在说"六步、拼出技能卡网页"，等包定了改成七步、记进看板</li><li><span class="st ok">好了</span>对比屏的三份底稿在 <span class="f">演示备份/技能/</span></li></ul></td></tr>
+ <tr><td>智能体</td><td>050–056</td><td>讲大家以为的智能体、对比屏（7 条对 1 条）、做好以后怎么用；发包 3；主动性三档；第一天收尾。逐分钟见下面"智能体"。</td>
+  <td class="prep"><ul><li><span class="st doing">在做</span>包 3 学员页还在改成一步一张卡，看板模板加"复制看板数据"按钮</li><li><span class="st todo">没备</span>054 口播同上要改</li><li><span class="st ok">好了</span>对比和上岗示范的底稿在 <span class="f">演示备份/智能体/</span></li></ul></td></tr>
+ <tr><td>晚课</td><td>—</td><td>约 2 小时，以答疑为主：回顾今天，有问题上来讲。</td>
+  <td class="prep"><ul><li><span class="st you">要你给</span>讲什么，课件 056 说下午四五点定</li></ul></td></tr>
+
+ <tr class="day"><td colspan="4">周日上午</td></tr>
+ <tr><td>回顾、第二个智能体</td><td>057</td><td>回顾昨天三样；第二个智能体接第一个的棒（定交接单：交什么、放哪、怎么判）。</td>
+  <td class="prep"><ul><li><span class="st todo">没备</span>放在包 3 还是包 4 里做，看问题 1</li></ul></td></tr>
+ <tr><td>工作流</td><td>058–062</td><td>讲工作流和扣子、n8n 的不同；发包 4：两个智能体串一条线，建项目经理，看板上跑通一单，走到拍板点停下；改一步再跑；写一页部门人机分工。</td>
+  <td class="prep"><ul><li><span class="st doing">在做</span>包 4 是旧做法，看问题 2</li><li><span class="st todo">没备</span>讲师自己串好的一条线，现场演示；跑不动时的备份</li><li><span class="st todo">没备</span>只能聊天的学员怎么跟</li></ul></td></tr>
+
+ <tr class="day"><td colspan="4">周日下午</td></tr>
+ <tr><td>展示</td><td>060、063</td><td>上台展示，像路演，快的先上；现场和 mamahome 串一条：一人的智能体做出东西，另一人审，最后等老板拍板。</td>
+  <td class="prep"><ul><li><span class="st you">要你给</span>和 mamahome 谁上、串哪件事，要不要提前排一遍</li><li><span class="st todo">没备</span>展示顺序和每人几分钟</li></ul></td></tr>
+ <tr><td>收尾</td><td>064–072</td><td>两天的地图；L1 到 L5 五张全景；回去先让 AI 读懂公司；两周答疑群。</td>
+  <td class="prep"><ul><li><span class="st ok">好了</span>L1–L5 五屏（举例的部分底下有小字）</li><li><span class="st you">要你给</span>删掉的那屏"一晚真跑 22 遍"要不要挪回来</li></ul></td></tr>
+</table></div>
 
 <h2>群里发什么，课上怎么推进</h2>
 <div class="flow">
@@ -125,7 +196,8 @@ ul.plain li{margin:4px 0}
  </div>
 </div>
 
-<h2>技能<small>第一个约 40 分钟，第二个约 37 分钟</small></h2>
+<h2>技能<small>周六下午 · 第一个约 40 分钟，第二个约 37 分钟</small></h2>
+<p class="note">分钟从这一块开始算；每步分钟是包里写的，真跑完换成实测的数。左边讲师、右边学员，同一行是同一时间。</p>
 <div class="legend"><span><span class="tag sync">全场等齐</span> 这一步做完，等全场再往下</span><span><span class="tag new">新开对话</span> 要去另一个对话贴一段，再贴回来</span><span><span class="tag free">各走各的</span> 不等齐</span></div>
 <div class="tl"><div class="grid">
  <div class="head"><div>分钟</div><div>讲师</div><div>学员</div><div>看板上有什么</div></div>
@@ -238,7 +310,7 @@ ul.plain li{margin:4px 0}
  </div>
 </div></div>
 
-<h2>智能体<small>第一个约 40 分钟，每人至少做两个</small></h2>
+<h2>智能体<small>周六下午 · 第一个约 40 分钟；第二个今天做还是明天上午做，看问题 1</small></h2>
 <div class="tl"><div class="grid">
  <div class="head"><div>分钟</div><div>讲师</div><div>学员</div><div>看板上有什么</div></div>
 
@@ -324,7 +396,7 @@ ul.plain li{margin:4px 0}
  </div>
 
  <div class="row">
-  <div class="t"><b>48–86</b><span>第二个智能体</span><em>回第 1 步，可以换一种</em><span class="tag free">各走各的</span></div>
+  <div class="t"><b>48–86</b><span>第二个智能体</span><em>回第 1 步，可以换一种；问题 1 定了放明天，这一行挪走</em><span class="tag free">各走各的</span></div>
   <div class="lec"><p class="do"><b>巡场，</b>保证每人至少走完一个；第二个建议换一种，例如第一个是自己岗位的，第二个做老板的把关。</p></div>
   <div class="stu"><p class="do">再贴第 1 步做第二个，约 38 分钟。来不及就说"收尾"。</p>
    <dl><dt>得到</dt><dd>第二个智能体的四样文件</dd></dl></div>
@@ -361,11 +433,11 @@ ul.plain li{margin:4px 0}
  <li><b>网不通、AI 卡住：</b>讲师打开 <span class="f">中台版/演示备份/</span> 讲成品；学员看学员页每步下面"做完大概长这样"。</li>
 </ul>
 
-<div class="ask"><h3>和现在包里不一样、还在做的</h3>
+<div class="ask"><h3>还在做的，做完更新这一页</h3>
 <ul class="plain">
- <li>分钟是包里写的，真跑完换成实测的数（技能这遍在 Codex 上跑两个技能，智能体这遍用只能聊天的接着同一个看板）。</li>
- <li>智能体包的学员页还在改成一步一张卡；看板模板正在加"复制看板数据"按钮。</li>
- <li>"看板截图发群"是照第一天的做法写的，要不要这样收尾等你定。</li>
+ <li>技能、智能体两块的分钟换成真跑实测的数（技能在 Codex 上跑两个，智能体用只能聊天的接着同一个看板）。</li>
+ <li>演示稿、演示备份照新包重做；给你上手体验的练习文件夹。</li>
+ <li>两块收尾写的"看板截图发群"，是照第一天的做法写的，要不要这样收也请定。</li>
 </ul></div>
 
 </div></body></html>
