@@ -461,19 +461,27 @@ def nokb():
     return h + '<div class="nk-punch pop" style="--d:2.2s"><b>像个每天<br>新来的<em>实习生</em></b><p>嘴甜、手快、啥也不知道<br>明天，还全忘了</p></div>' + f'<div class="nk-meme"><img class="pop" style="--d:3.0s" src="{MEME}" alt="思考中…嗯，用户又开始发癫了"></div>'  # 11-05 靖锋：表情包用原图
 # 拔高（11-05 靖锋：每块做完以后往上走一层：更高级的玩法、更深一层的想法，不只是做个雏形；字少、说人话）
 UPG = {
- 'm1': ('知识库', '你这摊业务，AI 门儿清了', ['全公司都往里放，谁该看啥分清楚', '邮件、订单、表格，自己往里进', '问一句，连出处都给你'], '老员工走了，经验还在；新人第一天就能问'),
+ 'm1': ('知识库', ('个人的库', 'Obsidian 加 AI，一人一库'), [   # 11-06 靖锋定的顺序：个人库 → 知识图谱 → 多模态知识库 → 企业级知识库；每张卡只写怎么走到这一级
+     ('建关系网', '知识图谱', 'LightRAG 这类，客户、订单、供应商连成网，查得出牵连'),
+     ('换模型', '多模态知识库', '换多模态向量模型，图纸、录音、视频一起进库'),
+     ('上平台', '企业级知识库', 'WeKnora 这类平台，接企微飞书，按部门分权限')],
+     '越往上，库越接近公司本来的样子'),
  'm2': ('技能', '教会 AI，干一件你常干的活', ['你教的，全部门都能用', '一句话，报价合同全出来', '规矩变了，改一句就行'], '最会干活的那个人怎么做，现在人人都会'),
  'm3': ('智能体', '一个 AI 同事，干完先给你看', ['不用叫，每天自己查一遍', '几个 AI 同事，互相挑错', '能查库存和订单，不瞎猜了'], '组织图上，多了一排 AI 同事'),
  'm4': ('人机编队', '一个人带一支 AI 队伍', ['从询价到回款，一条线跑完', '客户一来邮件，它就开工', '做完一单记教训，下一单更顺'], '跑腿的事 AI 干，人去谈客户、想新品'),
 }
+UPG_TITLE = {'m1': ('拔高：从个人的库，到<em>企业级知识库</em>', '个人 → 知识图谱 → 多模态 → 企业级')}   # 11-05 靖锋：拔高 = 应用方向往上走
+def up_title(sid): return UPG_TITLE.get(sid, (f'拔高：{UPG[sid][0]}<em>还能怎么玩</em>', '课上是雏形，往上还有好玩的'))
+def up_body(x, br=True): return f'<b>{x.replace("，", "，<br>")}</b>' if isinstance(x, str) else f'<b>{x[0]}</b><p>{x[1].replace("，", "，<br>") if br else x[1]}</p>'
 def up_page(sid):
     name, base, items, deep = UPG[sid]
-    h = f'<div class="up-st s0 pop" style="left:96px;height:150px;--d:.2s"><i>课上做的</i><b>{base.replace("，", "，<br>")}</b></div>'
+    h = f'<div class="up-st s0 pop" style="left:96px;height:150px;--d:.2s"><i>课上做的</i>{up_body(base, br=False)}</div>'
     for j, t in enumerate(items):
-        h += f'<div class="up-st pop" style="left:{96+(j+1)*357}px;height:{240+j*90}px;--d:{.6+j*.4:.1f}s"><i>往上走</i><b>{t.replace("，", "，<br>")}</b></div>'
+        lab, t = (t[0], t[1:]) if isinstance(t, tuple) else ('往上走', t)
+        h += f'<div class="up-st pop" style="left:{96+(j+1)*357}px;height:{240+j*90}px;--d:{.6+j*.4:.1f}s"><i>{lab}</i>{up_body(t)}</div>'
     h += f'<div class="up-base"></div><div class="up-deep pop" style="--d:2.0s"><span>往深想</span>{deep}</div>'
-    return (f'拔高：{name}<em>还能怎么玩</em>', h, 3, '')
-for _sid in UPG: SUB.setdefault(_sid, {})[f'拔高：{UPG[_sid][0]}<em>还能怎么玩</em>'] = '课上是雏形，往上还有好玩的'
+    return (up_title(sid)[0], h, 3, '')
+for _sid in UPG: SUB.setdefault(_sid, {})[up_title(_sid)[0]] = up_title(_sid)[1]
 # 方法页（11-05 靖锋：光靠 AI 自动做学不到东西；每块讲清原理。第二版：四格，每格画一步，号码和底下的字对上）
 def md_page(sid):
     title, sub, stages, *foot = MD[sid]
@@ -598,19 +606,75 @@ def kb_zuzhi():
     h += (f'<div class="zz-r pop" style="--d:1.2s"><small>是：怎么组织</small><svg viewBox="0 0 560 300">{org}</svg>'
           '<p class="zz-c">一页一件事、连起来、标出处</p></div>')
     return h + '</div><div class="zz-end pop" style="--d:2.2s">存储越来越简单，知识管理逃不掉</div>'
-m1_pages = [
+# 搭好以后，让它自己转（11-05 靖锋：萌芽知识库那条视频，补进知识整理：资料自己进来、每晚自己理、第二天一份导读；经验还得人写）
+# 11-05 课件·知识包（靖锋定的图）：包 1 第 3 步“理”，AI 停下来请学员核 3 条时翻到这屏，讲传话游戏、三人成虎；整屏只放图，不加任何字
+CAT = 'data:image/webp;base64,' + base64.b64encode((P.parent / '素材' / '传话游戏_猫传成老虎.webp').read_bytes()).decode()
+def kb_cat():
+    return f'<div class="kbcat"><img src="{CAT}" alt="传话游戏：原件是只小猫，一手手传成老虎，最后递给客户"></div>'
+
+AU_T = ('搭好以后，<em>让它自己转</em>', '设一次，以后每天自己收、自己理')
+def kb_auto():
+    ic = lambda inner, sc=1: f'<svg viewBox="-32 -32 64 64">{at(0, 0, inner, sc)}</svg>'
+    h = '<div class="au"><div class="au-in pop" style="--d:.2s"><small>资料自己进来</small>'
+    for inner, b, t, cls in [(I_DOC, '网页', '装个剪藏插件，点一下', ''), (I_WX, '公众号文章', '存到 ima，AI 收进来', ''),
+                             (I_FOLDER, '微信收的文件', 'AI 去那个文件夹拿', ''), (I_PERSON, '你脑子里的', '随手记一句', ' me')]:
+        h += f'<div class="au-r{cls}">{ic(inner, .95)}<div><b>{b}</b><span>{t}</span></div></div>'
+    h += '</div><i class="au-ar pop" style="--d:.8s">→</i>'
+    h += ('<div class="au-mid pop" style="--d:1.0s"><div class="au-clk"><b>每晚</b><em>8 点</em></div>'
+          + ''.join(f'<span>{t}</span>' for t in ['收进来', '整理', '体检']) + '</div>')
+    h += '<i class="au-ar pop" style="--d:1.4s">→</i>'
+    h += ('<div class="au-out pop" style="--d:1.6s"><small>第二天早上</small><b class="au-h">一份导读</b>'
+          + ''.join(f'<div class="au-ln{c}"><span>{a}</span><em>{n}</em></div>' for a, n, c in [('新进来', '6 份', ''), ('改了', '3 页', ''), ('等你拍板', '2 处', ' hot')]) + '</div>')
+    return h + '</div><div class="zz-end pop" style="--d:2.2s">整理 AI 天天干；你的经验，还得你自己写</div>'
+SUB.setdefault('m1', {})[AU_T[0]] = AU_T[1]
+# 开源推荐（11-05 靖锋：拔高后面接一页，推荐几个开源好用的知识库，按台阶挑；数字和许可 11-05 在 GitHub 上核过。靖锋：跟 Obsidian 差距要明显、要大一点的，去掉 AnythingLLM；Dify 主要是工作流，也不放这里；MaxKB 跟 WeKnora 重了，也拿掉，留三个）
+OS_T = ('想往上走，<em>拿什么搭</em>', '开源、免费，按台阶挑')
+def kb_os():
+    h = '<div class="os">'
+    for k, (tag, name, who, d, pill, me) in enumerate([
+            ('知识图谱 · 看懂关系', 'LightRAG', '', '谁跟谁有关系，连成一张网', 'IT 同事装', False),
+            ('扫描件、图片、表格', 'RAGFlow', '', '扫描件、表格，解析最强', 'IT 同事装', False),
+            ('企业级知识库 · 接企微飞书', 'WeKnora', '腾讯', '同步飞书、ima，按部门、按人分权限', 'IT 同事装', False)]):
+        nm = name + (f'<small>{who}</small>' if who else '')
+        h += (f'<div class="os-c{" me" if me else ""} pop" style="--d:{.3+k*.35:.2f}s"><i>{tag}</i><b>{nm}</b>'
+              f'<p>{d.replace("，", "，<br>")}</p><em>{pill}</em></div>')
+    return h + '</div><div class="zz-end pop" style="--d:2.4s">装好只是开始：口径谁定、谁能看，还得公司自己定</div>'
+SUB.setdefault('m1', {})[OS_T[0]] = OS_T[1]
+# 开源项目，一个一页（11-05 靖锋：第五版——老板只想看三样：能干什么、特点是什么、什么样的企业适合；不讲“凭什么”，缺点只在口播里提一句；事实 11-05 对过 GitHub 说明）
+OP = [
+    dict(name='LightRAG', tag='看懂谁跟谁有关系', what='香港大学的实验室出的：把资料连成一张网，按关系来答',
+         do=['客户、订单、供应商连成网', '查一家出事，牵连哪几单', '网页上看清谁跟谁有关'],
+         feat=['按关系查，不只按字找', '香港大学出品，MIT 许可', '要开发同事来搭'],
+         fit=['客户、供应商多，关系复杂', '要查供应链、合规风险', '有开发团队']),
+    dict(name='RAGFlow', tag='最会读难读的资料', what='英飞流出的：先把难读的资料读准、切好，再拿来答',
+         do=['扫描件、报表变成能问的库', '问合同条款，直接给出原文', '资料编成 Wiki、时间线'],
+         feat=['扫描件、表格读得准', '每句答案都带出处', 'Apache 许可，可商用'],
+         fit=['资料多是扫描件、报表', '制造、外贸、财务、法务', '有 IT 能管一台服务器']),
+    dict(name='WeKnora', tag='腾讯开源，接飞书、企微', what='把飞书、ima、钉钉里的资料同步过来，在企微、飞书里直接问',
+         do=['各处的资料，汇成一个库', '员工在企微、飞书里直接问', '官网挂个问答窗口，答客户'],
+         feat=['10 种来源自动同步', '按部门、按人分权限', '腾讯开源，可商用'],
+         fit=['资料散在飞书、ima、钉钉', '员工天天在企微、飞书里', '有 IT 能部署、维护']),
+]
+def op_title(o): return f"{o['name']}：<em>{o['tag']}</em>"
+def op_page(o):
+    col = lambda cls, head, items, d: (f'<div class="ot-c {cls} pop" style="--d:{d}s"><i>{head}</i>'
+                                       + ''.join(f'<p>{t}</p>' for t in items) + '</div>')
+    return ('<div class="ot">' + col('ot-do', '能干什么', o['do'], .3) + col('', '特点', o['feat'], .9)
+            + col('ot-fit', '适合什么企业', o['fit'], 1.5) + '</div>')
+for _o in OP: SUB.setdefault('m1', {})[op_title(_o)] = _o['what']
+m1_pages = [   # 11-05 靖锋：第 30 屏讲完五件事就进实操；后面几页都是实操做完回来讲的
     ('跟 AI 聊，<em>你是不是遇到过这些？</em>', nokb() + poster(lit_of('知识库')), 1, ''),
     ('存，<em>越来越简单</em>', kb_tong(), 1, ''),
     ('并非：只存进去，<em>有三个坑</em>', kb_keng(), 1, ''),
     ('管知识，管的是<em>怎么组织</em>', kb_zuzhi(), 1, ''),
     ('差的和好的', ph(110, 230, 660, 560, '建了没用起来的', '新月的知识库截图') + ph(830, 230, 660, 560, '我们内部天天在用的', '靖锋的知识库图谱，投屏或录屏'), 1, ''),
-    ('动手：用包 1 <em>搭自家的知识库</em>', kb_pack, 2, ''),
-    ('会出的东西', steps_page([('放好资料', '5 分钟'), ('AI 带着搭', '约 65 分钟'), ('新开窗口考', '约 25 分钟'), ('规矩变了', '约 25 分钟'), ('收个尾', '约 5 分钟')], ['一页规矩', '5 份原始资料', '5 页整理好的，互相连着', '3 个带出处的回答', '1 处标了“待确认”'], 'var(--kb)'), 2, ''),
-    ('之后该怎么做', after_page(['每周丢新资料进去，让 AI 更新', '每周体检：矛盾、空页、过期', '答对的、被纠正的，都存回去', '一条业务稳了，再扩下一条', '扩到团队前，先定谁放、谁看、谁管'], '别一上来整理全公司；客户名字先换代号'), 3, ''),
-    ('做完以后', kb_after, 3, ''),
 ]
 m1_pages.append(up_page('m1'))
+m1_pages.append((OS_T[0], kb_os(), 3, ''))
+m1_pages += [(op_title(o), op_page(o), 3, '') for o in OP]
 m1_pages.insert(5, md_page('m1'))
+m1_pages.insert(6, (AU_T[0], kb_auto(), 3, ''))
+m1_pages.insert(6, ('', kb_cat(), None, ''))   # 紧跟“五件事”：实操讲到第 3 步“理”时翻过来；没有标题、没有阶段标签
 sec('m1', '--kb', m1_pages, ('01', '知识库', '让 AI 先读懂公司', '<i class="on"></i><i></i><i></i><i></i>'))
 beats('m1', '知识库', [
     '第一块，知识库。放第一，是因为后面每一块做出来的东西都会存进来。',
@@ -620,11 +684,13 @@ beats('m1', '知识库', [
     '所以，管知识，管的不是放在哪，是怎么组织。放 ima、网盘还是飞书，越来越简单，交给厂商就行；可放进去还是一团乱麻，放哪都没用。怎么组织：一页说一件事，页和页连起来，每条标出处。存储越来越简单，知识管理逃不掉，这件事得你自己想好。先看看差的和好的。',
     '同样叫知识库，差得很远。左边是新月老师自己建的，建了没用起来；右边是我们团队内部天天在用的，图谱一打开就看得出来。今天不讲右边怎么实现，先看看能做到什么样。',
     '光让 AI 自动整理，各位学不到东西，这套方法要自己懂。整理的活是 AI 干，但有五件事得你来定。第一，定：想清楚要给它哪些资料，价格表、产品手册、客户的询盘邮件；工资表这种不该给的，就别给。第二，找：这些资料在哪，价格表在共享盘，产品手册在电脑文件夹，询盘在邮箱，告诉它去哪找。第三，理：它一份份整理，每条写清是谁哪天说的；你随手点一条，回原件对一下。第四，判：两个说法对不上，它不替你选，标出来，你去找老板拍板。第五，问：拿真问题考它，有出处才敢用，库里没有的它得说没有。拆开、一页一件事、连起来、标出处，这些 AI 在后台做，是卡帕西的做法。这五句话记住，回去换个工具、换批资料，照样能搭。',
-    '动手。发包 1，复制过去，填上自家公司的情况，AI 来问，一步步把自家的知识库搭起来。我们在下面转。',
-    '五步：放好资料，AI 带着搭，新开窗口考一考，讲师宣布规矩变了、看库改不改得动，最后收尾。做完手上要有这几样。AI 会先说哪几步出文件，聊到一半问一句聊完没有；一直聊不完，它会提醒先把东西做出来。',
-    '回去之后照这五条走。这份文档会发到群里。',
-    '后面三块做的东西，都会存进这个知识库。这一块用到了海报上的提示词与上下文设计、AI 资料研究、企业知识库与岗位智能体。',
-    '课上，你这摊业务 AI 已经门儿清了。往上走：全公司都往里放，谁该看啥分清楚，财务的账销售看不到；客户邮件、订单、表格，自己往里进，不用天天喂；问它一句，连出处都给你。往深想一层：老员工走了，经验还在，新人第一天就能问。',
+    '（实操第 3 步“理”，AI 停下来请大家核 3 条时翻到这屏，不用念字）指最左边：原件是只小猫，第一个人手里还拿着。指最右边：传了几手，成了老虎，最后那个人一点不心虚，把老虎递给客户。三人成虎。AI 写的库也一样：一条记错，抄了它数字的页跟着错，拿它回答的每一次也跟着错，越传越像真的。所以这一步要特别花精力：不用每页都看，只看它挑出来的、被用得最多的那 3 条，用得越多，错了影响越大；看的不是抄错没有，是现在还算不算数。不花这 2 分钟，你的库就是一场传话游戏。',
+    '刚才各位把自家的库搭起来了。搭好以后，可以让它自己转起来。先是资料自己进来：装个剪藏插件，看到有用的网页点一下，就存进库；公众号文章，点“存到 ima”，AI 再收进来；微信里收到的报价单，让 AI 定时去那个文件夹拿。再在 Codex 或 WorkBuddy 里设一个定时任务，比如每天晚上 8 点：把当天新进来的收进库、整理好、全库体检一遍。第二天早上，它给你一份导读：新进来几份，改了哪几页，哪两处等你拍板。只有一样它替不了：你脑子里冒出来的想法、踩过的坑，得你自己随手记一句，它再帮你理进去。今天课上先手动走一遍，弄懂了，回去再让它自己转。',
+    '刚才搭的，是个人的库：Obsidian 加 AI，一个人、一条业务，资料你给，对不对你拍板。往上走，还有三级。第二级，知识图谱。路径是建关系网：用 LightRAG 这类开源工具，把资料里的客户、订单、供应商、产品抽出来，连成一张网。注意，Obsidian 里那张关系图不是知识图谱：那上面的线只说明“这两页有关”，是页连页；知识图谱的线写着是什么关系，比如“供货给”“下了单”“用到了”，是事连事。所以它能回答“这家供应商出了问题，牵连哪几单、哪几个客户”，这种答案要跨好几份文件才拼得出来。第三级，多模态知识库。路径是换模型：换成多模态的向量模型，图纸、样品照片、会议录音、验货视频，和文字进同一个库，一起检索。谷歌今年 3 月发布的模型已经能做到。第四级，企业级知识库。路径是上平台：用 WeKnora 这类平台，接上企业微信、飞书，按部门、按人分权限，全公司在同一个库里问，口径统一。往深一层看：越往上，库越接近公司本来的样子：关系清楚了，资料全了，人也全了。',
+    '想往上走，拿什么搭？这三个都是开源的，免费，都比刚才搭的这套大一级，正好一级对一个。想让它看懂客户、订单、供应商之间的关系：看 LightRAG。资料多是扫描件、图片、表格：看 RAGFlow，解析最强，扫描的合同、复杂的表格都拆得开。要全公司一起用：看腾讯开源的 WeKnora，飞书、ima 里的资料能同步过来，按部门、按人分权限，员工在企业微信、飞书里直接问。提醒一句：装好只是开始，口径谁来定、谁能看什么，还得公司自己定；这三个都得 IT 同事帮你装，公司里用之前，许可证让 IT 看一眼。后面一个一个说。',
+    'LightRAG，香港大学的实验室出的，专门看懂关系。能干什么：把资料里的客户、订单、供应商连成一张网；能查“这家供应商出了问题，牵连哪几单”这种跨好几份文件的问题；网页上一点，谁跟谁有关一目了然。特点：按关系查，不只是按字找；香港大学出品，MIT 许可；要开发同事来搭。适合什么企业：客户、供应商多，关系复杂，要查供应链、查合规风险，又有开发团队的。提醒一句：每段资料都要大模型读一遍，资料一多，费钱也费时间。',
+    'RAGFlow，英飞流出的，最会读难读的资料。能干什么：扫描的合同、报表，变成能问的库；问合同里某一条，它直接把原文那段给你；还能把资料编成 Wiki、时间线。特点：扫描件、表格读得准，表格不会被切碎；每句答案都带出处，点得回原文；Apache 许可，可以商用。适合什么企业：资料多是扫描件、PDF、报表的，比如制造、外贸、财务、法务，而且有 IT 能管一台服务器。提醒一句：它吃机器，官方建议 4 核、16G 内存起步。',
+    'WeKnora，腾讯开源的。先说能干什么：散在飞书、ima、钉钉里的资料，汇成一个库；员工在企业微信、飞书里直接问；官网上还能挂个问答窗口，答客户。特点：飞书、ima 这些，一共十种来源，自动同步过来，不用手动搬；能按部门、按人分权限，谁能看哪个库分得清；腾讯开源，MIT 许可，公司拿来商用没问题。适合什么企业：资料散在飞书、ima、钉钉里，员工天天在企微、飞书里干活，又有 IT 能部署、维护的。提醒一句：它还是 0.9 版，升级常有大改动。',
 ])
 
 # ======================= 02 技能 =======================
@@ -1326,9 +1392,49 @@ CSS = r'''
 .up-st i{display:block;font-style:normal;font-size:18px;font-weight:800;color:var(--c);letter-spacing:.06em;margin-bottom:6px}
 .up-st b{display:block;font-size:32px;font-weight:900;line-height:1.3;color:var(--m-ink)}
 .up-st.s0{background:var(--c)}.up-st.s0 i,.up-st.s0 b{color:#0b0d0c}
+.up-st p{font-size:22px;line-height:1.5;font-weight:600;color:var(--m-mute);margin-top:10px}.up-st.s0 p{color:#0b0d0c;margin-top:6px}
 .up-base{position:absolute;left:96px;right:96px;top:660px;height:2px;background:var(--m-line2)}
 .up-deep{position:absolute;left:96px;right:96px;top:688px;height:84px;box-sizing:border-box;border-radius:18px;background:var(--m-card2);display:flex;align-items:center;gap:22px;padding:0 30px;font-size:30px;font-weight:800;color:var(--m-ink)}
 .up-deep span{flex:none;font-size:20px;font-weight:900;color:#0b0d0c;background:var(--c);border-radius:20px;padding:6px 16px}
+/* 猫传成老虎（11-05）：整屏一张图，contain 不裁两头，底色接图的黑 */
+.kbcat{position:absolute;inset:0;background:#030408}
+.kbcat img{display:block;width:100%;height:100%;object-fit:contain}
+/* 开源项目一个一页（11-05 第五版）：三栏 能干什么 / 特点 / 适合什么企业，每栏三句 */
+.ot{position:absolute;left:96px;right:96px;top:250px;height:360px;display:flex;gap:28px}
+.ot-c{flex:1;box-sizing:border-box;border-radius:24px;background:var(--m-card);border:1.5px solid var(--m-line2);padding:36px 36px}
+.ot-c.ot-do{border:2.5px solid var(--c)}
+.ot-c i{display:block;font-style:normal;font-size:30px;font-weight:900;color:var(--c);margin-bottom:14px}
+.ot-c.ot-fit i{color:var(--m-ink)}
+.ot-c p{position:relative;padding-left:30px;margin-top:26px;font-size:27px;line-height:1.45;font-weight:700;color:var(--m-ink)}
+.ot-c p::before{content:'';position:absolute;left:0;top:.6em;width:10px;height:10px;border-radius:50%;background:var(--c)}
+.ot-c:not(.ot-do) p::before{background:var(--m-mute)}
+/* 开源推荐（11-05）：五张卡，上面标在哪一级，底下谁来装 */
+.os{position:absolute;left:96px;right:96px;top:232px;height:430px;display:flex;gap:20px}
+.os-c{flex:1;box-sizing:border-box;border-radius:22px;background:var(--m-card);border:1.5px solid var(--m-line2);padding:24px 24px 22px;display:flex;flex-direction:column}
+.os-c i{font-style:normal;font-size:20px;font-weight:800;color:var(--c);letter-spacing:.04em}
+.os-c b{font-size:36px;font-weight:900;color:var(--m-ink);margin-top:16px}
+.os-c b small{font-size:22px;font-weight:700;color:var(--m-mute);margin-left:10px}
+.os-c p{flex:1;font-size:24px;line-height:1.55;font-weight:600;color:var(--m-mute);margin-top:14px}
+.os-c em{align-self:flex-start;font-style:normal;font-size:20px;font-weight:800;color:var(--m-ink);background:var(--m-card2);border-radius:999px;padding:6px 18px}
+.os-c.me{border:2.5px solid var(--c)}.os-c.me em{background:var(--c);color:#0b0d0c}
+/* 搭好以后让它自己转（11-05）：左边资料自己进来，中间每晚 8 点，右边第二天一份导读，底下一句 */
+.au{position:absolute;left:96px;right:96px;top:232px;height:440px;display:flex;align-items:center;gap:18px}
+.au-in,.au-out{height:440px;box-sizing:border-box;border-radius:24px;background:var(--m-card);border:1.5px solid var(--m-line2);padding:22px 28px}
+.au-in{flex:0 0 540px;display:flex;flex-direction:column;justify-content:space-between}
+.au small,.au-out small{font-size:24px;font-weight:900;color:var(--m-mute)}
+.au-r{display:flex;align-items:center;gap:18px}.au-r svg{flex:none;width:60px;height:60px}
+.au-r b{display:block;font-size:28px;font-weight:900;color:var(--m-ink)}.au-r span{display:block;font-size:22px;font-weight:600;color:var(--m-mute);margin-top:2px}
+.au-r.me b{color:var(--c)}
+.au-ar{flex:none;font-style:normal;font-size:48px;font-weight:900;color:var(--c)}
+.au-mid{flex:1;display:flex;flex-direction:column;align-items:center;gap:14px}
+.au-clk{width:190px;height:190px;border-radius:50%;border:5px solid var(--c);display:flex;flex-direction:column;align-items:center;justify-content:center;margin-bottom:8px}
+.au-clk b{font-size:30px;font-weight:900;color:var(--m-ink)}.au-clk em{font-style:normal;font-size:46px;font-weight:900;color:var(--c)}
+.au-mid span{font-size:26px;font-weight:800;color:var(--m-ink);border-radius:12px;background:var(--m-card2);padding:6px 22px}
+.au-out{flex:0 0 400px;border:2.5px solid var(--c);display:flex;flex-direction:column;gap:16px}
+.au-h{font-size:38px;font-weight:900;color:var(--m-ink)}
+.au-ln{display:flex;justify-content:space-between;align-items:baseline;border-top:1.5px solid var(--m-line2);padding-top:14px}
+.au-ln span{font-size:26px;font-weight:700;color:var(--m-mute)}.au-ln em{font-style:normal;font-size:34px;font-weight:900;color:var(--m-ink)}
+.au-ln.hot em{color:var(--c)}
 /* 方法页第二版（11-05）：四格，每格画一步 */
 .ms{position:absolute;left:96px;right:96px;top:236px;display:flex;align-items:flex-start;gap:10px}
 .ms-p{flex:1;min-width:0;display:flex;flex-direction:column;gap:20px}
