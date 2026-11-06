@@ -151,6 +151,32 @@ h2 small { margin-left: auto; font-weight: 400; font-size: .82rem; color: var(--
   .done .scs { order: 3; flex-basis: 100%; justify-content: flex-start; margin: 8px 0 2px; }
   .done .scs + small { order: 2; margin-left: auto; }
 }
+/* 进度卡：一个技能、一个智能体一张 */
+#done .jd { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; margin: 1em 0 0; padding: 0; list-style: none; }
+#done .jd-card { --ok: #3F8A4F; --part: #B07A12; --no: #B5483A; display: flex; flex-direction: column; padding: 16px 18px 14px; border-radius: 12px; border: 1px solid var(--rule); border-top: 4px solid var(--c); background: var(--sheet); }
+#done .jd-card.wide { grid-column: 1 / -1; }
+#done .jd-hd { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+#done .jd-kind { display: inline-flex; align-items: center; gap: 5px; padding: 1px 10px 1px 7px; border-radius: 99px; background: color-mix(in srgb, var(--c) 14%, transparent); color: var(--c); font-size: .8rem; font-weight: 600; line-height: 1.7; }
+#done .jd-kind svg { width: 15px; height: 15px; }
+#done .jd-nm { display: block; margin-top: 6px; font: 600 1.18rem/1.35 var(--serif); }
+#done .jd-nm a { color: inherit; text-decoration: none; }
+#done .jd-nm a:hover { color: var(--c); }
+#done .jd-gd { flex: none; width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--c); color: var(--c); display: grid; place-items: center; font: 700 1.5rem/1 var(--serif); cursor: help; }
+#done .jd-tiles { display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: 5px; margin-top: 14px; }
+#done .jd-t { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-height: 56px; padding: 6px 3px; border-radius: 6px; background: var(--soft); color: var(--faint); font-size: .78rem; line-height: 1.3; text-align: center; }
+#done .jd-t b { font-size: .92rem; line-height: 1.2; }
+#done .jd-t.ok { background: color-mix(in srgb, var(--ok) 13%, transparent); color: var(--ink); } #done .jd-t.ok b { color: var(--ok); }
+#done .jd-t.part { background: color-mix(in srgb, var(--part) 15%, transparent); color: var(--ink); } #done .jd-t.part b { color: var(--part); }
+#done .jd-t.no { background: color-mix(in srgb, var(--no) 14%, transparent); color: var(--ink); } #done .jd-t.no b { color: var(--no); }
+#done .jd-t.nx { background: transparent; border: 1.5px dashed var(--c); color: var(--c); }
+#done .jd-t.nx b { font-size: .74rem; font-weight: 600; }
+#done .jd-t.skip b { font-size: .72rem; font-weight: 400; }
+#done .jd-why { margin: 12px 0 0; font-size: .92rem; line-height: 1.6; color: var(--muted); }
+#done .jd-new { animation: jdPop 1.2s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes jdPop { 0% { transform: scale(.6); opacity: 0; } 50% { transform: scale(1.08); opacity: 1; box-shadow: 0 0 0 4px color-mix(in srgb, var(--c) 30%, transparent); } 100% { transform: none; box-shadow: none; } }
+@media (prefers-reduced-motion: reduce) { #done .jd-new { animation: none; } }
+@media (prefers-color-scheme: dark) { #done .jd-card { --ok: #7BC487; --part: #E2B25A; --no: #EC8C77; } }
+@media (max-width: 560px) { #done .jd-card.wide .jd-tiles { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
 </style>
 </head>
 <body>
@@ -390,92 +416,90 @@ h2 small { margin-left: auto; font-weight: 400; font-size: .82rem; color: var(--
   var doneLast = '', doneFirst = true, doneFresh = false, scoreSeen = {};
 
 
-  var STAGE = {
-    '技能': { 共: 5, 起: 1, 步: [
-      ['挑好的事', '上午的知识库接上了，挑好了一件你最拿手、库里资料最厚的事', '起步'],
-      ['技能第 1 版', '判断、红线都写下来了，每条写着来自知识库哪一页或你的哪句话', '有雏形'],
-      ['盲比', '同一份材料，两个没记忆的助手一个用技能、一个不用，打乱了让你挑，你挑中了用技能那份', '能用'],
-      ['技能新一版', '会改了：改一句，重做再盲挑，你挑中了改后那份', '好用'],
-      ['技能做完', '盲比赢了两次，谁用、谁改都写清，以后交代这件事 AI 照它做', '很强']] },
-    '智能体': { 共: 5, 起: 1, 步: [
-      ['岗位和第一件事', '岗位定下来了，第一件要交给它的事也挑好了，是你熟的事', '起步'],
-      ['岗位说明书第 1 版', '它有了身份和规矩：做什么、不能碰什么、什么时候停下来问人', '有雏形'],
-      ['第一单', '它自己查库、出图、自查，该停的停下交请示单；和不照说明书的那份盲挑，你挑中了它', '能用'],
-      ['排班表', '它会自己上班了：每天到点去收件箱拿新事，它自己做的那一单你放心交出去', '好用'],
-      ['岗位说明书新一版', '改一句重做再盲挑，你挑中了改后那份；放多少手、谁来审都定了', '很强']] },
-    '编队': { 共: 4, 起: 6, 步: [
-      ['分工表', '一个人变成一支队：做的、出图的、挑错的各管一段', '有雏形'],
-      ['第一轮日报', '这支队自己接力做完几件事，人只批请示单', '能用'],
-      ['改过的那一句', '找到是哪个队员哪一句，改完重做，你盲挑中了改后那份', '好用'],
-      ['全队排班表', '这支队每天自己跑，只把要拍板的事交上来', '很强']] }
+  // 每一步小格上的字，和提示词文件名对得上
+  var STEPS = {
+    '技能': ['挑一件事', '写手册', '照手册再做', '改一句', '谁用谁改'],
+    '智能体': ['定岗位', '说明书', '交出去', '上班表', '改一句', '拆成队', '交几件事', '改一处', '全队排班']
   };
-  function stageFix(arr) {
-    var ok = {}, bad = {};
-    return (Array.isArray(arr) ? arr : []).map(function (x) {
-      var b = STAGE[txt(x && x.块)], m = String(txt(x && x.步)).match(/\d+/);
-      if (!b || !m) return x;
-      var i = +m[0] - b.起, s = b.步[i];
-      if (!s) return x;
-      var y = {};
-      for (var k in x) y[k] = x[k];
-      // 档位按过了几步算，不按做到第几步算：一般、没过的步骤不算数
-      var r = txt(x.结果), bk = txt(x.块), weak = r === '一般' || r === '没过';
-      ok[bk] = ok[bk] || 0; bad[bk] = bad[bk] || [];
-      if (weak) bad[bk].push(+m[0] + ' 步' + r); else ok[bk]++;
-      var p = ok[bk];
-      y.名 = s[0]; y._n = i + 1; y._all = b.共; y.分 = Math.round(p / b.共 * 100);
-      y.档级 = p ? b.步[p - 1][2] : '还没过一步';
-      y._欠 = bad[bk].length;
-      if (weak) { y.档 = r; y.意味着 = r + '：' + (txt(x.实话) || '这一步没做到'); }
-      else { y.档 = y.档级; y.意味着 = s[1] + (bad[bk].length ? '（第 ' + bad[bk].join('、第 ') + '，档位只算过了的 ' + p + ' 步）' : '') + (txt(x.实话) ? '。' + txt(x.实话) : ''); }
-      return y;
+  var KIND_ICON = {
+    '技能': '<path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5z"/><path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H13v16h5.5a1.5 1.5 0 0 0 1.5-1.5z"/>',
+    '智能体': '<rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 8V4.5"/><circle cx="12" cy="4" r="1"/><circle cx="9" cy="13.5" r="1.2" fill="currentColor"/><circle cx="15" cy="13.5" r="1.2" fill="currentColor"/>',
+    '知识库': '<path d="M12 4 3 8.5l9 4.5 9-4.5z"/><path d="m3 12.5 9 4.5 9-4.5"/><path d="m3 16.5 9 4.5 9-4.5"/>'
+  };
+  var GRADE_TIP = '做到了算 1 分，差一点算半分，没做到不算分；做过的步平均下来，满分是优，七成以上良，五成以上中，不到五成差';
+  function kindTag(kind) {
+    var icon = KIND_ICON[kind] ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + KIND_ICON[kind] + '</svg>' : '';
+    return '<span class="jd-kind">' + icon + esc(kind) + '</span>';
+  }
+  function stepNo(x) { var m = String(txt(x && x.步)).match(/\d+/); return m ? +m[0] : 0; }
+  function pageName(p) { return cleanPath(p).split('/').pop().replace(/\.md$/i, ''); }
+  // 一个技能、一个智能体一张卡；编队（智能体第 6–9 步）接在前面那个智能体的卡上；同一步写过几次，用最后那次
+  function stageCards(list) {
+    var cards = [], byKey = {}, lastAgent = '';
+    (Array.isArray(list) ? list : []).forEach(function (x, i) {
+      if (!x || typeof x !== 'object') return;
+      var blk = txt(x.块), kind = blk === '编队' ? '智能体' : blk, n = stepNo(x);
+      if (!STEPS[kind] || !n || n > STEPS[kind].length) {
+        if (txt(x.名)) cards.push({ plain: x, at: i });
+        return;
+      }
+      var key = blk === '编队' && lastAgent ? lastAgent : kind + '|' + cleanPath(x.页);
+      var c = byKey[key];
+      if (!c) { c = byKey[key] = { kind: kind, page: x.页, step: {}, at: i }; cards.push(c); }
+      if (blk === '智能体') lastAgent = key;
+      c.step[n] = x; c.at = i; c.last = n;
     });
+    return cards.sort(function (a, b) { return b.at - a.at; });
   }
-  function scoreTxt(x, sc) {
-    return x._n ? '<b>' + x._n + '</b>/' + x._all + ' 步' : '<b>' + sc + '</b> 分';
+  function resultOf(x) { var r = txt(x.结果); return r === '没过' ? 'no' : r === '一般' ? 'part' : 'ok'; }
+  function gradeOf(c) {
+    var n = 0, s = 0;
+    for (var k in c.step) { n++; s += { ok: 1, part: .5, no: 0 }[resultOf(c.step[k])]; }
+    var p = n ? s / n : 0;
+    return p >= .999 ? '优' : p >= .7 ? '良' : p >= .5 ? '中' : '差';
   }
-  function scoreOf(x) {
-    var s = txt(x.分);
-    if (!s || !isFinite(Number(s))) return null;
-    return Math.max(0, Math.min(100, Math.round(Number(s))));
+  function whyOf(c) {
+    var ks = Object.keys(c.step).map(Number).sort(function (a, b) { return a - b; });
+    var weak = ks.filter(function (k) { return resultOf(c.step[k]) !== 'ok'; });
+    if (!weak.length) return ks.length > 1 ? '做过的 ' + ks.length + ' 步都做到了' : '这一步做到了';
+    // 先说没做到的，再说差一点的，最多两句
+    var said = weak.filter(function (k) { return resultOf(c.step[k]) === 'no'; })
+      .concat(weak.filter(function (k) { return resultOf(c.step[k]) === 'part'; }))
+      .map(function (k) { return txt(c.step[k].实话); }).filter(Boolean).slice(0, 2);
+    return '差在第 ' + weak.join('、') + ' 步' + (said.length ? '：' + said.join('；') : '');
+  }
+  function stageCard(c, isNew) {
+    var tone = DONE_TONE[c.kind] || '#8A94A7';
+    if (c.plain) {
+      var x = c.plain, kind = txt(x.块) || '成果';
+      return '<li class="jd-card" style="--c:' + (DONE_TONE[kind] || tone) + '"><div class="jd-hd"><div>' + kindTag(kind) +
+        '<b class="jd-nm">' + (cleanPath(x.页) ? '<a href="' + esc(pageHref(x.页)) + '">' + esc(x.名) + '</a>' : esc(x.名)) + '</b></div></div>' +
+        (txt(x.意味着) ? '<p class="jd-why">' + esc(x.意味着) + '</p>' : '') + '</li>';
+    }
+    var names = STEPS[c.kind], max = Math.max.apply(null, Object.keys(c.step).map(Number)), tiles = '';
+    for (var i = 1; i <= names.length; i++) {
+      var x = c.step[i], cls = 'jd-t', mark = '';
+      if (x) { var r = resultOf(x); cls += ' ' + r; mark = { ok: '✓', part: '!', no: '✕' }[r]; if (isNew && i === c.last) cls += ' jd-new'; }
+      else if (i === max + 1) { cls += ' nx'; mark = '下一步'; }
+      else if (i < max) { cls += ' skip'; mark = '没做'; }
+      tiles += '<span class="' + cls + '" title="第 ' + i + ' 步"><b>' + mark + '</b>' + esc(names[i - 1]) + '</span>';
+    }
+    var name = esc(pageName(c.page));
+    var title = cleanPath(c.page) ? '<a href="' + esc(pageHref(c.page)) + '" title="在 Obsidian 里打开">' + name + '</a>' : name;
+    return '<li class="jd-card' + (names.length > 5 ? ' wide' : '') + '" style="--c:' + tone + '">' +
+      '<div class="jd-hd"><div>' + kindTag(c.kind) + '<b class="jd-nm">' + title + '</b></div><span class="jd-gd" title="' + GRADE_TIP + '">' + gradeOf(c) + '</span></div>' +
+      '<div class="jd-tiles" style="--n:' + names.length + '">' + tiles + '</div>' +
+      '<p class="jd-why">' + esc(whyOf(c)) + '</p></li>';
   }
   function doneBlock() {
-    var list = items(stageFix(D.成果), '名');
-    if (!list.length) { doneLast = ''; return ''; }
-    var end = list[list.length - 1], sig = [end.名, end.步, end.更新, end.分].map(txt).join('|');
-    doneFresh = sig !== doneLast;
+    var raw = Array.isArray(D.成果) ? D.成果 : [], cards = stageCards(raw);
+    if (!cards.length) { doneLast = ''; return ''; }
+    var end = raw[raw.length - 1] || {}, sig = [end.块, end.步, end.更新, end.结果, raw.length].map(txt).join('|');
+    doneFresh = sig !== doneLast && !doneFirst;
+    doneFirst = false;
     doneLast = sig;
-    var prev = {}, top = {};
-    var cards = list.map(function (x, i) {
-      var isNew = i === list.length - 1, blk = txt(x.块), sc = scoreOf(x), tier = txt(x.档), gain = 0;
-      if (sc != null) {
-        gain = sc - (prev[blk] == null ? 0 : prev[blk]);
-        prev[blk] = sc;
-        top[blk] = { sc: sc, tier: txt(x.档级) || tier, n: x._n, all: x._all, qk: x._欠 || 0 };
-      }
-      var kick = [blk, txt(x.步)].filter(Boolean).join(' · ');
-      var score = '';
-      if (sc != null) {
-        score = isNew
-          ? '<span class="ds">' + scoreTxt(x, sc) + (tier ? ' <span class="sep">·</span> <em class="tr">' + esc(tier) + '</em>' : '') + '</span><span class="dbar"><i style="width:' + sc + '%"></i></span>'
-          : '<span class="ds">' + scoreTxt(x, sc) + '</span>';
-      }
-      var inner = '<span class="dk"><i class="bd"></i><span>' + esc(kick) + '</span>' + (isNew ? '<em class="tag">' + (/^(一般|没过)$/.test(txt(x.结果)) ? esc(txt(x.结果)) : '刚做成') + '</em>' : '') + (isNew && sc != null && gain > 0 ? '<em class="plus">' + (x._n ? '升到' + esc(txt(x.档级) || tier) : '+' + gain + ' 分') + '</em>' : '') + '</span>' +
-        '<b class="dt">' + esc(x.名) + '</b>' + score + (txt(x.意味着) ? '<span class="dm">' + esc(x.意味着) + '</span>' : '');
-      var tip = cleanPath(x.页) ? '在 Obsidian 里打开' + (txt(x.更新) ? '（' + esc(x.更新) + '）' : '') : '';
-      var box = cleanPath(x.页)
-        ? '<a class="dn" href="' + esc(pageHref(x.页)) + '" title="' + tip + '">' + inner + '</a>'
-        : '<div class="dn"' + (txt(x.更新) ? ' title="' + esc(x.更新) + '"' : '') + '>' + inner + '</div>';
-      return '<li class="st' + (isNew ? ' last' + (doneFresh ? ' fresh' : '') : '') + '" style="--bc:' + (DONE_TONE[blk] || '#8A94A7') + '">' +
-        '<span class="node"><i></i></span>' + box + '</li>';
-    }).join('');
-    var chips = ['技能', '智能体', '编队'].filter(function (b) { return top[b]; }).map(function (b) {
-      var t = top[b];
-      return '<span class="sc" data-b="' + b + '" data-to="' + (t.n || t.sc) + '" data-tier="' + esc(t.tier) + '" style="--bc:' + DONE_TONE[b] + '">' +
-        '<span class="sb">' + b + '</span>' + (t.n ? '<b class="sn">' + t.n + '</b><span class="su">/' + t.all + ' 步</span>' : '<b class="sn">' + t.sc + '</b><span class="su">分</span>') +
-        (t.tier ? '<span class="sd">·</span><em class="tr">' + esc(t.tier) + '</em>' : '') + (t.qk ? '<span class="sd">·</span><span class="su">' + t.qk + ' 步没过关</span>' : '') + '</span>';
-    }).join('');
-    return '<h2>这两天做成的' + (chips ? '<span class="scs">' + chips + '</span>' : '') + '<small>共 ' + list.length + ' 样</small></h2><ol class="tl">' + cards + '</ol>';
+    return '<h2>这两天做成的<small>共 ' + cards.length + ' 样</small></h2><ol class="jd">' +
+      cards.map(function (c, i) { return stageCard(c, i === 0 && doneFresh); }).join('') + '</ol>';
   }
   function scoreTick(still) {
     Array.prototype.forEach.call(document.querySelectorAll('#done .sc'), function (el) {
