@@ -147,31 +147,30 @@ ul { list-style: none; margin: 0; padding: 0; }
   .done .scs + small { order: 2; margin-left: auto; }
 }
 /* 进度卡：一个技能、一个智能体一张 */
-#done .jd { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; margin: 1em 0 0; padding: 0; list-style: none; }
-#done .jd-card { --ok: #3F8A4F; --part: #B07A12; --no: #B5483A; display: flex; flex-direction: column; padding: 16px 18px 14px; border-radius: 12px; border: 1px solid var(--rule); border-top: 4px solid var(--c); background: var(--sheet); }
-#done .jd-card.wide { grid-column: 1 / -1; }
+#done .jd { display: flex; flex-wrap: wrap; align-items: stretch; gap: 16px; margin: 1em 0 0; padding: 0; list-style: none; }
+#done .jd-card { --ok: #3F8A4F; --part: #B07A12; --no: #B5483A; flex: 1 1 340px; max-width: 420px; display: flex; flex-direction: column; padding: 14px 16px 12px; border-radius: 10px; border: 1px solid rgba(34,32,28,.16); border-top: 3px solid var(--c); background: var(--sheet); box-shadow: 0 1px 2px rgba(60,50,30,.06), 0 6px 18px rgba(60,50,30,.08); }
 #done .jd-hd { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-#done .jd-kind { display: inline-flex; align-items: center; gap: 5px; padding: 1px 10px 1px 7px; border-radius: 99px; background: color-mix(in srgb, var(--c) 14%, transparent); color: var(--c); font-size: .8rem; font-weight: 600; line-height: 1.7; }
-#done .jd-kind svg { width: 15px; height: 15px; }
-#done .jd-nm { display: block; margin-top: 6px; font: 600 1.18rem/1.35 var(--serif); }
+#done .jd-kind { display: inline-flex; align-items: center; gap: 4px; padding: 0 8px 0 6px; border-radius: 99px; background: color-mix(in srgb, var(--c) 14%, transparent); color: var(--c); font-size: .74rem; font-weight: 600; line-height: 1.7; }
+#done .jd-kind svg { width: 13px; height: 13px; }
+#done .jd-nm { display: block; margin-top: 4px; font: 600 1.08rem/1.35 var(--serif); }
 #done .jd-nm a { color: inherit; text-decoration: none; }
 #done .jd-nm a:hover { color: var(--c); }
-#done .jd-gd { flex: none; width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--c); color: var(--c); display: grid; place-items: center; font: 700 1.5rem/1 var(--serif); cursor: help; }
-#done .jd-tiles { display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: 5px; margin-top: 14px; }
-#done .jd-t { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-height: 56px; padding: 6px 3px; border-radius: 6px; background: var(--soft); color: var(--faint); font-size: .78rem; line-height: 1.3; text-align: center; }
-#done .jd-t b { font-size: .92rem; line-height: 1.2; }
-#done .jd-t.ok { background: color-mix(in srgb, var(--ok) 13%, transparent); color: var(--ink); } #done .jd-t.ok b { color: var(--ok); }
-#done .jd-t.part { background: color-mix(in srgb, var(--part) 15%, transparent); color: var(--ink); } #done .jd-t.part b { color: var(--part); }
-#done .jd-t.no { background: color-mix(in srgb, var(--no) 14%, transparent); color: var(--ink); } #done .jd-t.no b { color: var(--no); }
+#done .jd-gd { flex: none; width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--c); color: var(--c); display: grid; place-items: center; font: 700 1.25rem/1 var(--serif); cursor: help; }
+#done .jd-tiles { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; margin-top: 12px; }
+#done .jd-t { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; min-height: 46px; padding: 4px 2px; border-radius: 5px; background: var(--soft); color: var(--faint); font-size: .72rem; line-height: 1.25; text-align: center; }
+#done .jd-t b { font-size: .82rem; line-height: 1.2; }
+#done .jd-t.ok { background: color-mix(in srgb, var(--ok) 12%, transparent); color: var(--ink); } #done .jd-t.ok b { color: var(--ok); }
+#done .jd-t.part { background: color-mix(in srgb, var(--part) 14%, transparent); color: var(--ink); } #done .jd-t.part b { color: var(--part); }
+#done .jd-t.no { background: color-mix(in srgb, var(--no) 13%, transparent); color: var(--ink); } #done .jd-t.no b { color: var(--no); }
 #done .jd-t.nx { background: transparent; border: 1.5px dashed var(--c); color: var(--c); }
-#done .jd-t.nx b { font-size: .74rem; font-weight: 600; }
-#done .jd-t.skip b { font-size: .72rem; font-weight: 400; }
-#done .jd-why { margin: 12px 0 0; font-size: .92rem; line-height: 1.6; color: var(--muted); }
+#done .jd-t.nx b { font-size: .68rem; font-weight: 600; }
+#done .jd-t.skip b { font-size: .66rem; font-weight: 400; }
+#done .jd-why { margin: 10px 0 0; font-size: .86rem; line-height: 1.55; color: var(--muted); }
 #done .jd-new { animation: jdPop 1.2s cubic-bezier(.2,.8,.2,1) both; }
 @keyframes jdPop { 0% { transform: scale(.6); opacity: 0; } 50% { transform: scale(1.08); opacity: 1; box-shadow: 0 0 0 4px color-mix(in srgb, var(--c) 30%, transparent); } 100% { transform: none; box-shadow: none; } }
 @media (prefers-reduced-motion: reduce) { #done .jd-new { animation: none; } }
-@media (prefers-color-scheme: dark) { #done .jd-card { --ok: #7BC487; --part: #E2B25A; --no: #EC8C77; } }
-@media (max-width: 560px) { #done .jd-card.wide .jd-tiles { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+@media (prefers-color-scheme: dark) { #done .jd-card { --ok: #7BC487; --part: #E2B25A; --no: #EC8C77; border-color: rgba(255,255,255,.14); box-shadow: none; } }
+@media (max-width: 560px) { #done .jd-card { flex-basis: 100%; max-width: none; } }
 </style>
 </head>
 <body>
@@ -368,7 +367,7 @@ ul { list-style: none; margin: 0; padding: 0; }
 
   // 每一步小格上的字，和提示词文件名对得上
   var STEPS = {
-    '技能': ['挑一件事', '写手册', '照手册再做', '改一句', '谁用谁改'],
+    '技能': ['挑一件事', '写手册', '再做一份', '改一句', '谁用谁改'],
     '智能体': ['定岗位', '说明书', '交出去', '上班表', '改一句', '拆成队', '交几件事', '改一处', '全队排班']
   };
   var KIND_ICON = {
