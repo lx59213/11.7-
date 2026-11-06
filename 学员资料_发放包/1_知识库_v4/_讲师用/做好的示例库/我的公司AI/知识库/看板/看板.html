@@ -7,117 +7,113 @@
 <title>看板</title>
 <style>
 :root {
-  --bg: #EDF0F5; --card: #FFFFFF; --line: #E2E6EE; --track: #EEF1F6; --ink: #0F1728; --muted: #586378; --faint: #8A94A7;
-  --accent: #3E55F2; --shadow: 0 1px 2px rgba(15,23,40,.05), 0 6px 18px rgba(15,23,40,.05);
-  --late: 229,72,77; --today: 240,104,20; --tmr: 214,152,0; --week: 62,99,221; --later: 128,138,158; --ok: 38,153,96;
+  --desk: #EEEBE4; --sheet: #FFFEFB; --ink: #22201C; --muted: #69635A; --faint: #9A9388;
+  --rule: #E7E2D8; --soft: #F6F3EC; --accent: #AE4536; --accent-soft: #F7E7E3;
+  --shadow: 0 1px 2px rgba(60,50,30,.06), 0 12px 40px rgba(60,50,30,.08);
   --sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", "Segoe UI", sans-serif;
+  --serif: "Songti SC", "Noto Serif SC", "Source Han Serif SC", "STSong", "SimSun", Georgia, serif;
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #0A0F1B; --card: #121A2A; --line: #1F2A40; --track: #1A2336; --ink: #E8EDF6; --muted: #98A4BA; --faint: #66738C;
-    --accent: #7D8CFF; --shadow: 0 0 0 1px #1A2438;
-    --late: 255,107,112; --today: 255,140,66; --tmr: 245,190,60; --week: 120,150,255; --later: 140,150,172; --ok: 64,196,128;
+    --desk: #121110; --sheet: #1B1A18; --ink: #ECE8E1; --muted: #ABA498; --faint: #7D776C;
+    --rule: #302E29; --soft: #23211E; --accent: #EC8C77; --accent-soft: #3A2622;
+    --shadow: 0 0 0 1px #2A2824, 0 12px 40px rgba(0,0,0,.35);
   }
 }
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
 html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+@media (min-width: 1280px) { html { font-size: 17px; } }
 @media (min-width: 1700px) { html { font-size: 18px; } }
-body { margin: 0; background: var(--bg); color: var(--ink); font: 1rem/1.6 var(--sans); }
+body { margin: 0; background: var(--desk); color: var(--ink); font: 1rem/1.7 var(--sans); }
 a { color: inherit; }
-.wrap { max-width: 1400px; margin: 0 auto; padding: 22px 28px 28px; }
-.top { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; margin-bottom: 18px; }
-.top > div { margin: 0 0 4px; }
-h1 { margin: 0; font-size: 1.6rem; line-height: 1.3; font-weight: 700; letter-spacing: .01em; }
-.sub { margin: 2px 0 0; color: var(--muted); font-size: .92rem; }
-.right { text-align: right; font-size: .85rem; color: var(--muted); }
-.live { display: inline-block; width: 8px; height: 8px; margin-right: 6px; border-radius: 50%; background: rgb(var(--ok)); box-shadow: 0 0 0 3px rgba(var(--ok),.18); vertical-align: 1px; }
-.home { display: inline-block; margin-top: 6px; padding: 3px 12px; border: 1px solid var(--line); border-radius: 99px; background: var(--card); text-decoration: none; color: var(--ink); font-size: .82rem; }
-.home:hover { border-color: var(--accent); color: var(--accent); }
-.card { background: var(--card); border-radius: 14px; box-shadow: var(--shadow); padding: 16px 18px; }
-.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); grid-gap: 14px; margin-bottom: 14px; }
-.kpi { position: relative; overflow: hidden; padding: 16px 18px 14px; }
-.kpi::after { content: ""; position: absolute; right: -30px; bottom: -40px; width: 120px; height: 120px; border-radius: 50%; background: rgba(var(--tone),.10); }
-.kpi .lab { position: relative; z-index: 1; font-size: .9rem; color: var(--muted); }
-.kpi .lab i { display: inline-block; width: 8px; height: 8px; margin-right: 8px; border-radius: 2px; background: rgb(var(--tone)); vertical-align: 1px; }
-.kpi .num { position: relative; z-index: 1; margin-top: 4px; font-size: 3rem; line-height: 1.1; font-weight: 700; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
-.charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); grid-gap: 14px; margin-bottom: 14px; }
-.lists { display: grid; grid-template-columns: repeat(3, 1fr); grid-gap: 14px; align-items: start; }
-.stack > .card + .card { margin-top: 14px; }
-h2 { display: flex; align-items: baseline; margin: 0 0 12px; font-size: 1rem; font-weight: 650; }
-h2 small { margin-left: auto; font-weight: 400; font-size: .82rem; color: var(--faint); }
-.bars .row { display: grid; grid-template-columns: 5.5em 1fr 2.2em; grid-column-gap: 10px; align-items: center; margin: 9px 0; font-size: .9rem; }
-.bars .name { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; color: var(--muted); }
-.bars .track { height: 14px; border-radius: 7px; background: var(--track); overflow: hidden; }
-.bars .fill { height: 100%; border-radius: 7px; transition: width .9s cubic-bezier(.2,.8,.2,1); }
-.bars .n { text-align: right; font-weight: 650; font-variant-numeric: tabular-nums; }
-.donut { display: flex; align-items: center; }
-.donut svg { flex: none; width: 150px; height: 150px; margin-right: 20px; }
-.donut .ring { fill: none; stroke: var(--track); }
-.donut .arc { fill: none; stroke: rgb(var(--ok)); stroke-linecap: round; transition: stroke-dasharray .9s cubic-bezier(.2,.8,.2,1); }
-.donut .big { font-size: 30px; font-weight: 700; fill: var(--ink); }
-.donut .small { font-size: 12px; fill: var(--muted); }
-.legend { font-size: .9rem; color: var(--muted); }
-.legend p { margin: 0 0 6px; }
-.legend b { color: var(--ink); font-size: 1.1rem; margin: 0 2px; }
-.legend i { display: inline-block; width: 9px; height: 9px; margin-right: 7px; border-radius: 50%; vertical-align: 1px; }
-.legend .todo-raw { margin-top: 8px; font-size: .85rem; }
-.legend .todo-raw a { display: block; }
-.cols { display: flex; align-items: flex-end; height: 150px; padding-top: 6px; }
-.cols .c { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; }
-.cols .c + .c { margin-left: 10px; }
-.cols .v { font-size: 1.15rem; font-weight: 700; font-variant-numeric: tabular-nums; }
-.cols .bar { width: 100%; max-width: 46px; min-height: 4px; border-radius: 8px 8px 3px 3px; transition: height .9s cubic-bezier(.2,.8,.2,1); }
-.cols .l { margin-top: 6px; font-size: .8rem; color: var(--muted); white-space: nowrap; }
-.item { padding: 10px 0; border-top: 1px solid var(--line); }
-.item:first-of-type { border-top: 0; padding-top: 2px; }
-.item .t { margin: 0; font-size: .95rem; line-height: 1.55; }
-.item .m { margin: 4px 0 0; font-size: .8rem; color: var(--muted); }
-.pill { display: inline-block; margin-right: 8px; padding: 0 8px; border-radius: 99px; font-size: .75rem; line-height: 1.75; font-weight: 600; white-space: nowrap; color: rgb(var(--tone)); background: rgba(var(--tone),.13); vertical-align: 1px; }
-.pg { color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--line); }
-.pg::after { content: " ↗"; color: var(--faint); }
+.sheet { max-width: 940px; margin: 40px auto; padding: 56px 72px 36px; background: var(--sheet); border-radius: 6px; box-shadow: var(--shadow); }
+.who { margin: 0; font-size: .875rem; letter-spacing: .08em; color: var(--muted); }
+h1 { margin: .2em 0 .15em; font: 600 2.15rem/1.25 var(--serif); letter-spacing: .02em; }
+.biz { margin: 0; color: var(--muted); font-size: 1.02rem; }
+.stamp { display: flex; flex-wrap: wrap; justify-content: space-between; margin: 1.4em 0 0; padding-top: .9em; border-top: 1px solid var(--rule); font-size: .82rem; color: var(--faint); }
+.stamp a { color: var(--muted); text-decoration: none; }
+.stamp a:hover { color: var(--accent); }
+.facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); row-gap: 1.1em; margin: 1.8em 0 0; padding: 0; }
+.facts div { display: flex; flex-direction: column-reverse; justify-content: flex-end; padding: .1em 0 .1em 1em; border-left: 1px solid var(--rule); }
+.facts div:nth-child(4n+1) { padding-left: 0; border-left: 0; }
+@media (max-width: 560px) { .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); } .facts div:nth-child(4n+1) { padding-left: 1em; border-left: 1px solid var(--rule); } .facts div:nth-child(2n+1) { padding-left: 0; border-left: 0; } }
+.facts dd { margin: 0; font: 600 1.9rem/1.2 var(--serif); font-variant-numeric: tabular-nums; }
+.facts dt { font-size: .8rem; color: var(--muted); }
+.lead { margin: 1.8em 0 0; padding: 1em 1.25em; background: var(--soft); border-radius: 8px; font: 1.12rem/1.8 var(--serif); }
+.lead b { color: var(--accent); font-weight: 600; padding: 0 .1em; }
+section { margin-top: 2.6em; }
+h2 { display: flex; align-items: baseline; margin: 0 0 .35em; padding-bottom: .5em; border-bottom: 1.5px solid var(--ink); font: 600 1.2rem/1.4 var(--serif); }
+h2 .no { color: var(--accent); margin-right: .7em; }
+h2 small { margin-left: auto; font: .82rem var(--sans); color: var(--faint); }
+ul { list-style: none; margin: 0; padding: 0; }
+.group { margin: 1.15em 0 .2em; font-size: .8rem; letter-spacing: .1em; color: var(--muted); }
+.group em { font-style: normal; color: var(--faint); letter-spacing: 0; margin-left: .8em; }
+.group.late { color: var(--accent); }
+.todo { display: grid; grid-template-columns: 1.6em 1fr auto; grid-column-gap: .5em; padding: .7em 0; border-bottom: 1px solid var(--rule); }
+.todo .box { width: .95em; height: .95em; margin-top: .42em; border: 1.5px solid var(--faint); border-radius: 50%; }
+.todo.late .box { border-color: var(--accent); background: var(--accent-soft); }
+.t { margin: 0; font-size: 1.04rem; line-height: 1.6; }
+.meta { margin: .2em 0 0; font-size: .84rem; color: var(--muted); }
+.meta .sep { color: var(--faint); margin: 0 .5em; }
+.pg { color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--rule); transition: color .15s, border-color .15s; }
+.pg::after { content: " ↗"; font-size: .85em; color: var(--faint); }
 .pg:hover { color: var(--accent); border-color: var(--accent); }
-.ask { border-top: 3px solid rgb(var(--tmr)); }
-.who { color: rgb(var(--tmr)); font-weight: 600; margin-right: 8px; }
-.dot { display: inline-block; width: 8px; height: 8px; margin-right: 7px; border-radius: 50%; vertical-align: 1px; }
-.recent .name .pg { color: var(--ink); font-weight: 600; font-size: .92rem; border: 0; }
-.recent .d { float: right; font-size: .78rem; color: var(--faint); }
-.empty { margin: 4px 0; color: var(--faint); font-size: .92rem; }
-.notice { padding: 28px; font-size: 1.05rem; line-height: 1.9; }
-.notice b { display: block; font-size: 1.2rem; }
-.foot { margin-top: 22px; text-align: center; font-size: .82rem; color: var(--faint); }
-@media (max-width: 1100px) { .lists { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 720px) { .lists { grid-template-columns: 1fr; } .wrap { padding: 16px; } .right { text-align: left; } }
-@media (prefers-reduced-motion: reduce) { .bars .fill, .donut .arc, .cols .bar { transition: none; } }
+.pill { align-self: start; margin-top: .25em; padding: 0 .6em; border-radius: 99px; font-size: .78rem; line-height: 1.7; white-space: nowrap; color: var(--accent); background: var(--accent-soft); }
+.later li { display: grid; grid-template-columns: 7.2em 1fr; grid-column-gap: 1em; padding: .5em 0; border-bottom: 1px dashed var(--rule); font-size: .92rem; color: var(--muted); }
+.later .d { font-variant-numeric: tabular-nums; color: var(--faint); }
+.ask { padding: .8em 0 .8em 1em; border-bottom: 1px solid var(--rule); border-left: 2px solid var(--accent); margin-top: .5em; }
+.who-tag { color: var(--ink); font-weight: 600; }
+.miss li { display: grid; grid-template-columns: 1fr auto; grid-column-gap: 1.5em; padding: .6em 0; border-bottom: 1px solid var(--rule); }
+.miss .t { font-size: .98rem; }
+.miss .t::before { content: "—"; color: var(--faint); margin-right: .6em; }
+.miss .meta { margin: 0; text-align: right; white-space: nowrap; }
+.recent li { display: grid; grid-template-columns: 1fr auto; grid-column-gap: 1.5em; padding: .7em 0; border-bottom: 1px solid var(--rule); }
+.recent .name { font-weight: 600; font-size: 1rem; }
+.recent .name .pg { color: var(--ink); }
+.recent .blk { margin-left: .7em; font-size: .78rem; color: var(--faint); }
+.recent .d { font-size: .82rem; color: var(--faint); white-space: nowrap; padding-top: .2em; }
+.empty { margin: .9em 0 0; color: var(--faint); font-size: .95rem; }
+.lib p { margin: .8em 0 0; }
+.lib .blocks span { display: inline-block; margin: 0 1.4em .2em 0; white-space: nowrap; }
+.lib .blocks b { font: 600 1.05rem var(--serif); margin-left: .25em; }
+.lib .todo-raw a { margin-right: .9em; }
+.notice { margin: 2.4em 0 0; padding: 1.4em 1.5em; border-radius: 8px; background: var(--soft); font-size: 1.05rem; line-height: 1.9; }
+.notice b { display: block; font: 600 1.15rem var(--serif); }
+.foot { margin-top: 3em; padding-top: 1em; border-top: 1px solid var(--rule); font-size: .82rem; color: var(--faint); text-align: center; }
+@media (max-width: 960px) { .sheet { margin: 0 auto; padding: 40px 28px 28px; border-radius: 0; box-shadow: none; } }
+@media (max-width: 560px) { .later li, .miss li, .recent li { grid-template-columns: 1fr; } .miss .meta { text-align: left; } h1 { font-size: 1.8rem; } }
 /* 这两天做成的 */
-.done { --glow: 62,85,242; }
+.done { --glow: 174,69,54; }
 .done .tl { display: flex; margin: 0; padding: 4px 6px 12px; list-style: none; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .done .st { position: relative; flex: none; display: flex; flex-direction: column; width: 210px; margin-right: 14px; }
 .done .st.last { width: 320px; max-width: 80vw; margin-right: 0; }
 .done .node { position: relative; display: block; height: 22px; }
-.done .node::before { content: ""; position: absolute; left: 6px; right: -14px; top: 10px; height: 2px; background: var(--line); }
+.done .node::before { content: ""; position: absolute; left: 6px; right: -14px; top: 10px; height: 2px; background: var(--rule); }
 .done .st.last .node::before { display: none; }
-.done .node i { position: absolute; left: 0; top: 5px; width: 12px; height: 12px; border-radius: 50%; background: var(--bc); box-shadow: 0 0 0 3px var(--card); }
-.done .st.last .node i { top: 3px; width: 16px; height: 16px; box-shadow: 0 0 0 3px var(--card), 0 0 0 5px rgba(var(--glow), .25); }
-.done .dn { display: flex; flex-direction: column; flex: 1; padding: 10px 12px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--track); color: inherit; text-decoration: none;  }
+.done .node i { position: absolute; left: 0; top: 5px; width: 12px; height: 12px; border-radius: 50%; background: var(--bc); box-shadow: 0 0 0 3px var(--sheet); }
+.done .st.last .node i { top: 3px; width: 16px; height: 16px; box-shadow: 0 0 0 3px var(--sheet), 0 0 0 5px rgba(var(--glow), .25); }
+.done .dn { display: flex; flex-direction: column; flex: 1; padding: 10px 12px 12px; border: 1px solid var(--rule); border-radius: 8px; background: var(--soft); color: inherit; text-decoration: none;  }
 .done a.dn { transition: border-color .15s, transform .15s; }
 .done a.dn:hover { border-color: var(--bc); transform: translateY(-1px); }
 .done .dk { display: flex; align-items: center; font-size: .76rem; line-height: 1.7; color: var(--muted); }
 .done .dk .bd { flex: none; width: 8px; height: 8px; margin-right: 7px; border-radius: 2px; background: var(--bc); }
-.done .dt { margin-top: 4px; font-size: .96rem; line-height: 1.45; font-weight: 650; color: var(--ink);  }
+.done .dt { margin-top: 4px; font-size: .96rem; line-height: 1.45; font-weight: 650; color: var(--ink); font-family: var(--serif); font-weight: 600; }
 .done .dm { margin-top: 4px; font-size: .84rem; line-height: 1.55; color: var(--muted); }
-.done .st.last .dn { padding: 14px 16px 16px; border: 2px solid var(--accent); background: var(--card); box-shadow: 0 8px 24px rgba(var(--glow), .16); }
+.done .st.last .dn { padding: 14px 16px 16px; border: 2px solid var(--accent); background: var(--accent-soft); box-shadow: 0 8px 24px rgba(var(--glow), .16); }
 .done .st.last a.dn:hover { border-color: var(--accent); }
 .done .st.last .dk { font-size: .8rem; }
 .done .st.last .dt { margin-top: 6px; font-size: 1.22rem; line-height: 1.4; }
 .done .st.last .dm { margin-top: 6px; font-size: .92rem; color: var(--ink); }
-.done .tag { margin-left: auto; padding: 0 9px; border-radius: 99px; font-style: normal; font-size: .74rem; font-weight: 650; line-height: 1.75; white-space: nowrap; color: var(--card); background: var(--accent); }
+.done .tag { margin-left: auto; padding: 0 9px; border-radius: 99px; font-style: normal; font-size: .74rem; font-weight: 650; line-height: 1.75; white-space: nowrap; color: var(--sheet); background: var(--accent); }
 @keyframes doneIn { from { opacity: 0; transform: translateY(10px) scale(.97); } to { opacity: 1; transform: none; } }
 @keyframes doneGlow { from { box-shadow: 0 0 0 0 rgba(var(--glow), .4); } to { box-shadow: 0 0 0 14px rgba(var(--glow), 0); } }
 .done .st.fresh .dn { animation: doneIn .55s cubic-bezier(.2,.8,.2,1) both, doneGlow 1.3s ease-out .35s 1 both; }
 @media (prefers-reduced-motion: reduce) { .done .st.fresh .dn { animation: none; } .done a.dn { transition: none; } }
 @media (max-width: 560px) { .done .st { width: 200px; } .done .st.last { width: 290px; } }
-.done { margin-bottom: 14px; }
+.done { margin-top: 1.8em; }
+.done h2 { margin-bottom: .2em; }
+.done .tl { margin-top: .9em; }
 /* 分数 */
 .done .st.last { width: 340px; }
 .done .st.last .dk { flex-wrap: wrap; }
@@ -185,26 +181,22 @@ h2 small { margin-left: auto; font-weight: 400; font-size: .82rem; color: var(--
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header class="top">
-    <div>
-      <h1 id="title">看板</h1>
-      <p class="sub" id="sub"></p>
-    </div>
-    <div class="right">
-      <div><span class="live"></span><span id="stamp"></span></div>
-      <span id="home"></span>
-    </div>
+<main class="sheet">
+  <header>
+    <p class="who" id="who"></p>
+    <h1 id="title">看板</h1>
+    <p class="biz" id="biz"></p>
+    <p class="stamp"><span id="stamp"></span><span id="home"></span></p>
   </header>
-  <div class="card notice" id="notice" hidden></div>
-  <main id="app" hidden>
-    <section class="card done" id="done" hidden></section>
-    <section class="kpis" id="kpis"></section>
-    <section class="charts" id="charts"></section>
-    <section class="lists" id="lists"></section>
-  </main>
+  <div class="notice" id="notice" hidden></div>
+  <div id="app" hidden>
+    <div class="done" id="done" hidden></div>
+    <dl class="facts" id="facts"></dl>
+    <p class="lead" id="lead"></p>
+    <div id="sections"></div>
+  </div>
   <footer class="foot">数据是 AI 整理时写的。想看最新的，跟 AI 说‘更新看板’。</footer>
-</div>
+</main>
 <script>
 (function () {
   'use strict';
@@ -298,123 +290,82 @@ h2 small { margin-left: auto; font-weight: 400; font-size: .82rem; color: var(--
     document.getElementById('app').hidden = true;
   }
 
-  var PALETTE = ['#D9534F', '#3B7DD8', '#4E9A3A', '#E8912D', '#8E5EA2', '#1FA2A0', '#C2577F', '#7A8899'];
-  var BUCKETS = [['late', '过期'], ['today', '今天'], ['tmr', '明天'], ['week', '7 天内'], ['later', '更远']];
-  var first = true;
+  var NUM = '一二三四五六七八九';
 
-  function blockColor(name) {
-    var i = items(D.分块, '名').map(function (b) { return txt(b.名); }).indexOf(txt(name));
-    return i < 0 ? '#8A94A7' : PALETTE[i % PALETTE.length];
+  function todoRow(x) {
+    return '<li class="todo ' + x.due.k + '"><span class="box"></span><div><p class="t">' + esc(x.事) + '</p>' +
+      (cleanPath(x.页) ? '<p class="meta">' + pageLink(x.页) + '</p>' : '') + '</div>' +
+      (x.due.k === 'late' ? '<span class="pill">' + x.due.t + '</span>' : '<span></span>') + '</li>';
   }
-  function tone(label) {
-    var s = txt(label);
-    return /拍板|确认/.test(s) ? 'tmr' : /缺|补/.test(s) ? 'late' : /做|跟进|今天|明天|到期/.test(s) ? 'today' : /资料|原件/.test(s) ? 'ok' : 'week';
+  function todoSection(list) {
+    if (!list.length) return { body: '<p class="empty">没有写了日期的事。</p>' };
+    var t = today(), tm = new Date(t.getFullYear(), t.getMonth(), t.getDate() + 1), h = '';
+    var pick = function (k) { return list.filter(function (x) { return x.due.k === k; }); };
+    var late = pick('late'), td = pick('today'), tmr = pick('tmr');
+    var rest = list.filter(function (x) { return x.due.k === 'week' || x.due.k === 'later' || x.due.k === 'none'; });
+    if (late.length) h += '<p class="group late">已经过期</p><ul>' + late.map(todoRow).join('') + '</ul>';
+    h += '<p class="group">今天 · ' + md(t) + ' ' + wk(t) + (td.length ? '' : '<em>没有</em>') + '</p>';
+    if (td.length) h += '<ul>' + td.map(todoRow).join('') + '</ul>';
+    h += '<p class="group">明天 · ' + md(tm) + ' ' + wk(tm) + (tmr.length ? '' : '<em>没有</em>') + '</p>';
+    if (tmr.length) h += '<ul>' + tmr.map(todoRow).join('') + '</ul>';
+    if (rest.length) {
+      h += '<p class="group">再往后</p><ul class="later">' + rest.map(function (x) {
+        return '<li><span class="d">' + esc(x.due.d ? md(x.due.d) + ' ' + wk(x.due.d) : x.due.t) + '</span><span>' + esc(x.事) +
+          (cleanPath(x.页) ? '<span class="sep"> · </span>' + pageLink(x.页) : '') + '</span></li>';
+      }).join('') + '</ul>';
+    }
+    var n = late.length + td.length + tmr.length;
+    return { body: h, count: n ? n + ' 件' : '' };
   }
-  function card(title, small, body, cls) {
-    return '<div class="card ' + (cls || '') + '"><h2>' + title + (small ? '<small>' + small + '</small>' : '') + '</h2>' + body + '</div>';
-  }
-
-  function kpis() {
-    return numbers().map(function (x) {
-      return '<div class="card kpi" style="--tone:var(--' + tone(x.名) + ')"><div class="lab"><i></i>' + esc(x.名) +
-        '</div><div class="num" data-n="' + esc(x.数) + '">' + esc(x.数) + '</div></div>';
-    }).join('');
-  }
-  function blockChart() {
-    var list = items(D.分块, '名');
-    if (!list.length) return '';
-    var max = 1, total = 0;
-    list.forEach(function (b) { var n = +b.几页 || 0; max = Math.max(max, n); total += n; });
-    return card('每块有几页', '一共 ' + total + ' 页', '<div class="bars">' + list.map(function (b) {
-      var n = +b.几页 || 0;
-      return '<div class="row"><span class="name" title="' + esc(b.名) + '">' + esc(b.名) + '</span><span class="track"><span class="fill" style="display:block;background:' +
-        blockColor(b.名) + ';width:' + (first ? 0 : n / max * 100) + '%" data-w="' + (n / max * 100) + '"></span></span><span class="n">' + n + '</span></div>';
-    }).join('') + '</div>');
-  }
-  function rawChart() {
-    var list = items(D.资料, '名');
-    if (!list.length) return '';
-    var done = list.filter(function (x) { return yes(x.整理了吗); }).length, rest = list.filter(function (x) { return !yes(x.整理了吗); });
-    var r = 60, c = 2 * Math.PI * r, part = done / list.length * c;
-    var svg = '<svg viewBox="0 0 150 150" role="img" aria-label="资料整理了 ' + done + ' 份，一共 ' + list.length + ' 份">' +
-      '<circle class="ring" cx="75" cy="75" r="' + r + '" stroke-width="16"/>' +
-      '<circle class="arc" cx="75" cy="75" r="' + r + '" stroke-width="16" transform="rotate(-90 75 75)" stroke-dasharray="' +
-      (first ? 0 : part) + ' ' + c + '" data-part="' + part + '" data-c="' + c + '"' + (done ? '' : ' style="stroke:none"') + '/>' +
-      '<text class="big" x="75" y="80" text-anchor="middle">' + done + '<tspan class="small" dx="2">/ ' + list.length + '</tspan></text>' +
-      '<text class="small" x="75" y="102" text-anchor="middle">' + (rest.length ? '整理了 ' + Math.round(done / list.length * 100) + '%' : '都整理了') + '</text></svg>';
-    var legend = '<div class="legend"><p><i style="background:rgb(var(--ok))"></i>整理了<b>' + done + '</b>份</p>' +
-      '<p><i style="background:var(--track)"></i>还没整理<b>' + rest.length + '</b>份</p>' +
-      (rest.length ? '<div class="todo-raw">' + rest.slice(0, 4).map(function (x) { return pageLink(x.页, x.名); }).join('') +
-        (rest.length > 4 ? '<span>还有 ' + (rest.length - 4) + ' 份</span>' : '') + '</div>' : '') + '</div>';
-    return card('收进来的资料', '一共 ' + list.length + ' 份', '<div class="donut">' + svg + legend + '</div>');
-  }
-  function dueChart(list) {
-    if (!list.length) return '';
-    var count = {}, max = 1, total = 0;
-    BUCKETS.forEach(function (b) { count[b[0]] = 0; });
-    list.forEach(function (x) { if (x.due.k in count) { count[x.due.k]++; total++; } });
-    if (!total) return '';
-    BUCKETS.forEach(function (b) { max = Math.max(max, count[b[0]]); });
-    return card('要做的事，按日子分', '一共 ' + total + ' 件', '<div class="cols">' + BUCKETS.map(function (b) {
-      var h = count[b[0]] / max * 100;
-      return '<div class="c"><span class="v" style="color:' + (count[b[0]] ? 'rgb(var(--' + b[0] + '))' : 'var(--faint)') + '">' + count[b[0]] +
-        '</span><span class="bar" style="background:rgba(var(--' + b[0] + '),' + (count[b[0]] ? '.85' : '.18') + ');height:' + (first ? 0 : h) + '%" data-h="' + h + '"></span><span class="l">' + b[1] + '</span></div>';
-    }).join('') + '</div>');
-  }
-
-  function todoCard(list) {
-    var body = list.length ? list.map(function (x) {
-      var k = x.due.k === 'none' ? 'later' : x.due.k;
-      return '<div class="item"><p class="t"><span class="pill" style="--tone:var(--' + k + ')">' + esc(x.due.t) + '</span>' + esc(x.事) + '</p>' +
-        (cleanPath(x.页) ? '<p class="m">' + pageLink(x.页) + '</p>' : '') + '</div>';
-    }).join('') : '<p class="empty">没有写了日期的事。</p>';
-    return card('要做的事', list.length ? list.length + ' 件' : '', body);
-  }
-  function askCard() {
+  function askSection() {
     var list = items(D.要拍板, '事');
-    var body = list.length ? list.map(function (x) {
-      return '<div class="item"><p class="t">' + esc(x.事) + '</p><p class="m">' + (txt(x.问谁) ? '<span class="who">问 ' + esc(x.问谁) + '</span>' : '') + pageLink(x.页) + '</p></div>';
-    }).join('') : '<p class="empty">没有要找人拍板的。</p>';
-    return card('要找人拍板', list.length ? list.length + ' 件' : '', body, 'ask');
+    if (!list.length) return { body: '<p class="empty">没有要找人拍板的。</p>' };
+    return { count: list.length + ' 件', body: '<ul>' + list.map(function (x) {
+      var meta = [txt(x.问谁) ? '<span class="who-tag">问 ' + esc(x.问谁) + '</span>' : '', pageLink(x.页)].filter(Boolean).join('<span class="sep">·</span>');
+      return '<li class="ask"><p class="t">' + esc(x.事) + '</p>' + (meta ? '<p class="meta">' + meta + '</p>' : '') + '</li>';
+    }).join('') + '</ul>' };
   }
-  function missCard() {
+  function missSection() {
     var list = items(D.还缺, '事');
-    var body = list.length ? list.map(function (x) {
-      return '<div class="item"><p class="t">' + esc(x.事) + '</p><p class="m">' + (txt(x.问谁) ? '问 ' + esc(x.问谁) + ' · ' : '') + pageLink(x.页) + '</p></div>';
-    }).join('') : '<p class="empty">没有还缺的。</p>';
-    return card('还缺的', list.length ? list.length + ' 处' : '', body);
+    if (!list.length) return { body: '<p class="empty">没有还缺的。</p>' };
+    return { count: list.length + ' 处', body: '<ul class="miss">' + list.map(function (x) {
+      var meta = [txt(x.问谁) ? '问 ' + esc(x.问谁) : '', pageLink(x.页)].filter(Boolean).join('<span class="sep">·</span>');
+      return '<li><p class="t">' + esc(x.事) + '</p><p class="meta">' + meta + '</p></li>';
+    }).join('') + '</ul>' };
   }
-  function recentCard() {
+  function recentSection() {
     var list = items(D.最近, '页');
-    var body = list.length ? list.map(function (x) {
+    if (!list.length) return null;
+    return { body: '<ul class="recent">' + list.map(function (x) {
       var d = day(x.更新);
-      return '<div class="item recent"><p class="t name"><span class="d">' + esc(d ? md(d) : x.更新) + '</span><span class="dot" style="background:' + blockColor(x.块) + '"></span>' +
-        pageLink(x.页) + '</p>' + (txt(x.一句话) ? '<p class="m">' + esc(x.一句话) + '</p>' : '') + '</div>';
-    }).join('') : '<p class="empty">还没有。</p>';
-    return card('最近改过的页', '', body);
+      return '<li><div><span class="name">' + pageLink(x.页) + '</span>' + (txt(x.块) ? '<span class="blk">' + esc(x.块) + '</span>' : '') +
+        (txt(x.一句话) ? '<p class="meta">' + esc(x.一句话) + '</p>' : '') + '</div><span class="d">' + esc(d ? md(d) : x.更新) + '</span></li>';
+    }).join('') + '</ul>' };
   }
-
-  function animate() {
-    var still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-    requestAnimationFrame(function () {
-      requestAnimationFrame(function () {
-        [].forEach.call(document.querySelectorAll('.fill[data-w]'), function (el) { el.style.width = el.getAttribute('data-w') + '%'; });
-        [].forEach.call(document.querySelectorAll('.bar[data-h]'), function (el) { el.style.height = el.getAttribute('data-h') + '%'; });
-        [].forEach.call(document.querySelectorAll('.arc[data-part]'), function (el) { el.setAttribute('stroke-dasharray', el.getAttribute('data-part') + ' ' + el.getAttribute('data-c')); });
-      });
-    });
-    if (still) return;
-    [].forEach.call(document.querySelectorAll('.num[data-n]'), function (el) {
-      var end = +el.getAttribute('data-n'), t0 = 0;
-      if (!(end > 0) || Math.round(end) !== end) return;
-      el.textContent = '0';
-      requestAnimationFrame(function step(t) {
-        t0 = t0 || t;
-        var p = Math.min(1, (t - t0) / 900);
-        el.textContent = Math.round(end * (1 - Math.pow(1 - p, 3)));
-        if (p < 1) requestAnimationFrame(step);
-      });
-    });
+  function libSection() {
+    var blocks = items(D.分块, '名'), raw = items(D.资料, '名'), h = '';
+    if (blocks.length) {
+      var total = blocks.reduce(function (s, b) { return s + (+b.几页 || 0); }, 0);
+      h += '<p class="blocks">' + blocks.map(function (b) { return '<span>' + esc(b.名) + '<b>' + esc(+b.几页 || 0) + '</b> 页</span>'; }).join('') + '</p>';
+      if (total) h = '<p>整理好的页一共 ' + total + ' 页：</p>' + h;
+    }
+    if (raw.length) {
+      var todo = raw.filter(function (x) { return !yes(x.整理了吗); });
+      h += '<p>收进来的资料 ' + raw.length + ' 份，' + (todo.length ? '还有 ' + todo.length + ' 份没整理：' : '都整理好了。') + '</p>';
+      if (todo.length) h += '<p class="todo-raw">' + todo.map(function (x) { return pageLink(x.页, x.名); }).join('') + '</p>';
+    }
+    return h ? { body: '<div class="lib">' + h + '</div>' } : null;
+  }
+  function leadText(list) {
+    var c = function (k) { return list.filter(function (x) { return x.due.k === k; }).length; };
+    var late = c('late'), td = c('today'), tm = c('tmr'), ask = items(D.要拍板, '事').length, miss = items(D.还缺, '事').length;
+    var a = [], b = [];
+    if (td) a.push('今天要做 <b>' + td + '</b> 件');
+    if (late) a.push((td ? '还有 ' : '有 ') + '<b>' + late + '</b> 件已经过期');
+    if (tm) a.push('明天 <b>' + tm + '</b> 件');
+    if (ask) b.push('<b>' + ask + '</b> 件要找人拍板');
+    if (miss) b.push('<b>' + miss + '</b> 处还缺资料');
+    return (a.length ? a.join('，') + '。' : '今天和明天没有要做的。') + (b.length ? b.join('，') + '。' : '没有要找人拍板的，也没有还缺的。');
   }
 
   var DONE_TONE = { '知识库': '#3B7DD8', '技能': '#E8912D', '智能体': '#4E9A3A', '编队': '#8E5EA2' };
@@ -556,15 +507,23 @@ h2 small { margin-left: auto; font-weight: 400; font-size: .82rem; color: var(--
     var name = txt(D.库名) || '我的知识库', list = todos();
     document.title = name + ' · 看板';
     doneShow();
+    put('who', esc([txt(D.谁), txt(D.岗位)].filter(Boolean).join(' · ')));
     put('title', esc(name));
-    put('sub', esc([txt(D.谁), txt(D.岗位), txt(D.业务)].filter(Boolean).join(' · ')));
+    put('biz', esc(D.业务));
     put('stamp', esc(stamp()));
-    put('home', pageLink('首页.md', '在 Obsidian 里打开首页', 'home'));
-    put('kpis', kpis());
-    put('charts', blockChart() + rawChart() + dueChart(list));
-    put('lists', todoCard(list) + '<div class="stack">' + askCard() + missCard() + '</div>' + recentCard());
-    if (first) animate();
-    first = false;
+    put('home', pageLink('首页.md', '在 Obsidian 里打开首页'));
+    put('facts', numbers().map(function (x) { return '<div><dt>' + esc(x.名) + '</dt><dd>' + esc(x.数) + '</dd></div>'; }).join(''));
+    put('lead', leadText(list));
+    var secs = [
+      ['今天和明天要做的', todoSection(list)],
+      ['要找人拍板的', askSection()],
+      ['还缺的', missSection()],
+      ['最近改过的页', recentSection()],
+      ['库里有什么', libSection()]
+    ].filter(function (s) { return s[1]; });
+    document.getElementById('sections').innerHTML = secs.map(function (s, i) {
+      return '<section><h2><span class="no">' + NUM.charAt(i) + '</span>' + s[0] + (s[1].count ? '<small>' + s[1].count + '</small>' : '') + '</h2>' + s[1].body + '</section>';
+    }).join('');
   }
 
   load(true);
