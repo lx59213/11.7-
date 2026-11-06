@@ -3,244 +3,154 @@
 :root{--clay:#a94b3d;--clay-2:#8f3c30;--clay-soft:#f6e8e3;--paper:#f7f4eb;--card:#fffdf8;--ink:#1d1a17;--muted:#62594d;--soft:#8a7e70;--line:#e4dccb;--moss:#536944;--moss-soft:#eaefe2;--r:14px}
 *{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.7 "PingFang SC","Noto Sans SC","Microsoft YaHei",system-ui,sans-serif}
-.wrap{max-width:720px;margin:0 auto;padding:48px 20px 96px}
+.wrap{max-width:700px;margin:0 auto;padding:48px 20px 96px}
 .eyebrow{font-size:13px;letter-spacing:.04em;color:var(--soft);margin:0 0 6px}
-h1{font:600 32px/1.25 "Noto Serif SC","Songti SC",Georgia,serif;margin:0 0 8px}
-.lead{font-size:17px;color:var(--muted);margin:0 0 28px}
-section{margin-top:44px}
-h2{font-size:19px;font-weight:700;margin:0 0 6px;line-height:1.4}
-.sub{font-size:14px;color:var(--soft);font-weight:400;margin-left:8px}
-.intro{margin:0 0 16px;font-size:15px;color:var(--muted)}
+h1{font:600 32px/1.25 "Noto Serif SC","Songti SC",Georgia,serif;margin:0 0 28px}
+h2{font-size:20px;font-weight:700;margin:48px 0 14px;line-height:1.4}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r)}
 code{background:#f0ebdf;border-radius:5px;padding:1px 6px;font-size:.92em}
-.k{display:inline-block;background:var(--clay-soft);color:var(--clay-2);font-weight:700;border-radius:999px;padding:2px 12px;margin:2px 4px 2px 0;font-size:15px;white-space:nowrap}
+.k{display:inline-block;background:var(--clay-soft);color:var(--clay-2);font-weight:700;border-radius:999px;padding:1px 12px;margin:1px 4px 1px 0;font-size:15px;white-space:nowrap}
 button{font:inherit;cursor:pointer}
-/* 开工 */
-.go{padding:24px 24px 20px;border:2px solid var(--clay);box-shadow:0 8px 24px -16px rgba(169,75,61,.55)}
-.go h2{margin:0}
-.go ol{list-style:none;margin:16px 0 0;padding:0;counter-reset:n}
-.go li{counter-increment:n;display:grid;grid-template-columns:30px 1fr;gap:12px;align-items:start;margin:0 0 14px;font-size:17px}
-.go li::before{content:counter(n);width:30px;height:30px;border-radius:50%;background:var(--clay);color:#fff;font-weight:700;font-size:15px;line-height:30px;text-align:center;margin-top:1px}
-.copy{display:flex;align-items:flex-start;gap:12px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 12px 12px 16px;margin-top:10px}
+/* 五步 */
+.steps{list-style:none;margin:0;padding:6px 24px}
+.step{display:grid;grid-template-columns:40px 1fr;gap:16px;padding:22px 0;border-top:1px solid var(--line)}
+.step:first-child{border-top:0}
+.num{width:40px;height:40px;border-radius:50%;background:var(--clay);color:#fff;font-weight:700;font-size:18px;display:flex;align-items:center;justify-content:center}
+.step h3{font-size:19px;margin:5px 0 2px;line-height:1.45}
+.step p{margin:0;color:var(--muted)}
+.copy{display:flex;align-items:flex-start;gap:12px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 12px 12px 16px;margin-top:12px}
 .copy pre{flex:1;margin:0;white-space:pre-wrap;word-break:break-word;font:15px/1.65 "PingFang SC","Noto Sans SC","Microsoft YaHei",sans-serif}
 .cbtn{flex:none;background:var(--clay);color:#fff;border:0;border-radius:8px;height:38px;padding:0 18px;font-weight:600;font-size:15px}
 .cbtn:hover{background:var(--clay-2)}.cbtn.ok{background:var(--moss)}
 .cbtn:focus-visible,summary:focus-visible{outline:3px solid var(--moss);outline-offset:2px}
-.rule{margin:6px 0 0;padding:12px 16px;border-radius:10px;background:var(--moss-soft);font-size:15px}
-.rule b{color:var(--moss)}
-.snag{margin-top:14px;padding-top:10px;border-top:1px dashed var(--line)}
-.snag summary{list-style:none;cursor:pointer;font-size:14px;color:var(--soft)}.snag summary::-webkit-details-marker{display:none}.snag summary::before{content:"＋ "}.snag[open] summary::before{content:"－ "}.snag[open] summary{margin-bottom:6px}
-.sc .fix b{font-size:13px;letter-spacing:.04em;color:var(--soft);font-weight:700;margin:0 0 2px}
-/* 两列：碰到什么 → 怎么办 */
-.tbl{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);column-gap:18px;font-size:15px}
-.tbl>div{padding:9px 0;border-top:1px solid var(--line)}
+.shot{margin:14px 0 0;border:1px solid var(--line);border-radius:12px;background:#fff;overflow:hidden}
+.shot svg{display:block;width:100%;height:auto}
+.shot text{font-family:inherit}
+/* 卡点 */
+.tbl{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);column-gap:18px;padding:6px 20px;font-size:15px}
+.tbl>div{padding:10px 0;border-top:1px solid var(--line)}
 .tbl>div:nth-child(-n+2){border-top:0}
 .tbl>div:nth-child(even){color:var(--muted)}
 .tbl .copy{margin-top:6px}
-.card.tbl{padding:6px 20px}
-/* 这一小时 */
-.steps{list-style:none;margin:0;padding:0;position:relative}
-.steps::before{content:"";position:absolute;left:19px;top:30px;bottom:60px;width:2px;background:var(--line)}
-.st{display:grid;grid-template-columns:40px 1fr;gap:14px;margin:0 0 14px}
-.dot{position:relative;width:40px;height:40px;margin-top:12px;border-radius:50%;background:var(--card);border:2px solid var(--clay);color:var(--clay-2);font-weight:700;font-size:17px;display:flex;align-items:center;justify-content:center}
-.st:last-child .dot{background:var(--clay);color:#fff}
-.sc{padding:16px 20px 14px;min-width:0}
-.sc h3{margin:0 0 10px;font-size:17px;line-height:1.45;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
-.sc h3 small{flex:none;font-size:13px;font-weight:400;color:var(--soft)}
-.sc dl{display:grid;grid-template-columns:36px 1fr;gap:6px 12px;margin:0;font-size:15px}
-.sc dt{font-size:13px;color:var(--soft);padding-top:2px}
-.sc dt.me{color:var(--clay-2);font-weight:700}
-.sc dd{margin:0}
-.warn{margin:12px 0 0;padding:10px 14px;border-left:3px solid var(--clay);background:var(--clay-soft);border-radius:0 8px 8px 0;font-size:15px}
-.fix{margin:12px 0 0;padding-top:10px;border-top:1px dashed var(--line);font-size:14px;color:var(--muted)}
-.fix b{display:block}
 /* 附加题 */
-.extra{margin-top:44px;border-style:dashed}
+.extra{margin-top:48px;border-style:dashed}
 .extra>summary{list-style:none;padding:16px 20px;cursor:pointer;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
 .extra>summary::-webkit-details-marker{display:none}
 .extra>summary h2{margin:0}
 .extra>summary::after{content:"展开";font-size:14px;color:var(--soft);flex:none}
 .extra[open]>summary::after{content:"收起"}
+.extra .sub{font-size:14px;color:var(--soft);font-weight:400;margin-left:8px}
 .extra .body{padding:0 20px 20px;font-size:15px}
 .extra .body p{margin:0 0 10px}
 .extra pre{font-size:14px;max-height:260px;overflow:auto}
 mark{background:#f6df9f;color:inherit;border-radius:3px;padding:0 2px}
-@media (max-width:640px){.wrap{padding:30px 14px 64px}h1{font-size:27px}.go{padding:18px 16px}.sc{padding:14px 14px 12px}.card.tbl{padding:4px 14px}
-.st{grid-template-columns:30px 1fr;gap:10px}.dot{width:30px;height:30px;font-size:14px;margin-top:14px}.steps::before{left:14px}
-.sc h3{flex-direction:column;gap:0}.tbl{grid-template-columns:1fr}.tbl>div:nth-child(odd){padding-bottom:0;font-weight:600}.tbl>div:nth-child(even){border-top:0;padding-top:2px}.tbl>div:nth-child(2){border-top:0}
+@media (max-width:640px){.wrap{padding:30px 14px 64px}h1{font-size:27px}.steps{padding:4px 14px}.step{grid-template-columns:32px 1fr;gap:12px}.num{width:32px;height:32px;font-size:16px}.step .shot{margin-left:-44px}.step h3{font-size:17px;margin-top:2px}
+.tbl{grid-template-columns:1fr;padding:4px 14px}.tbl>div:nth-child(odd){padding-bottom:0;font-weight:600}.tbl>div:nth-child(even){border-top:0;padding-top:2px}.tbl>div:nth-child(2){border-top:0}
 .copy{flex-direction:column;align-items:stretch}.cbtn{width:100%}}
-/* 示意图 起 */
-/* ===== 示意图（贴进学员页：这一段样式 + 各个 figure） ===== */
-.shot{margin:12px 0 6px;border:1px solid var(--line);border-radius:12px;background:#fff;overflow:hidden}
-.shot svg{display:block;width:100%;height:auto}
-.shot svg text{font-family:inherit}
-.shot figcaption{font-size:13px;line-height:1.6;color:var(--muted);padding:8px 14px;border-top:1px solid var(--line);background:var(--card)}
-.shot figcaption b{color:var(--clay)}
-.kb-drop{animation:kbDrop 4s ease-in-out infinite}
-@keyframes kbDrop{0%{transform:translate(300px,-118px);opacity:0}8%{opacity:1}45%{transform:none;opacity:1}88%{transform:none;opacity:1}100%{transform:none;opacity:0}}
-.kb-ring{transform-box:fill-box;transform-origin:center;animation:kbRing 1.6s ease-out infinite}
-@keyframes kbRing{from{transform:scale(.7);opacity:.75}to{transform:scale(1.9);opacity:0}}
-.kb-blink{animation:kbBlink 1.6s ease-in-out infinite}
-@keyframes kbBlink{50%{opacity:.35}}
-@media (prefers-reduced-motion:reduce){.kb-drop,.kb-ring,.kb-blink{animation:none}}
-/* 示意图 止 */
 </style></head>
 <body><main class="wrap">
 <p class="eyebrow">组织 AI 技能提升实操训练营 · 周六上午</p>
 <h1>项目一：知识库</h1>
-<p class="lead">让 AI 带你把散的业务资料，整理成查得到、说得出出处的知识库。整节课只复制一句话，后面都是它问你答。</p>
 
-<section class="card go" style="margin-top:0"><h2>开工<span class="sub">约 5 分钟</span></h2><ol>
-<li><span>AI 工具新开一个对话，工作空间选 <code>我的公司AI</code></span></li>
-<li><span>把 <code>1_知识库.zip</code> 拖进对话框</span></li>
-<li><span>复制这句，发出去<div class="copy"><pre id="p1">我刚把 1_知识库.zip 发给你了。解压到当前工作区，读 1_知识库/知识库/README.md，带我搭知识库。</pre><button class="cbtn" data-c="p1" aria-label="复制开工">复制</button></div></span></li>
-</ol><!--示意图1--><figure class="shot"><svg viewBox="0 0 640 300" role="img" aria-label="示意：AI 工具里新开对话、选工作空间、拖入压缩包、发送">
-<rect x="10" y="10" width="620" height="280" rx="14" fill="#fbfaf6" stroke="var(--line)" stroke-width="1.5"/>
-<circle cx="30" cy="26" r="5" fill="#e1d8c6"/><circle cx="46" cy="26" r="5" fill="#e1d8c6"/><circle cx="62" cy="26" r="5" fill="#e1d8c6"/>
-<text x="84" y="30" font-size="13" fill="var(--soft)">AI 工具（WorkBuddy、Codex 都差不多）</text>
-<path d="M10 42 H630" stroke="var(--line)"/>
-<path d="M10 42 H160 V290 H24 A14 14 0 0 1 10 276 Z" fill="#f3efe4"/>
-<rect x="24" y="56" width="122" height="32" rx="8" fill="#fff" stroke="var(--clay)" stroke-width="1.8"/>
-<text x="85" y="77" font-size="13" text-anchor="middle" fill="var(--ink)" font-weight="700">＋ 新对话</text>
-<text x="24" y="112" font-size="13" fill="var(--soft)">工作空间</text>
-<rect x="24" y="120" width="122" height="32" rx="8" fill="#fff" stroke="var(--clay)" stroke-width="2"/>
-<text x="36" y="141" font-size="13" fill="var(--ink)" font-weight="700">我的公司AI</text><text x="134" y="141" font-size="13" fill="var(--soft)" text-anchor="end">▾</text>
-<rect x="24" y="176" width="100" height="7" rx="3.5" fill="#e4dccb"/><rect x="24" y="196" width="80" height="7" rx="3.5" fill="#e4dccb"/><rect x="24" y="216" width="92" height="7" rx="3.5" fill="#e4dccb"/>
-<text x="395" y="118" font-size="14" fill="#c9bfae" text-anchor="middle">新对话</text>
-<rect x="180" y="194" width="430" height="80" rx="12" fill="#fff" stroke="var(--line)" stroke-width="1.5"/>
-<path d="M520 92 C470 120,380 150,290 198" fill="none" stroke="var(--clay)" stroke-width="1.6" stroke-dasharray="5 5"/>
-<text x="530" y="86" font-size="13" fill="var(--clay)" font-weight="700">拖进来</text>
-<g class="kb-drop"><rect x="194" y="204" width="128" height="26" rx="6" fill="var(--clay-soft)" stroke="var(--clay)" stroke-width="1.2"/><path d="M204 210 h10 l4 4 v10 h-14 z" fill="#fff" stroke="var(--clay)" stroke-width="1.2"/><text x="224" y="222" font-size="13" fill="var(--clay-2)" font-weight="700">1_知识库.zip</text></g>
-<text x="196" y="256" font-size="13" fill="var(--ink)">我刚把 1_知识库.zip 发给你了。解压到当前工作区，读……</text>
-<circle class="kb-ring" cx="588" cy="250" r="14" fill="none" stroke="var(--clay)" stroke-width="2"/>
-<circle cx="588" cy="250" r="14" fill="var(--clay)"/><path d="M588 257 V243 M582 249 L588 243 L594 249" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-<g font-size="13" font-weight="700" fill="#fff" text-anchor="middle">
-<circle cx="150" cy="56" r="11" fill="var(--clay)"/><text x="150" y="60">1</text>
-<circle cx="150" cy="120" r="11" fill="var(--clay)"/><text x="150" y="124">2</text>
-<circle cx="508" cy="76" r="11" fill="var(--clay)"/><text x="508" y="80">3</text>
-<circle cx="606" cy="226" r="11" fill="var(--clay)"/><text x="606" y="230">4</text></g>
-</svg><figcaption><b>①</b> 新开对话　<b>②</b> 工作空间选“我的公司AI”　<b>③</b> 把压缩包拖进输入框　<b>④</b> 粘贴开工那句，发送</figcaption></figure><!--/示意图1--><p class="rule">它放好以后会请你打开 Obsidian，看到“首页”就对了。之后它一步步问你，<b>回字母就行</b>；拿不准就回 <span class="k">建议的</span></p>
-<!--示意图3--><figure class="shot"><svg viewBox="0 0 640 260" role="img" aria-label="示意：Obsidian 里点打开本地仓库，选我的公司AI里的知识库文件夹">
-<rect width="640" height="260" fill="#fff"/>
-<rect x="16" y="20" width="284" height="200" rx="12" fill="#fbfaf6" stroke="var(--line)" stroke-width="1.5"/>
-<path d="M44 44 l12 -10 l12 10 l-4 18 h-16 z" fill="#8b6cd1"/><text x="78" y="56" font-size="15" font-weight="700" fill="var(--ink)">Obsidian</text>
-<text x="34" y="104" font-size="13" fill="var(--muted)">新建仓库</text><rect x="214" y="88" width="66" height="26" rx="6" fill="#f1ede3"/><text x="247" y="105" font-size="13" text-anchor="middle" fill="var(--muted)">创建</text>
-<rect x="26" y="128" width="264" height="40" rx="8" fill="var(--clay-soft)"/>
-<text x="34" y="153" font-size="13" fill="var(--ink)" font-weight="700">打开本地仓库</text>
-<rect class="kb-ring" x="214" y="135" width="66" height="26" rx="6" fill="none" stroke="var(--clay)" stroke-width="2"/>
-<rect x="214" y="135" width="66" height="26" rx="6" fill="var(--clay)"/><text x="247" y="152" font-size="13" text-anchor="middle" fill="#fff" font-weight="700">打开</text>
-<path d="M312 120 H332" stroke="var(--soft)" stroke-width="2"/><path d="M328 114 L336 120 L328 126" fill="none" stroke="var(--soft)" stroke-width="2"/>
-<rect x="344" y="20" width="280" height="200" rx="12" fill="#fbfaf6" stroke="var(--line)" stroke-width="1.5"/>
-<text x="362" y="48" font-size="13" fill="var(--soft)">选一个文件夹</text>
-<text x="362" y="74" font-size="13" fill="var(--muted)">我的公司AI ›</text>
-<rect x="356" y="86" width="256" height="34" rx="8" fill="var(--clay-soft)" stroke="var(--clay)" stroke-width="1.5"/>
-<path d="M368 96 h10 l3 3 h13 v14 h-26 z" fill="var(--clay)"/><text x="402" y="108" font-size="14" fill="var(--ink)" font-weight="700">知识库</text>
-<path d="M368 134 h10 l3 3 h13 v14 h-26 z" fill="#d8cfbd"/><text x="402" y="146" font-size="13" fill="var(--soft)">（别的文件夹）</text>
-<rect x="540" y="176" width="70" height="28" rx="7" fill="var(--clay)"/><text x="575" y="195" font-size="13" text-anchor="middle" fill="#fff" font-weight="700">打开</text>
-<g font-size="13" font-weight="700" fill="#fff" text-anchor="middle"><circle cx="286" cy="130" r="11" fill="var(--clay)"/><text x="286" y="134">1</text><circle cx="604" cy="88" r="11" fill="var(--clay)"/><text x="604" y="92">2</text></g>
-<text x="320" y="246" font-size="13" fill="var(--moss)" text-anchor="middle" font-weight="700">③ 看到“首页”就对了</text>
-</svg><figcaption><b>①</b> 在“打开本地仓库”那一行点“打开”　<b>②</b> 选“我的公司AI”里的“知识库”　一打开就进了别的仓库：点左下角仓库名 →“管理仓库…”</figcaption></figure><!--/示意图3--><details class="snag"><summary>开工卡住了？点开看怎么办</summary><!--示意图4--><figure class="shot"><svg viewBox="0 0 640 200" role="img" aria-label="示意：电脑弹窗问能否访问桌面文件夹，点允许">
-<rect width="640" height="200" fill="#f1ede3"/>
-<rect x="150" y="22" width="340" height="156" rx="14" fill="#fff" stroke="var(--line)" stroke-width="1.5"/>
-<rect x="300" y="36" width="40" height="40" rx="10" fill="#ece5d6"/><rect x="309" y="47" width="22" height="16" rx="4" fill="var(--muted)"/>
-<text x="320" y="100" font-size="14" text-anchor="middle" fill="var(--ink)" font-weight="700">“AI 工具”想访问“桌面”文件夹中的文件</text>
-<text x="320" y="120" font-size="13" text-anchor="middle" fill="var(--soft)">Windows 上的说法可能不一样，意思相同</text>
-<rect x="176" y="136" width="136" height="30" rx="8" fill="#f1ede3"/><text x="244" y="156" font-size="13" text-anchor="middle" fill="var(--muted)">不允许</text>
-<rect class="kb-ring" x="328" y="136" width="136" height="30" rx="8" fill="none" stroke="var(--clay)" stroke-width="2"/>
-<rect x="328" y="136" width="136" height="30" rx="8" fill="var(--clay)"/><text x="396" y="156" font-size="13" text-anchor="middle" fill="#fff" font-weight="700">允许</text>
-</svg><figcaption>点 <b>“允许”</b>，再回它“好了”。它只看文件名，原文件一个不动。</figcaption></figure><!--/示意图4--><div class="tbl">
-<div>电脑弹窗，问能不能访问桌面、文稿</div><div>点“允许”，再回 <span class="k">好了</span></div>
-<div>它说找不到压缩包、解压不了</div><div>自己双击 1_知识库.zip 解压（Windows 右键选“全部解压缩”），把 1_知识库 文件夹放进 我的公司AI，回 <span class="k">放好了</span></div>
-<div>它读不到文件夹</div><div>工作空间要选 <code>我的公司AI</code>，不是里面的小文件夹，也不是桌面</div>
-<div>Obsidian 首页是一段代码</div><div>Obsidian 太旧，到官网 obsidian.md 装 1.9 或更新的版本。打开后不是首页，点左边文件列表里的“首页”</div>
-<div>Obsidian 装不上</div><div>先把 AI 那边做完，库就是一堆普通文件，回去装好再看</div>
-</div></details></section>
+<h2 style="margin-top:0">照这五步做</h2>
+<ol class="card steps">
+<li class="step"><span class="num">1</span><div>
+<h3>打开 WorkBuddy，新建一个会话</h3>
+<p>左侧有“新建任务”入口。</p>
+</div></li>
+<li class="step"><span class="num">2</span><div>
+<h3>准备好资料</h3>
+<p>就是 <code>1_知识库.zip</code>。如果没有，去微信群里拿。</p>
+</div></li>
+<li class="step"><span class="num">3</span><div>
+<h3>把资料放到 WorkBuddy</h3>
+<p>把 1_知识库.zip 拖进对话框，参考下图。</p>
+<figure class="shot"><svg viewBox="0 0 560 290" role="img" aria-label="把 1_知识库.zip 从文件夹拖进 WorkBuddy 的对话框">
+<defs><marker id="kb3-ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#a94b3d"/></marker></defs>
+<rect x="14" y="96" width="140" height="150" rx="12" fill="#f7f4eb" stroke="#e4dccb"/>
+<text x="84" y="122" text-anchor="middle" font-size="14" fill="#8a7e70">下载的文件夹</text>
+<rect x="54" y="138" width="60" height="72" rx="8" fill="#fff" stroke="#a94b3d" stroke-width="1.5"/>
+<rect x="80" y="138" width="8" height="34" fill="#a94b3d" opacity=".35"/>
+<text x="84" y="198" text-anchor="middle" font-size="14" font-weight="700" fill="#a94b3d">ZIP</text>
+<text x="84" y="232" text-anchor="middle" font-size="14" fill="#1d1a17">1_知识库.zip</text>
+<rect x="184" y="14" width="362" height="262" rx="14" fill="#fffdf8" stroke="#e4dccb"/>
+<path d="M185 56H290V275H199Q185 275 185 261Z" fill="#f7f4eb"/>
+<line x1="184" y1="56" x2="546" y2="56" stroke="#e4dccb"/>
+<line x1="290" y1="56" x2="290" y2="276" stroke="#e4dccb"/>
+<circle cx="204" cy="35" r="5" fill="#e4dccb"/><circle cx="220" cy="35" r="5" fill="#e4dccb"/><circle cx="236" cy="35" r="5" fill="#e4dccb"/>
+<text x="365" y="40" text-anchor="middle" font-size="14" fill="#8a7e70">WorkBuddy</text>
+<rect x="196" y="70" width="84" height="30" rx="8" fill="#fff" stroke="#e4dccb"/>
+<text x="238" y="90" text-anchor="middle" font-size="13" fill="#1d1a17">＋ 新建任务</text>
+<rect x="198" y="116" width="62" height="8" rx="4" fill="#e4dccb"/>
+<rect x="198" y="134" width="72" height="8" rx="4" fill="#e4dccb"/>
+<text x="418" y="130" text-anchor="middle" font-size="15" fill="#8a7e70">新任务</text>
+<rect x="304" y="196" width="228" height="64" rx="12" fill="#fff" stroke="#a94b3d" stroke-width="2" stroke-dasharray="6 5"/>
+<text x="322" y="233" font-size="15" font-weight="700" fill="#a94b3d">拖到这里，松手</text>
+<circle cx="510" cy="228" r="13" fill="#e4dccb"/><path d="M510 235v-13M504 227l6-6 6 6" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M118 172C190 172 236 228 298 228" fill="none" stroke="#a94b3d" stroke-width="2.5" stroke-dasharray="7 6" marker-end="url(#kb3-ah)"/>
+<text x="238" y="190" text-anchor="middle" font-size="15" font-weight="700" fill="#a94b3d">拖进来</text>
+</svg></figure>
+</div></li>
+<li class="step"><span class="num">4</span><div>
+<h3>复制这段话，放到对话框里，然后点击发送</h3>
+<div class="copy"><pre id="p1">我刚把 1_知识库.zip 发给你了。解压到当前工作区，读 1_知识库/知识库/README.md，带我搭知识库。</pre><button class="cbtn" data-c="p1" aria-label="复制开工">复制</button></div>
+<figure class="shot"><svg viewBox="0 0 560 270" role="img" aria-label="把那段话粘贴进对话框，再点右下角的发送">
+<rect x="14" y="14" width="532" height="242" rx="14" fill="#fffdf8" stroke="#e4dccb"/>
+<line x1="14" y1="56" x2="546" y2="56" stroke="#e4dccb"/>
+<circle cx="34" cy="35" r="5" fill="#e4dccb"/><circle cx="50" cy="35" r="5" fill="#e4dccb"/><circle cx="66" cy="35" r="5" fill="#e4dccb"/>
+<text x="280" y="40" text-anchor="middle" font-size="14" fill="#8a7e70">WorkBuddy · 新任务</text>
+<text x="38" y="88" font-size="14" font-weight="700" fill="#a94b3d">粘贴到对话框里</text>
+<rect x="36" y="100" width="488" height="136" rx="14" fill="#fff" stroke="#a94b3d" stroke-width="2"/>
+<rect x="52" y="114" width="150" height="30" rx="8" fill="#f6e8e3"/>
+<text x="64" y="134" font-size="13" font-weight="700" fill="#a94b3d">ZIP</text>
+<text x="96" y="134" font-size="13" fill="#1d1a17">1_知识库.zip</text>
+<text x="52" y="172" font-size="15" fill="#1d1a17">我刚把 1_知识库.zip 发给你了。解压到当前工作区，</text>
+<text x="52" y="196" font-size="15" fill="#1d1a17">读 1_知识库/知识库/README.md，带我搭知识库。</text>
+<circle cx="496" cy="210" r="22" fill="none" stroke="#a94b3d" stroke-opacity=".3" stroke-width="3"/>
+<circle cx="496" cy="210" r="15" fill="#a94b3d"/><path d="M496 218v-15M489 209l7-7 7 7" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="464" y="216" text-anchor="end" font-size="14" font-weight="700" fill="#a94b3d">点发送</text>
+<path d="M503 214l0 20 5-5 4 9 4-2-4-9 7 0z" fill="#1d1a17" stroke="#fff" stroke-width="1.2" stroke-linejoin="round"/>
+</svg></figure>
+</div></li>
+<li class="step"><span class="num">5</span><div>
+<h3>接下来它会一步步问你，你就回</h3>
+<p>回选项前面的字母，或者直接说你想说的话。后面一路都是这样。</p>
+<figure class="shot"><svg viewBox="0 0 560 300" role="img" aria-label="它问一个问题并给出选项，你回一个字母，或者直接打一句话">
+<rect x="14" y="14" width="532" height="272" rx="14" fill="#fffdf8" stroke="#e4dccb"/>
+<line x1="14" y1="56" x2="546" y2="56" stroke="#e4dccb"/>
+<circle cx="34" cy="35" r="5" fill="#e4dccb"/><circle cx="50" cy="35" r="5" fill="#e4dccb"/><circle cx="66" cy="35" r="5" fill="#e4dccb"/>
+<text x="280" y="40" text-anchor="middle" font-size="14" fill="#8a7e70">WorkBuddy</text>
+<rect x="36" y="72" width="330" height="150" rx="14" fill="#f7f4eb"/>
+<text x="54" y="100" font-size="15" font-weight="700" fill="#1d1a17">第 1 问：你的岗位最接近哪个？</text>
+<text x="54" y="128" font-size="15" fill="#1d1a17">A　销售、业务、外贸</text>
+<text x="54" y="152" font-size="15" fill="#1d1a17">B　客服、售后</text>
+<text x="54" y="176" font-size="15" fill="#1d1a17">C　电商运营</text>
+<text x="54" y="202" font-size="14" fill="#8a7e70">……</text>
+<text x="468" y="140" text-anchor="middle" font-size="14" font-weight="700" fill="#a94b3d">回字母</text>
+<rect x="440" y="152" width="56" height="40" rx="12" fill="#a94b3d"/>
+<text x="468" y="179" text-anchor="middle" font-size="18" font-weight="700" fill="#fff">A</text>
+<text x="190" y="261" text-anchor="end" font-size="14" font-weight="700" fill="#a94b3d">或者直接说</text>
+<rect x="200" y="236" width="244" height="38" rx="12" fill="#fff" stroke="#a94b3d" stroke-width="1.5" stroke-dasharray="6 5"/>
+<text x="216" y="260" font-size="14" fill="#1d1a17">我做外贸，主要回海外客户的询盘</text>
+</svg></figure>
+</div></li>
+</ol>
 
-<section><h2>这一小时怎么走<span class="sub">四步加收尾，都是它问你答</span></h2>
-<p class="intro">它每问都给选项和建议。路上它会亮两种卡：<b>📇 我学会了什么知识</b>，是它刚记下的一条；<b>🧭 我是这么处理知识的</b>，是它用的办法。最后都收进“我的方法”那页，你带走。</p>
-<!--示意图2--><figure class="shot"><svg viewBox="0 0 640 250" role="img" aria-label="示意：AI 给出 A、B、C 选项和建议，人只回一个字母">
-<rect width="640" height="250" fill="#fff"/>
-<circle cx="40" cy="44" r="16" fill="#ece5d6"/><rect x="31" y="38" width="18" height="12" rx="4" fill="var(--muted)"/><circle cx="36" cy="44" r="2" fill="#fff"/><circle cx="44" cy="44" r="2" fill="#fff"/>
-<rect x="66" y="22" width="430" height="152" rx="14" fill="#f3efe4"/>
-<text x="86" y="52" font-size="15" font-weight="700" fill="var(--ink)">第 2 问：这个库先管哪一条业务？</text>
-<rect x="82" y="66" width="398" height="30" rx="8" fill="#fff" stroke="var(--moss)" stroke-width="1.5"/>
-<text x="96" y="86" font-size="14" fill="var(--ink)"><tspan font-weight="700">A</tspan>　回新客户的询盘</text><text x="468" y="86" font-size="13" fill="var(--moss)" text-anchor="end" font-weight="700">建议</text>
-<text x="96" y="120" font-size="14" fill="var(--muted)"><tspan font-weight="700">B</tspan>　跟老客户的订单</text>
-<text x="96" y="148" font-size="14" fill="var(--muted)"><tspan font-weight="700">C</tspan>　都不是，我说一下</text>
-<rect class="kb-ring" x="532" y="184" width="62" height="44" rx="14" fill="none" stroke="var(--clay)" stroke-width="2"/>
-<rect x="532" y="184" width="62" height="44" rx="14" fill="var(--clay)"/><text x="563" y="213" font-size="20" font-weight="800" fill="#fff" text-anchor="middle">A</text>
-<circle cx="614" cy="206" r="14" fill="#ece5d6"/><circle cx="614" cy="201" r="5" fill="var(--muted)"/><path d="M605 214 Q614 205 623 214" fill="var(--muted)"/>
-<text x="516" y="212" font-size="14" fill="var(--moss)" text-anchor="end" font-weight="700">回一个字母就行 →</text>
-</svg><figcaption>它每问都给选项和建议。<b>回字母就行</b>；拿不准就回“建议的”。</figcaption></figure><!--/示意图2--><ol class="steps">
-<li class="st"><span class="dot" aria-hidden="true">定</span><div class="card sc">
-<h3>定下你的库分成哪几块<small>第 1 步 · 约 10 分钟</small></h3>
-<dl><dt>它做</dt><dd>问你 4 个问题，再摆出一种分法给你看</dd>
-<dt class="me">你回</dt><dd>每问回字母。分法合适回 <span class="k">A 就这样</span>；想换就回 B 或 C；只改一处回 D，再说改什么</dd>
-<dt>拿到</dt><dd>搭好的架子，每块放了一页“示例”。去 Obsidian 左边点开看看，以后每页就长这样</dd></dl>
-</div></li>
-<li class="st"><span class="dot" aria-hidden="true">找</span><div class="card sc">
-<h3>找出你电脑里要紧的资料<small>第 2 步 · 约 20 分钟</small></h3>
-<dl><dt>它做</dt><dd>问资料在哪，只看文件名、不打开内容，列一张要读的清单</dd>
-<dt class="me">你回</dt><dd>在哪，选字母。清单没问题回 <span class="k">A 就这些</span>；有不该给它看的，说出来</dd>
-<dt>拿到</dt><dd>要紧的资料复制进了知识库，原件一个不动</dd></dl>
-<p class="fix"><b>卡住了</b>它说看不到你的文件：自己打开那个文件夹，复制文件（Ctrl+C，Mac 是 Cmd+C），到知识库文件夹的 raw 里粘贴（Ctrl+V，Mac 是 Cmd+V），回 <span class="k">放好了</span>。客户名、手机号、真实金额先换代号，并确认公司允许放进你用的工具。</p>
-</div></li>
-<li class="st"><span class="dot" aria-hidden="true">理</span><div class="card sc">
-<h3>它读资料，一页页写进 Obsidian<small>第 3 步 · 约 30 分钟</small></h3>
-<dl><dt>它做</dt><dd>先报要多久。读的时候，Obsidian 左边的页一张张长出来，每条都写着出处</dd>
-<dt class="me">你回</dt><dd>问开不开始，回 <span class="k">A 开始</span>。读完它请你核 3 条：都还算数回 <span class="k">A</span>；哪条不算数了，回那条的字母，再告诉它现在是多少</dd>
-<dt>拿到</dt><dd>一页页有出处的整理；资料对不上的，两种说法都留着等你定</dd></dl>
-<p class="warn">核这 3 条的 2 分钟一定要花：一条记错，用到它的页全跟着错。原件它对过了，现在还算不算数，只有你知道。</p>
-</div></li>
-<li class="st"><span class="dot" aria-hidden="true">看</span><div class="card sc">
-<h3>它做好一个网页看板<small>第 4 步 · 约 5 分钟</small></h3>
-<dl><dt>它做</dt><dd>自己做好，自己在浏览器里打开</dd>
-<dt class="me">你回</dt><dd>不用回</dd>
-<dt>拿到</dt><dd>打开就看到今天要做的、要你拍板的、还缺的资料、库里有多少东西；点一条，跳到 Obsidian 里那一页</dd></dl>
-<p class="fix"><b>卡住了</b>浏览器没打开：到知识库文件夹 → 看板，双击 <code>看板.html</code>；还不行就右键，“打开方式”选浏览器。库里加了东西想看最新的，回 <span class="k">更新看板</span>。</p><!--示意图5--><figure class="shot"><svg viewBox="0 0 640 230" role="img" aria-label="示意：双击看板.html，在浏览器里打开看板">
-<rect width="640" height="230" fill="#fff"/>
-<rect x="16" y="22" width="230" height="186" rx="12" fill="#fbfaf6" stroke="var(--line)" stroke-width="1.5"/>
-<text x="32" y="48" font-size="13" fill="var(--soft)">知识库 › 看板</text>
-<rect class="kb-ring" x="86" y="74" width="90" height="100" rx="10" fill="none" stroke="var(--clay)" stroke-width="2"/>
-<path d="M108 84 h34 l12 12 v56 h-46 z" fill="#fff" stroke="var(--clay)" stroke-width="1.8"/><text x="131" y="132" font-size="13" text-anchor="middle" fill="var(--clay)" font-weight="700">HTML</text>
-<text x="131" y="194" font-size="13" text-anchor="middle" fill="var(--ink)" font-weight="700">看板.html</text>
-<text x="131" y="66" font-size="13" text-anchor="middle" fill="var(--clay)" font-weight="700">双击</text>
-<path d="M258 115 H284" stroke="var(--soft)" stroke-width="2"/><path d="M280 109 L288 115 L280 121" fill="none" stroke="var(--soft)" stroke-width="2"/>
-<rect x="298" y="22" width="326" height="186" rx="12" fill="#fbfaf6" stroke="var(--line)" stroke-width="1.5"/>
-<path d="M298 50 H624" stroke="var(--line)"/><circle cx="314" cy="36" r="4" fill="#e1d8c6"/><circle cx="328" cy="36" r="4" fill="#e1d8c6"/><rect x="350" y="29" width="200" height="14" rx="7" fill="#fff" stroke="var(--line)"/>
-<text x="316" y="76" font-size="14" fill="var(--ink)" font-weight="700">我的知识库</text>
-<g font-size="13"><rect x="316" y="88" width="92" height="96" rx="8" fill="#fff" stroke="var(--line)"/><text x="326" y="108" fill="var(--muted)">今天要做的</text><rect x="326" y="120" width="70" height="6" rx="3" fill="#e4dccb"/><rect x="326" y="134" width="56" height="6" rx="3" fill="#e4dccb"/><rect x="326" y="148" width="64" height="6" rx="3" fill="#e4dccb"/>
-<rect x="416" y="88" width="92" height="96" rx="8" fill="#fff" stroke="var(--clay)"/><text x="426" y="108" fill="var(--clay)" font-weight="700">要你拍板的</text><text x="462" y="152" font-size="30" text-anchor="middle" fill="var(--clay)" font-weight="800">3</text>
-<rect x="516" y="88" width="92" height="96" rx="8" fill="#fff" stroke="var(--line)"/><text x="526" y="108" fill="var(--muted)">库里有多少</text><rect x="530" y="150" width="12" height="20" rx="2" fill="var(--moss)" opacity=".5"/><rect x="548" y="136" width="12" height="34" rx="2" fill="var(--moss)" opacity=".7"/><rect x="566" y="124" width="12" height="46" rx="2" fill="var(--moss)"/></g>
-</svg><figcaption>双击 <b>看板.html</b>，用浏览器打开。打不开就右键 →“打开方式”→ 浏览器。</figcaption></figure><!--/示意图5-->
-</div></li>
-<li class="st"><span class="dot" aria-hidden="true">收</span><div class="card sc">
-<h3>收尾：拿走一页“我的方法”<small>约 5 分钟</small></h3>
-<dl><dt>它做</dt><dd>说今天做成了什么，问你接下来做什么</dd>
-<dt class="me">你回</dt><dd><span class="k">A 看看要你拍板的几处</span><span class="k">B 考考它</span><span class="k">C 先这样</span></dd>
-<dt>拿到</dt><dd>“我的方法”那页：你这次怎么分、资料在哪、对不上问谁，后面是卡帕西管知识的五条。换个 AI 工具，把这页给它看就能接着做</dd></dl>
-<p class="fix"><b>选 B 考它</b>每个答案它都摆出证据：出自哪份原件、哪一段、原文那句。它还会出一个库里没有的问题，看它会不会编。</p>
-</div></li>
-</ol></section>
-
-<section><h2>随时能回的几句<span class="sub">先试这些，不行再举手</span></h2>
+<h2>遇到卡点了</h2>
 <div class="card tbl">
-<div>它说了一段话就不动了，没问你，也没说做完</div><div>回 <span class="k">继续</span></div>
+<div>电脑弹窗，问能不能访问桌面、文稿</div><div>点“允许”，再回 <span class="k">好了</span></div>
+<div>它说找不到压缩包、解压不了</div><div>自己双击 1_知识库.zip 解压（Windows 右键选“全部解压缩”），把解出来的 1_知识库 文件夹放进 我的公司AI，回 <span class="k">放好了</span></div>
 <div>拿不准选哪个</div><div>回 <span class="k">建议的</span></div>
 <div>听不懂它说的</div><div>回 <span class="k">说大白话</span></div>
-<div>它一次问一堆</div><div>回 <span class="k">一次只问一个，给我选项</span></div>
-<div>时间不够了</div><div>回 <span class="k">先停</span>，它把剩下的记成“下次再收”，接着做看板和收尾</div>
-<div>课上它要你装东西</div><div>回 <span class="k">不装，照 知识库/README.md 来</span>（最底下的附加题是课后的，不算）</div>
-<div>对话太长，卡死了</div><div>新开一个对话，工作空间还是 <code>我的公司AI</code>，发这句。它从上次停的地方接着做，写好的都在。<div class="copy"><pre id="p3">读 知识库/README.md，接着做。</pre><button class="cbtn" data-c="p3" aria-label="复制接着做">复制</button></div></div>
+<div>它说了一段话就不动了，没问你，也没说做完</div><div>回 <span class="k">继续</span></div>
+<div>它说看不到你的资料</div><div>自己打开放资料的文件夹，复制文件，粘到知识库文件夹的 raw 里，回 <span class="k">放好了</span></div>
+<div>课上它要你装东西</div><div>回 <span class="k">不装，照 知识库/README.md 来</span>（附加题是课后的，不算）</div>
+<div>Obsidian 首页是一段代码，或者装不上</div><div>Obsidian 太旧，到官网 obsidian.md 装 1.9 或更新的版本；装不上就先把 WorkBuddy 这边做完，回去装好再看</div>
+<div>看板没打开</div><div>到知识库文件夹 → 看板，双击 <code>看板.html</code>；还不行就右键，“打开方式”选浏览器</div>
+<div>时间不够了</div><div>回 <span class="k">先停</span>，它把剩下的记成“下次再收”，接着做完收尾</div>
+<div>对话太长，卡死了</div><div>新建一个会话，发这句，它从上次停的地方接着做，写好的都在<div class="copy"><pre id="p3">读 知识库/README.md，接着做。</pre><button class="cbtn" data-c="p3" aria-label="复制接着做">复制</button></div></div>
 <div>它说“我卡住了”</div><div>举手，把它写的那段给助教看</div>
-</div></section>
-
-<section><h2>回去以后<span class="sub">压缩包里的《之后该怎么做》写得更全</span></h2>
-<div class="card tbl">
-<div>有了新资料</div><div>复制进 知识库/raw，新开对话说：“读 知识库/README.md。收进来：raw/ 里新放的文件。”</div>
-<div>想问它一件事</div><div>“按 知识库/ 回答：〖问题〗。带出处，库里没有就说没有。”</div>
-<div>换了 AI 工具、换了电脑</div><div>把 知识库 整个带过去，说：“照 知识库/我的方法.md，接着整理这批资料。”</div>
-</div></section>
+</div>
 
 <details class="card extra"><summary><h2>附加题：给知识库连上关系<span class="sub">课后想做再做 · 约 15 分钟</span></h2></summary><div class="body">
 <p>不在课上的四步里。要用 Obsidian、装三个插件，公司电脑不让装就跳过。做完后关系图上每条线都写着是什么关系，问 AI“这件事变了，牵连谁”，它能顺着关系找。</p>
