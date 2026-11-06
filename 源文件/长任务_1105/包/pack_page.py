@@ -212,6 +212,7 @@ mark{background:#fbe7a1;color:inherit;border-radius:3px;padding:0 2px}
 .hint{margin:.15em 0;font-size:15px;line-height:1.7}p,.hint{text-wrap:pretty}
 .hint b{color:var(--accent);font-weight:600}
 .go{padding:.8em 1em;background:var(--code-bg);border:1px solid var(--line);border-radius:10px}
+.go p{margin:0}.how{margin:.4em 0 0;padding-left:1.4em}.how li{margin:.35em 0}.how small{color:var(--muted,#777)}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:"Source Han Serif SC","Noto Serif SC","Songti SC","PingFang SC","Hiragino Sans GB",serif;font-size:17px;line-height:1.9;-webkit-font-smoothing:antialiased}
 main{max-width:700px;margin:0 auto;padding:56px 28px 96px}
 h1,h2,h3{font-family:"PingFang SC","Hiragino Sans GB",sans-serif;line-height:1.4;color:var(--ink)}
@@ -313,10 +314,12 @@ def build_page(PACK, title):
     lost = extra_file(os.path.join(P, "换了对话.md"))
     name = os.path.basename(PACK)
     inner = (f'<p class="go"><b>整体：</b>{OVERALL[name]}</p>'
-             f'<p class="go"><b>怎么做：</b>① 下载 <a href="{html.escape(drag_file(PACK))}" download><b>{html.escape(drag_file(PACK))}</b></a>，整个拖进上午做知识库的那个对话（不用解压），再复制下面第 1 步，一起发出去。'
-             f'② AI 问你，就答自己工作里的事；问以前出过的事，说具体是哪一回；想不起来、不想写，直说，AI 会劝你多想一下，实在不想写也能往下走，看板上照实记。'
-             f'③ 让你挑甲、乙，只看哪份你敢直接发出去，别猜哪份用了技能。'
-             f'④ 看到"第 N 步结束"，复制下一步发过去。</p>')
+             f'<div class="go"><p><b>怎么做：</b></p><ol class="how">'
+             f'<li>下载 <a href="{html.escape(drag_file(PACK))}" download><b>{html.escape(drag_file(PACK))}</b></a>，整个拖进上午做知识库的那个对话（不用解压），再复制下面第 1 步，一起发出去。'
+             f'<br><small>在微信里打开的下载不了：点右上角，用浏览器打开。苹果自带浏览器下完自动解开成了文件夹：把这个文件夹拖进去也行。</small></li>'
+             f'<li>AI 问你，就答自己工作里的事；问以前出过的事，说具体是哪一回；想不起来、不想写，直说，AI 会劝你多想一下，实在不想写也能往下走，看板上照实记。</li>'
+             f'<li>让你挑甲、乙，只看哪份你敢直接交出去，别猜是哪份。</li>'
+             f'<li>看到"第 N 步结束"，复制下一步发过去。</li></ol></div>')
     for k, name, m, *_rest, body in steps:
         if STAGE.get(k):
             inner += f'<hr><h2>{html.escape(STAGE[k])}</h2>'

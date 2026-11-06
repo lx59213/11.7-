@@ -6,6 +6,7 @@ mark{background:#fbe7a1;color:inherit;border-radius:3px;padding:0 2px}
 .hint{margin:.15em 0;font-size:15px;line-height:1.7}p,.hint{text-wrap:pretty}
 .hint b{color:var(--accent);font-weight:600}
 .go{padding:.8em 1em;background:var(--code-bg);border:1px solid var(--line);border-radius:10px}
+.go p{margin:0}.how{margin:.4em 0 0;padding-left:1.4em}.how li{margin:.35em 0}.how small{color:var(--muted,#777)}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:"Source Han Serif SC","Noto Serif SC","Songti SC","PingFang SC","Hiragino Sans GB",serif;font-size:17px;line-height:1.9;-webkit-font-smoothing:antialiased}
 main{max-width:700px;margin:0 auto;padding:56px 28px 96px}
 h1,h2,h3{font-family:"PingFang SC","Hiragino Sans GB",sans-serif;line-height:1.4;color:var(--ink)}
@@ -25,8 +26,8 @@ code{font-family:"SF Mono",Menlo,Consolas,"PingFang SC",monospace;font-size:.86e
 hr{border:none;text-align:center;margin:2.8em 0}
 hr::after{content:"\00b7 \00b7 \00b7";color:var(--ink-light);letter-spacing:.8em;font-size:.9em}
 @media (max-width:600px){main{padding:36px 18px 72px}body{font-size:16px}}
-</style></head><body><main><h1>操作手册 · 智能体</h1><p>每一步：为了啥、做完拿到什么、卡住了怎么办，下面是要复制的那段。最后是换了对话、周间练习和回去以后。</p><hr><p class="go"><b>整体：</b>把一整件事交给一个 AI 下属：它自己查、自己做、自己检查，碰到该你定的停下来问你。它做的和不照说明书做的打乱了你挑，挑中它才算能用。第二天拆成一支队，你只批请示单。</p><p class="go"><b>怎么做：</b>① 下载 <a href="3_智能体.zip" download><b>3_智能体.zip</b></a>，整个拖进上午做知识库的那个对话（不用解压），再复制下面第 1 步，一起发出去。② AI 问你，就答自己工作里的事；问以前出过的事，说具体是哪一回；想不起来、不想写，直说，AI 会劝你多想一下，实在不想写也能往下走，看板上照实记。③ 让你挑甲、乙，只看哪份你敢直接发出去，别猜哪份用了技能。④ 看到"第 N 步结束"，复制下一步发过去。</p><h2>第 1 步 · 定岗位，挑第一件事<small> · 约 6 分钟</small></h2><div class="hints"><p class="hint"><b>为了啥：</b>给 AI 下属定个岗位，先交一件你最熟的事。一般就是下午做技能的那件，往外扩成一整件。</p><p class="hint"><b>做完拿到：</b>岗位四句（它叫什么、服务谁、交给它什么、做成了算什么），和第一件要交给它的事。</p><p class="hint"><b>卡住了：</b>四句不对：直接说哪句改成什么。</p></div><div class="prompt-box"><pre><code># 第 1 步：定岗位，挑第一件事
-照 3_智能体/智能体包.md 里的规矩做。先找包：这条消息或这个对话里带的 3_智能体.zip，或已解开的 知识库/_参考/课程/3_智能体/智能体包.md，读完再做这一步。
+</style></head><body><main><h1>操作手册 · 智能体</h1><p>每一步：为了啥、做完拿到什么、卡住了怎么办，下面是要复制的那段。最后是换了对话、周间练习和回去以后。</p><hr><p class="go"><b>整体：</b>把一整件事交给一个 AI 下属：它自己查、自己做、自己检查，碰到该你定的停下来问你。它做的和不照说明书做的打乱了你挑，挑中它才算能用。第二天拆成一支队，你只批请示单。</p><div class="go"><p><b>怎么做：</b></p><ol class="how"><li>下载 <a href="3_智能体.zip" download><b>3_智能体.zip</b></a>，整个拖进上午做知识库的那个对话（不用解压），再复制下面第 1 步，一起发出去。<br><small>在微信里打开的下载不了：点右上角，用浏览器打开。苹果自带浏览器下完自动解开成了文件夹：把这个文件夹拖进去也行。</small></li><li>AI 问你，就答自己工作里的事；问以前出过的事，说具体是哪一回；想不起来、不想写，直说，AI 会劝你多想一下，实在不想写也能往下走，看板上照实记。</li><li>让你挑甲、乙，只看哪份你敢直接交出去，别猜是哪份。</li><li>看到"第 N 步结束"，复制下一步发过去。</li></ol></div><h2>第 1 步 · 定岗位，挑第一件事<small> · 约 6 分钟</small></h2><div class="hints"><p class="hint"><b>为了啥：</b>给 AI 下属定个岗位，先交一件你最熟的事。一般就是下午做技能的那件，往外扩成一整件。</p><p class="hint"><b>做完拿到：</b>岗位四句（它叫什么、服务谁、交给它什么、做成了算什么），和第一件要交给它的事。</p><p class="hint"><b>卡住了：</b>四句不对：直接说哪句改成什么。</p></div><div class="prompt-box"><pre><code># 第 1 步：定岗位，挑第一件事
+照 3_智能体/智能体包.md 里的规矩做。先找包：这条消息或这个对话里带的 3_智能体.zip（或解开的 3_智能体 文件夹），或已解开的 知识库/_参考/课程/3_智能体/智能体包.md，读完再做这一步。
 这一步守三条：
 ① 只做这一步，后面的步骤不做；对我说话照规则 5，大白话，不念你查了什么。
 ② 问句照下面的原文问，一字不改；要我选的写&quot;我猜：……&quot;；问以前的事不猜，我答不上来照规则 3 先劝一次。
@@ -42,7 +43,7 @@ hr::after{content:"\00b7 \00b7 \00b7";color:var(--ink-light);letter-spacing:.8em
 - 我说换：照我说的换，不算新问题。
 - 下午没有盲比赢过的技能：再问&quot;这件事新人最常错在哪？上一回是怎么错的？&quot;，不写猜测；说不出，问一句换不换，最多换一次；还说不出就做这件，写&quot;待补&quot;，照实收尾，不拦我。
 做到才算：① 四句和第一件事我说了行，或照我说的改了；② 这件事是我熟的：下午盲比赢过的技能管的那件往外扩，或我说出了新人上一回错在哪。</code></pre><button class="copy-btn" title="复制" aria-label="复制" onclick="copyPrompt(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div><h2>第 2 步 · 写出岗位说明书第 1 版<small> · 约 8 分钟</small></h2><div class="hints"><p class="hint"><b>为了啥：</b>像给新员工写岗位说明：做什么、不能碰什么、交出前查什么、什么时候停下来问你。写短，背后是你们真出过的事。</p><p class="hint"><b>做完拿到：</b>岗位说明书第 1 版，一页多：每条做法、红线在员工档案里写着来自哪。</p><p class="hint"><b>卡住了：</b>想不起来、不想写，直说就行。AI 会劝你多想一下；实在不想写也能往下走，看板上照实记。</p></div><div class="prompt-box"><pre><code># 第 2 步：写岗位说明书第 1 版
-照 3_智能体/智能体包.md 里的规矩做。先找包：这条消息或这个对话里带的 3_智能体.zip，或已解开的 知识库/_参考/课程/3_智能体/智能体包.md，读完再做这一步。
+照 3_智能体/智能体包.md 里的规矩做。先找包：这条消息或这个对话里带的 3_智能体.zip（或解开的 3_智能体 文件夹），或已解开的 知识库/_参考/课程/3_智能体/智能体包.md，读完再做这一步。
 这一步守三条：
 ① 只做这一步，后面的步骤不做；对我说话照规则 5，大白话，不念你查了什么。
 ② 问句照下面的原文问，一字不改；要我选的写&quot;我猜：……&quot;；问以前的事不猜，我答不上来照规则 3 先劝一次。
@@ -65,7 +66,7 @@ hr::after{content:"\00b7 \00b7 \00b7";color:var(--ink-light);letter-spacing:.8em
 - 最后问：&quot;上一回你自己做这件事，是哪一单、怎么做的？&quot;照我说的对说明书：我做了、说明书里没有的加上；说明书里有、我没这么做的，删掉或照我说的改。
 定了：没有来路的做法、红线删掉。存好 AGENT.md（第 1 版），员工档案写上做法和红线、自查、放多少手。
 做到才算：① 每条做法、红线在员工档案里有来路，没来路的删了；② 停下等拍板的几种写进了说明书；③ 至少一条做法背后有一回真事，是我自己说出来的：哪一回、当时怎么回事（知识库里记着的那回，我说出当时怎么回事才算）；④ 上一回怎么做的，我说出了具体一单，不是你拿知识库里的替我答；⑤ AGENT.md 不超过 80 行，没有来路括号、待补、核对清单、免责，会变的数没写死。</code></pre><button class="copy-btn" title="复制" aria-label="复制" onclick="copyPrompt(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div><h2>第 3 步 · 交出第一单，盲挑<small> · 约 14 分钟</small></h2><div class="hints"><p class="hint"><b>为了啥：</b>看它自己查、自己做、自己检查，该你定的停下来问。再和不照说明书做的那份打乱了让你挑：挑中不照说明书那份，就是说明书不行，改到你挑中它为止。</p><p class="hint"><b>做完拿到：</b>它做完的第一单（带图）、一张请示单、一页对比网页。</p><p class="hint"><b>卡住了：</b>它做事时别打字，看看板，每做一个动作多一条。请示单都同意就回&quot;都照建议&quot;。挑甲乙只看哪份你敢直接交出去，别猜哪份是它做的。软件报错卡住：发一句&quot;继续&quot;。</p></div><div class="prompt-box"><pre><code># 第 3 步：交出第一单，盲挑
-照 3_智能体/智能体包.md 里的规矩做。先找包：这条消息或这个对话里带的 3_智能体.zip，或已解开的 知识库/_参考/课程/3_智能体/智能体包.md，读完再做这一步。
+照 3_智能体/智能体包.md 里的规矩做。先找包：这条消息或这个对话里带的 3_智能体.zip（或解开的 3_智能体 文件夹），或已解开的 知识库/_参考/课程/3_智能体/智能体包.md，读完再做这一步。
 这一步守三条：
 ① 只做这一步，后面的步骤不做；对我说话照规则 5，大白话，不念你查了什么。
 ② 问句照下面的原文问，一字不改；要我选的写&quot;我猜：……&quot;；问以前的事不猜，我答不上来照规则 3 先劝一次。
@@ -85,7 +86,7 @@ hr::after{content:"\00b7 \00b7 \00b7";color:var(--ink-light);letter-spacing:.8em
 - 挑中照说明书那份：揭晓（对比页标上甲、乙各是哪份），再问&quot;它好在哪一处？&quot;，原话记进员工档案&quot;盲比&quot;。
 - 挑中没照说明书那份、都不交、说差不多：揭晓，告诉我一句&quot;这一轮说明书没赢&quot;，问&quot;照说明书做的那份，哪里让你不想交？&quot;；找到是 AGENT.md 哪几句的事，改掉（旧版另存，版本加一），另开两个助手把两份都重做，图也各出 1 张（不照说明书那份照样不给 AGENT.md），照规则 8 重新定甲乙，再问&quot;甲、乙两份，要是现在就交出去，你交哪份？&quot;。
 做到才算：① 请示单我批了（没有要拍板的也算），它照我拍的做完了；② 没揭晓之前，我挑中了照说明书做的那份（改了重做那一轮挑中也算），并说出它好在哪一处。评价照规则 16 写。</code></pre><button class="copy-btn" title="复制" aria-label="复制" onclick="copyPrompt(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div><h2>第 4 步 · 定排班表，它自己做一单<small> · 约 10 分钟</small></h2><div class="hints"><p class="hint"><b>为了啥：</b>到点自己上班，人不在它也做事。它自己跑的这一单，你放心交出去才算。</p><p class="hint"><b>做完拿到：</b>一张排班表（每天几点去收件箱拿新事），和它自己做完、你放心交出去的一单。</p><p class="hint"><b>卡住了：</b>软件里建不了定时：照 AI 写的步骤自己建，回&quot;建好了&quot;。不放心交出去就直说哪里，AI 会改说明书重做。</p></div><div class="prompt-box"><pre><code># 第 4 步：定排班表，让它自己做一单
-照 3_智能体/智能体包.md 里的规矩做。先找包：这条消息或这个对话里带的 3_智能体.zip，或已解开的 知识库/_参考/课程/3_智能体/智能体包.md，读完再做这一步。
+照 3_智能体/智能体包.md 里的规矩做。先找包：这条消息或这个对话里带的 3_智能体.zip（或解开的 3_智能体 文件夹），或已解开的 知识库/_参考/课程/3_智能体/智能体包.md，读完再做这一步。
 这一步守三条：
 ① 只做这一步，后面的步骤不做；对我说话照规则 5，大白话，不念你查了什么。
 ② 问句照下面的原文问，一字不改；要我选的写&quot;我猜：……&quot;；问以前的事不猜，我答不上来照规则 3 先劝一次。
@@ -105,7 +106,7 @@ hr::after{content:"\00b7 \00b7 \00b7";color:var(--ink-light);letter-spacing:.8em
 - 照我拍的做完后，打开这一单的图，问：&quot;这一单是它自己跑的。现在就交出去，你放心吗？不放心就说哪里。&quot;不放心：找到是 AGENT.md 哪一句的事，改掉（旧版另存，版本加一），另开一个助手照新版重做这一单，再问这一句。
 定了：从看板&quot;要拍板&quot;里删掉，工作日志写上&quot;拍板以后&quot;。员工档案写上排班表、跑过的单、新出的图。结束第一行写明排班表建在哪个软件，没建成就写&quot;排班表没建成，那一单是助手代跑的&quot;。
 做到才算：① 排班表建成了，这一单是定时任务自己跑的（助手代跑的，实话写&quot;定时还没验证&quot;）；② 我说这一单放心交出去。</code></pre><button class="copy-btn" title="复制" aria-label="复制" onclick="copyPrompt(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div><h2>第 5 步 · 改一句，同一单重做再盲挑<small> · 约 10 分钟</small></h2><div class="hints"><p class="hint"><b>为了啥：</b>说明书不是一次写完的。改一句，让助手照新版把同一单重做，和改前那份再盲挑一次：你挑中改后的才留下。再定好谁用、谁拍板。</p><p class="hint"><b>做完拿到：</b>岗位说明书新的一版（盲挑你选中了它），写全的员工档案。</p><p class="hint"><b>卡住了：</b>想改别处：直接说哪一处。两份分不出：说&quot;差不多&quot;，这一句就不改了。软件报错卡住：发一句&quot;继续&quot;。</p></div><div class="prompt-box"><pre><code># 第 5 步：改一句，同一单重做再盲挑，写员工档案
-照 3_智能体/智能体包.md 里的规矩做。先找包：这条消息或这个对话里带的 3_智能体.zip，或已解开的 知识库/_参考/课程/3_智能体/智能体包.md，读完再做这一步。
+照 3_智能体/智能体包.md 里的规矩做。先找包：这条消息或这个对话里带的 3_智能体.zip（或解开的 3_智能体 文件夹），或已解开的 知识库/_参考/课程/3_智能体/智能体包.md，读完再做这一步。
 这一步守三条：
 ① 只做这一步，后面的步骤不做；对我说话照规则 5，大白话，不念你查了什么。
 ② 问句照下面的原文问，一字不改；要我选的写&quot;我猜：……&quot;；问以前的事不猜，我答不上来照规则 3 先劝一次。
@@ -125,7 +126,7 @@ hr::after{content:"\00b7 \00b7 \00b7";color:var(--ink-light);letter-spacing:.8em
 定了：员工档案写全。告诉我：看板上现在几个技能、几个智能体，等拍板的还有几件，下次排班几点。缺了东西也照样写最后一行&quot;还在这个对话里，复制操作手册第 6 步发给我。&quot;
 做到才算：① 没揭晓之前，我挑中了改后那份；② 员工档案写全（我定的、谁用谁审、放多少手、检验）。挑中了但说还不能直接交，实话写我嫌的那处。
 我说&quot;再带一个&quot;：回第 1 步，另起一个智能体文件夹。</code></pre><button class="copy-btn" title="复制" aria-label="复制" onclick="copyPrompt(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div><hr><h2>第二天上午 · 人机编队</h2><h2>第 6 步 · 拆成一支队，写分工表<small> · 约 10 分钟</small></h2><div class="hints"><p class="hint"><b>为了啥：</b>一个人从头做到尾，错了到最后才看出来。拆成三个人，下一个查上一个。</p><p class="hint"><b>做完拿到：</b>一支队：做的、出图的、挑错的三个队员，一张分工表。</p><p class="hint"><b>卡住了：</b>名字不顺口：改成你们平时的叫法。只回&quot;对&quot;不算答，AI 会追问上一回是怎么出的事。</p></div><div class="prompt-box"><pre><code># 第 6 步：拆成一支队，写分工表
-照 3_智能体/智能体包.md 里的规矩做。先找包：这条消息或这个对话里带的 3_智能体.zip，或已解开的 知识库/_参考/课程/3_智能体/智能体包.md，读完再做这一步。
+照 3_智能体/智能体包.md 里的规矩做。先找包：这条消息或这个对话里带的 3_智能体.zip（或解开的 3_智能体 文件夹），或已解开的 知识库/_参考/课程/3_智能体/智能体包.md，读完再做这一步。
 这一步守三条：
 ① 只做这一步，后面的步骤不做；对我说话照规则 5，大白话，不念你查了什么。
 ② 问句照下面的原文问，一字不改；要我选的写&quot;我猜：……&quot;；问以前的事不猜，我答不上来照规则 3 先劝一次。
@@ -145,7 +146,7 @@ hr::after{content:"\00b7 \00b7 \00b7";color:var(--ink-light);letter-spacing:.8em
 - &quot;一棒交给下一棒的时候，你们平时最容易在哪一棒出事？上一回是怎么出的？&quot;我答了，照我说的在那一棒加一条，员工档案写来路；说不出，那一棒照知识库加，标&quot;待补&quot;。
 定了：库里建这支队的员工档案 知识库/wiki/智能体/（队名）.md，写分工表和三个队员各一句；看板数字里智能体个数照实改，分块加&quot;分工&quot;。
 做到才算：① 三份说明书里的规矩都照昨天的来路分下去，没有新编的；② 最容易出事的那一棒加了一条，来路写着；③ 挑错的那份写清只挑不改、退给谁、最多退两次。</code></pre><button class="copy-btn" title="复制" aria-label="复制" onclick="copyPrompt(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div><h2>第 7 步 · 交几件事，你只批请示单<small> · 约 20 分钟</small></h2><div class="hints"><p class="hint"><b>为了啥：</b>人从自己做事，变成只批请示单。交出来的东西放不放心，还是你说了算。</p><p class="hint"><b>做完拿到：</b>这支队接力做完两三件事：交接记录、一张请示单、一句话日报；你说了哪件不放心。</p><p class="hint"><b>卡住了：</b>别插话，看看板上它们一棒一棒交。请示单都同意就回&quot;都照建议&quot;。软件报错卡住：发一句&quot;继续&quot;。</p></div><div class="prompt-box"><pre><code># 第 7 步：交几件事，我只批请示单
-照 3_智能体/智能体包.md 里的规矩做。先找包：这条消息或这个对话里带的 3_智能体.zip，或已解开的 知识库/_参考/课程/3_智能体/智能体包.md，读完再做这一步。
+照 3_智能体/智能体包.md 里的规矩做。先找包：这条消息或这个对话里带的 3_智能体.zip（或解开的 3_智能体 文件夹），或已解开的 知识库/_参考/课程/3_智能体/智能体包.md，读完再做这一步。
 这一步守三条：
 ① 只做这一步，后面的步骤不做；对我说话照规则 5，大白话，不念你查了什么。
 ② 问句照下面的原文问，一字不改；要我选的写&quot;我猜：……&quot;；问以前的事不猜，我答不上来照规则 3 先劝一次。
@@ -166,7 +167,7 @@ hr::after{content:"\00b7 \00b7 \00b7";color:var(--ink-light);letter-spacing:.8em
 问：&quot;这几件做完的，现在就交出去，哪件你不放心？都放心就回&#x27;都放心&#x27;。&quot;我说哪件、哪里，原话记进交接单，第 8 步就改它。
 定了：写日报，一句话：这一轮哪个队员做了什么，交接几次，挑错退回几次，出图几张，我说了几句话，几件还在等拍板。日报写进这支队员工档案的&quot;跑过的单&quot;。结束第一行&quot;产出&quot;后面写日报那一句。
 做到才算：① 每件都做到头或停在请示单上，请示单我批了；② 挑错的真查了，查出的写清哪条、在哪、退给谁；③ 我说了哪件不放心，或说都放心。</code></pre><button class="copy-btn" title="复制" aria-label="复制" onclick="copyPrompt(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div><h2>第 8 步 · 改一处：哪个队员哪一句，重做再盲挑<small> · 约 8 分钟</small></h2><div class="hints"><p class="hint"><b>为了啥：</b>出了错，能找到是哪个队员的哪一句，改一句，重做那一件，和改前那份盲挑：你挑中改后的才留下。</p><p class="hint"><b>做完拿到：</b>改过的那一句；同一件重做，你盲挑中了改后那份。</p><p class="hint"><b>卡住了：</b>想改别处：说上一轮最不放心的那处。两份分不出：说&quot;差不多&quot;，这一句就不改了。软件报错卡住：发一句&quot;继续&quot;。</p></div><div class="prompt-box"><pre><code># 第 8 步：改一处，哪个队员哪一句
-照 3_智能体/智能体包.md 里的规矩做。先找包：这条消息或这个对话里带的 3_智能体.zip，或已解开的 知识库/_参考/课程/3_智能体/智能体包.md，读完再做这一步。
+照 3_智能体/智能体包.md 里的规矩做。先找包：这条消息或这个对话里带的 3_智能体.zip（或解开的 3_智能体 文件夹），或已解开的 知识库/_参考/课程/3_智能体/智能体包.md，读完再做这一步。
 这一步守三条：
 ① 只做这一步，后面的步骤不做；对我说话照规则 5，大白话，不念你查了什么。
 ② 问句照下面的原文问，一字不改；要我选的写&quot;我猜：……&quot;；问以前的事不猜，我答不上来照规则 3 先劝一次。
@@ -182,7 +183,7 @@ hr::after{content:"\00b7 \00b7 \00b7";color:var(--ink-light);letter-spacing:.8em
 - 挑中改后的：揭晓，那个队员版本加一，员工档案&quot;改过的那一句&quot;加一行，原话记进&quot;盲比&quot;。
 - 挑中改前的、说差不多：揭晓，换回旧版，照实写&quot;这一句没改好&quot;，再挑一句改。两轮还没赢：照规则 16 收尾，实话写&quot;改的那句没赢&quot;，第 9 步照旧版接着做。
 做到才算：没揭晓之前，我挑中了改后那份。挑中了但说还不能直接交，实话写我嫌的那处。</code></pre><button class="copy-btn" title="复制" aria-label="复制" onclick="copyPrompt(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div><h2>第 9 步 · 全队排班，定哪类事不用等你拍板<small> · 约 8 分钟</small></h2><div class="hints"><p class="hint"><b>为了啥：</b>定下哪类事不用等你批，这支队每天自己跑。只放你放心过、错了改得回的那类。</p><p class="hint"><b>做完拿到：</b>全队排班表；哪类事挑错的过了就放行；两天一共做了几单、挑出几处错、你说了几句话。</p><p class="hint"><b>卡住了：</b>不敢放手：先只放错了改得回的那一类。</p></div><div class="prompt-box"><pre><code># 第 9 步：全队排班，定哪类事不用等我拍板
-照 3_智能体/智能体包.md 里的规矩做。先找包：这条消息或这个对话里带的 3_智能体.zip，或已解开的 知识库/_参考/课程/3_智能体/智能体包.md，读完再做这一步。
+照 3_智能体/智能体包.md 里的规矩做。先找包：这条消息或这个对话里带的 3_智能体.zip（或解开的 3_智能体 文件夹），或已解开的 知识库/_参考/课程/3_智能体/智能体包.md，读完再做这一步。
 这一步守三条：
 ① 只做这一步，后面的步骤不做；对我说话照规则 5，大白话，不念你查了什么。
 ② 问句照下面的原文问，一字不改；要我选的写&quot;我猜：……&quot;；问以前的事不猜，我答不上来照规则 3 先劝一次。
