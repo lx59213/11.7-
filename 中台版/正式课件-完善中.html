@@ -1981,6 +1981,32 @@ R.m2=(k,anim,el)=>chapOnly(k,el);
 R.m3=(k,anim,el)=>chapOnly(k,el);
 R.m4=(k,anim,el)=>chapOnly(k,el);
 R.m6=(k,anim,el)=>chapOnly(k,el);
+/* 11-06 TTZ：技能、智能体两块的动效按一下出一步，不自己播完。同一页里出场时间挨着的算一步（间隔不到 0.35 秒），一步里的先后压到 0.8 秒内；往回翻直接全显示 */
+(function(){
+  if(navigator.webdriver||/nostep|presenter/.test(location.search))return;   // 逐屏检查、讲师视图照旧
+  const SEC=['m2','m3'],GAP=.35,SPAN=.8,st=new Map();let dir=1;
+  const sec=s=>s.split(',').map(x=>parseFloat(x)||0);
+  function setup(pg){
+    const els=[...pg.querySelectorAll('*')].map(e=>{const c=getComputedStyle(e);return c.animationName&&c.animationName!=='none'?{e,ds:sec(c.animationDelay)}:null}).filter(Boolean);
+    els.forEach(x=>x.d=x.ds[0]);els.sort((a,b)=>a.d-b.d);
+    const gs=[];let last=-9;
+    els.forEach(x=>{if(!gs.length||x.d-last>GAP)gs.push([]);gs[gs.length-1].push(x);last=x.d});
+    gs.forEach((g,gi)=>{const g0=g[0].d,sp=g[g.length-1].d-g0,k=sp>SPAN?SPAN/sp:1;
+      g.forEach(x=>{const nd=dir<0?-30:(x.d-g0)*k,sh=x.d-nd;x.e.style.animationDelay=x.ds.map(v=>Math.max(dir<0?-30:0,v-sh)+'s').join(',');
+        if(gi&&dir>0)x.e.style.animationPlayState='paused'})});
+    st.set(pg,{els,gs,i:dir>0?1:gs.length});
+  }
+  function clear(pg){const o=st.get(pg);if(!o)return;o.els.forEach(x=>{x.e.style.animationDelay='';x.e.style.animationPlayState=''});st.delete(pg)}
+  function step(){for(const[pg,o]of st){if(pg.classList.contains('vis')&&o.i<o.gs.length){o.gs[o.i++].forEach(x=>x.e.style.animationPlayState='running');return true}}return false}
+  const mo=new MutationObserver(ms=>ms.forEach(m=>{const t=m.target;if(!t.classList||!t.matches('.rv'))return;
+    if(t.classList.contains('vis')){if(!st.has(t))setup(t)}else clear(t)}));
+  SEC.forEach(id=>{const el=document.getElementById(id);if(el)mo.observe(el,{subtree:true,attributes:true,attributeFilter:['class']})});
+  const NEXT=['ArrowRight','ArrowDown','PageDown',' ','Enter'],PREV=['ArrowLeft','ArrowUp','PageUp','Backspace'];
+  addEventListener('keydown',e=>{if(NEXT.includes(e.key)){dir=1;if(step()){e.preventDefault();e.stopImmediatePropagation()}}else dir=PREV.includes(e.key)?-1:1},true);
+  addEventListener('click',e=>{const t=e.target;if(t.closest('#cPrev')){dir=-1;return}dir=1;
+    if(t.closest('#notes')||t.closest('#bar'))return;
+    if((t.closest('#cNext')||t.closest('#stage'))&&step()){e.preventDefault();e.stopImmediatePropagation()}},true);
+})();
 R.m5=(k,anim,el)=>{};
 })();
 /* ================= 进度条 ================= */
