@@ -178,6 +178,29 @@ ul { list-style: none; margin: 0; padding: 0; }
 @media (prefers-reduced-motion: reduce) { #done .jd-new { animation: none; } }
 @media (prefers-color-scheme: dark) { #done .jd-card { --ok: #7BC487; --part: #E2B25A; --no: #EC8C77; border-color: rgba(255,255,255,.14); box-shadow: none; } #done .jd-card.v0 { --c: #4E9F62; } #done .jd-card.v1 { --c: #C08A22; } #done .jd-card.v2 { --c: #C85A4A; } #done .jd-card.v3 { --c: #77736A; } }
 @media (max-width: 560px) { #done .jd-card { flex-basis: 300px; } }
+/* 考考它：库打了几分 */
+.kk-top { display: flex; flex-wrap: wrap; align-items: baseline; gap: .4em 1.2em; margin: .9em 0 0; }
+.kk-n { font: 600 3.1rem/1 var(--serif); color: var(--accent); font-variant-numeric: tabular-nums; }
+.kk-n small { margin-left: .12em; font: 600 1.05rem var(--serif); color: var(--muted); }
+.kk-sum { font-size: .9rem; color: var(--muted); }
+.kk-sum .sep { color: var(--faint); margin: 0 .45em; }
+.kk-trend { width: 100%; margin: .1em 0 0; font-size: .9rem; color: var(--muted); }
+.kk-trend b { font-variant-numeric: tabular-nums; }
+.kk-trend b.up { color: #3F8A4F; } .kk-trend b.down { color: var(--accent); }
+.kk-types { display: grid; grid-template-columns: 7.6em 1fr 3.4em; gap: .5em .9em; align-items: center; margin: 1.1em 0 0; font-size: .92rem; }
+.kk-types .v { text-align: right; color: var(--muted); font-variant-numeric: tabular-nums; }
+.kk-bar { height: 9px; border-radius: 99px; background: var(--rule); overflow: hidden; }
+.kk-bar i { display: block; height: 100%; border-radius: inherit; background: var(--accent); }
+.kk-bar i.full { background: #3F8A4F; }
+.kk-h { margin: 1.5em 0 .2em; font-size: .8rem; letter-spacing: .1em; color: var(--muted); }
+.kk-fix li { display: grid; grid-template-columns: 1.6em 1fr auto; grid-column-gap: .5em; padding: .65em 0; border-bottom: 1px solid var(--rule); }
+.kk-fix .i { font: 600 1rem/1.6 var(--serif); color: var(--accent); }
+.kk-fix li.did .t { text-decoration: line-through; color: var(--faint); }
+.kk-fix li.did .i { color: var(--faint); }
+.kk-lost li { padding: .5em 0; border-bottom: 1px dashed var(--rule); }
+.kk-lost .t { font-size: .96rem; }
+.kk-lost .t b { margin-right: .5em; color: var(--accent); font-weight: 600; font-variant-numeric: tabular-nums; }
+@media (max-width: 560px) { .kk-types { grid-template-columns: 6.4em 1fr 3em; } .kk-fix li { grid-template-columns: 1.4em 1fr; } .kk-fix .pill { grid-column: 2; justify-self: start; margin-top: .3em; } }
 </style>
 </head>
 <body>
@@ -210,9 +233,20 @@ ul { list-style: none; margin: 0; padding: 0; }
   function esc(v) { return txt(v).replace(/[&<>"']/g, function (c) { return '&#' + c.charCodeAt(0) + ';'; }); }
   function cleanPath(p) { return txt(p).replace(/\\/g, '/').replace(/^\.?\/+/, ''); }
   function pageName(p) { var s = cleanPath(p).replace(/\.md$/i, ''); return s.slice(s.lastIndexOf('/') + 1); }
+  // 知识库在电脑上的完整路径，从这个网页自己的位置算：知识库/看板/看板.html，或 知识库/_参考/看板网页/看板.html。
+  // 按库名打开时，电脑上有两个同名的“知识库”，Obsidian 会开错库，提示“未找到文件”；按完整路径打开就不会。
+  var ROOT = (function () {
+    if (location.protocol !== 'file:') return '';
+    var dir = decodeURIComponent(location.pathname).replace(/\/[^\/]*$/, '');
+    var root = /\/_参考\/看板网页$/.test(dir) ? dir.replace(/\/_参考\/看板网页$/, '') : /\/看板$/.test(dir) ? dir.replace(/\/看板$/, '') : '';
+    if (/^\/[A-Za-z]:\//.test(root)) root = root.slice(1).replace(/\//g, '\\');   // Windows：/C:/Users/… → C:\Users\…
+    return root;
+  })();
   function pageHref(p) {
+    var rel = cleanPath(p);
+    if (ROOT) return 'obsidian://open?path=' + encodeURIComponent(ROOT + (ROOT.indexOf('\\') >= 0 ? '\\' + rel.replace(/\//g, '\\') : '/' + rel));
     return 'obsidian://open?vault=' + encodeURIComponent(txt(D && D.库文件夹) || '知识库') +
-      '&file=' + encodeURIComponent(cleanPath(p).replace(/\.md$/i, ''));
+      '&file=' + encodeURIComponent(rel.replace(/\.md$/i, ''));
   }
   function pageLink(p, label, cls) {
     var name = txt(label) || pageName(p);
@@ -332,6 +366,39 @@ ul { list-style: none; margin: 0; padding: 0; }
       var meta = [txt(x.问谁) ? '问 ' + esc(x.问谁) : '', pageLink(x.页)].filter(Boolean).join('<span class="sep">·</span>');
       return '<li><p class="t">' + esc(x.事) + '</p><p class="meta">' + meta + '</p></li>';
     }).join('') + '</ul>' };
+  }
+  function kaoSection() {
+    var K = D.考考它;
+    if (!K || typeof K !== 'object' || txt(K.分) === '') return null;
+    var n = Math.round(Number(K.分)), d = day(K.哪天);
+    var sum = [txt(K.题数) ? esc(K.题数) + ' 题' : '', txt(K.对) ? '对 ' + esc(K.对) : '', txt(K.半对) && Number(K.半对) ? '半对 ' + esc(K.半对) : '',
+      txt(K.错) && Number(K.错) ? '错 ' + esc(K.错) : '', d ? md(d) + '考的' : esc(K.哪天)].filter(Boolean).join('<span class="sep">·</span>');
+    var hist = arr(K.历次).filter(function (x) { return x && txt(x.分) !== ''; }), trend = '';
+    if (hist.length >= 2) {
+      var a = Number(hist[hist.length - 2].分), b = Number(hist[hist.length - 1].分), dv = Math.round(b - a);
+      trend = '<p class="kk-trend">历次：' + hist.map(function (x) { var hd = day(x.哪天); return (hd ? md(hd) + ' ' : '') + '<b>' + esc(x.分) + '</b>'; }).join(' → ') +
+        (dv ? '　比上次<b class="' + (dv > 0 ? 'up' : 'down') + '">' + (dv > 0 ? '多 ' : '少 ') + Math.abs(dv) + ' 分</b>' : '　跟上次一样') + '</p>';
+    }
+    var types = arr(K.每类).filter(function (x) { return x && txt(x.类) && Number(x.共) > 0; }).map(function (x) {
+      var p = Math.max(0, Math.min(1, Number(x.得) / Number(x.共)));
+      return '<span>' + esc(x.类) + '</span><span class="kk-bar"><i class="' + (p >= 1 ? 'full' : '') + '" style="width:' + Math.round(p * 100) + '%"></i></span><span class="v">' + esc(x.得) + '/' + esc(x.共) + '</span>';
+    }).join('');
+    var fixes = items(K.优化, '事').map(function (x, i) {
+      var meta = [txt(x.问谁) ? '问 ' + esc(x.问谁) : '', pageLink(x.页)].filter(Boolean).join('<span class="sep">·</span>');
+      var gain = Number(x.能多) > 0 ? '能多 ' + esc(x.能多) + ' 分' : '库更全';
+      return '<li class="' + (x.做了吗 === true ? 'did' : '') + '"><span class="i">' + (i + 1) + '</span><div><p class="t">' + esc(x.事) + '</p>' + (meta ? '<p class="meta">' + meta + '</p>' : '') + '</div>' +
+        (x.做了吗 === true ? '<span class="pill">做完了</span>' : gain ? '<span class="pill">' + gain + '</span>' : '') + '</li>';
+    }).join('');
+    var lost = items(K.丢分, '题').map(function (x) {
+      var meta = [txt(x.原因) ? esc(x.原因) : '', pageLink(x.页)].filter(Boolean).join('<span class="sep">·</span>');
+      return '<li><p class="t">' + (txt(x.得) !== '' ? '<b>' + esc(x.得) + ' 分</b>' : '') + esc(x.题) + '</p>' + (meta ? '<p class="meta">' + meta + '</p>' : '') + '</li>';
+    }).join('');
+    var body = '<div class="kk-top"><span class="kk-n">' + n + '<small>分</small></span><span class="kk-sum">' + sum + '</span>' + trend + '</div>' +
+      (types ? '<div class="kk-types">' + types + '</div>' : '') +
+      (fixes ? '<p class="kk-h">怎么提分</p><ul class="kk-fix">' + fixes + '</ul>' : '') +
+      (lost ? '<p class="kk-h">丢分的题</p><ul class="kk-lost">' + lost + '</ul>' : '') +
+      (txt(K.记录) ? '<p class="meta" style="margin-top:.9em">每道题的答案和证据：' + pageLink(K.记录) + '</p>' : '');
+    return { count: '满分 100', body: body };
   }
   function recentSection() {
     var list = items(D.最近, '页');
@@ -515,6 +582,7 @@ ul { list-style: none; margin: 0; padding: 0; }
       ['今天和明天要做的', todoSection(list)],
       ['要找人拍板的', askSection()],
       ['还缺的', missSection()],
+      ['考考它：库打了几分', kaoSection()],
       ['最近改过的页', recentSection()],
       ['库里有什么', libSection()]
     ].filter(function (s) { return s[1]; });
