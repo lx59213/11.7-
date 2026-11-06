@@ -522,7 +522,7 @@ const c01=x=>x<0?0:x>1?1:x;
 const FONT='"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif';
 let NOW=performance.now()/1000,LAST=NOW,RT=NOW;
 /* 11-05 靖锋：每块开头的动画快一点点，不能快太多 → 这四段的时钟走 1.25 倍（镜头、渐变、later 一起快，不会错开） */
-const KSP={k_kb:1.25,k_sk:1.25,k_ag:1.25,k_wf:1.25};
+const KSP={k_kb:1.25,k_sk:1.5,k_ag:1.5,k_wf:1.25};   // 11-06 TTZ：技能、智能体两块再快 1.2 倍
 function clk(r){r=r??performance.now()/1000;NOW+=Math.max(0,r-RT)*(KSP[wName]||1);RT=r}
 class V{constructor(v){this.v=this.a=this.b=v;this.t0=0;this.d=0;this.q=[]}
   to(b,d,dl,inst){this.q=[];if(inst){this.v=this.a=this.b=b;this.d=0;return this}if(b===this.b&&this.d===0)return this;this.a=this.v;this.b=b;this.t0=NOW+(dl||0);this.d=d||.9;return this}
