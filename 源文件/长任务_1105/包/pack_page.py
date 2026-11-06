@@ -314,7 +314,7 @@ def build_page(PACK, title):
     name = os.path.basename(PACK)
     inner = (f'<p class="go"><b>整体：</b>{OVERALL[name]}</p>'
              f'<p class="go"><b>怎么做：</b>① 下载 <a href="{html.escape(drag_file(PACK))}" download><b>{html.escape(drag_file(PACK))}</b></a>，整个拖进上午做知识库的那个对话（不用解压），再复制下面第 1 步，一起发出去。'
-             f'② AI 问你，就答自己工作里的事；问以前出过的事，说具体是哪一回，想不起来说"跳过"。只回"对"不算答。'
+             f'② AI 问你，就答自己工作里的事；问以前出过的事，说具体是哪一回；想不起来、不想写，直说，AI 会劝你多想一下，实在不想写也能往下走，看板上照实记。'
              f'③ 让你挑甲、乙，只看哪份你敢直接发出去，别猜哪份用了技能。'
              f'④ 看到"第 N 步结束"，复制下一步发过去；AI 追问就照真事答，实在想不起说一声，它会照实收尾，看板上写一般或没过。</p>')
     for k, name, m, *_rest, body in steps:
