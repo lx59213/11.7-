@@ -640,6 +640,18 @@ def kb_os():   # 11-06 靖锋：上截图就行（附加题试跑时在 Obsidian
     return (shot(140, 228, 640, 540, '做完以后：线上写着关系', '附加题_全库关系图.webp', '全库关系图谱，线上写着报价按、交期按、需要证书')
             + shot(820, 228, 640, 540, '点开一页：谁连着它、什么关系', '附加题_局部关系图_MG-W25.webp', 'MG-W25 的局部关系图谱：询价、需要证书、交期按、配套于', d=.6))
 SUB.setdefault('m1', {})[OS_T[0]] = OS_T[1]
+# 11-06 靖锋：加卡帕西的 LLM Wiki——左边推特原图，右边核心做法。排在“差的知识库”后面，当“好的长什么样”（组织那页口播说“先看看差的和好的”）；学员库的 raw/、wiki/、AGENTS.md 就是照这套搭的
+# 图：X 官方嵌入卡片截的（2039805659525644595，2026-04-03）；浏览量 11-06 在原推上看的是 2201.7 万
+KP_T = ('好的知识库，<em>照卡帕西这么搭</em>', 'OpenAI 创始成员，这条推浏览 2200 万次')
+def kb_kp():
+    src = 'data:image/webp;base64,' + base64.b64encode((P.parent / '素材' / '卡帕西_推文.webp').read_bytes()).decode()
+    h = f'<div class="kp"><div class="kp-img pop" style="--d:.2s"><img src="{src}" alt="Karpathy 2026 年 4 月 3 日在 X 上发的 LLM Knowledge Bases"></div><div class="kp-r">'
+    for i, (t, d) in enumerate([('原件不动', '资料复制一份进库，只看不改'), ('AI 另写成一页一页', '页和页连着，写明出处'),
+                                ('问出来的答案，存回去', '库越问越厚'), ('隔段时间体检', '找出对不上的、缺的')]):
+        h += f'<div class="kp-s pop" style="--d:{.6+i*.3:.1f}s"><b>{i+1}</b><div><h4>{t}</h4><p>{d}</p></div></div>'
+    h += '<div class="kp-ft pop" style="--d:2.0s"><p><u>人</u>选资料、提问题、拍板</p><p><u>AI</u>记和整理</p></div>'
+    return h + '</div></div>'
+SUB.setdefault('m1', {})[KP_T[0]] = KP_T[1]
 # 开源项目，一个一页（11-05 靖锋：第五版——老板只想看三样：能干什么、特点是什么、什么样的企业适合；不讲“凭什么”，缺点只在口播里提一句；事实 11-05 对过 GitHub 说明）
 OP = [
     dict(name='LightRAG', tag='看懂谁跟谁有关系', what='香港大学的实验室出的：把资料连成一张网，按关系来答',
@@ -668,6 +680,63 @@ def op_page(o):
             + '<div class="ot2-r">' + col('ot-do', '能干什么', o['do'], .5) + col('', '特点', o['feat'], .8)
             + col('ot-fit', '适合什么企业', o['fit'], 1.1) + '</div></div>')
 for _o in OP: SUB.setdefault('m1', {})[op_title(_o)] = _o['what']
+# 11-06 靖锋：知识库收尾——六站回顾，镜头一站一站推；切换要讲师手动按（拆成连续 8 页：开头、六站各一页、最后拉回全景），六站按靖锋口述的顺序和说法，字要像人说话，不要口号腔
+SUM_T = ('今天上午，<em>过一遍全局</em>', '六步，一步一步过')
+SUM_N = 8
+_SX = [160 + k*256 for k in range(6)]; _SY = 430
+_ST = [('没知识的 AI', '像通用的豆包', '不知道你们公司的事'),       # 11-06 靖锋口述的顺序：没知识的 AI → 五件事 → 坑 → 怎么组织 → 做完 → 往后选什么
+       ('五件事', '把资料变成知识', '定、找、理、判、问'),
+       ('路上的坑', '只存不管、没整理', '版本还打架'),
+       ('怎么组织', '一件事写一页，页页连着', '每句话写清从哪来'),
+       ('做完了', '每人一个自己的知识库', '在 Obsidian 里打开就看到'),
+       ('往后选什么', '企业知识库可以选', 'LightRAG、RAGFlow、WeKnora')]
+_KB_VIG = [0, 3, 1, 2, 4, 5]   # 每站用哪张小画面：机器人、五个字、乱资料、连着的卡片、库、台阶
+def _kb_cam(k): return f'translate({800 - 2*_SX[k]:.0f}px,{500 - 2*415:.0f}px) scale(2)'
+def _kb_vig(k, x):
+    G, R = '#6fae5f', '#d9534f'
+    if k == 0:
+        return robot(x, 345, .9) + f'<rect x="{x+26}" y="252" width="40" height="34" rx="10" fill="var(--m-card2)" stroke="var(--m-line2)"/>' + txt(x+46, 277, '？', 22, 'var(--m-ink)', w=900)
+    if k == 1:
+        return (''.join(f'<g transform="translate({x+dx} {335+dy}) rotate({r}) scale(.85)">{I_DOC}</g>' for dx, dy, r in [(-40, 6, -16), (0, -6, 6), (40, 8, 18)])
+                + f'<circle cx="{x+50}" cy="282" r="16" fill="{R}"/><path d="M{x+43} 275 L{x+57} 289 M{x+57} 275 L{x+43} 289" stroke="#fff" stroke-width="4" stroke-linecap="round"/>')
+    if k == 2:
+        pts = [(x-58, 300), (x, 350), (x+58, 300)]
+        return (''.join(f'<line x1="{a[0]}" y1="{a[1]}" x2="{b[0]}" y2="{b[1]}" stroke="var(--c)" stroke-width="2.5"/>' for a, b in [(pts[0], pts[1]), (pts[1], pts[2]), (pts[0], pts[2])])
+                + ''.join(f'<rect x="{px-26}" y="{py-18}" width="52" height="36" rx="8" fill="var(--m-card2)" stroke="var(--c)" stroke-width="2"/><rect x="{px-16}" y="{py-6}" width="32" height="4" rx="2" fill="var(--m-mute)"/><rect x="{px-16}" y="{py+3}" width="22" height="4" rx="2" fill="var(--m-mute)"/>' for px, py in pts))
+    if k == 3:
+        return ''.join(f'<circle cx="{x-72+i*36}" cy="330" r="16" fill="var(--m-card2)" stroke="var(--c)" stroke-width="2"/>' + txt(x-72+i*36, 337, ch, 18, 'var(--c)', w=900) for i, ch in enumerate('定找理判问'))
+    if k == 4:
+        return db(x-6, 340, 74, 72) + f'<circle cx="{x+40}" cy="296" r="17" fill="{G}"/><path d="M{x+32} 296 L{x+38} 303 L{x+49} 289" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>'
+    return ''.join(f'<rect x="{x-66+i*36}" y="{376-h_}" width="28" height="{h_}" rx="5" fill="{"var(--c)" if i == 3 else "var(--m-card2)"}" stroke="var(--c)" stroke-width="1.5"/>' for i, h_ in enumerate([24, 44, 64, 84]))
+def kb_sum(k0):
+    """一张画面跨 8 拍（k0 … k0+7）：翻页不换页，只换“走到第几步”的标记；镜头、亮暗、路都用过渡平滑过去（11-06 靖锋：之前每步换一页，翻的时候闪一下，不顺）"""
+    N = SUM_N
+    css = ['.kbsum .kbcam{transform:none;transform-box:view-box;transform-origin:0 0;transition:transform .9s cubic-bezier(.45,0,.25,1)}']
+    for n in range(1, 7): css.append(f'.kbsum:has(.kbk{n}.vis) .kbcam{{transform:{_kb_cam(n-1)}}}')
+    css.append('.kbsum:has(.kbk7.vis) .kbcam{transform:none}')
+    css += ['.kbsum .kbseg{stroke-dasharray:256;stroke-dashoffset:256;transition:stroke-dashoffset .8s ease .15s}.kbsum .kbseg.vis{stroke-dashoffset:0}',
+            '.kbsum .kbdot{opacity:.35;transform:scale(.7);transition:opacity .4s ease .3s,transform .4s ease .3s}.kbsum .kbdot.vis{opacity:1;transform:none}',
+            '.kbsum .kbs{opacity:0;transform:translateY(14px);transition:opacity .5s ease .45s,transform .5s ease .45s}.kbsum .kbs.vis{opacity:1;transform:none}']
+    for k in range(6): css.append(f'.kbsum:has(.kbk{k+2}.vis) .kbs{k}.vis{{opacity:.28;transition-delay:0s}}')
+    css += ['.kbsum:has(.kbk7.vis) .kbs.vis{opacity:1;transition-delay:.3s}',
+            '.kbsum .kbfin{opacity:0;transition:opacity .6s ease .7s}.kbsum .kbfin.vis{opacity:1}']
+    a = lambda n: f' data-in="{k0+n}" data-out="{k0+N}"'
+    o = '<style>' + ''.join(css) + '</style><g class="kbsum">'
+    o += ''.join(f'<g class="kbk kbk{n}"{a(n)}></g>' for n in range(1, N))     # 看不见的标记：走到第 n 步就亮
+    o += '<g class="kbcam">'
+    for k in range(5):
+        o += f'<path class="kbseg"{a(k+2)} d="M{_SX[k]} {_SY} H{_SX[k+1]}" stroke="var(--c)" stroke-width="3" opacity=".55" fill="none"/>'
+    for k, x in enumerate(_SX):
+        o += f'<circle class="kbdot"{a(k+1)} cx="{x}" cy="{_SY}" r="10" fill="var(--c)"/>'
+    for k, x in enumerate(_SX):
+        name, l1, l2 = _ST[k]
+        o += (f'<g class="kbs kbs{k}"{a(k+1)}>{_kb_vig(_KB_VIG[k], x)}'
+              + txt(x, 486, name, 24, 'var(--c)', w=900) + txt(x, 520, l1, 18, 'var(--m-ink)', w=700) + txt(x, 548, l2, 18, 'var(--m-mute)', w=600) + '</g>')
+    o += '</g>'
+    o += f'<g class="kbfin"{a(7)}>' + txt(800, 664, '这就是今天上午走过的六步', 34, 'var(--m-ink)', w=900) + txt(800, 710, '下午往上一层，做技能', 22, 'var(--c)', w=700) + '</g>'
+    o += '</g>'
+    return svg(o)
+SUB.setdefault('m1', {})[SUM_T[0]] = SUM_T[1]
 m1_pages = [   # 11-05 靖锋：第 30 屏讲完五件事就进实操；后面几页都是实操做完回来讲的
     ('跟 AI 聊，<em>你是不是遇到过这些？</em>', nokb() + poster(lit_of('知识库')), 1, ''),
     ('存，<em>越来越简单</em>', kb_tong(), 1, ''),
@@ -679,20 +748,34 @@ m1_pages.append(up_page('m1'))
 m1_pages.append((OS_T[0], kb_os(), 3, ''))
 m1_pages += [(op_title(o), op_page(o), 3, '') for o in OP]
 m1_pages.insert(5, md_page('m1'))
+m1_pages.insert(5, (KP_T[0], kb_kp(), 2, ''))   # 11-06 靖锋：卡帕西排在差的后面、五件事前面
+m1_pages.append((SUM_T[0], kb_sum(len(m1_pages) + 1), 3, ''))   # 11-06 靖锋：知识库收尾，一张画面、讲师按 8 下
 sec('m1', '--kb', m1_pages, ('01', '知识库', '让 AI 先读懂公司', '<i class="on"></i><i></i><i></i><i></i>'))
+_k0 = len(m1_pages)   # 收尾这一页跨 8 拍：标题和画面一直留到最后一拍
+assert H[-1].count(f'data-in="{_k0}" data-out="{_k0+1}"') == 2
+H[-1] = H[-1].replace(f'data-in="{_k0}" data-out="{_k0+1}"', f'data-in="{_k0}" data-out="{_k0+SUM_N}"')
 beats('m1', '知识库', [
-    '第一块，知识库。放第一，是因为后面每一块做出来的东西都会存进来。',
+    '第一块，知识库。为什么放第一？后面做的技能、智能体，用的规矩和资料都从这里拿，做出来的东西也存回这里。它是底座。',
     '跟 AI 聊天，各位是不是遇到过这些：问它价格，它随口瞎编一个；跟它说过的事，转头就忘；换个聊天窗口，又得从头教一遍。像不像一个每天新来的实习生：嘴甜、手快、啥也不知道，明天还全忘了。原因就一个，它不知道你公司的事。知识库，就是让它别再每天从头来过。',
-    '先说存。这两年，存资料越来越简单：WorkBuddy 刚出了 Buddy One，把腾讯系产品里的文档、笔记、会议都打通；ima 一键就能把资料存进知识库；豆包办公在打通飞书，千问办公也在做。厂商都在往你的资料靠近。那存进去，就完事了吗？',
-    '并非。只是存进去，有三个坑。第一，没整理：资料没经过整理、没有结构，AI 进去就像在垃圾堆里淘金子，在一个没编号的图书馆里找一本书的其中一页。第二，你自己的经验没写下来：踩过的坑、客户的脾气、为什么这么报价，都在脑子里，打通再多也读不到。第三，版本打架：价格表、最终版、最终版 2，AI 不知道该信哪个。换个地方放，问题还在。',
-    '所以，管知识，管的不是放在哪，是怎么组织。放 ima、网盘还是飞书，越来越简单，交给厂商就行；可放进去还是一团乱麻，放哪都没用。怎么组织：一页说一件事，页和页连起来，每条标出处。存储越来越简单，知识管理逃不掉，这件事得你自己想好。先看看差的和好的。',
-    '差的知识库，常见的有两种。左边这种：资料一股脑放进笔记里，文件叫未命名 2、报价单最终版改副本；点开一页，聊天、英文邮件、记不清的数全贴在一起，没一句写出处；图谱一打开全是散点，谁也不连谁。建了，用不起来。右边这种更常见：全扔在共享盘里，搜一下价格表，出来 23 个，最新、最终版、先别用，没人说得清哪个算数。这时候让 AI 来答，它挑了一个叫最新的，很笃定地说 12.60 美元，可那是去年第四季度的表，现在是 11.90。资料不少，就是没整理。',
-    '光让 AI 自动整理，各位学不到东西，这套方法要自己懂。整理的活是 AI 干，但有五件事得你来定。第一，定：想清楚要给它哪些资料，价格表、产品手册、客户的询盘邮件；工资表这种不该给的，就别给。第二，找：这些资料在哪，价格表在共享盘，产品手册在电脑文件夹，询盘在邮箱，告诉它去哪找。第三，理：它一份份整理，每条写清是谁哪天说的；你随手点一条，回原件对一下。第四，判：两个说法对不上，它不替你选，标出来，你去找老板拍板。第五，问：拿真问题考它，有出处才敢用，库里没有的它得说没有。拆开、一页一件事、连起来、标出处，这些 AI 在后台做，是卡帕西的做法。这五句话记住，回去换个工具、换批资料，照样能搭。',
-    '刚才搭的，是个人的库：Obsidian 加 AI，一个人、一条业务，资料你给，对不对你拍板。往上走，还有三级。第二级，知识图谱。路径是建关系网：用 LightRAG 这类开源工具，把资料里的客户、订单、供应商、产品抽出来，连成一张网。注意，Obsidian 里那张关系图不是知识图谱：那上面的线只说明“这两页有关”，是页连页；知识图谱的线写着是什么关系，比如“供货给”“下了单”“用到了”，是事连事。所以它能回答“这家供应商出了问题，牵连哪几单、哪几个客户”，这种答案要跨好几份文件才拼得出来。第三级，多模态知识库。路径是换模型：换成多模态的向量模型，图纸、样品照片、会议录音、验货视频，和文字进同一个库，一起检索。谷歌今年 3 月发布的模型已经能做到。第四级，企业级知识库。路径是上平台：用 WeKnora 这类平台，接上企业微信、飞书，按部门、按人分权限，全公司在同一个库里问，口径统一。往深一层看：越往上，库越接近公司本来的样子：关系清楚了，资料全了，人也全了。',
-    '课后有一道附加题，想做再做，大概 15 分钟。刚才搭的库，页和页是连着的，可线上没写是什么关系。附加题就是让 AI 给每条线写上关系。左边是做完以后的全库图谱，线上写着报价按、交期按、需要证书。右边点开 MG-W25 这一页：Lena、Tomas、Ahmed 是来询价的，认证证书是它需要的，交期按交期计算那页来，JL-F4 是配套的。写上以后，能多问一句：这条规定变了，牵连谁？AI 顺着关系一层层反着找给你。怎么做：学员页最底下那段，复制给 AI，它装三个 Obsidian 插件，给每页写上关系；公司电脑不让装插件的，就跳过。这一步，就是往知识图谱走的第一步；再往上走，就是下面这几个开源项目。',
+    '那把资料存给它不就行了？这两年，存资料确实越来越省事：WorkBuddy 刚出了 Buddy One，把腾讯系产品里的文档、笔记、会议都打通了；ima 一键就能存进知识库；豆包办公在接飞书，千问办公也在做。厂商都在往你的资料靠。那存进去，就完事了吗？',
+    '并非。光存进去，有三个坑。第一，没整理：资料没理过、没有结构，AI 进去就像在垃圾堆里淘金子。第二，你自己的经验没写下来：踩过的坑、客户的脾气、为什么这么报价，都在你脑子里，打通再多也读不到。第三，版本打架：价格表、最终版、最终版 2，AI 不知道该信哪个。这三个坑，换个地方放，一个都少不了。',
+    '所以，管知识，难的不在放哪，在怎么组织。放 ima、网盘还是飞书，越来越简单，交给厂商就行；可放进去还是一团乱麻，放哪都没用。怎么组织？一页只说一件事，页和页连起来，每条标上出处。存储越来越省事，知识管理却躲不掉，这件事得你自己想清楚。光说不直观，先看两个差的，再看一个好的。',
+    '先看差的，常见两种。左边这种：资料一股脑塞进笔记，文件叫“未命名 2”“报价单最终版改副本”；点开一页，聊天、英文邮件、记不清的数全贴在一起，没一句写出处；图谱一打开全是散点，谁也不连谁。建了，用不起来。右边这种更常见：全扔在共享盘里，搜一下价格表，出来 23 个，最新、最终版、先别用，没人说得清哪个算数。这时候让 AI 来答，它挑了个叫“最新”的，很笃定地说 12.60 美元。可那是去年第四季度的表，现在是 11.90。资料不少，就是没整理。',
+    '那好的长什么样？看看卡帕西怎么做。他是 OpenAI 的创始成员之一，以前管特斯拉自动驾驶的 AI。今年 4 月他发了这条推，浏览两千两百万次。他说，最近用 AI，很大一部分时间不在写代码，在整理知识。做法就四条：原件不动，资料复制一份进库，只看不改；AI 另写成一页一页，页和页连着，写明出处；问出来的好答案，再存回库里，库越问越厚；隔段时间让 AI 体检一遍，找出对不上的、缺的。分工也清楚：人管选资料、提问题、拍板；记和整理是 AI 的活，那本 wiki 他自己很少亲手改。待会儿各位动手搭的库，就是照他这一套来的。',
+    '不过，全让 AI 自动整理，各位学不到东西，这套方法得自己懂。活是 AI 干，但有五件事得你来定。第一，定：想清楚给它哪些资料，价格表、产品手册、客户的询盘邮件；工资表这种不该给的，就别给。第二，找：这些资料在哪，价格表在共享盘，产品手册在电脑文件夹，询盘在邮箱，告诉它去哪找。第三，理：它先把资料洗一遍，重复的、旧版本、聊天里的废话挑出去，再一份份整理，每条写清是谁哪天说的；你随手点一条，回原件对一下。第四，判：两个说法对不上，它不替你选，标出来，你去找老板拍板。第五，问：拿真问题考它，有出处才敢用，库里没有的，它得老实说没有。这五句话记住，回去换个工具、换批资料，照样能搭。好，动手：打开学员页，照上面五步，把压缩包交给 WorkBuddy，它问什么你就答什么。做完咱们再回来接着聊。',
+    '好，先停一下手。各位刚才搭的，是个人的库：Obsidian 加 AI，一个人、一条业务，资料你给，对不对你拍板。往上走，还有三级。第二级，知识图谱。路径是建关系网：用 LightRAG 这类开源工具，把资料里的客户、订单、供应商、产品抽出来，连成一张网。注意，Obsidian 里那张关系图不是知识图谱：那上面的线只说明“这两页有关”，是页连页；知识图谱的线写着是什么关系，比如“供货给”“下了单”“用到了”，是事连事。所以它能回答“这家供应商出了问题，牵连哪几单、哪几个客户”，这种答案要跨好几份文件才拼得出来。第三级，多模态知识库。路径是换模型：换成多模态的向量模型，图纸、样品照片、会议录音、验货视频，和文字进同一个库，一起检索。谷歌今年 3 月发布的模型已经能做到。第四级，企业级知识库。路径是上平台：用 WeKnora 这类平台，接上企业微信、飞书，按部门、按人分权限，全公司在同一个库里问，口径统一。往深一层看：越往上，库越接近公司本来的样子：关系清楚了，资料全了，人也全了。',
+    '课后有一道附加题，想做再做，大概 15 分钟。刚才搭的库，页和页是连着的，可线上没写是什么关系。附加题就是让 AI 给每条线写上关系。左边是做完以后的全库图谱，线上写着报价按、交期按、需要证书。右边点开 MG-W25 这一页：Lena、Tomas、Ahmed 是来询价的，认证证书是它需要的，交期按交期计算那页来，JL-F4 是配套的。写上以后，能多问一句：这条规定变了，牵连谁？AI 顺着关系一层层反着找给你。怎么做：学员页最底下那段，复制给 AI，它会带你装三个 Obsidian 插件，给每页写上关系。这一步，就是往知识图谱走的第一步；再往上走，就是下面这几个开源项目。',
     'LightRAG，香港大学的实验室出的，专门看懂关系。能干什么：把资料里的客户、订单、供应商连成一张网；能查“这家供应商出了问题，牵连哪几单”这种跨好几份文件的问题；网页上一点，谁跟谁有关一目了然。特点：按关系查，不只是按字找；香港大学出品，MIT 许可；要开发同事来搭。适合什么企业：客户、供应商多，关系复杂，要查供应链、查合规风险，又有开发团队的。提醒一句：每段资料都要大模型读一遍，资料一多，费钱也费时间。',
     'RAGFlow，英飞流出的，最会读难读的资料。能干什么：扫描的合同、报表，变成能问的库；问合同里某一条，它直接把原文那段给你；还能把资料编成 Wiki、时间线。特点：扫描件、表格读得准，表格不会被切碎；每句答案都带出处，点得回原文；Apache 许可，可以商用。适合什么企业：资料多是扫描件、PDF、报表的，比如制造、外贸、财务、法务，而且有 IT 能管一台服务器。提醒一句：它吃机器，官方建议 4 核、16G 内存起步。',
     'WeKnora，腾讯开源的。先说能干什么：散在飞书、ima、钉钉里的资料，汇成一个库；员工在企业微信、飞书里直接问；官网上还能挂个问答窗口，答客户。特点：飞书、ima 这些，一共十种来源，自动同步过来，不用手动搬；能按部门、按人分权限，谁能看哪个库分得清；腾讯开源，MIT 许可，公司拿来商用没问题。适合什么企业：资料散在飞书、ima、钉钉里，员工天天在企微、飞书里干活，又有 IT 能部署、维护的。提醒一句：它还是 0.9 版，升级常有大改动。',
+    '最后，咱们把今天上午过一遍。',
+    '一开始，我们看了没有知识的 AI 是什么样：就像通用的豆包，嘴甜手快，可它不知道你们公司的事，问价格就随口编一个。',
+    '然后学了五件事，怎么把资料变成知识：定、找、理、判、问。整理的活交给 AI，这五件事你来定。',
+    '这一路上有几个坑：只存不管，没整理，价格表好几个版本打架。',
+    '怎么处理？就看怎么组织，也就是卡帕西那一套：一件事写一页，页和页连着，每句话写清楚是从哪份文件来的。',
+    '最后每个人把流程走完：资料先洗干净，再一页页写进去，手里就有了一个自己的知识库，在 Obsidian 里打开就看得到。',
+    '再往后，企业要做知识库，可以选什么：看懂关系的 LightRAG，读难读资料的 RAGFlow，接企业微信、飞书的 WeKnora。',
+    '这就是今天上午走过的六步。下午往上一层，做技能。',
 ])
 
 # ======================= 02 技能 =======================
@@ -1579,6 +1662,18 @@ CSS = r'''
 .ot2-r .ot-c p{font-size:21px;line-height:1.4;margin-top:7px;padding-left:24px}
 .ot2-r .ot-c p::before{width:8px;height:8px}
 .ot-c:not(.ot-do) p::before{background:var(--m-mute)}
+/* 卡帕西（11-06）：左边推特原图，右边四条做法 + 人和 AI 怎么分工 */
+.kp{position:absolute;left:96px;right:96px;top:236px;height:548px;display:flex;gap:40px;align-items:center}
+.kp-img{flex:0 0 760px;border-radius:22px;overflow:hidden;border:1.5px solid var(--m-line2);background:#15202b;box-shadow:var(--m-shadow)}
+.kp-img img{display:block;width:100%}
+.kp-r{flex:1;align-self:stretch;display:flex;flex-direction:column;gap:12px;min-width:0}
+.kp-s{flex:1;display:flex;align-items:center;gap:18px;padding:0 22px;border-radius:18px;background:var(--m-card);border:1.5px solid var(--m-line2)}
+.kp-s>b{flex:0 0 40px;height:40px;border-radius:50%;background:var(--c);color:#0b0d0c;font-size:22px;font-weight:900;display:grid;place-items:center}
+.kp-s h4{margin:0;font-size:25px;font-weight:900;color:var(--m-ink);line-height:1.25}
+.kp-s p{margin:4px 0 0;font-size:19px;font-weight:700;color:var(--m-mute);line-height:1.35}
+.kp-ft{flex:0 0 auto;padding:12px 22px;border-radius:18px;border:2px solid var(--c)}
+.kp-ft p{margin:0;font-size:22px;font-weight:800;color:var(--m-ink);line-height:1.6}
+.kp-ft u{display:inline-block;width:52px;text-decoration:none;color:var(--c);font-weight:900}
 /* 开源推荐（11-05）：五张卡，上面标在哪一级，底下谁来装 */
 .os{position:absolute;left:96px;right:96px;top:232px;height:430px;display:flex;gap:20px}
 .os-c{flex:1;box-sizing:border-box;border-radius:22px;background:var(--m-card);border:1.5px solid var(--m-line2);padding:24px 24px 22px;display:flex;flex-direction:column}
