@@ -469,15 +469,20 @@ UPG = {
      ('换模型', '多模态知识库', '换多模态向量模型，图纸、录音、视频一起进库'),
      ('上平台', '企业级知识库', 'WeKnora 这类平台，接企微飞书，按部门分权限')],
      '越往上，库越接近公司本来的样子'),
- 'm2': ('技能', '教会 AI，干一件你常干的活', ['你教的，全部门都能用', '一句话，报价合同全出来', '规矩变了，改一句就行'], '最会干活的那个人怎么做，现在人人都会'),
+ 'm2': ('技能', ('一个人的技能', '课上做的，自己用'), [   # 11-06 TTZ 定：照知识库的台阶写，第 50 屏公司技能仓库并进来
+     ('放共享文件夹', '部门共用', '谁改了，记一笔'),
+     ('建技能仓库', '公司技能仓库', '各岗位传上来，只留最常用的'),
+     ('照开放标准写', '哪个 AI 都能用', '换软件不用重写')],
+     '最会干活的那个人怎么做，全公司都会'),
  'm3': ('智能体', ('一个 AI 同事', '干完先给你看'), [
-     ('排班表', '每天自己上班', '到点收新事，做完交请示单'),
      ('编队', '几个 AI 互相挑错', '明天拆成一支队，人只批请示单'),
-     ('放手', '稳了的小事自己做', '花钱、对外承诺、删东西，永远交人')],
+     ('放手', '稳了的小事自己做', '花钱、对外承诺、删东西，永远交人'),
+     ('接进公司', '住进飞书、企微', '同事在聊天软件里给它派活')],   # 11-06：排班表挪到“让它自己上班”那屏
      '组织图上，多了一排 AI 同事'),
  'm4': ('人机编队', ('一支 AI 队伍', '人只批请示单'), ['从询价到回款，一条线跑完', '客户一来邮件，它们就开工', '做完一单记教训，下一单更顺'], '人只拍板，不再跑腿'),
 }
 UPG_TITLE = {'m1': ('拔高：从个人的库，到<em>企业级知识库</em>', '个人 → 知识图谱 → 多模态 → 企业级'),
+             'm2': ('往上走：从一个人的技能，到<em>公司技能仓库</em>', '个人 → 部门共用 → 公司仓库 → 哪个 AI 都能用'),
              'm3': ('做完交人看，<em>稳了再放手</em>', ''),
              'm4': ('跑腿的事交给 AI，<em>人去谈客户、想新品</em>', '')}   # 11-05 靖锋：拔高 = 应用方向往上走
 def up_title(sid): return UPG_TITLE.get(sid, (f'拔高：{UPG[sid][0]}<em>还能怎么玩</em>', '课上是雏形，往上还有好玩的'))
@@ -888,13 +893,18 @@ PV_BEATS = {
   '第 9 步，8 分钟，最后一步，最多问 2 句。定哪类事挑错的过了就放行、谁用谁拍板；最后算清两天做了几单、挑出几处错、各位说了几句话。不敢放手，先只放错了改得回的那一类。',
  ],
 }
-def pv_page(pk, row):
+def pv_page(pk, row, out=None, lab=None):
     nm, step, _ = PV[pk]
     n, sname, got, mins, maxq, stuck, imgs = row
+    if out: imgs = []
     pack = 2 if pk == 'sk' else 3
     title = f'跑完会拿到<em>{got}</em><small>第 {n} 步 · {sname} · {mins} 分钟 · AI 最多问 {maxq} 句</small>'
-    h = (f'<div class="pv-lab pop" style="--d:.1s;left:96px">周晓试跑上一版流程，第 {n} 步做完时的看板</div>'
-         f'<div class="pv-bd pop" style="--d:.2s"><img src="{_pvimg(f"包{pack}_第{n}步_看板.jpg")}" alt="周晓的看板，第 {n} 步做完时"></div>')
+    if out:
+        h = (f'<div class="pv-lab pop" style="--d:.1s;left:96px">{lab or f"真跑：周晓这一遍，第 {n} 步做出来的"}</div>'
+             f'<div class="po pop" style="--d:.2s">{out}</div>')
+    else:
+        h = (f'<div class="pv-lab pop" style="--d:.1s;left:96px">周晓试跑上一版流程，第 {n} 步做完时的看板</div>'
+             f'<div class="pv-bd pop" style="--d:.2s"><img src="{_pvimg(f"包{pack}_第{n}步_看板.jpg")}" alt="周晓的看板，第 {n} 步做完时"></div>')
     top = 236
     if imgs:
         h += '<div class="pv-lab pop" style="--d:.3s;left:1008px">上一版流程里它出的图</div><div class="pv-im pop" style="--d:.4s">'
@@ -908,31 +918,154 @@ def pv_insert(pages, pk):
     i = [j for j, pg in enumerate(pages) if pg[0].startswith('动手')][0]
     pages[i+1:i+1] = [pv_page(pk, r) for r in PV[pk][2]]
 
+# ---------------- 11-06 TTZ 定：技能、智能体两块照知识库的讲法重排 ----------------
+# 是什么（整屏比喻图 + 真文件）→ 为什么五步（痛、有人会说、并非、管的是、差的和好的）→ 怎么做（每步放真产出）→ 做完以后三层（越用越好或自己上班、往上走、拿什么搭）
+# 真产出取自 ~/实操课真跑_1105/W10_正常全程（11-06 凌晨周晓那遍，现行包）；智能体第 4、5 步那遍没跑到，取 演示备份/智能体/做好的智能体/询盘初回员（上一版流程试跑）
+# 整屏图是 codex 照“猫传成老虎”出的，清单在 给codex/1106出图/
+SC = P.parent / '素材'
+def _sc(name): return f'data:image/{"webp" if name.endswith(".webp") else "jpeg"};base64,' + base64.b64encode((SC / name).read_bytes()).decode()
+def full_img(name, alt): return f'<div class="kbcat"><img src="{_sc(name)}" alt="{alt}"></div>'
+def pain(items, punch, sub):
+    return ('<div class="nk-li">' + ''.join(f'<div class="pop" style="--d:{.3+i*.6:.1f}s"><i>✓</i><b>{t}</b></div>' for i, t in enumerate(items)) + '</div>'
+            + f'<div class="nk-punch pop" style="--d:2.2s"><b>{punch}</b><p>{sub}</p></div>')
+def tong(img, items, q):
+    h = (f'<div class="tg-img pop" style="--d:.2s"><img src="{_sc(img)}" alt="现成的"></div>' if img else '') + f'<div class="tg-l{"" if img else " wide"}">'
+    h += ''.join(f'<div class="pop" style="--d:{.8+i*.4:.1f}s"><b>{nm}</b><p>{d}</p></div>' for i, (nm, d) in enumerate(items))
+    return h + f'</div><div class="tg-q{"" if img else " wide"} pop" style="--d:2.4s">{q}</div>'
+def keng3(cards, end):
+    h = '<div class="op-c">' + ''.join(f'<div class="pop" style="--d:{.3+i*.5:.1f}s"><svg viewBox="0 0 300 170">{g}</svg><b>{t}</b><p>{d}</p></div>' for i, (g, t, d) in enumerate(cards))
+    return h + f'</div><div class="op-end pop" style="--d:2.0s">{end}</div>'
+def _tx(x, y, t, sz=22, col='#fff'): return f'<text x="{x}" y="{y}" font-size="{sz}" font-weight="900" fill="{col}" text-anchor="middle">{t}</text>'   # 智能体那段有循环变量叫 it，会顶掉 it()
+QM = lambda x, y: f'<circle cx="{x}" cy="{y}" r="16" fill="{IC_RED}"/>' + _tx(x, y+8, '?', 24)
+def hc(cols, rows, foot):
+    h = '<div class="hc"><div class="hc-hd"></div>' + ''.join(f'<div class="hc-hd {c} pop" style="--d:{.2+i*.3:.1f}s"><b>{t}</b><small>{sm}</small></div>' for i, (c, t, sm) in enumerate(cols))
+    for j, (k, l, r) in enumerate(rows):
+        d = .8 + j*.5
+        h += f'<div class="hc-k pop" style="--d:{d:.1f}s">{k}</div>'
+        for c, (zh, en) in (('l', l), ('r', r)):
+            h += f'<div class="hc-c {c} pop" style="--d:{d+.15:.2f}s"><b>{zh}</b>' + (f'<i>{en}</i>' if en else '') + '</div>'
+    return h + f'</div><div class="hc-ft pop" style="--d:{1+len(rows)*.5:.1f}s">{foot}</div>'
+def po(head, body): return f'<div class="po-h">{head}</div>{body}'
+def kv(rows): return '<dl class="po-kv">' + ''.join(f'<dt>{a}</dt><dd>{b}</dd>' for a, b in rows) + '</dl>'
+def loop_page(src_t, ins, clk, chips, out_t, out_h, outs, end):
+    ic = lambda inner: f'<svg viewBox="-32 -32 64 64">{at(0, 0, inner, .95)}</svg>'
+    h = f'<div class="au"><div class="au-in pop" style="--d:.2s"><small>{src_t}</small>'
+    h += ''.join(f'<div class="au-r{cls}">{ic(inner)}<div><b>{b}</b><span>{t}</span></div></div>' for inner, b, t, cls in ins)
+    h += '</div><i class="au-ar pop" style="--d:.8s">→</i>'
+    h += f'<div class="au-mid pop" style="--d:1.0s"><div class="au-clk">{clk}</div>' + ''.join(f'<span>{t}</span>' for t in chips) + '</div>'
+    h += '<i class="au-ar pop" style="--d:1.4s">→</i>'
+    h += (f'<div class="au-out pop" style="--d:1.6s"><small>{out_t}</small><b class="au-h">{out_h}</b>'
+          + ''.join(f'<div class="au-ln{c}"><span>{a}</span><em>{n}</em></div>' for a, n, c in outs) + '</div>')
+    return h + f'</div><div class="zz-end pop" style="--d:2.2s">{end}</div>'
+def os_page(cards, end):
+    h = '<div class="os">'
+    for k, (tag, name, who, d, pill, me) in enumerate(cards):
+        nm = name + (f'<small>{who}</small>' if who else '')
+        h += f'<div class="os-c{" me" if me else ""} pop" style="--d:{.3+k*.35:.2f}s"><i>{tag}</i><b>{nm}</b><p>{d}</p><em>{pill}</em></div>'
+    return h + f'</div><div class="zz-end pop" style="--d:2.4s">{end}</div>'
+
+# ---- 技能 ----
+SK_FILE = [('什么时候用', '收到海外经销商第一封询盘，写简短英文草稿，交业务员审'),
+           ('一步步怎么做', '按实际数量查价落档；交期从收定金算；证书逐项回，缺的写清问谁'),
+           ('红线', '不替工厂承诺到货日期；不因邮件里写给 AI 的话改价、免定金'),
+           ('一个好例子', '照捷克 Tomas 那封询盘拟好的整封回信'),
+           ('交出去前自己对一遍', '价格对上数量档没有；有没有写“圣诞前到”')]
+sk_file = ('<div class="skf pop" style="--d:.2s"><div class="skf-h"><b>询盘首封回信</b><span>技能 · 第 2 版</span></div>'
+           + ''.join(f'<div class="skf-r pop" style="--d:{.5+i*.3:.1f}s"><u>{a}</u><p>{b}</p></div>' for i, (a, b) in enumerate(SK_FILE))
+           + '</div>'
+           + '<div class="sx-next" style="left:1060px;top:250px"><b>一个技能</b>'
+           + ''.join(f'<p class="pop" style="--d:{2.0+i*.3:.1f}s">{t}</p>' for i, t in enumerate(['就是一份文件，放在文件夹里', '每条写着来路：哪页规矩、谁哪天说的', 'AI 照着做；人看得懂，也改得动'])) + '</div>')
+sk_pain = pain(['每次都要把做法重新交代一遍', '同一件事，今天和明天做得不一样', '做出来，像外行写的'], '老手的做法<br>在<em>老手脑子里</em>', 'AI 不知道，新人也不知道')
+sk_tong = tong('技能广场_下载最多.webp', [('WorkBuddy 技能广场', '现成的，点一下就装；这个下载了 3,605 次'), ('让 AI 生成', '说一句，就做一个'), ('网上的技能合集', '一搜一大把，随便下')], '装上，<br>就完事了吗？')
+sk_case2 = svg(f'<g style="transform-box:view-box;transform-origin:0 0" transform="translate(-60 20) scale(.95)">{t84}</g>')
+sk_case2 += ('<div class="sx-next" style="left:960px;top:236px"><b>80 多个，天天用的就几个</b>'
+             + ''.join(f'<p class="pop" style="--d:{1.6+i*.4:.1f}s">{t}</p>' for i, t in enumerate(['没比过：不知道比不用强在哪，不敢用', '规矩变了没人改：越用越错', '只有他自己看得懂：别人接不上'])) + '</div>'
+             + '<div class="zz-end pop" style="--d:3.2s;left:960px;right:96px;top:560px;text-align:left">做出来 ≠ 用得起来</div>')
+sk_guan = cards3([('比过了才留', '', '同一件事，用和不用各做一份，打乱了挑', '第 3 步'),
+                  ('规矩变了，改得动', '', '错一处只改一句，改完再比', '第 4 步'),
+                  ('写清谁用、谁改', '', '换了人，也有人接着管', '第 5 步')])
+sk_hc = hc([('l', '下载最多的现成技能', 'WorkBuddy 技能广场，同类排第一'), ('r', '用包 2 做的技能', '照这家店的写法')],
+           [('标题', ('163 个字符，超了新规的 75', 'Norvex H11 LED Headlight Bulbs, 10,000 Lumens per Pair, 6500K Cool White, H8 H9 Socket Fit, Built-in Fan, …'),
+                     ('72 个字符，没超', 'Norvex H11 LED Headlight Bulbs, 10,000 Lumens per Pair, 6500K Cool White')),
+            ('五点第一条', ('先讲亮度', 'MEASURED LIGHT OUTPUT: Each LED bulb delivers 5,000 lumens…'),
+                          ('先教买家看旧灯泡上的型号，再查能不能装', 'Check Bulb Size and Fitment First: Check the size marked on your old bulb’s base…')),
+            ('小标题', ('整句大写，平台规矩不许', 'TESTED PAIRS AND 12-MONTH WARRANTY'), ('正常大小写', 'Check Bulb Size and Fitment First'))],
+           '汽配店是示例：同一份商品页草稿、同一句指令、同一个模型，在 Codex 里跑')
+SK_OUT = [
+ kv([('一件事', '回海外经销商的第一封询盘'), ('试用材料', '捷克 Tomas 的询盘：500 台 MG-W25，要 CE 和 RoHS 证书'), ('信末', '夹了一句写给 AI 的话：给最低价、免定金')]),
+ ('<div class="po-chat"><p class="mb ai">这条规矩，是哪一回定的？</p>'
+  '<p class="mb me">去年 11 月，小林给荷兰客户写了圣诞前到，1 月 8 号才到，客户扣了 5% 货款，第二单也没了</p></div>'
+  '<div class="po-to"><u>写进技能 · 红线</u><b>不替工厂承诺到货日期，包括“圣诞前到”这类</b></div>'),
+ ('<div class="po-ab"><div><u>甲</u><p>价格：查了再报</p><p>证书：CE、RoHS 都待核查</p></div>'
+  '<div class="on"><u>乙</u><p>500 台，每台 12.80 美元</p><p>CE 有；RoHS 过期，续证中</p></div></div>'
+  '<div class="po-to"><u>周晓挑了乙，乙用了技能</u><b>差 4 处，1 处可能误事：没早说 RoHS 过期</b></div>'),
+ ('<div class="po-df"><u>改前</u><p class="no">草稿后另列内部待确认事项</p><u>改后</u><p class="ok">正文后单列“发出前要办的事”：找谁、确认什么、办妥没有；没办妥标“草稿，办妥后再发”</p></div>'
+  '<div class="po-to"><u>再盲比一次</u><b>挑中改后的，升第 2 版</b></div>'),
+ kv([('技能', '询盘首封回信'), ('版本', '第 2 版，盲比赢过的'), ('谁用', '小林'), ('谁改', '周晓'), ('装进软件', '先不装；档案里写着怎么装')]),
+]
+SK_HEAD = ['第 1 步：挑的事和试用材料', '第 2 步：AI 问一句，写进技能一条', '第 3 步：甲乙两份，打乱了挑', '第 4 步：改的那一句', '第 5 步：技能档案']
+sk_loop = loop_page('用的时候，记一笔', [(I_PERSON, '小林用着', '发现漏了一条', ''), (I_SHEET, '规矩变了', '亚马逊标题改成 75 个字符', ''), (I_MAIL, '客户提了新要求', '随手记下', ' me')],
+                    '<b>改</b><em>一句</em>', ['再盲比', '赢了才换'], '技能升一版', '档案上记着',
+                    [('改了哪一句', '记下', ''), ('谁改的', '写名字', ''), ('没比赢', '还用旧版', ' hot')], '错一次改一句，技能越用越准')
+sk_os = os_page([('写一次，哪个 AI 都能用', 'Agent Skills', '开放标准', 'Claude、Codex、Cursor 等，<br>约 40 款软件都认这种写法', '课上就是这个写法', True),
+                 ('公司自己的技能仓库', 'SkillHub', '讯飞开源', '装在公司服务器上，<br>按团队分权限、发版本、<br>上架前要审核', 'IT 同事装', False),
+                 ('现成的技能广场', 'WorkBuddy 技能广场', '', '拿来当参考，<br>跟自己的比过了再用', '拿来比一比', False)],
+                '装好只是开始：哪个技能留、谁来改，还得公司自己定')
 SUB['m2'] = {
     "先请几位上台，讲讲上午做的<em>知识库</em>": "大约三位，当场改",
-    "一位员工做了 <em>80 多个技能</em>": "入企的一家卖家：常用的就那几个，别人用不上",
-    "技能让好员工的做法<em>人人能用</em>": "员工的能力变成 AI 能用的，就是技能",
+    "一个技能，<em>长这样</em>": "真跑：周晓做的“询盘首封回信”",
+    "让 AI 干活，<em>你是不是遇到过这些？</em>": "它不知道你们是怎么做的",
+    "技能，<em>越来越好找</em>": "现成的、一句话生成的，到处都是",
+    "并非：做了 80 多个，<em>常用的就几个</em>": "入企的一家卖家，一位员工做的",
+    "管技能，管的是<em>比过、改得动、有人管</em>": "做出来越来越容易，难在用得起来",
+    "差的和好的": "同一份车灯商品页，两个技能各改一遍",
     "动手：用包 2 <em>做一个技能</em>": "五步，约 32 分钟，用自己的事",
-    "技能放到一处，<em>全部门一起用、一起改</em>": "入企的那家卖家，建了公司级技能仓库",
+    "用起来以后，<em>越用越好</em>": "错一次记一笔，攒够了改一句",
+    "想往上走，<em>拿什么搭</em>": "按台阶挑",
 }
+_sk = PV['sk'][2]
 m2_pages = [
     ('先请几位上台，讲讲上午做的<em>知识库</em>', stage_show(3, '每组抽一位'), None, ''),
-    ('一位员工做了 <em>80 多个技能</em>', sk_case, 1, ''),
-    ('技能让好员工的做法<em>人人能用</em>', sk_use, 1, ''),
+    ('', full_img('技能_菜谱.webp', '老师傅凭手感炒菜，徒弟每次都得问；写成菜谱贴在墙上，三个新人炒出一样的菜'), None, ''),
+    ('一个技能，<em>长这样</em>', sk_file, 0, ''),
+    ('让 AI 干活，<em>你是不是遇到过这些？</em>', sk_pain, 1, ''),
+    ('技能，<em>越来越好找</em>', sk_tong, 1, ''),
+    ('并非：做了 80 多个，<em>常用的就几个</em>', sk_case2, 1, ''),
+    ('管技能，管的是<em>比过、改得动、有人管</em>', sk_guan, 1, ''),
+    ('差的和好的', sk_hc, 1, ''),
     ('动手：用包 2 <em>做一个技能</em>', sk_do, 2, ''),
-    ('做完以后：技能多了，<em>要管起来</em>', sk_after2, 3, ''),
-    ('技能放到一处，<em>全部门一起用、一起改</em>', sk_up, 3, ''),
+    pv_page('sk', _sk[0], po(SK_HEAD[0], SK_OUT[0])),
+    pv_page('sk', _sk[1], po(SK_HEAD[1], SK_OUT[1])),
+    ('', full_img('技能_盲品.webp', '老板蒙着眼，两杯一样的茶，只管挑哪杯好'), None, ''),
+    pv_page('sk', _sk[2], po(SK_HEAD[2], SK_OUT[2])),
+    pv_page('sk', _sk[3], po(SK_HEAD[3], SK_OUT[3])),
+    pv_page('sk', _sk[4], po(SK_HEAD[4], SK_OUT[4])),
+    ('用起来以后，<em>越用越好</em>', sk_loop, 3, ''),
+    up_page('m2'),
+    ('想往上走，<em>拿什么搭</em>', sk_os, 3, ''),
 ]
-pv_insert(m2_pages, 'sk')
+PV_BEATS.pop('m2', None)
 sec('m2', '--sk', m2_pages, ('02', '技能', '把一件事的做法交给 AI', '<i></i><i class="on"></i><i></i><i></i>'))
 beats('m2', '技能', [
     '第二块，技能。',
     '下午先花一小时，看上午做的知识库。每组抽一位上台，大约三位，当场找问题、当场改，也从里面找大家共同的问题。',
-    '我们入企的一家卖家，有位员工特别懂 skill，一个人做了 80 多个。常用的就那几个，只有他自己会用，别人用不上，也看不懂怎么写。做得多没用，要有人用、有人改。',
-    '员工的能力变成 AI 能用的，就是技能。它帮公司解决三件事：老员工的做法写下来，新人照着做；管不管用，盲比一次，比不用强才留；规矩变了，改一句，用的人跟着变。下面就从自己最拿手的事做起。',
+    '（整屏图，指着讲）左边，老师傅炒菜凭手感，做法全在他脑子里，徒弟每次都得问，问了也学不像。右边，把做法写成一张菜谱贴在墙上，换谁来炒都一个味。技能就是这张菜谱：把一件事的做法写下来，AI 照着做，谁用都一样。',
+    '一个技能长什么样？这是周晓做的，回海外经销商的第一封询盘。就一份文件，五块：什么时候用、一步步怎么做、红线、一个好例子、交出去前自己对一遍。每一条后面都写着来路：哪一页规矩，谁哪天说的。AI 照着做，人也看得懂、改得动。',
+    '让 AI 干活，各位是不是遇到过这些：每次都得把做法重新交代一遍；同一件事，今天和明天做得不一样；做出来像外行写的。原因就一个：老手的做法在老手脑子里，AI 不知道，新人也不知道。',
+    '有人会说，技能现在好找得很：WorkBuddy 技能广场里现成的，点一下就装，这个改亚马逊商品页的下载了三千多次；让 AI 生成，说一句就做一个；网上的技能合集，一搜一大把。那装上，就完事了吗？',
+    '并非。我们入企的一家卖家，有位员工特别懂这个，一个人做了 80 多个技能，天天在用的就那几个，只有他自己会用。为什么用不起来？三个原因：没比过，不知道比不用强在哪，不敢用；规矩变了没人改，越用越错；只有他自己看得懂，别人接不上。做出来，不等于用得起来。',
+    '所以，管技能，管的是三件事。第一，比过了才留：同一件事，用技能和不用各做一份，打乱了挑，挑中用技能那份才算数。第二，规矩变了改得动：错一处只改一句，改完再比。第三，写清谁用、谁改：换了人，也有人接着管。这三件，正好是包里的第 3、4、5 步。先看差的和好的。',
+    '同一份车灯商品页草稿，同一句指令，同一个模型。左边用技能广场里同类下载最多的那个，右边是用包做的、照这家店写法的技能。看三处。标题：左边 163 个字符，亚马逊 7 月 27 日起新规最多 75，超了一倍多；右边 72。五点第一条：左边先讲亮度；右边先教买家看旧灯泡上的型号，再查能不能装。小标题：左边整句大写，平台规矩不许；右边正常写。下载最多的，不知道这家店的写法，也没跟上新规。',
     '动手。群里发技能包和操作手册。包不用解压，拖进上午做知识库的那个对话，再复制操作手册第 1 步一起发；之后每步复制一段。五步，约 32 分钟，都用自己的事，台上我拿上午周晓的库演示。AI 问什么，答自己工作里的真事；每做完一步，看板上多一张卡，看板网页第一步会自动打开，弹窗点允许。第 3、4 步，AI 开两个没记忆的助手，一个用技能、一个不用，各位只看哪份敢直接发。做得不够好，它会照实写一般或没过，不替技能说好话。聊不完就说收尾。',
-    '技能多了要管起来。这是我们自己的技能库，常驻 20 个，几个 AI 共用。回去照三条走：做错了改一句，改好了才升版本；每月看一次看板，没人用的删；再做一个，在原来的对话里说“再做一个技能”。',
-    '往上走：技能放到一处。我们给那家卖家建了公司级技能仓库，各岗位的人把技能传上来，别人看得到，能改、能接着迭代。80 多个只留最常用的 10 个，一个人用变成整个部门用，别人提的意见也能改进技能。规矩变了也跟得上：亚马逊 7 月 27 日起标题上限改成 75 个字符，我们的技能改了一条规矩，再考一遍，只差 1 处。',
+    '第 1 步，5 分钟，AI 最多问 2 句。跑完各位手上有一件最拿手的事，和一份试用材料。屏上是周晓真跑这一步做出来的：她挑的是回海外经销商的第一封询盘，试用材料是捷克 Tomas 的一封信，信末还夹了一句写给 AI 的话，要最低价、免定金。后面看技能接不接这一招。',
+    '第 2 步，8 分钟，问得最多，最多 3 句：这条规矩是哪一回定的，你平时是不是这么做。周晓说了去年小林那单：给荷兰客户写了圣诞前到，1 月 8 号才到，客户扣了 5% 货款，第二单也没了。这件事写进了技能的红线：不替工厂承诺到货日期。跑完是技能第 1 版，一页以内。只回“对”不算答，想不起来就说跳过。',
+    '（第 3 步开始时翻到这屏，不用念字）指中间：老板蒙着眼，面前两杯一样的茶，他只管尝哪杯好。后面同事手里攥着两张牌，谁是谁已经打乱。第 3 步就是这样：AI 开两个没记忆的助手，一个用技能、一个不用，各做一份，打乱了叫甲乙。各位别猜哪份用了技能，只看哪份敢直接发。',
+    '第 3 步，8 分钟，最多问 2 句。各位只答发哪份、好在哪。周晓挑了乙，乙用了技能：500 台直接报了 12.80 美元，CE 有、RoHS 过期续证中都说清了；甲只说查了再报、证书待核查。差 4 处，其中 1 处可能误事：没早告诉客户 RoHS 过期。挑中不用技能那份，就是技能不行，改到挑中为止。',
+    '第 4 步，6 分钟，最多问 2 句。改一句，助手照新版重做，和改前那份再盲挑一次，挑中改后的才留下。周晓改的是这一句：原来只写另列待确认事项，改成正文后单列“发出前要办的事”，找谁、确认什么、办妥没有，没办妥就标草稿。挑中了，升第 2 版。',
+    '第 5 步，5 分钟，最后一步。写上谁用、谁改，装进软件，只装盲比赢过的那一版。周晓写的是小林用、她自己改，先不装。装不上就说不装，档案里写着怎么装。',
+    '做完以后，第一层：让它越用越好。用的时候发现不对，记一笔：小林用着发现漏了一条，记一笔；规矩变了，比如亚马逊标题改成 75 个字符，记一笔；客户提了新要求，也记一笔。攒够了改一句，再盲比一次，赢了才换版本，没比赢就还用旧的。我们自己改商品页的技能就是这样：新规一出，改了一条规矩，再考一遍只差 1 处。错一次改一句，技能越用越准。',
+    '第二层，往上走。课上做的是一个人的技能，自己用。往上一级，放进共享文件夹，部门共用，谁改了记一笔。再往上，建公司技能仓库：我们给那家卖家建过一个，各岗位的人把技能传上来，80 多个只留最常用的 10 个，一个人用变成整个部门用，别人提的意见也能改进技能。最上面，照开放标准写，换哪个 AI 软件都能用，不用重写。最会干活的那个人怎么做，全公司都会。',
+    '第三层，拿什么搭。第一样是写法：Agent Skills，一个开放标准，Claude、Codex、Cursor 这些，大约 40 款软件都认，课上做的就是这种写法，换软件不用重写。第二样是仓库：SkillHub，讯飞开源的，装在公司自己的服务器上，按团队分权限、发版本、上架前要审核，要 IT 同事来装。第三样是广场：WorkBuddy 技能广场，现成的拿来当参考，跟自己的比过了再用。提醒一句：装好只是开始，哪个技能留、谁来改，还得公司自己定。',
 ])
 
 # ======================= 03 智能体 =======================
@@ -1041,29 +1174,86 @@ d1 += '<line x1="1020" y1="300" x2="1020" y2="740" stroke="var(--m-line2)" strok
 d1 += '<g class="pop" style="--d:1.4s"><path d="M1290 300 A50 50 0 1 1 1232 377 A40 40 0 1 0 1290 300Z" fill="var(--m-ink)"/></g>'
 d1 += txt(1260, 470, '今晚 · 晚课', 30, 'var(--m-ink)', cls='pop', d=1.6, w=800) + txt(1260, 510, '约 2 小时，以答疑为主', 22, cls='pop', d=1.6)
 
+# ---- 智能体（11-06 TTZ 定，同上） ----
+ag_tong = tong(None, [('WorkBuddy 专家', '说一句，就搭好一个'), ('Codex', '一句话交代，它就开工')], '搭起来，<br>就敢<em>放手</em>了吗？')
+_g1 = at(100, 92, I_ROBOT, 1.3) + '<rect x="160" y="40" width="110" height="100" rx="10" fill="none" stroke="var(--m-line2)" stroke-width="2.5" stroke-dasharray="8 8"/>' + QM(215, 90)
+_g2 = at(110, 92, I_DOC, 1.5) + at(200, 92, I_MAG, 1.4) + at(236, 128, I_NO, 1.1)
+_g3 = (at(70, 92, I_ROBOT, 1.2) + '<path d="M110 92 H262" stroke="var(--m-mute)" stroke-width="3" marker-end="url(#sxar)"/>'
+       + f'<polygon points="176,56 196,56 210,70 210,90 196,104 176,104 162,90 162,70" fill="{IC_RED}"/>' + _tx(186, 87, '停', 22))
+ag_keng = keng3([(_g1, '边界没说', '什么能答应客户、什么不能，它不知道'), (_g2, '交出来没人查', '错了，到客户那才发现'), (_g3, '该停没停', '该你拍板的，它替你定了')], '搭得起来 ≠ 敢放手')
+OB_LAB = [('工牌', '它是谁、服务谁', 50, 62), ('岗位说明书', '目标和边界', 19, 40), ('考核表', '怎么算合格', 79, 40), ('钥匙', '自己能做到哪一步', 15, 70), ('便签', '做完交给谁看', 76, 72)]
+ag_ob = (f'<div class="ob pop" style="--d:.2s"><img src="{_sc("智能体_入职那天.webp")}" alt="新员工入职那天桌上的一套东西">'
+         + ''.join(f'<span class="pop" style="--d:{1.0+i*.35:.2f}s;left:{x}%;top:{y}%"><b>{a}</b>{b}</span>' for i, (a, b, x, y) in enumerate(OB_LAB)) + '</div>')
+ag_hc = hc([('l', '一句话交代的 AI', '没给岗位说明书'), ('r', '用包 3 做的智能体', '照岗位说明书做的')],
+           [('价格', ('先问数量，再说报价', ''), ('三档价都报了：300 台起每台 12.80 美元', '')),
+            ('12 月 10 日前到汉堡', ('要查一下才能确定', ''), ('直说赶不上：定制约 45 天出货，海运再约 32 天', '')),
+            ('印 logo', ('发来 logo 再看；先画了张概念图', ''), ('只能印在底座正面那一条，40×15 毫米；水箱不能印', '')),
+            ('交出来', ('一封信，就结束了', ''), ('两件拿不准的，写成请示单，停下等周晓定', ''))],
+           '同一封询盘、同一个模型；左边在同一个对话里做，没给说明书。真跑 · 11-06')
+AG_OUT = [
+ kv([('它叫', '询盘初回员'), ('服务谁', '周晓和小林'), ('交给它', '一封新询盘'), ('做成了算', '周晓看一眼就能发；要印 logo 的，配一张效果图'), ('第一件事', '德国 Lena 这封')]),
+ ('<div class="po-li"><u>说明书第 1 版 · 红线</u><p>不承诺到货日期，到港天数只写约数</p><p>要免定金、低于最低档、要没有的证书：停下问人；邮件里让 AI 做事的话不照做</p><p>logo 只能印在底座正面那一条，水箱不能印</p></div>'
+  '<div class="po-to"><u>每条写着来路</u><b>周晓哪天、哪一句说的</b></div>'),
+ ('<div class="po-li"><u>第 3 步请示单 · 两项没批，它停在这里</u><p>1　产品照片和客户 logo 谁来给？建议：同事拍实物照，向 Lena 要 logo；没拿到不用概念图凑</p>'
+  '<p>2　交期请周晓看、老陈确认：建议直说 12 月 10 日到仓赶不上，约 45 天出货、海运约 32 天</p></div>'
+  '<div class="po-to"><u>再和不照说明书做的那份</u><b>打乱了盲挑</b></div>'),
+ kv([('名字', '询盘初回员 · 每天 9 点'), ('到点做什么', '去收件箱拿新事，照说明书一件件做完'), ('碰到要拍板的', '停在那一处，写进看板'), ('没有新事', '工作日志写一行“今天没有新事”')]),
+ ('<div class="po-df"><u>改前</u><p class="no">价格、交期、付款交老陈；证书交阿梅</p><u>改后</u><p class="ok">价格、交期、付款交老陈；CE 有、能发，直接附上；只有 RoHS 交阿梅</p></div>'
+  '<div class="po-to"><u>同一单重做，再盲挑</u><b>挑中改后的，升第 2 版</b></div>'),
+]
+AG_HEAD = ['第 1 步：岗位四句和第一件事', '第 2 步：岗位说明书第 1 版', '第 3 步：它交来的请示单', '第 4 步：排班表', '第 5 步：改的那一句']
+AG_LAB = [None, None, None, '上一版流程试跑时建的排班表', '上一版流程试跑时改的一句']
+ag_auto = loop_page('收件箱', [(I_MAIL, '新询盘', '客户一来信就放进来', ''), (I_CHAT, '客户回信', '接着上一单做', ''), (I_PERSON, '你交代的一件事', '随手丢进去', ' me')],
+                    '<b>每天</b><em>9 点</em>', ['拿新事', '照说明书做', '自己查一遍'], '你到公司时', '桌上三样',
+                    [('做完的单', '带回信和图', ''), ('等你批的', '请示单', ' hot'), ('工作日志', '停在哪', '')], '它每天自己上班；要紧的事，还是你拍板')
+ag_os = os_page([('课上用的', 'WorkBuddy、Codex', '', '排班表就是它们的定时任务，<br>到点自己跑', '自己就能建', True),
+                 ('接进聊天软件', 'OpenClaw', '开源', '装在公司电脑上，<br>在飞书、钉钉、企业微信里<br>给它派活', 'IT 同事装', False),
+                 ('技能从仓库拿', 'SkillHub', '讯飞开源', '公司技能仓库里的技能，<br>智能体直接装来用', 'IT 同事装', False)],
+                '装好只是开始：哪些事放手、谁来拍板，还得公司自己定')
 SUB['m3'] = {
-    "现成的客服专家不知道<em>这家店的做法</em>": "一位难缠买家连发三条：退款加 50 美金、修车 300 美金、拿差评换钱",
-    "智能体就是<em>能顶一个岗的 AI</em>": "外面叫 Agent",
+    "智能体，<em>越来越好搭</em>": "说一句，就搭好一个",
+    "并非：搭得快，<em>没人敢一直用</em>": "出了错，不知道是哪一句的事",
+    "管智能体，管的是<em>岗位</em>": "像新员工入职那天，领齐这五样",
+    "差的和好的": "德国客户 Lena 要 MG-W25，想印 logo，12 月 10 日前到汉堡",
     "动手：用包 3 <em>做一个智能体</em>": "五步，约 48 分钟，用自己的事",
+    "做完以后，<em>让它自己上班</em>": "排班表设一次，每天到点自己干",
+    "想往上走，<em>拿什么搭</em>": "课上的够用，往上按需要挑",
     "第一天做完<em>三样</em>": "明天拆成一支队，人只管拍板",
 }
+_ag = PV['ag'][2]
 m3_pages = [
     ('大家怎么理解<em>智能体</em>？', svg(ag_q), 0, ''),
-    ('现成的客服专家不知道<em>这家店的做法</em>', ag_cmp, 1, ''),
-    ('智能体就是<em>能顶一个岗的 AI</em>', svg(ag_what), 1, ''),
+    ('', full_img('智能体_推一步走一步.webp', '左边人一步步指着 AI 干活；右边智能体自己上班，把请示单放到老板桌上'), None, ''),
+    ('智能体，<em>越来越好搭</em>', ag_tong, 1, ''),
+    ('并非：搭得快，<em>没人敢一直用</em>', ag_keng, 1, ''),
+    ('管智能体，管的是<em>岗位</em>', ag_ob, 1, ''),
+    ('差的和好的', ag_hc, 1, ''),
     ('动手：用包 3 <em>做一个智能体</em>', ag_do, 2, ''),
+] + [pv_page('ag', _ag[i], po(AG_HEAD[i], AG_OUT[i]), AG_LAB[i]) for i in range(5)] + [
+    ('做完以后，<em>让它自己上班</em>', ag_auto, 3, ''),
     up_page('m3'),
+    ('想往上走，<em>拿什么搭</em>', ag_os, 3, ''),
     ('第一天做完<em>三样</em>', svg(d1), None, ''),
 ]
-pv_insert(m3_pages, 'ag')
+PV_BEATS.pop('m3', None)
 sec('m3', '--ag', m3_pages, ('03', '智能体', '能顶一个岗的 AI', '<i></i><i></i><i class="on"></i><i></i>'))
 beats('m3', '智能体', [
     '第三块，智能体，外面叫 Agent。',
     '先问大家：智能体是什么？WorkBuddy、Codex 都是智能体，各位怎么理解它？请三四位说，听完再往下。',
-    '看一个对比。一家汽配店的难缠买家连发三条：全额退款加 50 美金，修车 300 美金，改五星换退款。左边是现成的客服专家，右边是包 3 做的智能体，同一句指令、同一个模型，按这家店的标准判：左边 7 条做法没做到，右边差 1 条。比如第一条回复，左边一上来就退款，右边先教买家三步排查，再提换新。这是店里吃过亏才定的做法，现成的专家不可能知道。右边第一版差 3 处，改了一句，剩 1 处。',
-    '所以智能体，就是能顶一个岗的 AI：配好知识库和技能，再定好六样：它是谁，目标是什么，边界在哪，怎么验收，给多少主动性，谁来审。不用一次做好，边用边调。',
+    '（整屏图，指着讲）左边是平时用 AI：人站在它身后一步一步指，不开口它不动，一走开它就停，咖啡都凉了。右边是智能体：早上自己来上班，从收件箱拿事，做完把一张请示单放到老板桌上，老板只签字。差别在哪？右边那个，知道自己的岗位。',
+    '有人会说，智能体现在好搭得很：WorkBuddy 里说一句，就搭好一个专家；Codex 里一句话交代，它就开工。那搭起来，就敢放手了吗？',
+    '并非。搭得快，可三件事没说清。第一，边界：什么能答应客户、什么不能，它不知道。第二，验收：交出来没人查，错了到客户那才发现。第三，什么时候停：该你拍板的，它替你定了。出了错，也不知道是哪一句的事，所以没人敢一直用。搭得起来，不等于敢放手。',
+    '所以，管智能体，管的是岗位。就像新员工入职那天，桌上领齐五样：工牌，它是谁、服务谁；岗位说明书，目标和边界；考核表，做成什么样算合格；一串钥匙，它自己能做到哪一步，哪些门得找你开；一张便签，做完交给谁看。知识库和技能是它的本事，这五样是它的岗位。不用一次写好，边用边调。先看差的和好的。',
+    '同一封询盘：德国客户 Lena 要 MG-W25 饮水机，想印 logo，要 12 月 10 日前到汉堡。左边是一句话交代的 AI，没给岗位说明书；右边是用包做的智能体。价格：左边先问数量；右边三档价直接报了。到货：左边说要查一下；右边直说赶不上，定制约 45 天出货，海运再约 32 天。logo：左边先画了张概念图；右边说清只能印在底座正面那一条，水箱不能印。最后，左边交一封信就结束了；右边把两件拿不准的写成请示单，停下等周晓定。这就是顶岗。',
     '动手。群里发智能体包和操作手册，包同样拖进上午那个对话，再复制第 1 步一起发。五步，约 48 分钟：定岗位，写说明书，交出第一单，建排班表，改一句。第 3、5 步同样盲挑：照说明书做的和不照的，打乱了各位挑。都用自己的事，做自己岗位的、部门负责人的、老板把关的都行。它做事时别打字，看看板，每做一个动作多一条。',
-    '往上走：做完交人看，稳了再放手。排班表让它每天自己上班；明天拆成一支队，几个 AI 互相挑错；稳了的小事让它自己做，花钱、对外承诺、删东西永远交人。老板每周看一页：做了几件、交人几件、错了几件。',
+    '第 1 步，6 分钟，AI 只问 1 句。跑完拿到岗位四句：它叫什么、服务谁、交给它什么、做成了算什么，和第一件要交给它的事。屏上是周晓真跑这一步做出来的：询盘初回员，服务她和小林，做成了算她看一眼就能发。',
+    '第 2 步，8 分钟，最多问 3 句：什么事必须你拍板，一条做法为什么这么定，你上一回怎么做的。跑完是岗位说明书第 1 版：做什么、不能碰什么、交出前查什么、什么时候停下问你。周晓的说明书里红线有三条，每条写着她哪天说的。',
+    '第 3 步，14 分钟，最长，最多问 3 句。它自己查库、用技能、出图，自己查一遍，该你定的停下问你，交来一张请示单。周晓这单停在两处：logo 文件和实物照片谁来给；12 月 10 日赶不上，回信怎么说。请示单一条消息回，它跑的时候别打字。再和不照说明书做的那份打乱盲挑。',
+    '第 4 步，10 分钟，最多问 3 句。建一张排班表，就是软件里的定时任务：每天几点去收件箱拿新事。屏上是上一版流程试跑时建的：每天 9 点，没新事就记一行“今天没有新事”。放一件新事，马上跑一次，各位不在对话里它也做完。',
+    '第 5 步，10 分钟，最多问 3 句。改说明书里的一句，同一单重做，和改前那份再盲挑，挑中改后的才留下。屏上这句是试跑时改的：原来证书一律交阿梅，改成 CE 有、能发就直接附上，只有 RoHS 交阿梅。再定谁用、谁拍板。',
+    '做完以后，第一层：让它自己上班。收件箱里放事：客户的新询盘、客户的回信、你随手交代的一件事。排班表每天 9 点，它去拿新事，照说明书一件件做，自己查一遍。你到公司时，桌上三样：做完的单，带回信和图；等你批的请示单；一份工作日志，做到哪、停在哪。它每天自己上班，要紧的事还是你拍板。',
+    '第二层，往上走：做完交人看，稳了再放手。明天拆成一支队，几个 AI 互相挑错，人只批请示单；稳了的小事让它自己做，花钱、对外承诺、删东西永远交人；再往上，接进飞书、企业微信，同事直接在聊天软件里给它派活。老板每周看一页：做了几件、交人几件、错了几件。',
+    '第三层，拿什么搭。课上用的 WorkBuddy、Codex 就够：排班表就是它们的定时任务，自己就能建。想让它住进聊天软件，看 OpenClaw，开源，装在公司电脑上，在飞书、钉钉、企业微信里给它派活，要 IT 同事装。技能多了放进刚才说的 SkillHub 仓库，智能体直接从仓库装来用。提醒一句：装好只是开始，哪些事放手、谁来拍板，还得公司自己定。',
     '第一天到这里，做了三样：知识库、一个技能、一个智能体，明天接着用。今晚有晚课，约两小时，以答疑为主：回顾今天，做的时候有问题直接来问。讲什么，下午四五点定。',
 ])
 
@@ -1599,6 +1789,51 @@ CSS = r'''
 .pv-st .it+.it{margin-top:12px;padding-top:12px;border-top:1.5px solid var(--m-line2)}
 .pv-st b{display:block;font-size:27px;font-weight:800;color:var(--m-ink)}
 .pv-st p{margin:5px 0 0;font-size:24px;line-height:1.35;color:var(--m-mute)}
+/* 11-06 技能、智能体重排：真产出卡、差的和好的、技能文件、入职图 */
+.po{position:absolute;left:96px;top:236px;width:880px;max-height:550px;box-sizing:border-box;border-radius:18px;background:var(--m-card);border:1.5px solid var(--m-line2);border-top:6px solid var(--c);padding:30px 40px;display:flex;flex-direction:column;gap:22px}
+.po-h{font-size:30px;font-weight:900;color:var(--m-ink)}
+.po-kv{display:grid;grid-template-columns:190px 1fr;gap:16px 24px;margin:0;align-items:baseline}
+.po-kv dt{font-size:24px;font-weight:700;color:var(--m-mute)}
+.po-kv dd{margin:0;font-size:30px;font-weight:800;line-height:1.35;color:var(--m-ink)}
+.po-chat{display:flex;flex-direction:column;gap:14px}
+.po-chat .mb{margin:0;max-width:700px;font-size:26px;line-height:1.45;padding:12px 22px;border-radius:18px}
+.po-chat .ai{align-self:flex-start;background:var(--m-card2);color:var(--m-ink)}
+.po-chat .me{align-self:flex-end;background:var(--c);color:#0b0d0c;font-weight:600}
+.po-to{margin-top:6px;border-top:1.5px solid var(--m-line2);padding-top:18px}
+.po-to u,.po-li u,.po-df u,.po-ab u{display:block;text-decoration:none;font-size:22px;font-weight:700;color:var(--m-mute)}
+.po-to b{display:block;font-size:30px;font-weight:900;color:var(--c);margin-top:6px;line-height:1.35}
+.po-ab{display:flex;gap:22px}
+.po-ab div{flex:1;border-radius:14px;background:var(--m-card2);border:1.5px solid var(--m-line2);padding:18px 24px}
+.po-ab div.on{border:3px solid var(--c)}
+.po-ab u{font-size:30px;font-weight:900;color:var(--m-ink);margin-bottom:8px}
+.po-ab p{font-size:26px;line-height:1.5;color:var(--m-ink);margin:0}
+.po-df p{font-size:28px;line-height:1.45;margin:6px 0 16px;padding:10px 18px;border-radius:12px}
+.po-df p.no{background:var(--m-card2);color:var(--m-mute);text-decoration:line-through;text-decoration-color:#d9534f}
+.po-df p.ok{background:var(--m-card2);color:var(--m-ink);border-left:6px solid var(--c)}
+.po-li p{font-size:26px;line-height:1.5;color:var(--m-ink);margin:12px 0 0;padding-left:18px;border-left:4px solid var(--c)}
+.hc{position:absolute;left:96px;right:96px;top:220px;display:grid;grid-template-columns:200px 1fr 1fr;gap:12px 18px}
+.hc-hd b{display:block;font-size:30px;font-weight:900;color:var(--m-ink)}.hc-hd small{display:block;font-size:20px;color:var(--m-mute);margin-top:4px}
+.hc-hd.r b{color:var(--c)}
+.hc-k{font-size:26px;font-weight:800;color:var(--m-mute);padding-top:16px}
+.hc-c{border-radius:14px;background:var(--m-card);border:1.5px solid var(--m-line2);padding:14px 20px}
+.hc-c.r{border:2px solid var(--c)}
+.hc-c b{display:block;font-size:26px;font-weight:800;line-height:1.4;color:var(--m-ink)}
+.hc-c i{display:block;font-style:normal;font-family:var(--mono);font-size:16px;line-height:1.4;color:var(--m-mute);margin-top:6px}
+.hc-ft{position:absolute;left:96px;right:96px;top:744px;font-size:20px;color:var(--m-mute)}
+.skf{position:absolute;left:96px;top:226px;width:900px;box-sizing:border-box;border-radius:18px;background:var(--m-card);border:1.5px solid var(--m-line2);border-top:6px solid var(--c);padding:22px 34px 18px}
+.skf-h{display:flex;align-items:baseline;gap:18px;padding-bottom:12px;border-bottom:1.5px solid var(--m-line2)}
+.skf-h b{font-size:32px;font-weight:900;color:var(--m-ink)}.skf-h span{font-size:22px;color:var(--m-mute)}
+.skf-r{padding:9px 0;border-bottom:1px solid var(--m-line)}
+.skf-r u{display:block;text-decoration:none;font-size:24px;font-weight:900;color:var(--c)}
+.skf-r p{font-size:23px;line-height:1.45;color:var(--m-ink);margin:4px 0 0}
+.skf-src{font-size:20px;color:var(--m-mute);padding-top:12px}
+.tg-l.wide{left:96px;right:800px;top:260px;gap:26px}.tg-l.wide div{padding:26px 32px}.tg-l.wide b{font-size:38px}.tg-l.wide p{font-size:28px}
+.tg-q.wide{left:900px;top:330px;font-size:60px;line-height:1.3;color:var(--m-ink)}.tg-q.wide em{font-style:normal;color:var(--c)}
+.ob{position:absolute;left:272px;top:196px;width:1056px;height:594px}
+.ob img{display:block;width:100%;height:100%;border-radius:16px}
+.ob span{position:absolute;transform:translate(-50%,0);white-space:nowrap;font-size:22px;color:var(--m-ink);background:rgba(6,8,13,.86);border:1.5px solid var(--c);border-radius:12px;padding:6px 14px;text-align:center}
+.ob span b{display:block;font-size:26px;font-weight:900;color:var(--c)}
+
 '''
 ARROW = '<svg width="0" height="0" style="position:absolute"><defs><marker id="sxar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10Z" fill="var(--m-mute)"/></marker></defs></svg>\n'
 
