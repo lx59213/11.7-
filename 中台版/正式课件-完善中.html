@@ -1646,16 +1646,19 @@ Object.assign(STATES,{g1:STATES.g2,g6:STATES.orgai,wf_ai:STATES.g5,company_ai:ST
 /* 每块开头（11-05 靖锋：先回到全景，再拉近到这一块，不要一下跳进去）：全景停一秒，周围淡掉，镜头拉近 */
 function camGo(to,d){camT.from={...cam};camT.to=to;camT.t0=NOW;camT.d=d}
 const fo=()=>{grid(4,4,false,'focus');rows(()=>0,false);spread(0,false);twins(()=>null,false);orgv(0,0,false);misc(0,0,false)};
+function zoomStep(target,steps){const t=STATES[target];return{cam:t.cam,dl:t.dl,pre:'orgai',zoom:1,camDelay:1e6,cd:2.2,
+  f(i){if(i||BK){t.f(true);return}WQ.push(...steps)}}}
 function zoomFrom(target,seq){const t=STATES[target];return{cam:t.cam,dl:t.dl,pre:'orgai',zoom:1,camDelay:1.0,cd:2.2,
   f(i){if(i||BK){t.f(true);return}later(1.0,seq)}}}
 Object.assign(STATES,{
   k_kb:zoomFrom('g0',()=>{fo();cards({},false);emReset();em({nd:1,kn:1,ndd:1.4,knd:1.9},false);camGo(CAMS.emp,2.2);
     later(4.4,()=>{floor(1,420,0,760,false);em({kn:1,kd:1,kbl:1,kdd:.1,kbld:1.7},false);camGo(CAMS.build,1.6)})}),
-  k_sk:zoomFrom('g2b',()=>{fo();cards({},false);floor(1,420,0,760,false);emReset();em({nd:1,kn:1,kd:1,kbl:1,hd:1},true);camGo(CAMS.build,2.2);   // 11-05 靖锋：知识已经在了，再补右边的技能
-    later(1.9,()=>EM.hd.to(0,.6));
-    later(2.6,()=>em({nd:1,kn:1,kd:1,kbl:1,sk:1,skd:.2},false))}),   // 11-06 TTZ：停在“他会做的”这一刻；原来最后把技能挪到右边空位（那是下一块 AI 员工的位置），单看这一屏看不懂
-  k_ag:zoomFrom('g3',()=>{fo();cards({},false);floor(1,420,0,760,false);emReset();em({kn:1,sk:1,kd:1,sd:1,ex:1,kbl:1,hd:1},true);camGo(CAMS.build,2.2);
-    later(1.6,()=>EM.hd.to(0,.6));later(2.6,()=>{cards({twl:1},false);twins((r,c)=>r===0&&c===0?0:null,false);misc(1,0,false)})}),
+  k_sk:zoomStep('g2b',[()=>{fo();cards({},false);floor(1,420,0,760,false);emReset();em({nd:1,kn:1,kd:1,kbl:1,hd:1},true);camGo(CAMS.build,2.2);   // 11-05 靖锋：知识已经在了，再补右边的技能
+    later(1.9,()=>EM.hd.to(0,.6))},
+    ()=>em({nd:1,kn:1,kd:1,kbl:1,sk:1,skd:.2},false)]),   // 11-06 TTZ：进来先是全公司，按一下拉近到销售，再按一下长出技能   // 11-06 TTZ：停在“他会做的”这一刻；原来最后把技能挪到右边空位（那是下一块 AI 员工的位置），单看这一屏看不懂
+  k_ag:zoomStep('g3',[()=>{fo();cards({},false);floor(1,420,0,760,false);emReset();em({kn:1,sk:1,kd:1,sd:1,ex:1,kbl:1,hd:1},true);camGo(CAMS.build,2.2);
+    later(1.6,()=>EM.hd.to(0,.6))},
+    ()=>{cards({twl:1},false);twins((r,c)=>r===0&&c===0?0:null,false);misc(1,0,false)}]),   // 11-06 TTZ：按一下拉近，再按一下长出 AI 员工
   k_wf:zoomFrom('g5',()=>{STATES.g5.f(false);camGo(CAMS.row0low,2.2)}),
 });
 function growStep(inst){const [k,n]=SCH[GR.step++];if(k==='c')GR.cols=n;else GR.rows=n;
@@ -1726,6 +1729,8 @@ function drawEMP(g,px,z){
   if(kbl>.01){const x1=wB(343,0)[0],x2=wB(800,0)[0];txt(g,'企业知识库',x1,fyv+30*px,30,RGB.kb,kbl*vis);txt(g,'个人知识库',x2,fyv+30*px,30,RGB.kb,kbl*vis)}
 }
 const SCHQ=[];function later(t,fn){SCHQ.push([NOW+t,fn])}
+/* 11-06 TTZ：整个画面换掉的几步，按一下换一次（技能、智能体开头拉近销售那页）；课件的翻页先问 __wStep，还有没换的就不翻页 */
+const WQ=[];window.__wStep=()=>{if(!WQ.length)return false;clk();WQ.shift()();return true};
 function runLater(){for(let i=SCHQ.length-1;i>=0;i--)if(NOW>=SCHQ[i][0]){const f=SCHQ[i][1];SCHQ.splice(i,1);f()}}
 /* ===== AI 组织（11-05 第四版）：部门还在，人人身边长出 AI 员工；再往后一分二、二分四，越长越多 ===== */
 const easeOutBack=u=>{const c1=1.45,c3=c1+1;return 1+c3*Math.pow(u-1,3)+c1*Math.pow(u-1,2)};
@@ -1827,7 +1832,7 @@ function resetAll(){for(let r=0;r<NR;r++){const R=ROW[r];R.link.to(0,0,0,1);R.hf
 let WH=false;
 let BK=false;
 function setWorld(name,anim,back){
-  clk();const s=STATES[name]||STATES.org0;BK=!!back;SCHQ.length=0;
+  clk();const s=STATES[name]||STATES.org0;BK=!!back;SCHQ.length=0;WQ.length=0;
   const wasHidden=prevName==='hidden';prevName=name;wName=name;WH=wasHidden&&anim;
   const op=s.op==null?1:s.op;wv.style.opacity=op;wv.classList.toggle('blur',op>0&&op<1);
   if(op===0){hideAt=NOW;stop();AO.follow=false;return}
@@ -1982,23 +1987,19 @@ R.m2=(k,anim,el)=>chapOnly(k,el);
 R.m3=(k,anim,el)=>chapOnly(k,el);
 R.m4=(k,anim,el)=>chapOnly(k,el);
 R.m6=(k,anim,el)=>chapOnly(k,el);
-/* 11-06 TTZ：技能、智能体两块的动效按一下出一步，不自己播完。同一页里出场时间挨着的算一步（间隔不到 0.35 秒），一步里的先后压到 0.8 秒内；往回翻直接全显示 */
+/* 11-06 TTZ 定的规矩：一屏里只是东西一样样出来、没有替换的，进来就自己播完，不用一下下点；整个画面换掉的（每块开头拉近销售那页），按一下换一次。
+   这里管技能、智能体、人机编队三块：动画快 1.2 倍，往回翻直接全显示；整个画面换掉的那几步由开场里的 __wStep 接管 */
 (function(){
   if(navigator.webdriver||/nostep|presenter/.test(location.search))return;   // 逐屏检查、讲师视图照旧
-  const SEC=['m2','m3','m4'],GAP=.35,SPAN=.8,SPD=1.2,st=new Map();let dir=1;   // 11-06 TTZ：还是慢，动画再快 1.2 倍
+  const SEC=['m2','m3','m4'],SPD=1.2,st=new Map();let dir=1;
   const sec=s=>s.split(',').map(x=>parseFloat(x)||0);
   function setup(pg){
     const els=[...pg.querySelectorAll('*')].map(e=>{const c=getComputedStyle(e);return c.animationName&&c.animationName!=='none'?{e,ds:sec(c.animationDelay),du:sec(c.animationDuration)}:null}).filter(Boolean);
-    els.forEach(x=>x.d=x.ds[0]);els.sort((a,b)=>a.d-b.d);
-    const gs=[];let last=-9;
-    els.forEach(x=>{if(!gs.length||x.d-last>GAP)gs.push([]);gs[gs.length-1].push(x);last=x.d});
-    gs.forEach((g,gi)=>{const g0=g[0].d,sp=g[g.length-1].d-g0,k=sp>SPAN?SPAN/sp:1;
-      g.forEach(x=>{const nd=dir<0?-30:(x.d-g0)*k/SPD,sh=x.d-nd;x.e.style.animationDuration=x.du.map(v=>v/SPD+'s').join(',');x.e.style.animationDelay=x.ds.map(v=>Math.max(dir<0?-30:0,v-sh)+'s').join(',');
-        if(gi&&dir>0)x.e.style.animationPlayState='paused'})});
-    st.set(pg,{els,gs,i:dir>0?1:gs.length});
+    els.forEach(x=>{x.e.style.animationDuration=x.du.map(v=>v/SPD+'s').join(',');x.e.style.animationDelay=x.ds.map(v=>(dir<0?-30:v/SPD)+'s').join(',')});
+    st.set(pg,els);
   }
-  function clear(pg){const o=st.get(pg);if(!o)return;o.els.forEach(x=>{x.e.style.animationDelay='';x.e.style.animationDuration='';x.e.style.animationPlayState=''});st.delete(pg)}
-  function step(){for(const[pg,o]of st){if(pg.classList.contains('vis')&&o.i<o.gs.length){o.gs[o.i++].forEach(x=>x.e.style.animationPlayState='running');return true}}return false}
+  function clear(pg){const els=st.get(pg);if(!els)return;els.forEach(x=>{x.e.style.animationDelay='';x.e.style.animationDuration=''});st.delete(pg)}
+  const step=()=>!!(window.__wStep&&window.__wStep());
   const mo=new MutationObserver(ms=>ms.forEach(m=>{const t=m.target;if(!t.classList||!t.matches('.rv'))return;
     if(t.classList.contains('vis')){if(!st.has(t))setup(t)}else clear(t)}));
   SEC.forEach(id=>{const el=document.getElementById(id);if(el)mo.observe(el,{subtree:true,attributes:true,attributeFilter:['class']})});
