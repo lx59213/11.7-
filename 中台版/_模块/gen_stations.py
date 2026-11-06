@@ -476,11 +476,11 @@ UPG = {
      '组织图上，多了一排 AI 同事'),
  'm4': ('人机编队', ('一支 AI 队伍', '人只批请示单'), ['从询价到回款，一条线跑完', '客户一来邮件，它们就开工', '做完一单记教训，下一单更顺'], '人只拍板，不再跑腿'),
 }
-UPG_TITLE = {'m1': ('拔高：从个人的库，到<em>企业级知识库</em>', '个人 → 知识图谱 → 多模态 → 企业级'),
+UPG_TITLE = {'m1': ('从个人的库，到<em>企业级知识库</em>', '个人 → 知识图谱 → 多模态 → 企业级'),
              'm2': ('往上走：从一个人的技能，到<em>公司技能仓库</em>', '个人 → 部门共用 → 公司仓库 → 哪个 AI 都能用'),
              'm3': ('做完交人看，<em>稳了再放手</em>', ''),
              'm4': ('跑腿的事交给 AI，<em>人去谈客户、想新品</em>', '')}   # 11-05 靖锋：拔高 = 应用方向往上走
-def up_title(sid): return UPG_TITLE.get(sid, (f'拔高：{UPG[sid][0]}<em>还能怎么玩</em>', '课上是雏形，往上还有好玩的'))
+def up_title(sid): return UPG_TITLE.get(sid, (f'{UPG[sid][0]}<em>还能怎么玩</em>', '课上是雏形，往上还有好玩的'))
 def up_body(x, br=True): return f'<b>{x.replace("，", "，<br>")}</b>' if isinstance(x, str) else f'<b>{x[0]}</b><p>{x[1].replace("，", "，<br>") if br else x[1]}</p>'
 def up_page(sid):
     name, base, items, deep = UPG[sid]
@@ -649,22 +649,28 @@ OP = [
     dict(name='LightRAG', tag='看懂谁跟谁有关系', what='香港大学的实验室出的：把资料连成一张网，按关系来答',
          do=['客户、订单、供应商连成网', '查一家出事，牵连哪几单', '网页上看清谁跟谁有关'],
          feat=['按关系查，不只按字找', '香港大学出品，MIT 许可', '要开发同事来搭'],
-         fit=['客户、供应商多，关系复杂', '要查供应链、合规风险', '有开发团队']),
+         fit=['客户、供应商多，关系复杂', '要查供应链、合规风险', '有开发团队'],
+         img='开源_LightRAG.webp', credit='图：LightRAG 官方 GitHub · MIT 许可'),
     dict(name='RAGFlow', tag='最会读难读的资料', what='英飞流出的：先把难读的资料读准、切好，再拿来答',
          do=['扫描件、报表变成能问的库', '问合同条款，直接给出原文', '资料编成 Wiki、时间线'],
          feat=['扫描件、表格读得准', '每句答案都带出处', 'Apache 许可，可商用'],
-         fit=['资料多是扫描件、报表', '制造、外贸、财务、法务', '有 IT 能管一台服务器']),
+         fit=['资料多是扫描件、报表', '制造、外贸、财务、法务', '有 IT 能管一台服务器'],
+         img='开源_RAGFlow.webp', credit='图：RAGFlow 官方 GitHub · Apache 2.0 许可'),
     dict(name='WeKnora', tag='腾讯开源，接飞书、企微', what='把飞书、ima、钉钉里的资料同步过来，在企微、飞书里直接问',
          do=['各处的资料，汇成一个库', '员工在企微、飞书里直接问', '官网挂个问答窗口，答客户'],
          feat=['10 种来源自动同步', '按部门、按人分权限', '腾讯开源，可商用'],
-         fit=['资料散在飞书、ima、钉钉', '员工天天在企微、飞书里', '有 IT 能部署、维护']),
+         fit=['资料散在飞书、ima、钉钉', '员工天天在企微、飞书里', '有 IT 能部署、维护'],
+         img='开源_WeKnora.webp', credit='图：WeKnora 官方 GitHub · MIT 许可'),
 ]
 def op_title(o): return f"{o['name']}：<em>{o['tag']}</em>"
 def op_page(o):
     col = lambda cls, head, items, d: (f'<div class="ot-c {cls} pop" style="--d:{d}s"><i>{head}</i>'
                                        + ''.join(f'<p>{t}</p>' for t in items) + '</div>')
-    return ('<div class="ot">' + col('ot-do', '能干什么', o['do'], .3) + col('', '特点', o['feat'], .9)
-            + col('ot-fit', '适合什么企业', o['fit'], 1.5) + '</div>')
+    # 11-06 靖锋：配官方界面截图（项目 GitHub 首页的图，许可写在图角上）；左图右字，三块字竖着叠，每块还是三句
+    src = 'data:image/webp;base64,' + base64.b64encode((P.parent / '素材' / o['img']).read_bytes()).decode()
+    return ('<div class="ot2"><div class="ot2-img pop" style="--d:.2s"><img src="' + src + '" alt="' + o['name'] + ' 的界面"><u>' + o['credit'] + '</u></div>'
+            + '<div class="ot2-r">' + col('ot-do', '能干什么', o['do'], .5) + col('', '特点', o['feat'], .8)
+            + col('ot-fit', '适合什么企业', o['fit'], 1.1) + '</div></div>')
 for _o in OP: SUB.setdefault('m1', {})[op_title(_o)] = _o['what']
 m1_pages = [   # 11-05 靖锋：第 30 屏讲完五件事就进实操；后面几页都是实操做完回来讲的
     ('跟 AI 聊，<em>你是不是遇到过这些？</em>', nokb() + poster(lit_of('知识库')), 1, ''),
@@ -1606,6 +1612,16 @@ CSS = r'''
 .ot-c.ot-fit i{color:var(--m-ink)}
 .ot-c p{position:relative;padding-left:30px;margin-top:26px;font-size:27px;line-height:1.45;font-weight:700;color:var(--m-ink)}
 .ot-c p::before{content:'';position:absolute;left:0;top:.6em;width:10px;height:10px;border-radius:50%;background:var(--c)}
+/* 开源项目配图（11-06）：左边官方截图，右边三块字竖着叠 */
+.ot2{position:absolute;left:96px;right:96px;top:236px;height:548px;display:flex;gap:32px}
+.ot2-img{position:relative;flex:0 0 884px;border-radius:20px;overflow:hidden;border:1.5px solid var(--m-line2);background:#fff}
+.ot2-img img{display:block;width:100%;height:100%;object-fit:cover;object-position:left top}
+.ot2-img u{position:absolute;right:12px;bottom:10px;text-decoration:none;font-size:15px;color:#fff;background:rgba(0,0,0,.6);border-radius:10px;padding:3px 12px}
+.ot2-r{flex:1;display:flex;flex-direction:column;gap:16px;min-width:0}
+.ot2-r .ot-c{flex:1;padding:16px 24px}
+.ot2-r .ot-c i{font-size:24px;margin-bottom:2px}
+.ot2-r .ot-c p{font-size:21px;line-height:1.4;margin-top:7px;padding-left:24px}
+.ot2-r .ot-c p::before{width:8px;height:8px}
 .ot-c:not(.ot-do) p::before{background:var(--m-mute)}
 /* 开源推荐（11-05）：五张卡，上面标在哪一级，底下谁来装 */
 .os{position:absolute;left:96px;right:96px;top:232px;height:430px;display:flex;gap:20px}
