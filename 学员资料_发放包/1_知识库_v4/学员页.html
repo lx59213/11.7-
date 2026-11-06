@@ -27,11 +27,12 @@ button{font:inherit;cursor:pointer}
 .shot svg{display:block;width:100%;height:auto}
 .shot text{font-family:inherit}
 /* 卡点 */
-.tbl{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);column-gap:18px;padding:6px 20px;font-size:15px}
-.tbl>div{padding:10px 0;border-top:1px solid var(--line)}
-.tbl>div:nth-child(-n+2){border-top:0}
-.tbl>div:nth-child(even){color:var(--muted)}
-.tbl .copy{margin-top:6px}
+.tbl{padding:6px 20px;font-size:15px}
+.row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);column-gap:18px;padding:10px 0;border-top:1px solid var(--line)}
+.row:first-child{border-top:0}
+.row>div:nth-child(2){color:var(--muted)}
+.row .copy{margin-top:6px}
+.row .shot{grid-column:1/-1}
 /* 附加题 */
 .extra{margin-top:48px;border-style:dashed}
 .extra>summary{list-style:none;padding:16px 20px;cursor:pointer;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
@@ -45,7 +46,7 @@ button{font:inherit;cursor:pointer}
 .extra pre{font-size:14px;max-height:260px;overflow:auto}
 mark{background:#f6df9f;color:inherit;border-radius:3px;padding:0 2px}
 @media (max-width:640px){.wrap{padding:30px 14px 64px}h1{font-size:27px}.steps{padding:4px 14px}.step{grid-template-columns:32px 1fr;gap:12px}.num{width:32px;height:32px;font-size:16px}.step .shot{margin-left:-44px}.step h3{font-size:17px;margin-top:2px}
-.tbl{grid-template-columns:1fr;padding:4px 14px}.tbl>div:nth-child(odd){padding-bottom:0;font-weight:600}.tbl>div:nth-child(even){border-top:0;padding-top:2px}.tbl>div:nth-child(2){border-top:0}
+.tbl{padding:4px 14px}.row{grid-template-columns:1fr}.row>div:first-child{font-weight:600}
 .copy{flex-direction:column;align-items:stretch}.cbtn{width:100%}}
 </style></head>
 <body><main class="wrap">
@@ -138,18 +139,48 @@ mark{background:#f6df9f;color:inherit;border-radius:3px;padding:0 2px}
 
 <h2>遇到卡点了</h2>
 <div class="card tbl">
-<div>电脑弹窗，问能不能访问桌面、文稿</div><div>点“允许”，再回 <span class="k">好了</span></div>
-<div>它说找不到压缩包、解压不了</div><div>自己双击 1_知识库.zip 解压（Windows 右键选“全部解压缩”），把解出来的 1_知识库 文件夹放进 我的公司AI，回 <span class="k">放好了</span></div>
-<div>拿不准选哪个</div><div>回 <span class="k">建议的</span></div>
-<div>听不懂它说的</div><div>回 <span class="k">说大白话</span></div>
-<div>它说了一段话就不动了，没问你，也没说做完</div><div>回 <span class="k">继续</span></div>
-<div>它说看不到你的资料</div><div>自己打开放资料的文件夹，复制文件，粘到知识库文件夹的 raw 里，回 <span class="k">放好了</span></div>
-<div>课上它要你装东西</div><div>回 <span class="k">不装，照 知识库/README.md 来</span>（附加题是课后的，不算）</div>
-<div>Obsidian 首页是一段代码，或者装不上</div><div>Obsidian 太旧，到官网 obsidian.md 装 1.9 或更新的版本；装不上就先把 WorkBuddy 这边做完，回去装好再看</div>
-<div>看板没打开</div><div>到知识库文件夹 → 看板，双击 <code>看板.html</code>；还不行就右键，“打开方式”选浏览器</div>
-<div>时间不够了</div><div>回 <span class="k">先停</span>，它把剩下的记成“下次再收”，接着做完收尾</div>
-<div>对话太长，卡死了</div><div>新建一个会话，发这句，它从上次停的地方接着做，写好的都在<div class="copy"><pre id="p3">读 知识库/README.md，接着做。</pre><button class="cbtn" data-c="p3" aria-label="复制接着做">复制</button></div></div>
-<div>它说“我卡住了”</div><div>举手，把它写的那段给助教看</div>
+<div class="row"><div>电脑弹窗，问能不能访问桌面、文稿</div><div>点“允许”就行，它会接着做</div></div>
+<div class="row"><div>它说找不到压缩包</div><div>在微信里右键那个压缩包（苹果电脑两个手指一起按）→“另存为…”，存到“下载”文件夹，再发这句，它会去下载文件夹找：<div class="copy"><pre id="p4">放在下载了，你去下载文件夹找。</pre><button class="cbtn" data-c="p4" aria-label="复制放在下载了">复制</button></div></div><figure class="shot"><svg viewBox="0 0 560 280" role="img" aria-label="在微信里右键压缩包，选另存为，存到下载文件夹">
+<defs><marker id="kbw-ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#a94b3d"/></marker></defs>
+<rect x="14" y="14" width="290" height="222" rx="14" fill="#fffdf8" stroke="#e4dccb"/>
+<line x1="14" y1="52" x2="304" y2="52" stroke="#e4dccb"/>
+<text x="159" y="38" text-anchor="middle" font-size="13" fill="#8a7e70">微信 · 训练营群</text>
+<rect x="34" y="68" width="172" height="58" rx="10" fill="#fff" stroke="#e4dccb"/>
+<rect x="46" y="78" width="30" height="38" rx="5" fill="#fff" stroke="#a94b3d" stroke-width="1.5"/>
+<text x="61" y="102" text-anchor="middle" font-size="10" font-weight="700" fill="#a94b3d">ZIP</text>
+<text x="86" y="94" font-size="14" fill="#1d1a17">1_知识库.zip</text>
+<text x="86" y="114" font-size="12" fill="#8a7e70">112 KB</text>
+<rect x="122" y="116" width="150" height="112" rx="10" fill="#fff" stroke="#e4dccb"/>
+<text x="140" y="141" font-size="14" fill="#1d1a17">打开</text>
+<rect x="128" y="152" width="138" height="26" rx="6" fill="#f6e8e3"/>
+<text x="140" y="170" font-size="14" font-weight="700" fill="#a94b3d">另存为…</text>
+<text x="140" y="197" font-size="14" fill="#1d1a17">转发</text>
+<text x="140" y="221" font-size="14" fill="#1d1a17">收藏</text>
+<path d="M236 160l0 20 5-5 4 9 4-2-4-9 7 0z" fill="#1d1a17" stroke="#fff" stroke-width="1.2" stroke-linejoin="round"/>
+<path d="M306 126H324" stroke="#a94b3d" stroke-width="2.5" marker-end="url(#kbw-ah)"/>
+<rect x="330" y="44" width="216" height="160" rx="14" fill="#fffdf8" stroke="#e4dccb"/>
+<text x="438" y="72" text-anchor="middle" font-size="14" font-weight="700" fill="#1d1a17">另存为</text>
+<text x="346" y="108" font-size="13" fill="#8a7e70">位置</text>
+<rect x="382" y="88" width="148" height="30" rx="8" fill="#fff" stroke="#a94b3d" stroke-width="2"/>
+<text x="396" y="108" font-size="14" font-weight="700" fill="#a94b3d">下载</text>
+<text x="516" y="108" text-anchor="end" font-size="12" fill="#8a7e70">▾</text>
+<rect x="372" y="150" width="70" height="32" rx="8" fill="#f0ebdf"/>
+<text x="407" y="171" text-anchor="middle" font-size="14" fill="#62594d">取消</text>
+<rect x="452" y="150" width="78" height="32" rx="8" fill="#a94b3d"/>
+<text x="491" y="171" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">保存</text>
+<text x="159" y="264" text-anchor="middle" font-size="14" font-weight="700" fill="#a94b3d">① 右键压缩包（苹果电脑两个手指一起按）</text>
+<text x="438" y="264" text-anchor="middle" font-size="14" font-weight="700" fill="#a94b3d">② 存到“下载”，点保存</text>
+</svg></figure></div>
+<div class="row"><div>拿不准选哪个</div><div>别硬选，多半是它没问到你那块。说出你为什么拿不准，让它换个方向问你，比如 <span class="k">这几个都不太像我，你换个方向问</span> 或者 <span class="k">你觉得我该选哪个？为什么？</span></div></div>
+<div class="row"><div>听不懂它说的</div><div>回 <span class="k">说大白话</span></div></div>
+<div class="row"><div>它说了一段话就不动了，没问你，也没说做完</div><div>回 <span class="k">继续</span></div></div>
+<div class="row"><div>它说看不到你的资料</div><div>自己打开放资料的文件夹，复制文件，粘到知识库文件夹的 raw 里，回 <span class="k">放好了</span></div></div>
+<div class="row"><div>它要你装东西</div><div>多半是缺了什么。先问它：<span class="k">用大白话说：你要装什么？为什么？</span>听了还是看不懂，就点确定</div></div>
+<div class="row"><div>Obsidian 首页是一段代码，或者装不上</div><div>Obsidian 太旧，到官网 obsidian.md 装 1.9 或更新的版本；装不上就先把 WorkBuddy 这边做完，回去装好再看</div></div>
+<div class="row"><div>看板不见了</div><div>发 <span class="k">帮我打开看板</span></div></div>
+<div class="row"><div>时间不够了</div><div>回 <span class="k">先停</span>，它把剩下的记成“下次再收”，接着做完收尾</div></div>
+<div class="row"><div>对话太长，卡死了</div><div>新建一个会话（工作空间跟原来一样），发这句。进度都记在知识库里“我的知识库”那页，它读了就从上次停的地方接着做，答过的不再问<div class="copy"><pre id="p3">读 知识库/README.md，接着做。</pre><button class="cbtn" data-c="p3" aria-label="复制接着做">复制</button></div></div></div>
+<div class="row"><div>它说“我卡住了”</div><div>举手，把它写的那段给助教看</div></div>
 </div>
 
 <details class="card extra"><summary><h2>附加题：给知识库连上关系<span class="sub">课后想做再做 · 约 15 分钟</span></h2></summary><div class="body">
