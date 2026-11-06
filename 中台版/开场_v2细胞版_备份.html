@@ -572,6 +572,7 @@ const STATES={
   emp2:{cam:'emp',f(i){stop();grid(4,4,i,'focus');rows(()=>0,i);spread(0,i);cards({},i);em({nd:1,kn:1,sk:1,cp:1,ndd:0,knd:0,skd:0},i);floor(0,400,380,380,i);twins(()=>null,i);orgv(0,0,i);misc(0,0,i)}},
   g0:{cam:'build',f(i){stop();grid(4,4,i,'focus');rows(()=>0,i);spread(0,i);cards({},i);em({kn:1,kd:1,kbl:1,knd:0},i);floor(1,420,0,760,i);twins(()=>null,i);orgv(0,0,i);misc(0,0,i)}},
   g2:{cam:'build',pre:'emp',cd:2.2,f(i){stop();grid(4,4,i,'focus');rows(()=>0,i);spread(0,i);cards({},i);em({kn:1,sk:1,kd:1,sd:1,ex:1,kbl:1,knd:0,skd:0},i);floor(1,420,0,760,i);twins(()=>null,i);orgv(0,0,i);misc(0,0,i)}},
+  g2b:{cam:'build',f(i){stop();grid(4,4,i,'focus');rows(()=>0,i);spread(0,i);cards({},i);em({nd:1,kn:1,kd:1,kbl:1,sk:1,knd:0,skd:0},i);floor(1,420,0,760,i);twins(()=>null,i);orgv(0,0,i);misc(0,0,i)}},
   g3:{cam:'build',f(i){stop();grid(4,4,i,'focus');rows(()=>0,i);spread(0,i);cards({twl:1},i);em({kn:1,sk:1,kd:1,sd:1,ex:1,kbl:1,knd:0,skd:0,kdd:0,sdd:0,exd:0,kbld:0},i);floor(1,420,0,760,i);twins((r,c)=>r===0&&c===0?.4:null,i);orgv(0,0,i);misc(1,0,i)}},
   g4:{dl:1,cam:'row0low',f(i){STATES.g5.f(i)}},
   g5:{dl:1,cam:'row0low',cd:2,f(i){stop();grid(4,4,i,'rowOnly');rows(r=>r===0?{link:.25,tr:1,dl:i?0:1.6}:0,i);spread(0,i);cards({kh:1},i);em({kn:1,sk:1,kd:1,sd:1,ex:1,hd:1},i);floor(1,400,220,1320,i);twins((r,c)=>r===0&&c<4?(c?.5+c*.3:0):null,i);orgv(0,0,i);misc(1,1,i)}},
@@ -596,10 +597,9 @@ function zoomFrom(target,seq){const t=STATES[target];return{cam:t.cam,dl:t.dl,pr
 Object.assign(STATES,{
   k_kb:zoomFrom('g0',()=>{fo();cards({},false);emReset();em({nd:1,kn:1,ndd:1.4,knd:1.9},false);camGo(CAMS.emp,2.2);
     later(4.4,()=>{floor(1,420,0,760,false);em({kn:1,kd:1,kbl:1,kdd:.1,kbld:1.7},false);camGo(CAMS.build,1.6)})}),
-  k_sk:zoomFrom('g2',()=>{fo();cards({},false);floor(1,420,0,760,false);emReset();em({nd:1,kn:1,kd:1,kbl:1,hd:1},true);camGo(CAMS.build,2.2);   // 11-05 靖锋：知识已经在了，再补右边的技能
+  k_sk:zoomFrom('g2b',()=>{fo();cards({},false);floor(1,420,0,760,false);emReset();em({nd:1,kn:1,kd:1,kbl:1,hd:1},true);camGo(CAMS.build,2.2);   // 11-05 靖锋：知识已经在了，再补右边的技能
     later(1.9,()=>EM.hd.to(0,.6));
-    later(2.6,()=>em({nd:1,kn:1,kd:1,kbl:1,sk:1,skd:.2},false));
-    later(5.0,()=>em({kn:1,sk:1,kd:1,sd:1,ex:1,kbl:1,sdd:.1,exd:1.4},false))}),
+    later(2.6,()=>em({nd:1,kn:1,kd:1,kbl:1,sk:1,skd:.2},false))}),   // 11-06 TTZ：停在“他会做的”这一刻；原来最后把技能挪到右边空位（那是下一块 AI 员工的位置），单看这一屏看不懂
   k_ag:zoomFrom('g3',()=>{fo();cards({},false);floor(1,420,0,760,false);emReset();em({kn:1,sk:1,kd:1,sd:1,ex:1,kbl:1,hd:1},true);camGo(CAMS.build,2.2);
     later(1.6,()=>EM.hd.to(0,.6));later(2.6,()=>{cards({twl:1},false);twins((r,c)=>r===0&&c===0?0:null,false);misc(1,0,false)})}),
   k_wf:zoomFrom('g5',()=>{STATES.g5.f(false);camGo(CAMS.row0low,2.2)}),
