@@ -94,7 +94,6 @@ views:
       - note.客户
       - note.产品
       - note.数量
-      - note.到哪个港
       - note.下次跟进
       - note.下一步
     columnSize:
@@ -102,9 +101,8 @@ views:
       note.客户: 140
       note.产品: 140
       note.数量: 90
-      note.到哪个港: 110
       note.下次跟进: 120
-      note.下一步: 220
+      note.下一步: 310
   - type: table
     name: 最近沟通
     filters:
