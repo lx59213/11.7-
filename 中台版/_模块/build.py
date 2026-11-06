@@ -44,6 +44,9 @@ for src, dst, theme, w, js_anchor in JOBS:
     l0 = rest[rest.rfind('\n', 0, i2) + 1:rest.index('\n', i2) + 1]; l1 = rest[rest.rfind('\n', 0, j2) + 1:rest.index('\n', j2) + 1]
     assert '上午做的知识库' in l1, '技能第 1 拍不再是分享，挪动规则要改'
     rest = rest.replace(l1, '', 1).replace(l0, l1 + l0, 1)
+    # 11-06 靖锋：第二天开始到收尾前先隐藏（画面和口播都还在 modules.html 里，清空这个名单就放回来）
+    HIDE_CH = ['第二天', '人机编队', '工作流', '组织', '收尾']
+    rest = ''.join(l for l in rest.splitlines(True) if not any(f"ch:'{c}'" in l for c in HIDE_CH))
     k = s.index("{s:'sH'"); e = s.index('];', k)
     s = s[:e] + rest.replace('__W__', w) + s[e:]
     k = s.index("{s:'sH'")

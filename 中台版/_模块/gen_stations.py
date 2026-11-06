@@ -589,13 +589,15 @@ def kb_tong():
     return h + '</div><div class="tg-q pop" style="--d:2.4s">存进去，<br>就完事了吗？</div>'
 def kb_keng():
     h = ''
-    pile = ''.join(f'<g transform="translate({x} {y}) rotate({r}) scale(.5)">{I_DOC}</g>' for x, y, r in [(95, 132, -18), (130, 118, 10), (168, 134, -6), (205, 120, 16), (112, 100, 24), (150, 96, -12), (190, 102, 8), (240, 136, -20), (70, 140, 12)])
-    pile += '<circle cx="176" cy="148" r="8" fill="#e8c547"/><path d="M176 132V138M176 158V164M160 148H166M186 148H192" stroke="#e8c547" stroke-width="2.5" stroke-linecap="round"/>' + at(238, 62, I_MAG, 1.1)
+    # 11-06 靖锋：加动效——文件堆抖、放大镜来回找、扫到金子闪一下；话说出来又散了、虚线流到 ✕ 被挡、机器人摇头；三份价格表轮流跳、问号晃
+    pile = ''.join(f'<g class="kk-doc" style="--j:{k*.27:.2f}s"><g transform="translate({x} {y}) rotate({r}) scale(.5)">{I_DOC}</g></g>' for k, (x, y, r) in enumerate([(95, 132, -18), (130, 118, 10), (168, 134, -6), (205, 120, 16), (112, 100, 24), (150, 96, -12), (190, 102, 8), (240, 136, -20), (70, 140, 12)]))
+    pile += '<g class="kk-gold"><circle cx="176" cy="148" r="8" fill="#e8c547"/><path d="M176 132V138M176 158V164M160 148H166M186 148H192" stroke="#e8c547" stroke-width="2.5" stroke-linecap="round"/></g>' + '<g class="kk-mag">' + at(238, 62, I_MAG, 1.1) + '</g>'
     head = (at(78, 112, I_PERSON, 1.25) + '<ellipse cx="128" cy="46" rx="50" ry="28" fill="var(--m-card2)" stroke="var(--m-line2)" stroke-width="2"/>'
-            + '<circle cx="96" cy="78" r="5" fill="var(--m-card2)" stroke="var(--m-line2)" stroke-width="2"/><path d="M104 38H152M104 52H140" stroke="var(--m-mute)" stroke-width="3" stroke-linecap="round"/>'
-            + '<path d="M112 120H210" stroke="var(--m-line2)" stroke-width="2.5" stroke-dasharray="6 6"/>' + at(160, 120, I_NO) + at(242, 116, I_ROBOT, .8))
-    vers = ''.join(at(x, 66, I_SHEET, .78) + it(x, 120, t, 15, IC_MU, 700) for x, t in [(52, '价格表'), (130, '最终版'), (208, '最终版2')])
-    vers += f'<circle cx="150" cy="152" r="16" fill="{IC_RED}"/>' + it(150, 160, '?', 24, '#fff', 900)
+            + '<circle cx="96" cy="78" r="5" fill="var(--m-card2)" stroke="var(--m-line2)" stroke-width="2"/>'
+            + '<path class="kk-say" d="M104 38H152" stroke="var(--m-mute)" stroke-width="3" stroke-linecap="round"/><path class="kk-say" style="--j:.35s" d="M104 52H140" stroke="var(--m-mute)" stroke-width="3" stroke-linecap="round"/>'
+            + '<path class="kk-flow" d="M112 120H210" stroke="var(--m-line2)" stroke-width="2.5" stroke-dasharray="6 6"/>' + '<g class="kk-no">' + at(160, 120, I_NO) + '</g>' + '<g class="kk-bot">' + at(242, 116, I_ROBOT, .8) + '</g>')
+    vers = ''.join(f'<g class="kk-ver" style="--j:{k*1.2:.1f}s">' + at(x, 66, I_SHEET, .78) + it(x, 120, t, 15, IC_MU, 700) + '</g>' for k, (x, t) in enumerate([(52, '价格表'), (130, '最终版'), (208, '最终版2')]))
+    vers += f'<g class="kk-q"><circle cx="150" cy="152" r="16" fill="{IC_RED}"/>' + it(150, 160, '?', 24, '#fff', 900) + '</g>'
     h += '<div class="op-c">'
     for i, (svg_, t, d) in enumerate([(pile, '没整理', '像在垃圾堆里淘金子'), (head, '经验没写下来', '打通再多，也读不到'), (vers, '版本打架', '三份价格表，AI 信哪个？')]):
         h += f'<div class="pop" style="--d:{.3+i*.5:.1f}s"><svg viewBox="0 0 300 170">{svg_}</svg><b>{t}</b><p>{d}</p></div>'
@@ -632,17 +634,11 @@ def kb_auto():
     return h + '</div><div class="zz-end pop" style="--d:2.2s">整理 AI 天天干；你的经验，还得你自己写</div>'
 SUB.setdefault('m1', {})[AU_T[0]] = AU_T[1]
 # 开源推荐（11-05 靖锋：拔高后面接一页，推荐几个开源好用的知识库，按台阶挑；数字和许可 11-05 在 GitHub 上核过。靖锋：跟 Obsidian 差距要明显、要大一点的，去掉 AnythingLLM；Dify 主要是工作流，也不放这里；MaxKB 跟 WeKnora 重了，也拿掉，留三个）
-OS_T = ('想往上走，<em>拿什么搭</em>', '开源、免费，按台阶挑')
-def kb_os():
-    h = '<div class="os">'
-    for k, (tag, name, who, d, pill, me) in enumerate([
-            ('知识图谱 · 看懂关系', 'LightRAG', '', '谁跟谁有关系，连成一张网', 'IT 同事装', False),
-            ('扫描件、图片、表格', 'RAGFlow', '', '扫描件、表格，解析最强', 'IT 同事装', False),
-            ('企业级知识库 · 接企微飞书', 'WeKnora', '腾讯', '同步飞书、ima，按部门、按人分权限', 'IT 同事装', False)]):
-        nm = name + (f'<small>{who}</small>' if who else '')
-        h += (f'<div class="os-c{" me" if me else ""} pop" style="--d:{.3+k*.35:.2f}s"><i>{tag}</i><b>{nm}</b>'
-              f'<p>{d.replace("，", "，<br>")}</p><em>{pill}</em></div>')
-    return h + '</div><div class="zz-end pop" style="--d:2.4s">装好只是开始：口径谁定、谁能看，还得公司自己定</div>'
+# 11-06 靖锋：原“想往上走，拿什么搭”这页换成课后附加题“给知识库连上关系”的介绍（学员页最底下那题）
+OS_T = ('课后附加题：<em>给库连上关系</em>', '课后想做再做，约 15 分钟：学员页最底下那段，复制给 AI')
+def kb_os():   # 11-06 靖锋：上截图就行（附加题试跑时在 Obsidian 里截的）
+    return (shot(140, 228, 640, 540, '做完以后：线上写着关系', '附加题_全库关系图.webp', '全库关系图谱，线上写着报价按、交期按、需要证书')
+            + shot(820, 228, 640, 540, '点开一页：谁连着它、什么关系', '附加题_局部关系图_MG-W25.webp', 'MG-W25 的局部关系图谱：询价、需要证书、交期按、配套于', d=.6))
 SUB.setdefault('m1', {})[OS_T[0]] = OS_T[1]
 # 开源项目，一个一页（11-05 靖锋：第五版——老板只想看三样：能干什么、特点是什么、什么样的企业适合；不讲“凭什么”，缺点只在口播里提一句；事实 11-05 对过 GitHub 说明）
 OP = [
@@ -683,7 +679,6 @@ m1_pages.append(up_page('m1'))
 m1_pages.append((OS_T[0], kb_os(), 3, ''))
 m1_pages += [(op_title(o), op_page(o), 3, '') for o in OP]
 m1_pages.insert(5, md_page('m1'))
-m1_pages.insert(6, (AU_T[0], kb_auto(), 3, ''))
 sec('m1', '--kb', m1_pages, ('01', '知识库', '让 AI 先读懂公司', '<i class="on"></i><i></i><i></i><i></i>'))
 beats('m1', '知识库', [
     '第一块，知识库。放第一，是因为后面每一块做出来的东西都会存进来。',
@@ -693,9 +688,8 @@ beats('m1', '知识库', [
     '所以，管知识，管的不是放在哪，是怎么组织。放 ima、网盘还是飞书，越来越简单，交给厂商就行；可放进去还是一团乱麻，放哪都没用。怎么组织：一页说一件事，页和页连起来，每条标出处。存储越来越简单，知识管理逃不掉，这件事得你自己想好。先看看差的和好的。',
     '差的知识库，常见的有两种。左边这种：资料一股脑放进笔记里，文件叫未命名 2、报价单最终版改副本；点开一页，聊天、英文邮件、记不清的数全贴在一起，没一句写出处；图谱一打开全是散点，谁也不连谁。建了，用不起来。右边这种更常见：全扔在共享盘里，搜一下价格表，出来 23 个，最新、最终版、先别用，没人说得清哪个算数。这时候让 AI 来答，它挑了一个叫最新的，很笃定地说 12.60 美元，可那是去年第四季度的表，现在是 11.90。资料不少，就是没整理。',
     '光让 AI 自动整理，各位学不到东西，这套方法要自己懂。整理的活是 AI 干，但有五件事得你来定。第一，定：想清楚要给它哪些资料，价格表、产品手册、客户的询盘邮件；工资表这种不该给的，就别给。第二，找：这些资料在哪，价格表在共享盘，产品手册在电脑文件夹，询盘在邮箱，告诉它去哪找。第三，理：它一份份整理，每条写清是谁哪天说的；你随手点一条，回原件对一下。第四，判：两个说法对不上，它不替你选，标出来，你去找老板拍板。第五，问：拿真问题考它，有出处才敢用，库里没有的它得说没有。拆开、一页一件事、连起来、标出处，这些 AI 在后台做，是卡帕西的做法。这五句话记住，回去换个工具、换批资料，照样能搭。',
-    '刚才各位把自家的库搭起来了。搭好以后，可以让它自己转起来。先是资料自己进来：装个剪藏插件，看到有用的网页点一下，就存进库；公众号文章，点“存到 ima”，AI 再收进来；微信里收到的报价单，让 AI 定时去那个文件夹拿。再在 Codex 或 WorkBuddy 里设一个定时任务，比如每天晚上 8 点：把当天新进来的收进库、整理好、全库体检一遍。第二天早上，它给你一份导读：新进来几份，改了哪几页，哪两处等你拍板。只有一样它替不了：你脑子里冒出来的想法、踩过的坑，得你自己随手记一句，它再帮你理进去。今天课上先手动走一遍，弄懂了，回去再让它自己转。',
     '刚才搭的，是个人的库：Obsidian 加 AI，一个人、一条业务，资料你给，对不对你拍板。往上走，还有三级。第二级，知识图谱。路径是建关系网：用 LightRAG 这类开源工具，把资料里的客户、订单、供应商、产品抽出来，连成一张网。注意，Obsidian 里那张关系图不是知识图谱：那上面的线只说明“这两页有关”，是页连页；知识图谱的线写着是什么关系，比如“供货给”“下了单”“用到了”，是事连事。所以它能回答“这家供应商出了问题，牵连哪几单、哪几个客户”，这种答案要跨好几份文件才拼得出来。第三级，多模态知识库。路径是换模型：换成多模态的向量模型，图纸、样品照片、会议录音、验货视频，和文字进同一个库，一起检索。谷歌今年 3 月发布的模型已经能做到。第四级，企业级知识库。路径是上平台：用 WeKnora 这类平台，接上企业微信、飞书，按部门、按人分权限，全公司在同一个库里问，口径统一。往深一层看：越往上，库越接近公司本来的样子：关系清楚了，资料全了，人也全了。',
-    '想往上走，拿什么搭？这三个都是开源的，免费，都比刚才搭的这套大一级，正好一级对一个。想让它看懂客户、订单、供应商之间的关系：看 LightRAG。资料多是扫描件、图片、表格：看 RAGFlow，解析最强，扫描的合同、复杂的表格都拆得开。要全公司一起用：看腾讯开源的 WeKnora，飞书、ima 里的资料能同步过来，按部门、按人分权限，员工在企业微信、飞书里直接问。提醒一句：装好只是开始，口径谁来定、谁能看什么，还得公司自己定；这三个都得 IT 同事帮你装，公司里用之前，许可证让 IT 看一眼。后面一个一个说。',
+    '课后有一道附加题，想做再做，大概 15 分钟。刚才搭的库，页和页是连着的，可线上没写是什么关系。附加题就是让 AI 给每条线写上关系。左边是做完以后的全库图谱，线上写着报价按、交期按、需要证书。右边点开 MG-W25 这一页：Lena、Tomas、Ahmed 是来询价的，认证证书是它需要的，交期按交期计算那页来，JL-F4 是配套的。写上以后，能多问一句：这条规定变了，牵连谁？AI 顺着关系一层层反着找给你。怎么做：学员页最底下那段，复制给 AI，它装三个 Obsidian 插件，给每页写上关系；公司电脑不让装插件的，就跳过。这一步，就是往知识图谱走的第一步；再往上走，就是下面这几个开源项目。',
     'LightRAG，香港大学的实验室出的，专门看懂关系。能干什么：把资料里的客户、订单、供应商连成一张网；能查“这家供应商出了问题，牵连哪几单”这种跨好几份文件的问题；网页上一点，谁跟谁有关一目了然。特点：按关系查，不只是按字找；香港大学出品，MIT 许可；要开发同事来搭。适合什么企业：客户、供应商多，关系复杂，要查供应链、查合规风险，又有开发团队的。提醒一句：每段资料都要大模型读一遍，资料一多，费钱也费时间。',
     'RAGFlow，英飞流出的，最会读难读的资料。能干什么：扫描的合同、报表，变成能问的库；问合同里某一条，它直接把原文那段给你；还能把资料编成 Wiki、时间线。特点：扫描件、表格读得准，表格不会被切碎；每句答案都带出处，点得回原文；Apache 许可，可以商用。适合什么企业：资料多是扫描件、PDF、报表的，比如制造、外贸、财务、法务，而且有 IT 能管一台服务器。提醒一句：它吃机器，官方建议 4 核、16G 内存起步。',
     'WeKnora，腾讯开源的。先说能干什么：散在飞书、ima、钉钉里的资料，汇成一个库；员工在企业微信、飞书里直接问；官网上还能挂个问答窗口，答客户。特点：飞书、ima 这些，一共十种来源，自动同步过来，不用手动搬；能按部门、按人分权限，谁能看哪个库分得清；腾讯开源，MIT 许可，公司拿来商用没问题。适合什么企业：资料散在飞书、ima、钉钉里，员工天天在企微、飞书里干活，又有 IT 能部署、维护的。提醒一句：它还是 0.9 版，升级常有大改动。',
@@ -1716,6 +1710,27 @@ CSS = r'''
 /* B 页：三个坑往上提 */
 .op-c{top:250px !important}.op-c>div{height:380px !important}.op-c svg{height:200px !important}
 .op-end{top:686px !important}
+/* 三个坑的动效（11-06）：卡片弹出来以后才开始，一直循环 */
+.kk-doc,.kk-mag,.kk-gold,.kk-no,.kk-bot,.kk-ver,.kk-q{transform-box:fill-box;transform-origin:center}
+.vis .kk-doc{animation:kkJig 2.6s ease-in-out infinite;animation-delay:calc(1s + var(--j,0s))}
+@keyframes kkJig{0%,100%{transform:none}25%{transform:translate(2px,-3px) rotate(5deg)}75%{transform:translate(-2px,2px) rotate(-4deg)}}
+.vis .kk-mag{animation:kkSeek 4.2s ease-in-out infinite;animation-delay:1.2s}
+@keyframes kkSeek{0%,100%{transform:none}25%{transform:translate(-150px,45px)}50%{transform:translate(-62px,72px)}75%{transform:translate(-20px,20px)}}
+.vis .kk-gold{animation:kkGlint 4.2s ease-in-out infinite;animation-delay:1.2s}
+@keyframes kkGlint{0%,38%,62%,100%{transform:scale(1);opacity:.75}50%{transform:scale(1.7);opacity:1;filter:drop-shadow(0 0 6px #e8c547)}}
+.kk-say{stroke-dasharray:60}
+.vis .kk-say{animation:kkSay 3.2s ease-in-out infinite;animation-delay:calc(1.4s + var(--j,0s))}
+@keyframes kkSay{0%{stroke-dashoffset:60}30%,65%{stroke-dashoffset:0}100%{stroke-dashoffset:-60}}
+.vis .kk-flow{animation:kkFlow .8s linear infinite;animation-delay:1.4s}
+@keyframes kkFlow{to{stroke-dashoffset:-12}}
+.vis .kk-no{animation:kkNo 1.6s ease-in-out infinite;animation-delay:1.4s}
+@keyframes kkNo{0%,55%,100%{transform:scale(1)}72%{transform:scale(1.4)}}
+.vis .kk-bot{animation:kkShake 1.6s ease-in-out infinite;animation-delay:1.4s}
+@keyframes kkShake{0%,60%,100%{transform:rotate(0)}70%{transform:rotate(-12deg)}80%{transform:rotate(12deg)}90%{transform:rotate(-6deg)}}
+.vis .kk-ver{animation:kkPick 3.6s ease-in-out infinite;animation-delay:calc(1.8s + var(--j,0s))}
+@keyframes kkPick{0%,30%,100%{transform:none}10%,20%{transform:translateY(-12px) scale(1.08)}}
+.vis .kk-q{animation:kkQ .9s ease-in-out infinite alternate;animation-delay:1.8s}
+@keyframes kkQ{to{transform:translateY(-7px) scale(1.15)}}
 /* 第一屏直接给结果（11-05）：三条“你是不是遇到过” */
 .nk-li{position:absolute;left:96px;top:250px;width:860px;display:flex;flex-direction:column;gap:26px}
 .nk-li div{display:flex;align-items:center;gap:24px;height:118px;padding:0 34px;box-sizing:border-box;border-radius:22px;background:var(--m-card);border:1.5px solid var(--m-line2)}
