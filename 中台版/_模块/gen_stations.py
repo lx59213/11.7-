@@ -143,7 +143,7 @@ def steps_page(steps, products, col, talk=1, say='AI 问：还有没说完的？
     bx = xs[talk]
     o += f'<g class="pop" style="--d:2.4s"><rect x="{bx-125:.0f}" y="290" width="250" height="52" rx="16" fill="var(--m-card2)"/><path d="M{bx-10:.0f} 342 L{bx:.0f} 358 L{bx+10:.0f} 342Z" fill="var(--m-card2)"/></g>' + txt(bx, 324, say, 20, 'var(--m-ink)', cls='pop', d=2.4, w=700)
     o += f'<circle class="trav" r="12" fill="var(--m-ink)"/>'
-    h = svg(o) + '<div class="sx-prod"><b>做完手上要有</b>' + ''.join(f'<span class="pop" style="--d:{2.8+i*.2:.1f}s"><i></i>{t}</span>' for i, t in enumerate(products)) + '</div>'
+    h = svg(o) + ('' if not products else '<div class="sx-prod"><b>做完手上要有</b>' + ''.join(f'<span class="pop" style="--d:{2.8+i*.2:.1f}s"><i></i>{t}</span>' for i, t in enumerate(products)) + '</div>')
     return h
 
 def after_page(steps, warn):
@@ -1431,7 +1431,8 @@ bd_lib = ''.join(f'<div class="bl-c pop" style="--d:{.3+i*.4:.1f}s;left:{96+i*48
 bd_lib += '<div class="bl-src pop" style="--d:1.8s">都在包里，网络不通也能用。来自 GitHub：Anthropic 官方技能、宝玉、歸藏、agency-agents 中文版等，原作者和许可证都留着</div>'
 BD_STEPS = [('配一支队', '10 分钟'), ('定规矩，\n开跑', '15 分钟'), ('挑成品，\n揭晓', '10 分钟'), ('改一处，\n第二轮', '20 分钟'), ('换一支队', '20 分钟'), ('收尾', '8 分钟')]
 BD_SAY = ['说一件事，回是或不是', '看板上点加不加、挑方向', '挑一份，写哪里不行', '先说是哪个队员的问题', '点头开跑，自己带', '说回去先交出哪件事']
-bd_do = steps_page(BD_STEPS, ['三轮的成品，第一轮还有一份 AI 直接做的', '三轮并排的成绩单', '知识库里的队伍花名册'], 'var(--ag)', talk=0, say=BD_SAY[0], first=1)
+bd_do = steps_page(BD_STEPS, [],   # 11-08 TTZ：做完手上要有那行不重要，删
+ 'var(--ag)', talk=0, say=BD_SAY[0], first=1)
 bd_go = [steps_page(BD_STEPS, ['复制第 %d 步那段，发给 AI' % (i+1), '看板右边待办亮了就点'], 'var(--ag)', talk=i, say=BD_SAY[i], first=1) for i in range(6)]
 # 11-07 晚 TTZ：要站在高处给方法，照提示词那页的样子出一页，学员拍下来回去照着搭
 BD5 = [('拆成几棒', '一件事拆成几棒，每个队员只干一棒', '选题、脚本、出片、挑错，四个队员各一棒'),
