@@ -40,7 +40,7 @@ const minsAgo = (t?: string): number | null => {
 export const plain = (t?: string): string => String(t ?? "")
   .replace(/请人拍板/g, "请你定").replace(/拍板/g, "你定了").replace(/请示单/g, "要你定的").replace(/请示/g, "要你定的")
   .replace(/盲挑|盲比/g, "挑成品")
-  .replace(/补第\s*[1一]\s*句/g, "补一样手艺").replace(/补第\s*[2二]\s*句/g, "补一道把关").replace(/补第\s*[3三]\s*句/g, "让你定方向");
+  .replace(/补第\s*[1一]\s*句/g, "补一个岗位").replace(/补第\s*[2二]\s*句/g, "补一道把关").replace(/补第\s*[3三]\s*句/g, "让你定方向");
 /** 这一轮已经揭晓或结束：卡片都算交了，不再报退回、没动静 */
 export function roundDone(S: Any): boolean {
   const rs: Any[] = S.轮 || [];

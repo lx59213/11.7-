@@ -6,7 +6,7 @@ import type { Any } from "./api";
 /** 队员的类，用台下看得懂的话说 */
 export const KIND: Record<string, string> = { 想: "出方向的", 查: "查资料的", 写: "写的", 挑错: "挑错的", 做: "做成品的" };
 /** 为什么要他：队伍.json 里写了就用写的，没写按他做的事给一句 */
-const WHY: Record<string, string> = { 查: "补资料，错了才有依据可查", 想: "方向要你定", 写: "写是一样手艺", 挑错: "错了贵，得单独一个人查", 做: "做成品是另一样手艺" };
+const WHY: Record<string, string> = { 查: "补资料，错了才有依据可查", 想: "方向要你定", 写: "写是一个岗位", 挑错: "错了贵，得单独一个人查", 做: "做成品是另一个岗位" };
 export function whyOf(S: Any, m: Any): string {
   if (!m) return "";
   const c = (((S && S.配置 && S.配置.队员) || []) as Any[]).find((x) => x && x.名 === m.名);
