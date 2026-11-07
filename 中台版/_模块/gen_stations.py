@@ -1537,7 +1537,7 @@ for _i, (_k, _a, _c) in enumerate(BD_WHY):
                  f'<div class="ws-c a pop" style="--d:{_d+.25:.2f}s;top:{_y}px;left:380px">{_a}</div>'
                  f'<i class="ct-ar pop" style="--d:{_d+.4:.2f}s;left:920px;top:{_y+50}px">→</i>'
                  f'<div class="ws-c c pop" style="--d:{_d+.55:.2f}s;top:{_y}px;left:960px">{_c}</div>')
-# 11-08 凌晨我们自己真跑：宣传片队拍"果汁杯装进电脑包"小剧情，一个 AI 直接拍对照
+# 我们自己真跑：宣传片队拍"果汁杯装进电脑包"小剧情，一个 AI 直接拍对照
 def _flip_half(x, cls, lab, vid, notes, d):
     return (f'<div class="fh-l {cls} pop" style="--d:{d}s;left:{x}px">{lab}</div>'
             f'<div class="fh-v pop" style="--d:{d+.1:.1f}s;left:{x}px"><video src="{_vid(vid)}" autoplay muted loop playsinline></video></div>'
