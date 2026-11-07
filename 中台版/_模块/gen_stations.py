@@ -1404,26 +1404,19 @@ bd_case3 = case_page([('4.8 万次', '30 天审过的代码改动'), ('3 分半'
 # 11-08 TTZ：例子要说得通，一个 AI 有技能有知识库也会错，才轮到组队；换成一整套上新，错处对上该不该组队那三句
 def _cards(cs):
     return '<div class="bdmc-row">' + ''.join(f'<div class="bdmc{" bad" if b else ""}"><i>{n+1}</i><span>{t}</span></div>' for n, (t, b) in enumerate(cs)) + '</div>'
-bd_vs = ('<div class="vs-ask pop" style="--d:.2s">两边都带上新技能和知识库，做一整套：读 300 条竞品差评，定卖点，写标题五点，出 5 张图卡</div>'
-         '<div class="vs-col l pop" style="--d:.7s;left:96px"><b>一个 AI 从头做到尾</b>'
-         '<div class="vs-msg">主打：<mark>超大容量，一次榨 15 杯</mark></div>'
-         + _cards([('超大容量', 0), ('榨 15 杯', 0), ('USB-C 快充', 0), ('榨 20 杯', 1), ('随身带走', 0)])
-         + '<div class="vs-msg">最后自查：<mark>已核对，无问题</mark></div></div>'
-         '<div class="vs-col r pop" style="--d:1.3s;left:816px"><b>一支队接力</b>'
-         '<div class="vs-msg">主打：<mark>倒过来也不漏</mark></div>'
-         + _cards([('倒着不漏', 0), ('双层密封', 0), ('榨 15 杯', 0), ('USB-C 快充', 0), ('拆开手洗', 0)])
-         + '<div class="vs-msg">挑错：<mark>第 4 张写成 20 杯，退回改过</mark></div></div>'
-         '<div class="vs-v l pop" style="--d:2.0s;left:96px">差评里最多的漏水没提，15 杯和 20 杯前后打架</div>'
-         '<div class="vs-v r pop" style="--d:2.4s;left:816px">主打买家最怕的漏水，数字前后对得上</div>')
+bd_vs = ('<div class="rs-l pop" style="--d:.2s;top:200px">一个 AI 直接做</div>'
+         + f'<div class="rs-img pop" style="--d:.4s;top:238px"><img src="{_sc("编队_真跑_一个AI.jpg")}" alt="一个 AI 直接做的 5 张图卡：封面写便携榨汁杯、400 毫升"></div>'
+         + '<div class="rs-l g pop" style="--d:1.0s;top:500px">一支队做，主打方向由人挑：回应差评里最多的漏水</div>'
+         + f'<div class="rs-img pop" style="--d:1.2s;top:538px"><img src="{_sc("编队_真跑_一支队.jpg")}" alt="一支队做的 5 张图卡：封面写杯盖双层密封"></div>')
 BD_TEAM = [('策划', '抖音策略师', '三个选题'), ('编剧分镜', '视觉叙事师', '脚本和分镜'), ('出片', '视频提示词工程师', '一条成片'), ('挑错', '品牌守护者', '过，或退回')]
 bd_team = ''.join(f'<div class="bt-c pop" style="--d:{.3+i*.35:.2f}s;left:{96+i*360}px"><i>{i+1}</i><b>{n}</b><p>照着：{w}</p><p>交出：{o}</p></div>'
                   + (f'<div class="bt-ar pop" style="--d:{.5+i*.35:.2f}s;left:{96+i*360+318}px">→</div>' if i < 3 else '') for i, (n, w, o) in enumerate(BD_TEAM))
 bd_team += ('<div class="bt-back pop" style="--d:1.9s">挑错不过，退回给写的那个队员，最多退两次</div>'
             + ''.join(f'<div class="bt-hu pop" style="--d:{2.3+i*.3:.1f}s;left:{96+i*480}px"><b>人 {i+1}</b>{s}</div>' for i, s in enumerate(['写下最怕说错的，交给挑错', '挑选题，和挑错一起挑脚本', '看成片，定发不发']))
             + '<div class="bt-note pop" style="--d:3.2s">四个队员的岗位说明书现成的，AI 照各位知识库里的公司和产品填好</div>')
-bd_board = (_shot(96, 216, 896, 560, '编队_队伍看板_v3.jpg', '上新队看板：左边五个队员，中间四份产出都交了，右边待办里甲乙两份图卡等人挑', .2)
+bd_board = (_shot(96, 216, 896, 560, '编队_队伍看板_v4.jpg', '上新队看板：左边六个队员，中间五份产出都交了，交接 10 次、退回 1 次', .2)
             + '<div class="sx-next" style="left:1048px;right:96px;top:236px"><b>看得见，点得了</b>'
-            + ''.join(f'<p class="pop" style="--d:{.8+i*.4:.1f}s">{s}</p>' for i, s in enumerate(['左边：每个队员在干什么、交出了什么', '中间：每份产出走到哪一步', '下面：谁交给谁、谁被退回', '右边：要各位定的，一次一张', '挑成品：两份不标谁做的']))
+            + ''.join(f'<p class="pop" style="--d:{.8+i*.4:.1f}s">{s}</p>' for i, s in enumerate(['左边：每个队员在干什么、交出了什么', '中间：每份产出走到哪一步', '下面：谁交给谁、谁被退回', '右边：要各位定的，一次一张', '第一轮做完：交接 10 次，退回 1 次']))
             + '</div>')
 BD_LIB = [('21 个技能', ['出 Word、Excel、PPT、PDF', '去 AI 味、翻译、排版', '周报、方案、会议分析', '信息图、小红书图卡']),
           ('55 个队员', ['老板和高管、宣传和内容', '电商和销售、客服和售后', '财务和法务、人事和培训', '采购和供应链、调研和管理']),
@@ -1558,7 +1551,7 @@ BD3Q = [('要几样手艺吗', '查资料、写、做图做视频，一份说明
         ('错了贵吗', '发出去收不回的价格、承诺、平台规矩，要另一个人查', '售后回信，承诺错一句就要赔钱'),
         ('要人定方向吗', '方向一错，后面全白做，先出几个让人挑', '宣传片先定拍什么，再写分镜、出片')]
 bd_3q = ''.join(f'<div class="pe-row pop" style="--d:{.3+i*.35:.2f}s;top:{226+i*118}px"><i>{i+1}</i><b>{h}</b><div><em>{a}</em><q>例：{b}</q></div></div>' for i, (h, a, b) in enumerate(BD3Q))
-bd_3q += ('<div class="q3-y pop" style="--d:1.5s"><b>两句以上是：组队</b>三句都不是、只是天天要做：交给智能体</div>'
+bd_3q += ('<div class="q3-y pop" style="--d:1.5s"><b>两句以上是：组队</b>天天要做：交给智能体　只想做得规范：写一个技能</div>'
           + '<div class="bl-src pop" style="--d:1.9s;top:742px">不该组队：一步就能做完的；步骤咬得太紧、一拆就丢信息的；只图快、错了也无所谓的</div>')
 _c1 = at(80, 92, I_PERSON, 1.4) + _bub(200, 62, '问各位家的事', 150) + at(200, 124, I_ROBOT, .8)
 _c2 = at(90, 92, I_BOOK, 1.6) + i_arrow(130, 92, 170, 92) + at(214, 92, I_SHEET, 1.5)
@@ -1610,46 +1603,33 @@ CM_ASK = [('先摆自家的例子，再问一句', '差评 300 条里漏水最�
           ('只建议改一处，点头才改', '改两处，变好了也说不清是哪一处'), ('三处留给人定', '定规矩、挑方向、挑成品')]
 CM_HOME = [('梳理我家业务', '一页业务地图：哪件写技能、哪件交给智能体、哪件组队'), ('再配一支队', '从业务地图里挑下一件'),
            ('复盘一下', '谁老被退回，只建议改一处'), ('每周检查', '排成定时，每周自己跑一次')]
-bd_canmou = (f'<div class="cm-h pop" style="--d:.2s;left:96px">课上它怎么问</div><div class="cm-h pop" style="--d:1.4s;left:832px">回去在对话里说一句</div>'
-             + ''.join(f'<div class="cm-r pop" style="--d:{.4+i*.25:.2f}s;left:96px;top:{280+i*118}px"><i>{i+1}</i><div><b>{h}</b><p>{t}</p></div></div>' for i, (h, t) in enumerate(CM_ASK))
-             + ''.join(f'<div class="cm-r q pop" style="--d:{1.6+i*.25:.2f}s;left:832px;top:{280+i*118}px"><div><b>「{h}」</b><p>{t}</p></div></div>' for i, (h, t) in enumerate(CM_HOME)))
+bd_canmou = (f'<div class="cm-h pop" style="--d:.2s;left:96px">课上它怎么问</div><div class="cm-h pop" style="--d:1.4s;left:832px">回去在同一个对话里说一句</div>'
+             + ''.join(f'<div class="cm-r pop" style="--d:{.4+i*.25:.2f}s;left:96px;top:{268+i*114}px"><i>{i+1}</i><div><b>{h}</b><p>{t}</p></div></div>' for i, (h, t) in enumerate(CM_ASK))
+             + ''.join(f'<div class="cm-r q pop" style="--d:{1.6+i*.25:.2f}s;left:832px;top:{268+i*114}px"><div><b>「{h}」</b><p>{t}</p></div></div>' for i, (h, t) in enumerate(CM_HOME))
+             + '<div class="cm-end pop" style="--d:2.8s">永远交给人：发出去、花钱、对外承诺</div>')
 m4_pages = [
     ('昨天的智能体：<em>做出来是一个文件夹</em>', bd_agent, 0, ''),
-    ('同一套上新：一个 AI <em>做到后面就乱了</em>', bd_vs, 0, ''),
-    ('一个卖家，<em>八个 AI 接力</em>出设计图', bd_case1, 0, ''),
-    ('技能、智能体、队伍，<em>各管一种事</em>', bd_which, 1, ''),
+    ('同一款榨汁杯，<em>两种做法</em>', bd_vs, 0, ''),
     ('该不该组队，<em>问三句</em>', bd_3q, 1, ''),
-    ('一个 AI 为什么<em>做到后面会错</em>', bd_catch, 1, ''),
     ('今天做：<em>配一支队</em>', bd_pick, 1, ''),
     ('在队伍看板上<em>点</em>', bd_board, 1, ''),
     ('动手：<em>组一支队</em>', bd_do, 2, ''),
-    ('带各位组队的：<em>编队参谋</em>', bd_canmou, 2, ''),
-    ('AI 店长配了个 <em>AI 老板</em>，还是得有人拦', bd_case2, 2, ''),
     ('我们自己每天用的 <em>AI 队伍</em>', our_team(), 2, ''),
-    ('七个 AI 审一份代码，<em>人只放行 0.6%</em>', bd_case3, 2, ''),
     up_page('m4'),
-    ('上台展示：<em>放成品</em>', stage_show(4, '放各位的成品'), 3, ''),
-    ('回去接着做', notes([('每周', '定时出一份成品<br>只看方向和成品<br>谁老被退回，调它一处'), ('换件事', '先用三句筛<br>叫编队参谋<br>配下一支队'), ('永远交人', '发出去<br>花钱<br>对外承诺')], 'var(--wf)').replace('class="sx-nt"', 'class="sx-nt bigc"', 1), 3, ''),
+    ('回去接着做：叫<em>编队参谋</em>', bd_canmou, 3, ''),
 ]
 PV_BEATS.pop('m4', None)   # 11-06 TTZ：步骤页全是字，和技能、智能体一样删掉
 sec('m4', '--ag', m4_pages)   # 11-07：人机编队单开网页，build.py 另出一份 人机编队课件.html
 beats('m4', '人机编队', [
     '开始之前先接一下昨天。好几位问，智能体做完到底是个什么东西。就是工作区里一个文件夹：AGENT.md 是岗位说明书，它是谁、守什么、怎么做、放多少手；工作日志记它做过的每一单；收件箱放新事。以后怎么叫它？三种：WorkBuddy 新开对话，说一句叫它处理收件箱；排个定时任务，每天到点自己干，停在要各位拍板的地方；换别的软件也行，说明书就是一个文件。昨天跑完九步的，后四步是上一版的编队，那支队照样能用，今天的包另建一支，不冲突。',
-    '今天上午人机编队。先看一件大活：一款榨汁杯上新，读 300 条竞品差评，定卖点，写标题五点，出 5 张图卡。两边都带着上新技能和知识库。左边一个 AI 从头做到尾，主打大容量，可差评里最多的是漏水，它没提；五点写一次榨 15 杯，第 4 张图卡写成 20 杯，最后它自己查了一遍，说已核对、无问题。右边一支队接力，主打倒过来也不漏，数字前后对得上，20 杯那处被挑错退回改过了。',
-    '人机编队。昨天的智能体是一个人从头干到尾，错了到最后才看出来。今天拆成一支队：一个做、一个查，查不过就退回，人只管拍板。和以前把几步写死、连成一条线的自动化不一样：这里每个队员都有岗位说明书，会查知识库、用技能，拿不准就停下等人。这事现在真有人在干，看三个例子。第一个，阿里巴巴国际站上的一个跨境卖家，一个人开店。他让八个 AI 接力：调研的、研发的、设计的、查政策的、做复盘的，各管一段，调研报告一出，设计的接着出图。以前选品到出设计图要两三周，现在一天，每天出十几款，八成以上的设计图是 AI 出的。他自己只管两件事：哪个市场能做，工厂做得出什么。',
-    '昨天做了技能和智能体，今天的队伍又是什么，三样别混。技能是一种做法，比如怎么写好标题五点，想做得规范，一个 AI 带上它就能做好。智能体是一个员工，带着说明书从头干到尾，天天要做的事，它按时自己干。队伍是一个项目组，几个员工接力出一份东西，中间有人单独挑错，人只在关键处拍板。顺序是：先问一个 AI 带上技能能不能做好；能，还天天要做，就做成智能体；做不好，才组队。',
-    '什么事做不好、该组队？问三句。第一，要不要几样手艺：上新要查卖点、写五点、出图，一份说明书写不下，一个 AI 来回切，样样不精。第二，错了贵不贵，要不要另一个人查：价格、承诺、平台规矩，发出去收不回，写的人查不出自己的错，财务上做账的不审账，是一个道理。第三，有没有岔路要人定方向：宣传片拍什么一选错，后面全白做。两句以上是，就组队；三句都不是、只是天天要做，交给智能体。也有不该组队的：一步就做完的，步骤咬得太紧、一拆就丢信息的，只图快、错了也无所谓的。组队单做一次更慢，也更费额度。今天每位挑的事，参谋都会先拿这三句过一遍。',
-    '左边有技能、有知识库，为什么还错？活太大了。三种错，正好对上刚才那三句。第一，要几样手艺：读差评、写字、做图全在一个对话里，东西越堆越多，做到第 4 张图，忘了前面写的 15 杯。队伍里每人只干一段，手上的东西少。第二，错了贵，要另一个人查：自己查自己，读到的是想写的，跟人校对自己的稿子一样，看不出来。挑错没看过是怎么写的，才查得出。第三，要人定方向：一个 AI 自己定了大容量，一路做到底；队伍是调研先把漏水排第一，摆三个方向等人挑。反过来，一步就做完的小事，一个 AI 带上技能就够了，别组队。组队一次十几分钟，额度多用好几倍。',
+    '先看一个真跑的。一款便携榨汁杯上亚马逊，同一份知识库：规格、上架规矩、300 条竞品差评。上面是一个 AI 直接做的，下面是一支队做的。说实话，两份数字都对，一个 AI 带着知识库也没写错。差在第一张：一个 AI 写的是品名和容量；队伍先拿出三个方向让人挑，人挑了回应漏水，因为差评里说得最多的就是放包里漏了。这件事一个 AI 也能做个八九不离十，要不要组队，看下一页那三句。',
+    '什么事做不好、该组队？问三句。第一，要不要几样手艺：上新要查卖点、写五点、出图，一份说明书写不下，一个 AI 来回切，样样不精。第二，错了贵不贵，要不要另一个人查：价格、承诺、平台规矩，发出去收不回，写的人查不出自己的错，财务上做账的不审账，是一个道理。第三，有没有岔路要人定方向：宣传片拍什么一选错，后面全白做。两句以上是，就组队；三句都不是、只是天天要做，交给智能体。也有不该组队的：一步就做完的，步骤咬得太紧、一拆就丢信息的，只图快、错了也无所谓的。组队单做一次更慢，也更费额度。今天每位挑的事，参谋都会先拿这三句过一遍。回头看昨天：只想做得规范，写一个技能；天天要做，交给智能体加定时；做不好才组队。',
     '今天每人配一支队。参谋先问一件事：这周哪件事要过好几道手，出了错又麻烦？拿刚才三句过一遍，值得才配。按答案从七支里配一支：上新队给运营，出五张卖点图卡加标题五点；售后队给客服，出回信定稿；周报队给老板和财务，出一条数据动效片；宣传片队出竖屏短视频；招聘队、方案队、培训队出公司介绍片、对比片、流程片。都对不上，就从 55 个现成岗位里现配一支。哪支都一样：几个队员接力，挑错的单独一个，人只在要定的地方出手。',
     '没有飞书和中台，在哪点？在这个队伍看板上。包里带着，组好队 AI 就把它打开。左边每个队员在干什么、交出了什么；中间每份产出走到哪一步；下面谁交给谁、谁被退回；右边是要各位定的，一次只来一张。这张正好停在挑成品：甲乙两份图卡，不标谁做的，点一份，写一句哪里不行。每一轮各位只在三处点：开工前定规矩，参谋问各位家最怕出什么错，建议给队伍改一处，各位定加不加；挑方向，三个挑一个；挑成品，两份不标谁做的，问哪份今天就敢发、哪里不行，挑完才揭晓。各位说的哪里不行，就是下一轮改的地方。',
-    '动手。群里发人机编队的包和操作手册，包拖进昨天那个对话。一共六步，每步复制操作手册里那一段发过去，讲一段做一段。昨天智能体没做完没关系，这一块只用到知识库；知识库不全的，先用包里的示例知识库。现在发第 1 步：编队参谋会问各位一件要过好几道手的事，再拿三句话问一遍，各位回是或不是。值得就配一支队，看板会打开。十分钟，做完停下，我们接着讲。',
-    '刚才那段对话，是照一个人坐在旁边带各位设计的，这页可以拍下来。它先拿各位知识库里的例子，再问一句，答不上来才给选项，答案始终是各位自己的；每次只建议改一处，点头才改；定规矩、挑方向、挑成品这三处留给人。回去在同一个对话里说一句就行：梳理我家业务，它一件件问，写成一页业务地图，哪件写技能、哪件交给智能体、哪件组队；再配一支队；复盘一下；每周检查。',
-    '现在发第 2 步。参谋会问最怕出什么错，答一句；它建议给队伍改一处，各位在看板右边点加不加。点完队伍开跑，同时一个 AI 直接做一份当对照，中间会请各位挑一个方向。队伍跑的时候，讲一个例子。第二个，Anthropic 在自己办公室开了个小卖部，让 AI 当店长，进货定价都是它。后来给它配了个 AI 老板，定目标、复核，乱打折少了八成左右，店从一家开到三家。可 AI 店长差点签下一份洋葱期货合同，这在美国从 1958 年起就违法，是员工拦下的；AI 老板批松口的请求，是拒绝的八倍。所以挑错的要单独一个，最后拍板的是人。挑错放在出成品前面，文字上改一次几秒，成品出来再改要再等、再花钱。',
-    '现在发第 3 步。两份成品摆在看板上，不标谁做的，看三样：对得上知识库吗，像自家说的话吗，不改能发吗。挑一份，写一句哪里不行，挑完揭晓。这是我们公司自己每天在用的。左边是飞书：中台机器人把到期的事推给每个人，点一下就处理，要拍板的也在这里批。右边是中台上的 AI 团队：12 位 AI 同事照工作流接力，调研、写稿、审校，谁在干、交给了谁、卡在哪，一眼看清；人只在要拍板的地方出手。',
-    '第三个，Cloudflare，全球最大的网络服务商之一。每份代码改动交给七个 AI 审，各查一样，一个协调的 AI 汇总，不过就退回。30 天审了四万八千多次，一次三分多钟，不到一美元。人只保留一个按钮：强制放行，30 天用了 288 次，占 0.6%。一个写、几个查，人只按放行那一下。回到各位的队伍。第一轮不满意，别笼统说不好，挑成品时写的哪里不行就是起点。只改一处：缺一样手艺或有一种错没人查，就加人；交的东西没人用、从没拦下过错，就减人；也可以给挑错加一条规矩。一次只改一处，第二轮变好变坏，才知道是这一处起的作用。休息回来发第 4 步。',
-    '现在发第 5 步，参谋推荐另一支跟各位家最搭的队，点头就跑，这次三处各位自己带。往上走：一条线跑完，从客户询价到收回货款；客户一来邮件，它们就开工；做完一单记下教训，下一单更顺。跑腿的事 AI 干，人去谈客户、想新品。',
-    '现在发第 6 步，收尾：两支队写进知识库的队伍花名册，排成每周几自己跑。做完上台展示，像路演。放三轮的成品，再说三样：开工前定的规矩拦下了什么，第二轮改了哪一处，第三轮换的是哪支队。其他人接着做。',
-    '回去之后：每周定时出一份，各位只看方向和成品；谁老被退回，就改它一处。换件事，先拿三句筛一遍，再新开对话叫编队参谋，梳理业务地图，配下一支队。发出去、花钱、对外承诺，永远人拍板。',
+    '动手。群里发人机编队的包和操作手册，包拖进昨天那个对话。一共六步，每步复制操作手册里那一段发过去，讲一段做一段。昨天智能体没做完没关系，这一块只用到知识库；知识库不全的，先用包里的示例知识库。现在发第 1 步：编队参谋会问各位一件要过好几道手的事，再拿三句话问一遍，各位回是或不是。值得就配一支队，看板会打开。十分钟，做完停下。后面每一步都是我讲完一段，各位复制下一段。',
+    '现在发第 2 步。参谋问最怕出什么错，答一句；它建议改一处队伍，在看板右边点加不加；中间挑一个方向。队伍跑的时候看我们自己的。现在发第 3 步。两份成品摆在看板上，不标谁做的，看三样：对得上知识库吗，像自家说的话吗，不改能发吗。挑一份，写一句哪里不行，挑完揭晓。这是我们公司自己每天在用的。左边是飞书：中台机器人把到期的事推给每个人，点一下就处理，要拍板的也在这里批。右边是中台上的 AI 团队：12 位 AI 同事照工作流接力，调研、写稿、审校，谁在干、交给了谁、卡在哪，一眼看清；人只在要拍板的地方出手。队伍交出成品后发第 3 步：两份不标谁做的，看三样，对得上知识库吗，像自家说的话吗，不改能发吗；挑一份，写一句哪里不行，挑完揭晓。',
+    '休息回来发第 4 步：第一轮不满意，挑成品时写的哪里不行就是起点，只改一处，缺手艺或有错没人查就加人，交的东西没人用就减人，再跑一轮。接着发第 5 步，参谋推荐另一支队，点头就跑，三处各位自己带。现在发第 5 步，参谋推荐另一支跟各位家最搭的队，点头就跑，这次三处各位自己带。往上走：一条线跑完，从客户询价到收回货款；客户一来邮件，它们就开工；做完一单记下教训，下一单更顺。跑腿的事 AI 干，人去谈客户、想新品。',
+    '最后发第 6 步收尾，两支队写进知识库的队伍花名册，排成每周几自己跑。刚才那段对话，是照一个人坐在旁边带各位设计的，这页可以拍下来。它先拿各位知识库里的例子，再问一句，答不上来才给选项，答案始终是各位自己的；每次只建议改一处，点头才改；定规矩、挑方向、挑成品这三处留给人。回去在同一个对话里说一句就行：梳理我家业务，它一件件问，写成一页业务地图，哪件写技能、哪件交给智能体、哪件组队；再配一支队；复盘一下；每周检查。发出去、花钱、对外承诺，永远人拍板。',
 ])
 
 # ======================= 04 组织（泽洲讲，屏由他定） =======================
@@ -1678,7 +1658,7 @@ CSS = r'''
 .pk-c{position:absolute;top:226px;width:332px;height:290px;box-sizing:border-box;background:var(--m-card);border:1.5px solid var(--m-line2);border-top:6px solid var(--c);border-radius:18px;padding:20px 24px;display:flex;flex-direction:column}.pk-c b{font-size:34px;font-weight:900}.pk-c em{font-style:normal;font-size:22px;font-weight:800;color:var(--c);margin-top:10px;line-height:1.4}.pk-c p{font-size:19px;color:var(--m-ink);margin-top:14px;line-height:1.5}.pk-c small{font-size:19px;color:var(--m-mute);margin-top:auto;line-height:1.45}
 .q3-y{position:absolute;left:96px;right:96px;top:600px;font-size:26px;color:var(--m-mute)}.q3-y b{color:var(--c);font-size:34px;font-weight:900;margin-right:28px}
 .pk7{position:absolute;width:332px;height:196px;box-sizing:border-box;background:var(--m-card);border:1.5px solid var(--m-line2);border-top:6px solid var(--c);border-radius:18px;padding:18px 24px;display:flex;flex-direction:column}.pk7 b{font-size:32px;font-weight:900}.pk7 em{font-style:normal;font-size:22px;font-weight:800;color:var(--c);margin-top:8px;line-height:1.4}.pk7 small{font-size:19px;color:var(--m-mute);margin-top:auto}.pk7-x{border-style:dashed;border-top-style:solid;background:transparent}
-.vs-ask{position:absolute;left:96px;right:96px;top:212px;background:var(--m-card2);border-radius:18px;padding:18px 28px;font-size:26px;font-weight:700;line-height:1.5;color:var(--m-ink)}.vs-ask small{display:block;font-size:18px;font-weight:700;color:var(--m-mute);margin-bottom:4px}.vs-col{position:absolute;top:320px;width:688px;height:340px;box-sizing:border-box;background:var(--m-card);border:1.5px solid var(--m-line2);border-radius:18px;padding:20px 28px}.vs-col>b{display:block;font-size:24px;font-weight:900;margin-bottom:12px}.vs-col.l>b{color:#e07a5f}.vs-col.r>b{color:#5cbf8a}.vs-msg{font-size:23px;line-height:1.62;color:var(--m-ink)}.vs-col mark{padding:2px 4px;border-radius:6px;font-weight:800}.vs-col.l mark{background:#f6d5cc;color:#9c3a22;text-decoration:underline wavy #c0533a 2px;text-underline-offset:6px}.vs-col.r mark{background:#d3ecdc;color:#1f6b43}.vs-v{position:absolute;top:676px;width:688px;font-size:26px;font-weight:900;padding-left:18px;border-left:6px solid}.vs-v.l{color:#e07a5f}.vs-v.r{color:#5cbf8a}.ct-h{position:absolute;top:216px;width:372px;font-size:20px;font-weight:800;color:var(--m-mute)}.ct-k{position:absolute;left:96px;width:180px;height:200px;display:flex;align-items:center;font-size:28px;font-weight:900;color:var(--m-ink)}.ct-c{position:absolute;width:372px;height:200px;box-sizing:border-box;border-radius:18px;padding:22px 24px;font-size:23px;line-height:1.55;font-weight:700;display:flex;align-items:center}.ct-c.a{background:rgba(224,122,95,.12);border:1.5px solid #c0533a;color:#f0a690;text-decoration:underline wavy #e07a5f 2px;text-underline-offset:7px}.ct-c.b{background:var(--m-card);border:1.5px solid var(--m-line2);border-left:6px solid #e07a5f;color:var(--m-ink);font-weight:600}.ct-c.c{background:rgba(47,138,91,.16);border:1.5px solid #3f9a6b;color:#8fd6ab}.bdmc-row{display:flex;gap:12px;margin:14px 0}.bdmc{flex:1;height:118px;border-radius:12px;background:#efe6d8;color:#2a2622;padding:10px 12px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between}.bdmc i{font-style:normal;font-size:15px;color:#8a7f72;font-weight:700}.bdmc span{font-size:20px;font-weight:900;line-height:1.25}.bdmc.bad{background:#f6d5cc;outline:3px solid #e07a5f;outline-offset:2px}.bdmc.bad span{color:#9c3a22}.ws-k{position:absolute;left:96px;width:260px;height:150px;display:flex;align-items:center;gap:12px;font-size:26px;font-weight:900;color:var(--m-ink);line-height:1.3}.ws-k i{font-style:normal;flex:none;width:40px;height:40px;border-radius:50%;background:var(--m-ink);color:#0b0d0c;display:flex;align-items:center;justify-content:center;font-size:22px}.ws-c{position:absolute;width:540px;height:150px;box-sizing:border-box;border-radius:16px;padding:18px 24px;font-size:23px;line-height:1.55;font-weight:700;display:flex;align-items:center}.ws-c.a{background:rgba(224,122,95,.12);border:1.5px solid #c0533a;color:#f0a690}.ws-c.c{background:rgba(47,138,91,.16);border:1.5px solid #3f9a6b;color:#8fd6ab}.cm-h{position:absolute;top:214px;font-size:24px;font-weight:900;color:var(--m-mute)}.cm-r{position:absolute;width:672px;height:102px;box-sizing:border-box;display:flex;align-items:center;gap:18px;background:var(--m-card);border:1.5px solid var(--m-line2);border-radius:16px;padding:0 24px}.cm-r i{font-style:normal;flex:none;width:44px;height:44px;border-radius:50%;background:var(--ag);color:#0b0d0c;font-size:24px;font-weight:900;display:flex;align-items:center;justify-content:center}.cm-r b{display:block;font-size:26px;font-weight:900;color:var(--m-ink)}.cm-r p{margin:4px 0 0;font-size:20px;color:var(--m-mute)}.cm-r.q{border-left:6px solid var(--ag)}.ct-ar{position:absolute;width:40px;text-align:center;font-style:normal;font-size:34px;font-weight:900;color:var(--m-mute)}
+.vs-ask{position:absolute;left:96px;right:96px;top:212px;background:var(--m-card2);border-radius:18px;padding:18px 28px;font-size:26px;font-weight:700;line-height:1.5;color:var(--m-ink)}.vs-ask small{display:block;font-size:18px;font-weight:700;color:var(--m-mute);margin-bottom:4px}.vs-col{position:absolute;top:320px;width:688px;height:340px;box-sizing:border-box;background:var(--m-card);border:1.5px solid var(--m-line2);border-radius:18px;padding:20px 28px}.vs-col>b{display:block;font-size:24px;font-weight:900;margin-bottom:12px}.vs-col.l>b{color:#e07a5f}.vs-col.r>b{color:#5cbf8a}.vs-msg{font-size:23px;line-height:1.62;color:var(--m-ink)}.vs-col mark{padding:2px 4px;border-radius:6px;font-weight:800}.vs-col.l mark{background:#f6d5cc;color:#9c3a22;text-decoration:underline wavy #c0533a 2px;text-underline-offset:6px}.vs-col.r mark{background:#d3ecdc;color:#1f6b43}.vs-v{position:absolute;top:676px;width:688px;font-size:26px;font-weight:900;padding-left:18px;border-left:6px solid}.vs-v.l{color:#e07a5f}.vs-v.r{color:#5cbf8a}.ct-h{position:absolute;top:216px;width:372px;font-size:20px;font-weight:800;color:var(--m-mute)}.ct-k{position:absolute;left:96px;width:180px;height:200px;display:flex;align-items:center;font-size:28px;font-weight:900;color:var(--m-ink)}.ct-c{position:absolute;width:372px;height:200px;box-sizing:border-box;border-radius:18px;padding:22px 24px;font-size:23px;line-height:1.55;font-weight:700;display:flex;align-items:center}.ct-c.a{background:rgba(224,122,95,.12);border:1.5px solid #c0533a;color:#f0a690;text-decoration:underline wavy #e07a5f 2px;text-underline-offset:7px}.ct-c.b{background:var(--m-card);border:1.5px solid var(--m-line2);border-left:6px solid #e07a5f;color:var(--m-ink);font-weight:600}.ct-c.c{background:rgba(47,138,91,.16);border:1.5px solid #3f9a6b;color:#8fd6ab}.bdmc-row{display:flex;gap:12px;margin:14px 0}.bdmc{flex:1;height:118px;border-radius:12px;background:#efe6d8;color:#2a2622;padding:10px 12px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between}.bdmc i{font-style:normal;font-size:15px;color:#8a7f72;font-weight:700}.bdmc span{font-size:20px;font-weight:900;line-height:1.25}.bdmc.bad{background:#f6d5cc;outline:3px solid #e07a5f;outline-offset:2px}.bdmc.bad span{color:#9c3a22}.ws-k{position:absolute;left:96px;width:260px;height:150px;display:flex;align-items:center;gap:12px;font-size:26px;font-weight:900;color:var(--m-ink);line-height:1.3}.ws-k i{font-style:normal;flex:none;width:40px;height:40px;border-radius:50%;background:var(--m-ink);color:#0b0d0c;display:flex;align-items:center;justify-content:center;font-size:22px}.ws-c{position:absolute;width:540px;height:150px;box-sizing:border-box;border-radius:16px;padding:18px 24px;font-size:23px;line-height:1.55;font-weight:700;display:flex;align-items:center}.ws-c.a{background:rgba(224,122,95,.12);border:1.5px solid #c0533a;color:#f0a690}.ws-c.c{background:rgba(47,138,91,.16);border:1.5px solid #3f9a6b;color:#8fd6ab}.rs-l{position:absolute;left:200px;font-size:24px;font-weight:900;color:#e07a5f}.rs-l.g{color:#5cbf8a}.rs-img{position:absolute;left:200px;width:1200px;height:240px;border-radius:14px;overflow:hidden}.rs-img img{width:100%;height:100%;object-fit:cover;display:block}.cm-end{position:absolute;left:96px;right:96px;top:744px;font-size:26px;font-weight:900;color:var(--m-ink)}.cm-h{position:absolute;top:214px;font-size:24px;font-weight:900;color:var(--m-mute)}.cm-r{position:absolute;width:672px;height:102px;box-sizing:border-box;display:flex;align-items:center;gap:18px;background:var(--m-card);border:1.5px solid var(--m-line2);border-radius:16px;padding:0 24px}.cm-r i{font-style:normal;flex:none;width:44px;height:44px;border-radius:50%;background:var(--ag);color:#0b0d0c;font-size:24px;font-weight:900;display:flex;align-items:center;justify-content:center}.cm-r b{display:block;font-size:26px;font-weight:900;color:var(--m-ink)}.cm-r p{margin:4px 0 0;font-size:20px;color:var(--m-mute)}.cm-r.q{border-left:6px solid var(--ag)}.ct-ar{position:absolute;width:40px;text-align:center;font-style:normal;font-size:34px;font-weight:900;color:var(--m-mute)}
 .pk-ai{position:absolute;left:96px;right:96px;top:540px;font-size:22px;color:var(--m-mute)}.pk-ai b{color:var(--m-ink);font-size:26px;margin-right:20px}
 .bl-c{position:absolute;top:236px;width:444px;height:430px;box-sizing:border-box;background:var(--m-card);border:1.5px solid var(--m-line2);border-top:6px solid var(--c);border-radius:20px;padding:26px 32px}.bl-c b{display:block;font-size:52px;font-weight:900;color:var(--c);margin-bottom:18px}.bl-c p{font-size:25px;line-height:1.5;margin-bottom:12px}
 .bl-src{position:absolute;left:96px;right:96px;top:700px;font-size:21px;color:var(--m-mute)}
