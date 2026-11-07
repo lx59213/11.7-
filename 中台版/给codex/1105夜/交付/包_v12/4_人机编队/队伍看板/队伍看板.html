@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>队伍看板</title>
+<style>
+:root{--队:#8E5EA2;--队浅:#f6f0f9;--红:#C4452F;--红浅:#fdf0ec;--绿:#2E8B57;--绿浅:#eef7f1;--字:#26232a;--灰字:#6b6672;--线:#e4dfe7;--底:#faf8f5}
+*{box-sizing:border-box}
+body{margin:0;background:var(--底);color:var(--字);font:17px/1.6 -apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
+.页{max-width:1440px;margin:0 auto;padding:24px 32px 40px}
+header{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;padding-bottom:20px;border-bottom:2px solid var(--字);flex-wrap:wrap}
+.标题 h1{margin:0;font-size:34px;line-height:1.25;letter-spacing:.02em}
+.标题 .事{font-size:19px;margin-top:4px}
+.标题 .时{font-size:15px;color:var(--灰字);margin-top:2px}
+.数{display:flex;gap:40px}
+.数 div{text-align:right}
+.数 b{display:block;font-size:48px;line-height:1.1;font-weight:700;font-variant-numeric:tabular-nums}
+.数 span{font-size:15px;color:var(--灰字)}
+.数 .退 b{color:var(--红)}
+main{display:grid;grid-template-columns:minmax(0,1fr) 440px;gap:40px;margin-top:24px}
+h2{margin:0 0 12px;font-size:20px;display:flex;align-items:baseline;gap:12px}
+h2 small{font-size:14px;font-weight:400;color:var(--灰字)}
+section{margin-bottom:32px}
+.队员们{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));border-top:1px solid var(--线);border-bottom:1px solid var(--线)}
+.员{padding:14px 16px 16px;border-left:1px solid var(--线);border-top:5px solid var(--灰字);background:#fff}
+.员:first-child{border-left:0}
+.员 .名{font-size:22px;font-weight:700}
+.员 .态{display:inline-flex;align-items:center;gap:8px;font-size:15px;font-weight:600;margin:4px 0 8px}
+.员 .态 i{width:10px;height:10px;border-radius:50%;background:currentColor;display:inline-block}
+.员 .干{min-height:3.2em}
+.员 .照{font-size:14px;color:var(--灰字);margin-top:8px}
+.员.等着{border-top-color:#b9b4be;color:var(--灰字)} .员.等着 .名,.员.等着 .干{color:var(--灰字)}
+.员.等着 .态{color:var(--灰字)}
+.员.在干{border-top-color:var(--队);background:var(--队浅)} .员.在干 .态{color:var(--队)}
+.员.在干 .态 i{animation:呼吸 1.8s ease-in-out infinite}
+.员.在干{animation:底呼吸 1.8s ease-in-out infinite}
+.员.交出了{border-top-color:var(--绿)} .员.交出了 .态{color:var(--绿)}
+.员.退回了{border-top-color:var(--红);background:var(--红浅)} .员.退回了 .态{color:var(--红)}
+@keyframes 呼吸{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(1.5)}}
+@keyframes 底呼吸{0%,100%{background:var(--队浅)}50%{background:#efe4f4}}
+.接力{position:relative;margin:0;padding:0;list-style:none}
+.接力:before{content:"";position:absolute;left:6px;top:10px;bottom:10px;width:2px;background:var(--线)}
+.棒{position:relative;padding:8px 12px 10px 32px;margin-bottom:4px}
+.棒:before{content:"";position:absolute;left:0;top:16px;width:14px;height:14px;border-radius:50%;background:#fff;border:3px solid var(--队)}
+.棒 .头{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px}
+.棒 .时{font-size:15px;color:var(--灰字);font-variant-numeric:tabular-nums}
+.棒 .向{font-size:19px;font-weight:700}
+.棒 .向 em{font-style:normal;color:var(--队);margin:0 6px}
+.棒 .事{margin-top:2px}
+.棒 .文件{font-size:14px;color:var(--灰字);margin-left:10px;padding:1px 8px;border:1px solid var(--线);border-radius:4px;background:#fff;white-space:nowrap}
+.棒 .由{margin-top:4px;color:var(--红);font-weight:600}
+.棒.退{background:var(--红浅);border-left:0}
+.棒.退:before{border-color:var(--红);background:var(--红)}
+.棒.退 .向 em{color:var(--红)}
+.棒.退 .标{font-size:14px;font-weight:700;color:#fff;background:var(--红);border-radius:4px;padding:0 8px}
+.棒.新{animation:进场 .7s ease-out}
+@keyframes 进场{from{opacity:0;transform:translateY(-14px);background:#efe4f4}to{opacity:1;transform:none}}
+.接力:has(.空):before{display:none}
+.空{color:var(--灰字);padding:12px 0}
+.单{padding:16px 18px;margin-bottom:12px;border-left:6px solid var(--线);background:#fff}
+.单 .前{font-size:14px;color:var(--灰字);display:flex;justify-content:space-between}
+.单 .问{font-size:20px;font-weight:700;margin:4px 0 10px}
+.选项{display:flex;flex-wrap:wrap;gap:8px}
+.选项 span{border:1px solid var(--线);border-radius:6px;padding:3px 12px;font-size:17px;background:#fff}
+.单 .议{margin-top:10px;font-size:16px}
+.单.等{border-left-color:var(--队);background:var(--队浅);box-shadow:0 0 0 1px #dcc9e4}
+.单.等 .前 b{color:var(--队);font-size:15px}
+.单.等 .选项 span.荐{border-color:var(--队);color:var(--队);font-weight:700}
+.单.等 .议 b{color:var(--队)}
+.单.定{color:var(--灰字);background:#f1eff2;border-left-color:#c9c4ce;padding:12px 18px}
+.单.定 .问{font-size:17px;margin-bottom:4px;font-weight:600}
+.单.定 .选项 span{background:transparent;border-color:#d8d3dc;color:var(--灰字)}
+.单.定 .选项 span.中{border-color:var(--绿);color:var(--绿);font-weight:700;background:#fff}
+.拍了{margin-top:6px;font-size:16px}
+.拍了 b{color:var(--绿)}
+.片 video,.片 img,.片 iframe{display:block;width:100%;max-height:560px;border:1px solid var(--线);background:#000;border-radius:4px}
+.片 img{object-fit:contain;background:#fff}
+.片 iframe{height:420px;background:#fff}
+.片 .说{margin-top:8px;color:var(--灰字);font-size:16px}
+.无片{border:1px dashed #cfc9d4;padding:36px 16px;text-align:center;color:var(--灰字);font-size:18px;background:#fff}
+#错{position:fixed;right:12px;top:8px;font-size:14px;color:#fff;background:var(--红);padding:2px 10px;border-radius:4px}
+#错[hidden]{display:none}
+@media (max-width:1100px){main{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+<div id="错" hidden>数据文件有错，等 AI 改好</div>
+<div class="页">
+  <header>
+    <div class="标题" id="头左"></div>
+    <div class="数" id="头右"></div>
+  </header>
+  <main>
+    <div>
+      <section><h2>队员 <small>每人一列，看现在谁在干</small></h2><div class="队员们" id="队员"></div></section>
+      <section><h2>交接记录 <small>一棒一棒往下传，最新的在最上面</small></h2><ul class="接力" id="交接"></ul></section>
+    </div>
+    <div>
+      <section><h2>请示单 <small>等人拍板的在最上面</small></h2><div id="请示"></div></section>
+      <section><h2>成片</h2><div class="片" id="成片"></div></section>
+    </div>
+  </main>
+</div>
+<script>
+(function(){
+  var 文件名 = '队伍数据.js';
+  var 旧 = {}, 载入中 = false, 有过数据 = false;
+  function 转(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+  function 画(id,html){ if(旧[id]===html) return; var e=document.getElementById(id); e.innerHTML=html; 旧[id]=html; }
+  function 渲染(d){
+    var 交接=d.交接||[], 请示=d.请示单||[], 队员=d.队员||[];
+    var 退n=交接.filter(function(x){return x.退回}).length;
+    画('头左','<h1>'+转(d.队名)+'</h1><div class="事">'+转(d.这件事)+'</div><div class="时">更新于 '+转(d.更新)+'</div>');
+    画('头右','<div><b>'+转(d.人说了几句||0)+'</b><span>人说了几句</span></div><div><b>'+交接.length+'</b><span>交接几次</span></div><div class="退"><b>'+退n+'</b><span>退回几次</span></div>');
+    画('队员',队员.map(function(m){
+      var t=m.状态||'等着';
+      return '<div class="员 '+转(t)+'"><div class="名">'+转(m.名)+'</div><div class="态"><i></i>'+转(t)+'</div><div class="干">'+转(m.干什么)+'</div><div class="照">照着：'+转(m.照着)+'</div></div>';
+    }).join('')||'<div class="空">还没有队员</div>');
+    var n=交接.length;
+    画('交接',n?交接.map(function(h,i){
+      var 退=h.退回;
+      return '<li class="棒'+(退?' 退':'')+(i===n-1?' 新':'')+'"><div class="头"><span class="时">'+转(h.时间)+'</span><span class="向">'+转(h.从)+'<em>→</em>'+转(h.到)+'</span>'+(退?'<span class="标">退回</span>':'')+'</div>'
+        +'<div class="事">'+转(h.交了什么)+(h.文件?'<span class="文件">'+转(h.文件)+'</span>':'')+'</div>'
+        +(退&&h.为什么?'<div class="由">为什么：'+转(h.为什么)+'</div>':'')+'</li>';
+    }).reverse().join(''):'<li class="空">还没有交接，队员都在等着开工</li>');
+    var 等=请示.filter(function(q){return !q.拍板}), 定=请示.filter(function(q){return q.拍板});
+    function 选(q,中){return '<div class="选项">'+(q.选项||[]).map(function(o){var c=(中&&o===q.拍板)?'中':(!中&&o===q.建议?'荐':'');return '<span class="'+c+'">'+转(o)+'</span>'}).join('')+'</div>'}
+    var h=等.map(function(q){return '<div class="单 等"><div class="前"><b>等你拍板</b><span>'+转(q.时间)+'</span></div><div class="问">'+转(q.问)+'</div>'+选(q,false)+(q.建议?'<div class="议"><b>队伍建议：</b>'+转(q.建议)+'</div>':'')+'</div>'}).join('')
+      +定.map(function(q){return '<div class="单 定"><div class="前"><span>已拍板</span><span>'+转(q.时间)+'</span></div><div class="问">'+转(q.问)+'</div>'+选(q,true)+'<div class="拍了">拍板：<b>'+转(q.拍板)+'</b></div></div>'}).join('');
+    画('请示',h||'<div class="空">还没有请示单，不用你拍板</div>');
+    var p=d.成片, f='';
+    if(p&&p.文件){
+      var u=转(p.文件), ext=String(p.文件).split('?')[0].split('.').pop().toLowerCase();
+      var m = ext==='html'||ext==='htm' ? '<iframe src="'+u+'"></iframe>' : /^(png|jpg|jpeg|gif|webp)$/.test(ext) ? '<img src="'+u+'" alt="成片">' : '<video controls preload="metadata" src="'+u+'"></video>';
+      f=m+(p.说明?'<div class="说">'+转(p.说明)+'</div>':'');
+    } else f='<div class="无片">还没出片</div>';
+    画('成片',f);
+  }
+  function 提示(开){document.getElementById('错').hidden=!开}
+  function 取(){
+    if(载入中) return; 载入中=true;
+    var 老=document.getElementById('数据脚本'); if(老) 老.remove();
+    window.队伍=null;
+    var s=document.createElement('script'); s.id='数据脚本';
+    var 完=function(){载入中=false};
+    s.onload=function(){
+      完();
+      var d=window.队伍;
+      if(d&&typeof d==='object'){ try{渲染(d);有过数据=true;提示(false)}catch(e){提示(true)} }
+      else 提示(true);
+    };
+    s.onerror=function(){完();提示(true)};
+    s.src=文件名+'?t='+Date.now();
+    document.head.appendChild(s);
+  }
+  取(); setInterval(取,4000);
+})();
+</script>
+</body>
+</html>

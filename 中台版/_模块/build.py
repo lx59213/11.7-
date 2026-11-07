@@ -16,15 +16,18 @@ JOBS = [
   # 浅色版 11-04 起不再更新，文件留在仓库里
   # ('开场.html', '课程骨架_浅色版.html', 'light', "'off'", '/* ======================= 进度条 / 翻页 / 讲师视图'),
   ('开场_v2细胞版_备份.html', '正式课件-完善中.html', 'dark', "'hidden'", '/* ================= 进度条 ================= */'),
+  # 11-07 TTZ：人机编队单开一个网页：只留封面和人机编队那一块
+  ('开场_v2细胞版_备份.html', '人机编队课件.html', 'dark', "'hidden'", '/* ================= 进度条 ================= */'),
 ]
 for src, dst, theme, w, js_anchor in JOBS:
+    solo = dst == '人机编队课件.html'
     s = (root / src).read_text(encoding='utf-8')
     def ins(anchor, text, before=True):
         global s
         assert s.count(anchor) >= 1, (src, anchor)
         i = s.index(anchor)
         s = s[:i] + text + s[i:] if before else s[:i+len(anchor)] + text + s[i+len(anchor):]
-    s = re.sub(r'<title>.*?</title>', '<title>组织 AI 技能提升实操训练营 · 正式课件</title>', s, count=1)
+    s = re.sub(r'<title>.*?</title>', '<title>组织 AI 技能提升实操训练营 · ' + ('人机编队' if solo else '正式课件') + '</title>', s, count=1)
     ins('</style>', THEMES[theme] + CSS)
     ins('<div id="bar"></div>', HTML)
     # 接在开场最后一步后面
@@ -45,7 +48,9 @@ for src, dst, theme, w, js_anchor in JOBS:
     assert '上午做的知识库' in l1, '技能第 1 拍不再是分享，挪动规则要改'
     rest = rest.replace(l1, '', 1).replace(l0, l1 + l0, 1)
     # 11-06 靖锋：第二天开始到收尾前先隐藏（画面和口播都还在 modules.html 里，清空这个名单就放回来）
-    HIDE_CH = ['第二天', '工作流', '组织', '收尾']   # 11-06 TTZ：人机编队放回来，当 03 的一部分接着讲，不提第二天
+    HIDE_CH = ['第二天', '工作流', '组织', '收尾', '人机编队']   # 11-07 TTZ：人机编队挪去单独的网页
+    if solo:
+        HIDE_CH = [c for c in HIDE_CH if c != '人机编队']
     rest = ''.join(l for l in rest.splitlines(True) if not any(f"ch:'{c}'" in l for c in HIDE_CH))
     k = s.index("{s:'sH'"); e = s.index('];', k)
     s = s[:e] + rest.replace('__W__', w) + s[e:]
@@ -55,5 +60,13 @@ for src, dst, theme, w, js_anchor in JOBS:
     a = 'reveal(el,b.k);'
     assert s.count(a) == 1, (src, a)
     s = s.replace(a, a + 'if(window.MODR){MODR.__clear();if(MODR[b.s])MODR[b.s](b.k,anim,el)}')
+    if solo:   # 只留封面和人机编队的拍
+        i = s.index('const BEATS=['); e = s.index('\n];', i)
+        body = ''.join(l for l in s[i:e].splitlines(True)[1:] if "{s:'cover'" in l or "{s:'m4'" in l)
+        body = re.sub(r"(\{s:'cover',k:0,[^`]*n:`)[^`]*`", r"\1各位早。第二天上午，人机编队：每人组一支 AI 队伍，给自家公司出一条宣传片。`", body, count=1)
+        s = s[:i] + 'const BEATS=[\n' + body.rstrip('\n') + s[e:]
+        for x, y in [("const DAY0={'开场':'第一天'", "const DAY0={'开场':'第二天'"), ("c==='开场'?'<em>第一天</em>'", "c==='开场'?'<em>第二天</em>'")]:
+            assert s.count(x) == 1, x
+            s = s.replace(x, y)
     (root / dst).write_text(s, encoding='utf-8')
     print('写好', dst, len(s))

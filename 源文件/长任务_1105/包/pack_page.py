@@ -20,7 +20,8 @@ def read(p):
 
 
 OVERALL = {"2_技能": "用上午的知识库，把你最拿手的一件事做成技能。同一份材料，两个没记忆的助手一个用技能、一个不用，各做一份，打乱了你挑：挑中用技能那份，技能才算做成；挑中另一份，技能就不行，改到你挑中它为止。",
-           "3_智能体": "把一整件事交给一个 AI 下属：它自己查、自己做、自己检查，碰到该你定的停下来问你。它做的和不照说明书做的打乱了你挑，挑中它才算能用。第二天拆成一支队，你只批请示单。"}
+           "3_智能体": "把一整件事交给一个 AI 下属：它自己查、自己做、自己检查，碰到该你定的停下来问你。它做的和不照说明书做的打乱了你挑，挑中它才算能用。第二天的人机编队另有一个包。",
+           "4_人机编队": "组一支 AI 队伍给你的公司出一条宣传片：策划、编剧分镜、出片、挑错四个队员现成的，照你公司的事填好就能干。队员之间自己交接，挑错的不过就退回，你只挑选题、看成片。队伍看板一直开着，看得见谁在干、交给了谁、谁被退回。"}
 HINT = {}    # 步号 → (拿到, 卡住)：学员页每步复制框上方那两行，课件预告屏也用
 STAGE = {}   # 步号 → 这一步开头要另起一段的标题（步骤文件里"段："那行），例如第二天上午
 
@@ -166,7 +167,8 @@ def page(title, eyebrow, h1, goal, inner):
 
 
 OUT = "/Users/ttz/Project/neo/11.07-08实操课/学员资料_发放包"
-NAME = {"2_技能": "技能", "3_智能体": "智能体"}
+NAME = {"2_技能": "技能", "3_智能体": "智能体", "4_人机编队": "编队"}
+MANUAL = {"2_技能": "技能", "3_智能体": "智能体", "4_人机编队": "人机编队"}   # 11-07 TTZ：人机编队单开一个包和网页
 
 
 def drag_file(PACK):
@@ -175,27 +177,39 @@ def drag_file(PACK):
 
 
 def make_zip(PACK, dest):
-    """<包>/X包.md 加 包_v12/帮做技能的技能/，打成 dest，压缩包里一层文件夹 2_技能/ 或 3_智能体/。"""
+    """<包>/X包.md 加 包_v12/帮做技能的技能/（技能、智能体）、包_v12/现成的技能和队员/（三个包都有），
+    人机编队另加 队伍菜单/ 和 队伍看板/（只放网页和空数据）；压缩包里一层文件夹 2_技能/ 这样。"""
     top = os.path.basename(PACK)
-    tools = os.path.join(os.path.dirname(PACK), "帮做技能的技能")
-    with zipfile.ZipFile(dest, "w", zipfile.ZIP_DEFLATED) as z:
-        z.write(os.path.join(PACK, f"{NAME[top]}包.md"), f"{top}/{NAME[top]}包.md")
-        z.writestr(f"{top}/AI先读这个.md",
-                   f"这是实操课的一个包。先完整读同一文件夹的 {NAME[top]}包.md，照里面的规矩做，别的先不做。\n"
-                   f"学员这条消息里带着第几步，就做那一步。只拖了这个压缩包、哪一步都没发，才照 {NAME[top]}包.md 里\"# 路由\"第二条做，先看档案做到第几步，再回一句该发第几步。不问学员想让你做什么。\n"
-                   f"帮做技能的技能/ 是只读的参考，不用跟学员提。\n")
-        for root, dirs, files in os.walk(tools):
+    base = os.path.dirname(PACK)
+    def add_dir(z, src, arc, skip=()):
+        for root, dirs, files in os.walk(src):
             dirs[:] = [d for d in dirs if not d.startswith(".") and d != "__pycache__"]
             for f in files:
-                if f.startswith("."):
+                if f.startswith(".") or f in skip:
                     continue
                 full = os.path.join(root, f)
-                z.write(full, f"{top}/帮做技能的技能/{os.path.relpath(full, tools)}")
+                z.write(full, f"{arc}/{os.path.relpath(full, src)}")
+    with zipfile.ZipFile(dest, "w", zipfile.ZIP_DEFLATED) as z:
+        z.write(os.path.join(PACK, f"{NAME[top]}包.md"), f"{top}/{NAME[top]}包.md")
+        if top == "4_人机编队":
+            z.writestr(f"{top}/AI先读这个.md",
+                       "这是实操课的一个包。先完整读同一文件夹的 编队包.md，照里面的规矩做，别的先不做。\n"
+                       "学员这条消息里带着第几步，就做那一步。只拖了这个压缩包、哪一步都没发，才照 编队包.md 里\"# 路由\"第二条做。不问学员想让你做什么。\n"
+                       "队伍菜单/、队伍看板/、现成的技能和队员/ 是做事要用的现成东西，用到再读，不用跟学员一一介绍。\n")
+            add_dir(z, os.path.join(PACK, "队伍菜单"), f"{top}/队伍菜单")
+            add_dir(z, os.path.join(PACK, "队伍看板"), f"{top}/队伍看板", skip=("队伍数据.js",))
+        else:
+            z.writestr(f"{top}/AI先读这个.md",
+                       f"这是实操课的一个包。先完整读同一文件夹的 {NAME[top]}包.md，照里面的规矩做，别的先不做。\n"
+                       f"学员这条消息里带着第几步，就做那一步。只拖了这个压缩包、哪一步都没发，才照 {NAME[top]}包.md 里\"# 路由\"第二条做，先看档案做到第几步，再回一句该发第几步。不问学员想让你做什么。\n"
+                       f"帮做技能的技能/、现成的技能和队员/ 是只读的参考，不用跟学员提。\n")
+            add_dir(z, os.path.join(base, "帮做技能的技能"), f"{top}/帮做技能的技能")
+        add_dir(z, os.path.join(base, "现成的技能和队员"), f"{top}/现成的技能和队员")
 
 
 def finish(PACK, steps, html_text):
     # 学员拿两样，都放 学员资料_发放包/ 顶层：操作手册（网页，回头部署）和拖进对话的压缩包（不用解压，整个拖进去）
-    nm = NAME[os.path.basename(PACK)]
+    nm = MANUAL[os.path.basename(PACK)]
     with open(os.path.join(OUT, f"操作手册_{nm}.html"), "w", encoding="utf-8") as f:
         f.write(html_text)
     make_zip(PACK, os.path.join(OUT, drag_file(PACK)))
@@ -315,7 +329,7 @@ def build_page(PACK, title):
     name = os.path.basename(PACK)
     inner = (f'<p class="go"><b>整体：</b>{OVERALL[name]}</p>'
              f'<div class="go"><p><b>怎么做：</b></p><ol class="how">'
-             f'<li>下载 <a href="{html.escape(drag_file(PACK))}" download><b>{html.escape(drag_file(PACK))}</b></a>，整个拖进上午做知识库的那个对话（不用解压），再复制下面第 1 步，一起发出去。'
+             f'<li>下载 <a href="{html.escape(drag_file(PACK))}" download><b>{html.escape(drag_file(PACK))}</b></a>，整个拖进{"昨天" if name == "4_人机编队" else "上午"}做知识库的那个对话（不用解压），再复制下面第 {steps[0][0]} 步，一起发出去。'
              f'<br><small>在微信里打开的下载不了：点右上角，用浏览器打开。苹果自带浏览器下完自动解开成了文件夹：把这个文件夹拖进去也行。</small></li>'
              f'<li>AI 问你，就答自己工作里的事；问以前出过的事，说具体是哪一回；想不起来、不想写，直说，AI 会劝你多想一下，实在不想写也能往下走，看板上照实记。</li>'
              f'<li>让你挑甲、乙，只看哪份你敢直接交出去，别猜是哪份。</li>'

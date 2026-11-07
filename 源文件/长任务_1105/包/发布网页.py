@@ -8,7 +8,8 @@ import os, shutil, subprocess, sys, tempfile
 OUT = "/Users/ttz/Project/neo/11.07-08实操课/学员资料_发放包"
 TOOL = os.path.expanduser("~/skills/html-publisher-upload/scripts/publish.py")
 PAGES = [("ttz-shicaoke-jineng", "操作手册_技能.html", "2_技能.zip", "2_jineng.zip"),
-         ("ttz-shicaoke-zhinengti", "操作手册_智能体.html", "3_智能体.zip", "3_zhinengti.zip")]
+         ("ttz-shicaoke-zhinengti", "操作手册_智能体.html", "3_智能体.zip", "3_zhinengti.zip"),
+         ("ttz-shicaoke-biandui", "操作手册_人机编队.html", "4_人机编队.zip", "4_biandui.zip")]   # 11-07 人机编队单开
 
 for project, page, z, z_en in PAGES:
     d = os.path.realpath(tempfile.mkdtemp(prefix="fabu_"))

@@ -20,8 +20,10 @@ BUDGET = os.path.join(HERE, "篇幅基线.json")
 BANNED = ["很强", "做法手册", "照手册", "包2", "包 2", "包3", "包 3", "猫狗家", "周晓",
           "过了才算", "优良中", "一般或没过", "A_简洁清单", "B_数字仪表盘", "C_待办时间线", "D_关系网", "看板样式", "用 A 建"]
 # 课件 gen_stations.py 里哪一组 steps_page 管哪几步
-DECK_STEPS = {"2_技能": [("sk_do", 1)], "3_智能体": [("ag_do", 1), ("bd_do", 6)]}
-KANBAN_KIND = {"2_技能": "技能", "3_智能体": "智能体"}
+DECK_STEPS = {"2_技能": [("sk_do", 1)], "3_智能体": [("ag_do", 1)], "4_人机编队": []}   # 11-07：编队挪去单独的网页
+KANBAN_KIND = {"2_技能": "技能", "3_智能体": "智能体", "4_人机编队": "智能体"}
+PACK_MD = {"2_技能": "技能包.md", "3_智能体": "智能体包.md", "4_人机编队": "编队包.md"}
+MANUAL = {"2_技能": "技能", "3_智能体": "智能体", "4_人机编队": "人机编队"}
 
 
 def rd(p):
@@ -46,7 +48,7 @@ def check(PACK):
     name = os.path.basename(PACK.rstrip("/"))
     bad = []
     steps = prompt_steps(os.path.join(PACK, "提示词"))
-    pack_md = rd(os.path.join(PACK, "技能包.md" if name == "2_技能" else "智能体包.md"))
+    pack_md = rd(os.path.join(PACK, PACK_MD[name]))
 
     # 1 包里"# 你的任务"的步数和分钟 = 提示词
     task = dict((int(a), int(b)) for a, b in re.findall(r"^(\d)\. .*?约 (\d+) 分钟", pack_md, re.M))
@@ -90,7 +92,8 @@ def check(PACK):
     kb = rd(KANBAN)
     m = re.search(r"'" + KANBAN_KIND[name] + r"': \[([^\]]*)\]", kb)
     n = len(re.findall(r"'[^']+'", m.group(1))) if m else 0
-    if n != len(steps):
+    want = 9 if name in ("3_智能体", "4_人机编队") else len(steps)   # 看板上智能体那张卡：智能体第 1–5 步，编队第 6–9 步
+    if n != want:
         bad.append(f"看板网页“{KANBAN_KIND[name]}”有 {n} 个小格，包有 {len(steps)} 步")
 
     # 4 包和提示词里引用的 _参考/ 文件真有；“怎么做看板.md 第 N 节”真有这一节
@@ -104,7 +107,7 @@ def check(PACK):
                 bad.append(f"怎么做看板.md 没有第 {sec} 节")
 
     # 5 学员看得到的地方不许出现的字
-    manual = os.path.join(ROOT, "学员资料_发放包", f"操作手册_{KANBAN_KIND[name]}.html")
+    manual = os.path.join(ROOT, "学员资料_发放包", f"操作手册_{MANUAL[name]}.html")
     for label, t in [("包", pack_md), ("提示词", "".join(s[2] for s in steps.values())),
                      ("回去以后", rd(os.path.join(PACK, "回去以后.md"))),
                      ("课件", rd(DECK) if os.path.exists(DECK) else "")]:
