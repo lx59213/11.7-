@@ -888,14 +888,14 @@ def k3_page(stats, pts, ex_t, ex, ex_src, step, src):
     h += f'<div class="k3p-ex pop" style="--d:1.9s"><i>实例</i><b>{ex_t}</b>' + ''.join(f'<p>{t}</p>' for t in ex) + (f'<small>{ex_src}</small>' if ex_src else '') + '</div>'
     return h + f'<div class="k3p-step pop" style="--d:2.3s">课上：{step}</div><div class="k3p-src">{src}</div>'
 # 11-07 TTZ：加一页提示词工程：这几个包的结构和怎么想出来的，学员回去自己复刻（结构取自 包_v12 技能包.md、提示词/）
-PE_DOC = [('角色', '你是我的××教练，唯一任务是帮我做出××'), ('管用标准', '做成什么样才算好，怎么验：盲比'), ('路由', '先看做到哪一步，缺什么只问缺的'),
-          ('每一步一段', '为了什么、得到什么、存在哪、卡住怎么办、只问几句'), ('规则', '一次只问一个，大白话，做不出照实说'), ('结尾三行', '做成了什么、看板亮哪格、下一步发什么')]
-PE_HOW = [('先定终点', '做完手里有什么，怎么算好'), ('拆成每步一段', '人只复制，AI 来问，不让人填空'), ('真跑再改', '找挑剔的人跑通，问题攒齐了再改规则')]
-pe_page = ('<div class="pe-doc pop" style="--d:.2s"><div class="pe-h">技能包.md 的骨架</div>'
-           + ''.join(f'<div class="pe-r pop" style="--d:{.5+i*.25:.2f}s"><u>{a}</u><p>{b}</p></div>' for i, (a, b) in enumerate(PE_DOC)) + '</div>'
-           + '<div class="pe-how"><b class="pop" style="--d:2.0s">怎么想出来的</b>'
-           + ''.join(f'<div class="pop" style="--d:{2.3+i*.3:.1f}s"><i>{i+1}</i><div><em>{a}</em><p>{b}</p></div></div>' for i, (a, b) in enumerate(PE_HOW)) + '</div>'
-           + '<div class="zz-end pop" style="--d:3.4s;left:96px;right:96px;top:690px;text-align:left;font-size:28px">回去：把这副骨架交给 AI，说清自家那件事的终点，让它写第一版，自己跑一遍再改</div>')
+# 11-07 TTZ：骨架那版看不懂，改成包里原话加这句管什么（原话取自 包_v12/2_技能/技能包.md）
+PE = [('你是我做技能的教练，也是最严的检验者，不是它的支持者。', '给它一个身份，还要它挑刺，不顺着人说'),
+      ('管用只有一个标准：……打乱了让我挑，我挑中照技能做的那份，愿意直接发出去。', '写清怎样算做好，它才不会自说自话'),
+      ('每一步我会单独发一段，你只做那一段，做完写结束三行就停，等我发下一段。', '一次只做一步，做完停下等人'),
+      ('一次只问一个问题，问完就停。要我选的，另起一行写「我猜：……」', '规定它怎么问：一次一个，先给猜测')]
+pe_page = ('<div class="pe-hd pop" style="--d:.1s"><span>包里的原话</span><span>这句话管什么</span></div>'
+           + ''.join(f'<div class="pe-row pop" style="--d:{.3+i*.35:.2f}s;top:{268+i*106}px"><i>{i+1}</i><q>“{a}”</q><b>{b}</b></div>' for i, (a, b) in enumerate(PE))
+           + '<div class="zz-end pop" style="--d:2.0s;left:96px;right:96px;top:700px;text-align:left;font-size:28px">回去：把这四句换成自家那件事，交给 AI 写第一版，自己跑一遍再改</div>')
 k3_grill = k3_page([('31.6 万', 'GitHub 星，所在技能库'), ('147 万次', '被装过')],
                    ['查得到的自己查，只问要人定的', '一轮把眼下能问的都问完，每问带建议答案', '一个决定连着一串，顺着问到底'],
                    '问出来的样子', ['AI：问 1，报价单要不要写交期？我建议写，客户拿到不用再问。', 'AI：问 2，低于成本的单谁批？我建议一律交老板。', '人只答“对”或改一句'], '示例', '技能 1、2 步 · 智能体 1、2、6 步', '星数、装机数：GitHub、skills.sh，2026 年 11 月')
@@ -1259,7 +1259,7 @@ SUB['m3'] = {
     "追问：把老手脑子里的<em>做法问出来</em>": "包里带的第一个技能 · grilling，Matt Pocock 开源",
     "做技能：写出来，<em>还要证明管用</em>": "第二个 · skill-creator，Anthropic 官方",
     "达尔文：一次改一处，<em>变好才留</em>": "第三个 · darwin-skill，花叔开源",
-    "这几个包，<em>是怎么写出来的</em>": "提示词工程：回去照这副骨架，自家的事也能写",
+    "这几个包，<em>就是写清四件事</em>": "提示词工程：左边是包里原话，右边是这句话管什么",
     "动手：做一个<em>能顶岗的智能体</em>": "五步，约 48 分钟，用自己的事",
     "做完以后，<em>让它自己上班</em>": "排班表设一次，每天到点自己干",
 }
@@ -1274,7 +1274,7 @@ m3_pages = [
     ('追问：把老手脑子里的<em>做法问出来</em>', k3_grill, 2, ''),
     ('做技能：写出来，<em>还要证明管用</em>', k3_make, 2, ''),
     ('达尔文：一次改一处，<em>变好才留</em>', k3_darwin, 2, ''),
-    ('这几个包，<em>是怎么写出来的</em>', pe_page, 2, ''),
+    ('这几个包，<em>就是写清四件事</em>', pe_page, 2, ''),
     ('动手：做一个<em>能顶岗的智能体</em>', ag_do, 2, ''),
 ] + [
     ('做完以后，<em>让它自己上班</em>', ag_auto, 3, ''),
@@ -1292,7 +1292,7 @@ beats('m3', '智能体', [
     '动手前，先看包里带的三个帮着做技能的技能，都是开源的，做技能的人都在用。第一个，追问，Matt Pocock 开源的，他那个技能库在 GitHub 上有三十多万星，这一个就被装了一百四十多万次。它像个严格的面试官：知识库查得到的自己查，只问要各位定的；一轮把眼下能问的都问完，每问都带一个建议答案，各位只答对、或者改一句。一个决定连着一串，它顺着问到底，老手脑子里的做法就这样被问出来。',
     '第二个，做技能，Anthropic 官方出的，被装了四十多万次。写出技能还不算，要证明管用：同一件事开两个没记忆的助手，一个带技能、一个不带，比出来强才算数。为什么非比不可？微软研究院今年 5 月的研究，AI 写的技能，四个里有三个有用，一个加了反而更差。读着像样，不代表管用。',
     '第三个，达尔文，花叔开源的。它借了 Karpathy 的自动实验：一次只改一处，改完重做，改前改后比，变好才留，变坏退回，只进不退。比的时候另开评委盲评，人最后拍板。为什么不让 AI 自己打分？同一项研究：让 AI 当裁判，两份技能挑好的，只对 46.4%，跟抛硬币差不多；给了评分标准也才七成多。所以课上由各位盲挑。课上这三个不用另装，AI 照它们的做法一步步带着做；课后想装，包里有原版。',
-    '各位回去肯定想自己写，不能离了我们的包就做不了。所以说说这几个包是怎么写出来的。左边是技能包的骨架，六块：角色，你是我的什么教练，唯一任务是帮我做出什么；管用标准，做成什么样才算好、怎么验，我们用盲比；路由，先看做到哪一步，缺什么只问缺的；每一步一段，写清为了什么、得到什么、存在哪、卡住怎么办、只问几句；规则，一次只问一个、说大白话、做不出照实说；最后结尾三行，做成了什么、看板亮哪格、下一步发什么。怎么想出来的？三件事。先定终点：这件事做完手里有什么、怎么算好。再拆成每步一段：人只管复制，让 AI 来问，不让人填空。最后真跑再改：我们找挑剔的人一遍遍跑，问题攒齐了再改规则，不是一处一处打补丁。回去就照这个来：把这副骨架交给 AI，说清自家那件事的终点，让它写第一版，自己跑一遍再改。',
+    '各位回去肯定想自己写，不能离了我们的包就做不了。其实这几个包，就是写清四件事。左边是包里的原话，右边是这句话管什么。第一句，你是我做技能的教练，也是最严的检验者，不是它的支持者：给它一个身份，还要它挑刺，不顺着各位说。第二句，管用只有一个标准，打乱了让我挑，我挑中照技能做的那份、愿意直接发出去：写清怎样算做好，它才不会自说自话。第三句，每一步我单独发一段，做完就停：一次只做一步，做完停下等人。第四句，一次只问一个问题，要我选的先写我猜：规定它怎么问人。回去把这四句换成自家那件事，交给 AI 写第一版，自己跑一遍再改。',
     '动手。群里发智能体包和操作手册，包同样拖进上午那个对话，再复制第 1 步一起发。五步，约 48 分钟：定岗位，写说明书，交出第一单，建排班表，改一句。第 3、5 步同样盲挑：照说明书做的和不照的，打乱了各位挑。都用自己的事，做自己岗位的、部门负责人的、老板把关的都行。它做事时别打字，看看板，每做一个动作多一条。想不起来、不想写就直说，AI 会劝一下，实在不想写也能往下走，看板照实记。',
     '做完以后，第一层：让它自己上班。这是我们自己在 Codex 里设的定时任务，左边这一排都是到点自己跑。录音清理每天 19 点跑：新录音进来，它照录音清理技能，3 分半出一份清理版、一份信息汇总，拿不准的 26 处标出来等人核。我切过去给大家看。各位的智能体也一样，排班表设一次，每天到点自己干，要紧的事还是你拍板。',
     '第二层，往上走：做完交人看，稳了再放手。接下来拆成一支队，几个 AI 互相挑错，人只批请示单；稳了的小事让它自己做，花钱、对外承诺、删东西永远交人；再往上，接进飞书、企业微信，同事直接在聊天软件里给它派活，开源的 OpenClaw 就能做，要 IT 同事装。老板每周看一页：做了几件、交人几件、错了几件。第一级，拆成一支队，我们接着做。',
@@ -1612,11 +1612,9 @@ CSS = r'''
 .sx-cmp .snip{flex:1;border:2.5px dashed var(--m-line2);border-radius:16px;display:flex;align-items:center;justify-content:center;padding:20px;
   background:repeating-linear-gradient(135deg,transparent 0 18px,color-mix(in srgb,var(--m-ink) 3%,transparent) 18px 36px)}
 .sx-cmp .snip p{font-size:20px;color:var(--m-mute);text-align:center;line-height:1.5;max-width:80%}
-.pe-doc{position:absolute;left:96px;top:230px;width:790px;background:var(--m-card);border:1.5px solid var(--m-line2);border-top:6px solid var(--c);border-radius:18px;padding:18px 30px 14px}
-.pe-h{font-size:20px;font-weight:800;color:var(--m-mute);padding-bottom:8px;border-bottom:1.5px solid var(--m-line2)}
-.pe-r{display:flex;gap:18px;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--m-line)}.pe-r:last-child{border-bottom:none}.pe-r u{flex:none;width:150px;text-decoration:none;font-size:25px;font-weight:900;color:var(--c)}.pe-r p{font-size:23px;line-height:1.4}
-.pe-how{position:absolute;left:930px;right:96px;top:236px}.pe-how>b{display:block;font-size:30px;font-weight:800;margin-bottom:16px}
-.pe-how>div{display:flex;gap:16px;align-items:flex-start;margin-bottom:18px}.pe-how i{flex:none;width:40px;height:40px;border-radius:50%;background:var(--c);color:#0b0d0c;font-style:normal;font-weight:900;font-size:22px;display:flex;align-items:center;justify-content:center}.pe-how em{display:block;font-style:normal;font-size:26px;font-weight:800}.pe-how p{font-size:21px;color:var(--m-mute);margin-top:4px}
+.pe-hd{position:absolute;left:96px;right:96px;top:228px;display:grid;grid-template-columns:60px 1fr 560px;font-size:20px;font-weight:700;color:var(--m-mute)}.pe-hd span:first-child{grid-column:2}
+.pe-row{position:absolute;left:96px;right:96px;display:grid;grid-template-columns:60px 1fr 560px;gap:0 24px;align-items:center;background:var(--m-card);border:1.5px solid var(--m-line2);border-left:6px solid var(--c);border-radius:16px;padding:16px 26px 16px 18px}
+.pe-row i{font-style:normal;font-size:30px;font-weight:900;color:var(--c);text-align:center}.pe-row q{font-size:22px;line-height:1.45;color:var(--m-mute);quotes:none}.pe-row b{font-size:28px;font-weight:800;line-height:1.35}
 .k3p-st{position:absolute;left:96px;top:236px;width:660px;display:flex;gap:24px}.k3p-st div{flex:1;background:var(--m-card);border:1.5px solid var(--m-line2);border-radius:18px;padding:20px 24px}.k3p-st b{display:block;font-size:56px;font-weight:900;color:var(--c);line-height:1.15}.k3p-st span{font-size:20px;color:var(--m-mute)}
 .k3p-li{position:absolute;left:96px;top:420px;width:660px}.k3p-li p{font-size:26px;line-height:1.45;padding:6px 0 6px 18px;border-left:4px solid var(--c);margin-bottom:16px}
 .k3p-ex{position:absolute;left:810px;right:96px;top:236px;background:var(--m-card);border:1.5px solid var(--m-line2);border-top:6px solid var(--c);border-radius:20px;padding:24px 30px}.k3p-ex i{font-style:normal;font-size:20px;font-weight:800;color:var(--c)}.k3p-ex b{display:block;font-size:30px;font-weight:800;margin:8px 0 6px}.k3p-ex p{font-size:24px;line-height:1.55;margin-top:12px}.k3p-ex small{display:block;font-size:17px;color:var(--m-mute);margin-top:16px}
