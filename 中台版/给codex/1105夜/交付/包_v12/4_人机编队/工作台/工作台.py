@@ -2413,6 +2413,8 @@ def step_label(d):
     open_g = bool(g) and not g.get("完成")
     if s == 6 or not d.get("轮"):
         return f"第 {1 + off} 轮：开工前定规矩" if (not (d.get("开工单") or {}).get("确认") or open_g) else f"第 {1 + off} 轮：试做"
+    if open_g and g.get("下一轮", 0) >= 3 and not off:
+        return "两轮做完了"   # 课上只跑两轮；第 3 轮的改队卡留给回去以后
     if open_g and g.get("下一轮"):
         return f"第 {g['下一轮'] + off} 轮：开工前定规矩"
     r = d["轮"][-1]
