@@ -770,3 +770,7 @@ button.kb-row:hover { background: var(--zt-subtle); }
 .kb-rule b { font-size: 16.5px; line-height: 1.45; color: var(--zt-ink); font-weight: 600; }
 .kb-rule span { font-size: 14px; color: var(--zt-warn); font-weight: 500; }
 .kb-btnrow button { min-width: 120px; }
+
+/* 成品缩略图：图卡直接显示第一张 */
+.kb-slot .clip iframe.thumb { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; pointer-events: none; background: #fff; }
+.kb-slot .clip i.cnt { position: absolute; right: 4px; bottom: 4px; font-style: normal; font-size: 11.5px; line-height: 1.5; padding: 0 5px; border-radius: 4px; background: rgba(20,24,26,.62); color: #fff; }

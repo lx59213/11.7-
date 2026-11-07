@@ -90,7 +90,7 @@ export function PickDone({ p, older }: { p: Any; older: Any[] }) {
   return (
     <Card kind="done" meta={<><CheckIcon size={16} />你和挑错各挑各的</>} right={`第 ${p.轮} 轮 · ${p.文件}`} title="揭晓：两边挑得一样不一样">
       <div className="kb-three">
-        <div><b className="text-kumo-success">{both}</b><span>两边都挑出</span></div>
+        <div><b className="text-kumo-success">{both}</b><span>我和挑错的都看出</span></div>
         <div><b className="text-kumo-warning">{onlyA}</b><span>只有挑错挑出</span></div>
         <div><b className="text-kumo-brand">{onlyH}</b><span>只有我挑出</span></div>
       </div>
@@ -100,7 +100,7 @@ export function PickDone({ p, older }: { p: Any; older: Any[] }) {
           if (!String(t).trim()) return <Row key={ln} n={ln} text=" " />;
           const a = A[ln], b = H[ln];
           const cls = a && b ? "both" : a ? "ai" : b ? "me" : "";
-          const tag = a && b ? <Tag tone="ok">两边都挑出</Tag> : a ? <Tag tone="warn">只有挑错挑出</Tag> : b ? <Tag tone="brand">只有我挑出</Tag> : null;
+          const tag = a && b ? <Tag tone="ok">两边都看出</Tag> : a ? <Tag tone="warn">只有挑错挑出</Tag> : b ? <Tag tone="brand">只有我挑出</Tag> : null;
           return (
             <Row key={ln} n={ln} cls={cls}>
               {t} {tag}
@@ -131,7 +131,7 @@ export function PickDone({ p, older }: { p: Any; older: Any[] }) {
           {older.map((o) => {
             const oa: Any[] = o.AI || [], oh: Any[] = o.人 || [];
             const oc = oa.filter((x) => oh.some((y) => y.行 === x.行)).length;
-            return <p key={o.id} className="my-1 text-[15px]">第 {o.轮} 轮 · {o.文件}{o.人不挑 ? `：只有挑错查，挑出 ${oa.length} 处` : `：挑错挑出 ${oa.length} 处，我挑出 ${oh.length} 处，两边都挑出 ${oc} 处`}</p>;
+            return <p key={o.id} className="my-1 text-[15px]">第 {o.轮} 轮 · {o.文件}{o.人不挑 ? `：只有挑错查，挑出 ${oa.length} 处` : `：挑错挑出 ${oa.length} 处，我自己挑出 ${oh.length} 处，我和挑错的都看出 ${oc} 处`}</p>;
           })}
         </Disclosure>
       )}

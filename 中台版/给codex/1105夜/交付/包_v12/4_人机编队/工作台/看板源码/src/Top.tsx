@@ -132,7 +132,7 @@ export function Stage({ pin, setPin, compact, fresh }: { pin: string | null; set
               <button key={n} type="button" className={`kb-slot ${on ? "on" : ""} ${isVideo(f.文件) ? "" : "doc"}`} onClick={() => setPin(f.文件)} aria-label={`看${short(n)}`}>
                 <span className="clip">
                   {isVideo(f.文件) ? <><video muted playsInline preload="metadata" src={fileUrl(f.文件) + "#t=0.5"} /><PlayIcon size={22} weight="fill" className="play" /></>
-                    : isHtml(f.文件) ? <><ImageIcon size={26} /><i>{f.张数 || ""}{f.张数 ? " 张" : ""}</i></> : <FileTextIcon size={26} />}
+                    : isHtml(f.文件) ? <><iframe className="thumb" title={short(n)} sandbox="allow-scripts" tabIndex={-1} aria-hidden="true" src={fileUrl(f.文件)} />{f.张数 ? <i className="cnt">{f.张数} 张</i> : null}</> : <FileTextIcon size={26} />}
                 </span>
                 <b>{short(n)}</b><small>{n === 0 ? "一位单独做" : "队伍接力"}</small>
               </button>

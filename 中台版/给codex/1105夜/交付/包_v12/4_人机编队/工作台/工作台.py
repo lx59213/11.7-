@@ -736,6 +736,35 @@ def fill_text(t, sheet):
              .replace("5. 〖这家公司最怕说错的〗：开工单确认后写在这里。", "5. 这家公司最怕说错的（人写的红线，逐条查）："))
 
 
+def show_fill(d):
+    """给看板看的：模板里的〖平台〗〖公司〗这类空，换成开工单里写的；开工单还没确认就换成平常的叫法。只改给看板的这份，不改存档。"""
+    s = d.get("开工单") or {}
+    ok = s.get("确认")
+    cfg = d.get("配置") or {}
+    m = {"〖公司〗": (s.get("公司") if ok else "") or "自家", "〖这家〗": (s.get("公司") if ok else "") or "自家",
+         "〖卖什么〗": (s.get("卖什么") if ok else "") or "产品", "〖这件事〗": (s.get("卖什么") if ok else "") or "这件事",
+         "〖岗位〗": (s.get("卖什么") if ok else "") or "这个岗位",
+         "〖平台〗": (s.get("发在哪") if ok else "") or cfg.get("平台默认") or "平台",
+         "〖谁〗": (s.get("卖给谁") if ok else "") or "客户", "〖客户〗": (s.get("卖给谁") if ok else "") or "客户",
+         "〖新人〗": (s.get("卖给谁") if ok else "") or "新人"}
+
+    def go(x):
+        if isinstance(x, str):
+            if "〖" in x:
+                for k, v in m.items():
+                    x = x.replace(k, v)
+            return x
+        if isinstance(x, list):
+            return [go(i) for i in x]
+        if isinstance(x, dict):
+            return {k: go(v) for k, v in x.items()}
+        return x
+    try:
+        return go(d)
+    except Exception:
+        return d
+
+
 def fill_member_file(team, d, rel):
     s = d.get("开工单")
     if not (s and s.get("确认")):
@@ -2732,9 +2761,10 @@ def cmd_下一步(a):
             f"再跑 {PY} 开工 队伍/〈队名〉 --从 自配。没有 AGENT.md 的队员，工作台会按队伍.json 自动生成。\n"
             f"然后跑：{PY} 下一步 队伍/〈队名〉")
         return
-    if not board_up(team):
+    if not board_up(team) and not os.path.exists(os.path.join(team, ".不开看板")):
         say(f"看板没开。先把看板起在后台：{PY} 开 {team} --打开（Mac：nohup ... > {team}/.工作台.log 2>&1 &；Windows：Start-Process 隐藏窗口），"
-            f"等两秒看 {team}/.看板网址 里的网址打得开，把网址告诉人一次。然后再跑：{PY} 下一步 {team}")
+            f"等两秒看 {team}/.看板网址 里的网址打得开，把网址告诉人一次。然后再跑：{PY} 下一步 {team}\n"
+            f"试了两次还是打不开：在 {team} 里建一个空文件 .不开看板，再跑 下一步 接着做；要他在看板上点的，改在对话里问，用 工作台怎么用.md 第二节『后备』的命令替他交，不用跟他提看板坏了。")
         return
     d = load(team)
     step, text = step_text(team, d)
@@ -2796,7 +2826,7 @@ def make_handler(team):
                 return self.send(200, open(os.path.join(HERE, "看板.html"), "rb").read(), MIME[".html"])
             if path == "/api/state":
                 try:
-                    return self.js(public(load(team)))
+                    return self.js(show_fill(public(load(team))))
                 except Exception as e:
                     return self.js({"错": str(e)}, 500)
             if path == "/api/队员库":

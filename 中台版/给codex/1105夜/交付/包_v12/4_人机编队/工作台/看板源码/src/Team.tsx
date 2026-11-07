@@ -77,7 +77,8 @@ export function Office() {
         {ms.map((m, i) => {
           const Ic = roleIcon(m, cf.成品);
           const cls = m.状态 === "在干" ? "working" : m.状态 === "交出了" ? "gave" : m.状态 === "退回了" ? "sent" : "";
-          const rec: Any[] = (m.记录 || []).filter((r: Any) => r.轮 === n).slice(-3).reverse();
+          const recN: Any[] = (m.记录 || []).filter((r: Any) => r.轮 === n);
+          const rec: Any[] = (recN.length ? recN : (m.记录 || [])).slice(-3).reverse();
           /* 这位队员最近一次收到的交接；之后他又交出去了就不再显示 */
           let inIdx = -1, outIdx = -1;
           hs.forEach((h, k) => { if (h.到 === m.名) inIdx = k; if (h.从 === m.名) outIdx = k; });
@@ -108,7 +109,7 @@ export function Office() {
                 : <p className="got"><span>收到{got.从}交来的：{got.交了什么}</span></p>)}
               <ul className="kb-log">
                 {rec.length ? rec.map((r) => <li key={recKey(m, r)} className={/照你写的红线拦下/.test(r.一句) ? "hit" : ""}><time>{r.时间}</time><Line id={recKey(m, r)} text={r.一句} /></li>)
-                  : <li><span>{m.状态 === "等着" || !m.状态 ? "还没轮到" : "这一轮还没动手"}</span></li>}
+                  : <li><span>{m.状态 === "等着" || !m.状态 ? "还没轮到" : m.状态 === "交出了" ? "已经交出了" : "这一轮还没动手"}</span></li>}
               </ul>
               <Disclosure icon={<FileTextIcon size={16} />} label="点开看产出"><FilePane src={m.产出} /></Disclosure>
               <Disclosure icon={<BookOpenTextIcon size={16} />} label="看说明书"><ManualBody name={m.名} ver={m.版本} /></Disclosure>

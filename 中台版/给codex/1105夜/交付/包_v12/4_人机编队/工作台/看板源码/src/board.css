@@ -66,7 +66,7 @@
 @keyframes kb-dot { 0%, 60%, 100% { opacity: .25; } 30% { opacity: 1; } }
 
 /* 看板四列 */
-.kb-kanban { display: grid; grid-template-columns: repeat(4, minmax(170px, 1fr)); gap: 10px; overflow-x: auto; }
+.kb-kanban { display: grid; grid-template-columns: repeat(4, minmax(140px, 1fr)); gap: 10px; overflow-x: auto; }
 .kb-kcol { background: var(--zt-sunk); border-radius: 14px; padding: 12px 9px; min-height: 260px; min-width: 0; }
 .kb-kcol h3 { display: flex; align-items: center; gap: 8px; margin: 0; padding: 0 4px 10px; font-size: 15px; font-weight: 600; }
 .kb-kcol h3 > i { width: 8px; height: 8px; border-radius: 50%; background: var(--zt-faint); }
@@ -177,7 +177,7 @@
 .kb-donegrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: var(--gap); align-items: start; }
 
 .kb-chat .typing.you { color: var(--zt-brand); font-weight: 600; }
-@container (max-width: 720px) { .kb-kanban { grid-template-columns: repeat(2, minmax(0, 1fr)); } .kb-kcol { min-height: 0; } }
+@container (max-width: 600px) { .kb-kanban { grid-template-columns: repeat(2, minmax(0, 1fr)); } .kb-kcol { min-height: 0; } }
 /* 窄屏：队员栏变成上面一排，待办可收起 */
 @media (max-width: 1280px) {
   .kb-body, .kb-body.notodo { grid-template-columns: minmax(0, 1fr) 380px; }
@@ -228,3 +228,12 @@
   .kb-body.widetodo { grid-template-columns: 240px minmax(0, 1fr) min(48vw, 860px); }
   .kb-body.widetodo.noroster { grid-template-columns: minmax(0, 1fr) min(48vw, 860px); }
 }
+
+/* 组队图：队员名不竖排，状态标签放不下就换到下一行 */
+.kb-ocard .top { flex-wrap: wrap; row-gap: 4px; }
+.kb-ocard .top > .min-w-0 { min-width: 5.5em; }
+.kb-ocard .nm, .kb-ocard .kd { white-space: nowrap; }
+.kb-ocard .kd { display: flex; align-items: center; gap: 3px; }
+
+/* 每轮对着看：表头“第 N 轮”不拆行 */
+.kb-mini thead th { white-space: nowrap; }

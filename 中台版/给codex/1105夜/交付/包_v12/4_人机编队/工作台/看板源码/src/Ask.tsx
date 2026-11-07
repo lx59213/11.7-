@@ -128,7 +128,7 @@ export function Basis({ x }: { x: Any }) {
   return (
     <Disclosure label="看依据：成绩、被退回最多的队员、理由" lazy={false}>
     <div className="kb-basis">
-      <p><b>第 {n} 轮的成绩：</b>用时 {row.用时分钟 || 0} 分钟，交接 {row.交接 || 0} 次，退回 {row.退回 || 0} 次，{cfgOf(S).视频 ? "出片" : cfgOf(S).动词} {row.出片 || 0} {cfgOf(S).视频 ? "次" : "份"}；挑错拦下 {row.挑错拦下 || 0} 处，你挑出 {row.人挑出 || 0} 处，两边都挑出 {row.重合 || 0} 处。</p>
+      <p><b>第 {n} 轮的成绩：</b>用时 {row.用时分钟 || 0} 分钟，交接 {row.交接 || 0} 次，退回 {row.退回 || 0} 次，{cfgOf(S).视频 ? "出片" : cfgOf(S).动词} {row.出片 || 0} {cfgOf(S).视频 ? "次" : "份"}；挑错拦下 {row.挑错拦下 || 0} 处，你自己挑出 {row.人挑出 || 0} 处，你和挑错的都看出 {row.重合 || 0} 处。</p>
       <p><b>{cfgOf(S).拍板名[1]}时你写的话：</b>{rd.发不发 ? rd.发不发 : "这一轮没有写"}</p>
       <p><b>被退回最多的队员：</b>{top ? `${top[0]}（${top[1]} 次）` : "还没有被退回的"}</p>
       <p><b>退回的理由：</b>{backs.length ? backs.map((b: Any) => `${b.从} 退给 ${b.到}：${b.为什么}`).join("；") : "这一轮没有退回"}</p>
