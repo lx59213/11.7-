@@ -1452,37 +1452,53 @@ bd_first = (_vbox(96, '编队_成片_第1轮.mp4', '<b>第 1 轮</b>开头先拍
             + _shot(780, 216, 724, 452, '编队_队伍看板.webp', '队伍看板：四个队员谁在干、交给了谁、等人拍的单子、两轮成绩单', .8)
             + ''.join(f'<div class="fv-n pop" style="left:{780+i*248}px;--d:{1.2+i*.25:.2f}s"><b>{a}</b><span>{b}</span></div>' for i, (a, b) in enumerate([('13 分钟', '四步跑完'), ('6 下', '人在看板上点'), ('1 处', '挑错退回重写')])))
 # 11-07 晚 TTZ：学员不知道智能体做完是什么、放哪、怎么叫；优秀案例都先讲一个完整场景
-def _tree(x, y, w, title, rows, d):
-    h = f'<div class="ft pop" style="left:{x}px;top:{y}px;width:{w}px;--d:{d}s"><b>{title}</b>'
-    for name, note, lv in rows:
-        h += f'<p style="padding-left:{lv*28}px"><code>{name}</code><span>{note}</span></p>'
-    return h + '</div>'
-def _uses(x, y, w, items, d):
-    return ''.join(f'<div class="fu pop" style="left:{x}px;top:{y+i*150}px;width:{w}px;--d:{d+i*.3:.1f}s"><i>{i+1}</i><b>{h}</b><p>{s}</p></div>' for i, (h, s) in enumerate(items))
-bd_agent = (_tree(96, 216, 640, '智能体/回询价助手/（示例）', [
-        ('AGENT.md', '岗位说明书：它是谁、守什么、怎么做、放多少手', 0),
-        ('工作日志.md', '它做过的每一单：查了什么、在哪停下', 0),
-        ('收件箱/', '新事放这里，它来取', 0), ('产出/', '它交出的东西', 0), ('旧版/', '改一句以前的说明书', 0)], .2)
-    + _uses(800, 216, 704, [('叫它干一件', 'WorkBuddy 新开对话：「叫回询价助手处理收件箱」。它先读岗位说明书再干。'),
-                            ('排班，到点自己干', 'WorkBuddy 的定时任务：每天几点处理一次收件箱，停在要人拍板的地方。'),
-                            ('换软件也能用', '岗位说明书是一个文件，带去 Codex 等别的 AI，照样按它干。')], .6)
-    + '<div class="ft-note pop" style="--d:1.6s"><b>昨天跑完 9 步的</b>第 6 到 9 步是上一版的编队，那支队在 智能体/〈队名〉/ 下，照样能用。今天的包另建一支宣传片队，不冲突。</div>')
-_TL = [('20:32', '人', '开工单上写两条红线：交期不能说一定准时；不报底价'),
-       ('20:34', '策划', '读了 4 页知识库，出三个选题'), ('20:34', '人', '挑选题：饮水机安静'),
-       ('20:35', '编剧分镜', '写四个镜头'), ('20:35', '人', '和挑错各挑各的：人标了 2 处'),
-       ('20:36', '挑错', '核对：30 分贝知识库有原文，保留；字数标注数错，退回重写'),
-       ('20:37', '出片', '第 1 条成片，35 秒出来'), ('20:38', '人', '不发：开头三秒没说清卖什么'),
-       ('20:39', '人', '判断是编剧说明书那一句，改成：第一镜先拍客户的麻烦'),
-       ('20:40', '编剧分镜', '第 2 轮：第一镜改拍老板被吵到皱眉'), ('20:41', '人', '两条打乱了挑，挑中第 2 轮，发')]
-bd_tl = '<div class="tl">' + ''.join(f'<div class="tl-r pop{" hu" if who == "人" else ""}" style="--d:{.2+i*.18:.2f}s"><i>{tm}</i><b>{who}</b><p>{s}</p></div>' for i, (tm, who, s) in enumerate(_TL)) + '</div>'
-bd_tl += '<div class="tl-side pop" style="--d:2.4s"><b>人出手 6 次</b><p>写红线、挑选题、挑错、定发不发、找到那一句、盲挑</p><b style="margin-top:28px">别的都是队员自己交接</b><p>每一棒干什么，看板上一句一句冒出来</p></div>'
-bd_have = (_tree(96, 216, 640, '队伍/宣传片队/', [
-        ('分工.md', '几棒、谁交给谁、哪里停下等人', 0), ('策划/ 编剧分镜/ 出片/ 挑错/', '每人一份 AGENT.md', 0),
-        ('开工单.md', '公司的事和最怕说错的', 0), ('产出/', '选题、脚本、成片', 0), ('看板数据.json', '看板上的一切', 0)], .2)
-    + _uses(800, 216, 704, [('再出一条', '同一个对话里说「周间练习」，看板打开，只点要定的。'),
-                            ('每周自己出', '定时任务每周几跑一遍，选题和成片等人点头。'),
-                            ('换一件事', '队伍菜单里挑一支：竞品周报、客户回信、招聘初筛……挑错的永远单独一个。')], .6)
-    + '<div class="ft-note pop" style="--d:1.6s"><b>知识库里还多一页</b>「我这节课定的」：最怕说错的、拍过的板、调过的那一句、两轮成绩单。</div>')
+# 11-07 夜 TTZ：这三页是黑底字墙，照知识库那段做成图（三张卡加一句，时间线画成两条道）
+I_CLOCK = f'<circle r="26" fill="{IC_CARD}" stroke="{IC_INK}" stroke-width="2.5"/><path d="M0 -15V0L11 7" fill="none" stroke="{IC_C}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>'
+I_FILM = f'<rect x="-28" y="-20" width="56" height="40" rx="6" fill="{IC_CARD}" stroke="{IC_INK}" stroke-width="2.5"/><path d="M-7 -10L11 0L-7 10Z" fill="{IC_C}"/>'
+I_STOP = f'<polygon points="-10,-24 10,-24 24,-10 24,10 10,24 -10,24 -24,10 -24,-10" fill="{IC_RED}"/>' + _tx(0, 8, '停', 22)
+def _ct(x, y, t, sz=16, col=IC_INK, w=700): return f'<text x="{x}" y="{y}" font-size="{sz}" font-weight="{w}" fill="{col}" text-anchor="middle">{t}</text>'
+def _lt(x, y, t, sz=17, col=IC_INK, w=700): return f'<text x="{x}" y="{y}" font-size="{sz}" font-weight="{w}" fill="{col}">{t}</text>'
+def _bub(cx, cy, t, w=124): return f'<rect x="{cx-w/2}" y="{cy-22}" width="{w}" height="44" rx="12" fill="{IC_CARD}" stroke="{IC_C}" stroke-width="2"/>' + _ct(cx, cy+6, t, 18, IC_INK, 800)
+_say = lambda t, end: at(46, 108, I_PERSON, 1.5) + _bub(150, 52, t) + i_arrow(84, 112, 214, 112) + end
+_a1 = at(72, 96, I_FOLDER, 2.0) + ''.join(at(170, 50+i*42, I_DOC, .5) + _lt(190, 56+i*42, n) for i, n in enumerate(['岗位说明书', '工作日志', '收件箱']))
+_a2 = _say('处理收件箱', at(256, 112, I_ROBOT, 1.1))
+_a3 = (at(56, 92, I_CLOCK, 1.3) + _ct(56, 154, '每天 9:00', 16, IC_MU) + i_arrow(98, 92, 128, 92) + at(166, 100, I_ROBOT, 1.0)
+       + i_arrow(200, 92, 224, 92) + at(258, 92, I_STOP) + _ct(258, 154, '要拍板就停', 16, IC_MU))
+bd_agent = keng3([(_a1, '一个文件夹', '在工作区 智能体/ 下，换软件也能用'), (_a2, '对话里叫它', '新开对话说一句，它先读说明书再干'),
+                  (_a3, '到点自己干', 'WorkBuddy 定时任务，每天跑一遍')], '昨天跑完 9 步的：那支队也在 智能体/ 下，和今天的不冲突')
+_h1 = at(66, 92, I_FOLDER, 1.8) + ''.join(at(176+(i % 2)*66, 56+(i//2)*66, I_ROBOT, .55) + (at(188+(i % 2)*66, 66+(i//2)*66, I_MAG, .55) if i == 3 else '')
+                                           + _ct(176+(i % 2)*66, 90+(i//2)*66, n, 15, IC_MU) for i, n in enumerate(['策划', '编剧', '出片', '挑错']))
+_h2 = _say('周间练习', at(256, 108, I_FILM, 1.2))
+_h3 = (at(56, 92, I_CLOCK, 1.3) + _ct(56, 154, '每周一', 16, IC_MU) + i_arrow(98, 92, 128, 92) + at(166, 100, I_ROBOT, 1.0)
+       + i_arrow(200, 92, 222, 92) + at(258, 92, I_FILM, 1.1) + at(282, 70, I_OK(), .9) + _ct(258, 154, '等人点头', 16, IC_MU))
+bd_have = keng3([(_h1, '一支队，一个文件夹', '在工作区 队伍/宣传片队/ 下'), (_h2, '再出一条', '说一句，看板打开，只点要定的'),
+                 (_h3, '每周自己出', '定时任务每周跑，成片等人点头')], '换一件事：从队伍菜单另挑一支，挑错永远单独一个')
+# 时间线：上面一条是人，下面一条是队员；时间照真跑的看板记录（20:32 到 20:41）
+_X = lambda m: 290 + m*128
+_HU = [(0, '写红线', '交期、底价'), (2, '挑选题', '饮水机安静'), (3, '挑错', '人标了 2 处'), (6, '不发', '开头没说清'), (7, '改一句', '编剧那一句'), (9, '盲挑，发', '挑中第 2 轮')]
+_TM = [(2, '策划', '三个选题', None), (3, '编剧分镜', '四个镜头', None), (4, '挑错', '退回 1 处', None), (5, '出片', '第 1 条', '编队_帧_第1轮.jpg'), (8.3, '第 2 轮', '改第一镜，出片', '编队_帧_第2轮.jpg')]
+_ev = sorted([(m, 'h', e) for m, *e in _HU] + [(m, 't', e) for m, *e in _TM], key=lambda r: (r[0], r[1] == 'h'))
+tl = (at(150, 318, I_PERSON, 1.6) + txt(150, 386, '人', 26, 'var(--m-ink)', w=900)
+      + at(150, 548, I_ROBOT, 1.2) + txt(150, 610, '队员', 26, 'var(--m-ink)', w=900)
+      + f'<line x1="270" y1="450" x2="1470" y2="450" stroke="{IC_LN}" stroke-width="3"/>'
+      + ''.join(f'<line x1="{_X(m)}" y1="444" x2="{_X(m)}" y2="456" stroke="{IC_LN}" stroke-width="2"/>' + txt(_X(m), 478, f'20:{32+m}', 15) for m in range(10)))
+for k, (m, who, e) in enumerate(_ev):
+    x, d = _X(m), .3 + k*.22
+    if who == 'h':
+        lab, sub = e
+        g = (f'<line x1="{x}" y1="370" x2="{x}" y2="450" stroke="{IC_C}" stroke-width="2"/><circle cx="{x}" cy="450" r="9" fill="{IC_C}"/>'
+             f'<rect x="{x-60}" y="296" width="120" height="74" rx="12" fill="{IC_CARD}" stroke="{IC_C}" stroke-width="2"/>'
+             + _ct(x, 328, lab, 22, IC_C, 900) + _ct(x, 356, sub, 16, IC_MU, 600))
+    else:
+        lab, sub, img = e
+        g = (f'<line x1="{x}" y1="488" x2="{x}" y2="504" stroke="{IC_LN}" stroke-width="2"/><circle cx="{x}" cy="450" r="7" fill="{IC_MU}"/>'
+             + _ct(x, 528, lab, 20, IC_INK, 800) + _ct(x, 552, sub, 16, IC_MU, 600))
+        if img:
+            g += (f'<image href="{_sc(img)}" x="{x-44}" y="568" width="88" height="154" preserveAspectRatio="xMidYMid slice"/>'
+                  f'<rect x="{x-44}" y="568" width="88" height="154" rx="6" fill="none" stroke="{IC_LN}" stroke-width="2"/>')
+    tl += f'<g class="pop" style="--d:{d:.2f}s">{g}</g>'
+tl += txt(800, 778, '人出手 6 次，别的都是队员自己交接', 34, 'var(--c)', cls='pop', d=.3+len(_ev)*.22, w=900)
+bd_tl = svg(tl)
 SUB['m4'] = {
     "我们自己每天用的 <em>AI 队伍</em>": "左边飞书里派活，右边中台上看谁在干",
     "一个人带一支 <em>AI 队伍</em>": "看板上看得见谁在干、交给了谁",
@@ -1561,11 +1577,6 @@ CSS = r'''
 /* 11-06 TTZ：要切出去演示的页，右上角挂一枚牌子 */
 .live-cue{position:absolute;right:96px;top:150px;font-size:19px;font-weight:800;color:#0b0d0c;background:var(--c);border-radius:20px;padding:6px 16px}
 /* 11-07 人机编队：宣传片队流程、现成的技能和队员 */
-.ft{position:absolute;box-sizing:border-box;background:var(--m-card);border:1.5px solid var(--m-line2);border-radius:16px;padding:22px 28px}.ft b{display:block;font-size:28px;font-weight:900;color:var(--c);margin-bottom:14px;font-family:ui-monospace,Menlo,monospace}.ft p{display:flex;flex-direction:column;margin:0 0 14px}.ft code{font-family:ui-monospace,Menlo,monospace;font-size:24px;font-weight:700;color:var(--m-ink)}.ft span{font-size:20px;color:var(--m-mute);margin-top:2px}
-.fu{position:absolute;box-sizing:border-box;height:134px;background:var(--m-card);border:1.5px solid var(--m-line2);border-left:6px solid var(--c);border-radius:16px;padding:16px 24px 16px 70px}.fu i{position:absolute;left:24px;top:16px;font-style:normal;font-size:30px;font-weight:900;color:var(--c)}.fu b{display:block;font-size:28px;font-weight:900;margin-bottom:6px}.fu p{font-size:21px;line-height:1.45;color:var(--m-mute)}
-.ft-note{position:absolute;left:96px;right:96px;top:690px;font-size:21px;color:var(--m-mute);border-top:1.5px dashed var(--m-line2);padding-top:12px}.ft-note b{color:var(--c);margin-right:14px}
-.tl{position:absolute;left:96px;top:212px;width:1000px}.tl-r{display:grid;grid-template-columns:76px 120px 1fr;align-items:baseline;padding:6px 0;border-bottom:1px solid var(--m-line2);opacity:.62}.tl-r i{font-style:normal;font-size:19px;color:var(--m-mute);font-variant-numeric:tabular-nums}.tl-r b{font-size:21px}.tl-r p{font-size:21px;line-height:1.35}.tl-r.hu{opacity:1}.tl-r.hu b{color:var(--c)}
-.tl-side{position:absolute;left:1150px;right:96px;top:230px}.tl-side b{display:block;font-size:34px;font-weight:900;color:var(--c)}.tl-side p{font-size:22px;line-height:1.5;color:var(--m-mute);margin-top:6px}
 
 .fv{position:absolute;top:216px;width:282px;height:500px;border-radius:16px;overflow:hidden;background:#000;border:1.5px solid var(--m-line2)}.fv video{width:100%;height:100%;object-fit:cover;display:block}
 .fv-cap{position:absolute;top:728px;width:300px;font-size:19px;line-height:1.35;color:var(--m-mute)}.fv-cap b{display:block;font-size:24px;color:var(--m-ink)}
