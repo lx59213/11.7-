@@ -93,7 +93,7 @@ export default function App() {
   const buildingNow = !!S && squadOpen(S);
   useEffect(() => { setTabSel(null); }, [buildingNow]);
 
-  if (!S) return <div className="kb-page"><p className="kb-wait"><Spin />正在连看板服务……</p>{offline && <div className="kb-offline">看板连不上本机的服务，正在重试。服务关了的话，回 WorkBuddy 对话里让队长重新打开看板。</div>}</div>;
+  if (!S) return <div className="kb-page"><p className="kb-wait"><Spin />正在连看板服务……</p>{offline && <div className="kb-offline">看板连不上本机的服务，正在重试。服务关了的话，回到和智能体的对话里（WorkBuddy、Codex 等都一样），让队长重新打开看板。</div>}</div>;
 
   const building = squadOpen(S);
   /* 等你定 */
@@ -140,7 +140,7 @@ export default function App() {
         <div className="kb-shell">
           <Header jobs={jobs} where={where} tab={tab} setTab={setTabSel} todoOpen={todoOpen} setTodoOpen={setTodoOpen} todoN={ask.length + nProb} hot={hot} />
           {bad && <div className="kb-offline">看板数据读不出来：{bad}</div>}
-          {offline && <div className="kb-offline">看板连不上本机的服务，正在重试。服务关了的话，回 WorkBuddy 对话里让队长重新打开看板。</div>}
+          {offline && <div className="kb-offline">看板连不上本机的服务，正在重试。服务关了的话，回到和智能体的对话里（WorkBuddy、Codex 等都一样），让队长重新打开看板。</div>}
           <div className={`kb-body ${todoOpen ? "" : "notodo"} ${tab === "组队" ? "noroster" : ""} ${ask[0] && ask[0].key.startsWith("a-b") ? "widetodo" : ""}`}>
             <Roster />
             <main className="kb-main">

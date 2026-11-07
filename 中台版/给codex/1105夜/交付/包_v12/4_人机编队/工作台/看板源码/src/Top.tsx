@@ -47,7 +47,7 @@ export function Header({ goAsk }: { goAsk: () => void }) {
         <div className={`kb-banner ${wait === "停了" ? "stop" : ""}`} role="status">
           <span className="tx">
             {wait === "停了" ? <WarningIcon size={20} /> : <UserIcon size={20} />}
-            <span>{wait === "停了" ? "队长没等到，已经停下了。在看板上点完以后，到 WorkBuddy 对话里发一句「好了」。" : `队长在等你：${wait}`}</span>
+            <span>{wait === "停了" ? "队长没等到，已经停下了。在看板上点完以后，回到和智能体的对话里发一句「好了」。" : `队长在等你：${wait}`}</span>
           </span>
           <Button variant="secondary" onClick={goAsk}>{wait === "停了" ? "去看要做的" : "去做"}</Button>
         </div>

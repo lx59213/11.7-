@@ -18,6 +18,10 @@ try:
 except Exception:
     pass
 
+# 学员开了翻墙代理时，连本机看板也会被转去代理、连不上；本机地址一律不走代理
+for _k in ("NO_PROXY", "no_proxy"):
+    os.environ[_k] = ",".join(x for x in ["127.0.0.1", "localhost", os.environ.get(_k, "")] if x)
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 PY = "python 工作台"          # 打给 AI 看的命令前缀（AI 自己换成实际的 python 和路径）
 DATA = "看板数据.json"
@@ -2651,7 +2655,7 @@ def _wrap_text(T, d, C, R, vid):
     if "先不排" in pb:
         tip = "学员选了先不排。"
     else:
-        tip = f"学员选的排班：{pb}。回去在 WorkBuddy 的定时任务里建一个这个时间的任务，内容写「周间练习」" + ("；课上不建，每出一条片子都花钱。" if vid else "；课上不建。")
+        tip = f"学员选的排班：{pb}。回去在所用智能体（WorkBuddy、Codex 等）的定时任务里建一个这个时间的任务，内容写「周间练习」" + ("；课上不建，每出一条片子都花钱。" if vid else "；课上不建。")
     return 9, f"收尾做完了。排班和放手已记进档案。{tip}档案和昨天的看板照「文件放哪」改。"
 
 
