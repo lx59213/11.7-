@@ -1415,8 +1415,8 @@ BD_LIB = [('21 个技能', ['出 Word、Excel、PPT、PDF', '去 AI 味、翻译
           ('7 支队伍', ['宣传片、小红书图文', '竞品周报、客户回信', '招聘初筛、会议跟进', '报表分析'])]
 bd_lib = ''.join(f'<div class="bl-c pop" style="--d:{.3+i*.4:.1f}s;left:{96+i*482}px"><b>{h}</b>' + ''.join(f'<p>{s}</p>' for s in ls) + '</div>' for i, (h, ls) in enumerate(BD_LIB))
 bd_lib += '<div class="bl-src pop" style="--d:1.8s">都在包里，网络不通也能用。来自 GitHub：Anthropic 官方技能、宝玉、歸藏、agency-agents 中文版等，原作者和许可证都留着</div>'
-bd_do = steps_page([('组队，\n写下最怕说错的', '8 分钟'), ('出片，\n和挑错一起挑错', '22 分钟'), ('调一处，\n再跑一轮比', '8 分钟'), ('收尾，\n存进知识库', '8 分钟')],
-                   ['一条自家宣传片', '两轮并排的成绩单', '知识库里一页这节课定的'], 'var(--ag)', talk=0, say='看板上先填一张开工单', first=6)
+bd_do = steps_page([('组队，\n先看一条试拍', '8 分钟'), ('出片，\n和试拍比一比', '22 分钟'), ('调一处，\n再跑一轮比', '8 分钟'), ('收尾，\n存进知识库', '8 分钟')],
+                   ['一条试拍，一条队伍出的片子', '两轮并排的成绩单', '知识库里一页这节课定的'], 'var(--ag)', talk=0, say='确认开工单，一两分钟出试拍', first=6)
 # 11-07 晚 TTZ：要站在高处给方法，照提示词那页的样子出一页，学员拍下来回去照着搭
 BD5 = [('拆成几棒', '一件事拆成几棒，每个队员只干一棒', '选题、脚本、出片、挑错，四个队员各一棒'),
        ('写清交什么', '每一棒交什么、交给谁，写进分工表', '脚本三到四个镜头，每镜写画面、字幕、几秒，交给挑错'),
@@ -1442,6 +1442,47 @@ bd_pre8 = ''.join(f'<div class="bt-c pop" style="--d:{.3+i*.4:.1f}s;left:{96+i*4
 bd_pre8 += ''.join(f'<div class="tn-c pop" style="--d:{1.7+i*.3:.1f}s;left:{96+i*720}px;top:500px"><b>{h}</b><p>{s}</p></div>' for i, (h, s) in enumerate([
     ('先自己判断，再看队长的', '各位交了判断，队长的才揭晓，两边并排放。'),
     ('一次只调一处', '下一轮变好变坏，才知道是这一处起的作用。两轮打乱了挑，看不出哪份是改过的再挑。')]))
+# 11-07 晚 TTZ：先展示最终效果，别等那么久才看到成品。两条真片子：课前用示例公司的知识库，弱模型带队真跑一遍出的
+def _vid(name): return 'data:video/mp4;base64,' + base64.b64encode((P.parent / '素材' / name).read_bytes()).decode()
+def _vbox(x, name, cap, d):
+    return (f'<div class="fv pop" style="left:{x}px;--d:{d}s"><video src="{_vid(name)}" autoplay muted loop playsinline></video></div>'
+            f'<p class="fv-cap pop" style="left:{x}px;--d:{d+.2}s">{cap}</p>')
+bd_first = (_vbox(96, '编队_成片_第1轮.mp4', '<b>第 1 轮</b>开头先拍产品', .2)
+            + _vbox(410, '编队_成片_第2轮.mp4', '<b>第 2 轮</b>只改编剧一句：先拍老板被吵到', .5)
+            + _shot(780, 216, 724, 452, '编队_队伍看板.webp', '队伍看板：四个队员谁在干、交给了谁、等人拍的单子、两轮成绩单', .8)
+            + ''.join(f'<div class="fv-n pop" style="left:{780+i*248}px;--d:{1.2+i*.25:.2f}s"><b>{a}</b><span>{b}</span></div>' for i, (a, b) in enumerate([('13 分钟', '四步跑完'), ('6 下', '人在看板上点'), ('1 处', '挑错退回重写')])))
+# 11-07 晚 TTZ：学员不知道智能体做完是什么、放哪、怎么叫；优秀案例都先讲一个完整场景
+def _tree(x, y, w, title, rows, d):
+    h = f'<div class="ft pop" style="left:{x}px;top:{y}px;width:{w}px;--d:{d}s"><b>{title}</b>'
+    for name, note, lv in rows:
+        h += f'<p style="padding-left:{lv*28}px"><code>{name}</code><span>{note}</span></p>'
+    return h + '</div>'
+def _uses(x, y, w, items, d):
+    return ''.join(f'<div class="fu pop" style="left:{x}px;top:{y+i*150}px;width:{w}px;--d:{d+i*.3:.1f}s"><i>{i+1}</i><b>{h}</b><p>{s}</p></div>' for i, (h, s) in enumerate(items))
+bd_agent = (_tree(96, 216, 640, '智能体/回询价助手/（示例）', [
+        ('AGENT.md', '岗位说明书：它是谁、守什么、怎么做、放多少手', 0),
+        ('工作日志.md', '它做过的每一单：查了什么、在哪停下', 0),
+        ('收件箱/', '新事放这里，它来取', 0), ('产出/', '它交出的东西', 0), ('旧版/', '改一句以前的说明书', 0)], .2)
+    + _uses(800, 216, 704, [('叫它干一件', 'WorkBuddy 新开对话：「叫回询价助手处理收件箱」。它先读岗位说明书再干。'),
+                            ('排班，到点自己干', 'WorkBuddy 的定时任务：每天几点处理一次收件箱，停在要人拍板的地方。'),
+                            ('换软件也能用', '岗位说明书是一个文件，带去 Codex 等别的 AI，照样按它干。')], .6)
+    + '<div class="ft-note pop" style="--d:1.6s"><b>昨天跑完 9 步的</b>第 6 到 9 步是上一版的编队，那支队在 智能体/〈队名〉/ 下，照样能用。今天的包另建一支宣传片队，不冲突。</div>')
+_TL = [('20:32', '人', '开工单上写两条红线：交期不能说一定准时；不报底价'),
+       ('20:34', '策划', '读了 4 页知识库，出三个选题'), ('20:34', '人', '挑选题：饮水机安静'),
+       ('20:35', '编剧分镜', '写四个镜头'), ('20:35', '人', '和挑错各挑各的：人标了 2 处'),
+       ('20:36', '挑错', '核对：30 分贝知识库有原文，保留；字数标注数错，退回重写'),
+       ('20:37', '出片', '第 1 条成片，35 秒出来'), ('20:38', '人', '不发：开头三秒没说清卖什么'),
+       ('20:39', '人', '判断是编剧说明书那一句，改成：第一镜先拍客户的麻烦'),
+       ('20:40', '编剧分镜', '第 2 轮：第一镜改拍老板被吵到皱眉'), ('20:41', '人', '两条打乱了挑，挑中第 2 轮，发')]
+bd_tl = '<div class="tl">' + ''.join(f'<div class="tl-r pop{" hu" if who == "人" else ""}" style="--d:{.2+i*.18:.2f}s"><i>{tm}</i><b>{who}</b><p>{s}</p></div>' for i, (tm, who, s) in enumerate(_TL)) + '</div>'
+bd_tl += '<div class="tl-side pop" style="--d:2.4s"><b>人出手 6 次</b><p>写红线、挑选题、挑错、定发不发、找到那一句、盲挑</p><b style="margin-top:28px">别的都是队员自己交接</b><p>每一棒干什么，看板上一句一句冒出来</p></div>'
+bd_have = (_tree(96, 216, 640, '队伍/宣传片队/', [
+        ('分工.md', '几棒、谁交给谁、哪里停下等人', 0), ('策划/ 编剧分镜/ 出片/ 挑错/', '每人一份 AGENT.md', 0),
+        ('开工单.md', '公司的事和最怕说错的', 0), ('产出/', '选题、脚本、成片', 0), ('看板数据.json', '看板上的一切', 0)], .2)
+    + _uses(800, 216, 704, [('再出一条', '同一个对话里说「周间练习」，看板打开，只点要定的。'),
+                            ('每周自己出', '定时任务每周几跑一遍，选题和成片等人点头。'),
+                            ('换一件事', '队伍菜单里挑一支：竞品周报、客户回信、招聘初筛……挑错的永远单独一个。')], .6)
+    + '<div class="ft-note pop" style="--d:1.6s"><b>知识库里还多一页</b>「我这节课定的」：最怕说错的、拍过的板、调过的那一句、两轮成绩单。</div>')
 SUB['m4'] = {
     "我们自己每天用的 <em>AI 队伍</em>": "左边飞书里派活，右边中台上看谁在干",
     "一个人带一支 <em>AI 队伍</em>": "看板上看得见谁在干、交给了谁",
@@ -1451,6 +1492,10 @@ SUB['m4'] = {
     "今天做：一支 <em>宣传片队</em>": "给自家公司出一条 8 到 15 秒竖屏视频",
     "在队伍看板上<em>拍板</em>": "没有飞书和中台，填红线、挑错、拍板、盲挑都在这页上点",
     "回去自己搭一支 AI 队伍，<em>就这五步</em>": "三个例子都是这样搭的；拿一件常做的事，照着搭",
+    "先看成品：一支 AI 队伍<em>出的宣传片</em>": "课前用一家示例公司的知识库真跑的，今天各位做自家的",
+    "昨天的智能体：<em>做出来是一个文件夹</em>": "长什么样、放在哪、以后怎么叫它",
+    "这 11 分钟里，<em>队伍和人各做了什么</em>": "上一页两条片子的真实记录，时间照看板上的",
+    "今天做完，各位手里是<em>一支队</em>": "和昨天的智能体一样，是工作区里的一个文件夹",
     "出片之前：错在<em>脚本上</em>拦下最便宜": "第 7 步开始前",
     "调一处之前：先找到<em>哪个队员哪一句</em>": "第 8 步开始前",
     "不用从零写：<em>现成的技能和队员</em>": "GitHub 上口碑好的，课前挑好放进包里",
@@ -1458,6 +1503,10 @@ SUB['m4'] = {
     "上台展示：<em>放成片</em>": "",
 }
 m4_pages = [
+    ('昨天的智能体：<em>做出来是一个文件夹</em>', bd_agent, 0, ''),
+    ('先看成品：一支 AI 队伍<em>出的宣传片</em>', bd_first, 0, ''),
+    ('这 11 分钟里，<em>队伍和人各做了什么</em>', bd_tl, 0, ''),
+    ('今天做完，各位手里是<em>一支队</em>', bd_have, 0, ''),
     ('一个人带一支 <em>AI 队伍</em>', svg(wo) + poster(lit_of('工作流')), 0, ''),
     ('一个卖家，<em>八个 AI 接力</em>出设计图', bd_case1, 0, ''),
     ('AI 店长配了个 <em>AI 老板</em>，还是得有人拦', bd_case2, 0, ''),
@@ -1478,6 +1527,10 @@ m4_pages = [
 PV_BEATS.pop('m4', None)   # 11-06 TTZ：步骤页全是字，和技能、智能体一样删掉
 sec('m4', '--ag', m4_pages)   # 11-07：人机编队单开网页，build.py 另出一份 人机编队课件.html
 beats('m4', '人机编队', [
+    '开始之前先接一下昨天。好几位问，智能体做完到底是个什么东西。就是工作区里一个文件夹：AGENT.md 是岗位说明书，它是谁、守什么、怎么做、放多少手；工作日志记它做过的每一单；收件箱放新事。以后怎么叫它？三种：WorkBuddy 新开对话，说一句叫它处理收件箱；排个定时任务，每天到点自己干，停在要各位拍板的地方；换别的软件也行，说明书就是一个文件。昨天跑完九步的，后四步是上一版的编队，那支队照样能用，今天的包另建一支，不冲突。',
+    '今天上午人机编队，也是多模态：队伍最后出的是视频。先看成品。这两条片子是一支 AI 队伍出的：策划出选题，编剧写脚本，出片的生成视频，挑错的只挑不改。左边第一轮，开头先拍产品，人看了说开头三秒没说清卖什么。右边第二轮，只改了编剧说明书里的一句：第一个镜头先拍客户遇到的麻烦。片子就变成先拍老板被旧机器吵到皱眉。四步跑完十三分钟，人在看板上一共点了六下。今天上午，各位给自家公司做一条。',
+    '这十一分钟是怎么过的，看板上的记录。灰的是队员自己干的，亮的是人出手的地方：开工前写红线，挑选题，和挑错各挑各的，看了第一条说不发，找到是编剧说明书那一句并改掉，最后两条打乱了挑。人出手六次，别的都是队员之间自己交接。注意二十点三十六分这一行：人标了 30 分贝，挑错去知识库查到原文，保留了，同时抓到一处真错，退回重写。',
+    '今天做完，各位手里是一支队，也是一个文件夹：分工表，四个队员各一份岗位说明书，开工单，产出。回去怎么用：同一个对话里说周间练习，再出一条；排个定时任务每周自己出；换一件事，从队伍菜单里挑一支。知识库里还会多一页，这节课各位定过的事都在上面。',
     '人机编队。昨天的智能体是一个人从头干到尾，错了到最后才看出来。今天拆成一支队：一个做、一个查，查不过就退回，人只管拍板。和以前把几步写死、连成一条线的自动化不一样：这里每个队员都有岗位说明书，会查知识库、用技能，拿不准就停下等人。这事现在真有人在干，看三个例子。',
     '第一个，阿里巴巴国际站上的一个跨境卖家，一个人开店。他让八个 AI 接力：调研的、研发的、设计的、查政策的、做复盘的，各管一段，调研报告一出，设计的接着出图。以前选品到出设计图要两三周，现在一天，每天出十几款，八成以上的设计图是 AI 出的。他自己只管两件事：哪个市场能做，工厂做得出什么。',
     '第二个，Anthropic 在自己办公室开了个小卖部，让 AI 当店长，进货定价都是它。后来给它配了个 AI 老板，定目标、复核，乱打折少了八成左右，店从一家开到三家。可 AI 店长差点签下一份洋葱期货合同，这在美国从 1958 年起就违法，是员工拦下的；AI 老板批松口的请求，是拒绝的八倍。所以挑错的要单独一个，最后拍板的是人。',
@@ -1487,8 +1540,8 @@ beats('m4', '人机编队', [
     '今天每人做一支宣传片队，给自家公司出一条 8 到 15 秒的竖屏视频，什么行业都能做。四个队员：策划出三个选题，编剧写脚本和分镜，出片写视频提示词、生成视频，挑错的只挑不改，不过就退回。各位是队伍里的一环，出手三次：开工前写下最怕说错的话，交给挑错；挑选题，脚本出来和挑错一起挑；最后看成片，定发不发。四个队员的岗位说明书是现成的，照 GitHub 上口碑好的岗位说明书改的。',
     '没有飞书和中台，在哪出手？在这个队伍看板上。包里带着，组好队 AI 就把它打开。最上面是要各位做的：开工单、请示单、挑错、盲挑。下面四个队员，每个在干什么一句一句冒出来，交给了谁、被谁退回，当场就变。最下面是成绩单，第一轮第二轮并排。全是真的，各位点了它们才往下走。我现在切到 WorkBuddy，现场跑一遍给各位看。',
     '这次的包里还放了现成的东西，网络不通也能用：21 个技能，出 Word、Excel、PPT，去 AI 味，写周报，出信息图；55 个岗位说明书，从老板、营销、销售到财务、人事、采购都有；还有 7 支现成的队伍，宣传片、竞品周报、客户回信、招聘初筛……回去换件事，挑一支就能组。第 8 步要换一个队员，也是从这 55 个里挑。',
-    '动手。群里发人机编队的包和操作手册，包拖进昨天那个对话，复制第 6 步一起发。没做完昨天的也能做，知识库不全的，开工单上自己补。四步，约 46 分钟。每一步做完 AI 会停下来，等我讲完下一步的要点，各位在对话里发「接着」。第 6 步，看板上先出一张开工单，AI 照知识库填好了，各位改错的，最后一栏最怕说错什么，只有各位知道，写一两条。',
-    '第 7 步之前讲一分钟。为什么挑错放在出片前面？看这三条：选题改一次几秒，脚本改一次一分钟，成片改一次要再等一两分钟、再花一次钱。所以错要在脚本上就拦下。为什么挑错要单独一个？它没看过脚本是怎么写出来的，才挑得出毛病。这一步脚本出来，各位也当一回挑错的，和它各挑各的，交了才揭晓：两边都挑出几处，谁漏了什么。视频一条半分钟到两分钟，课上一支队最多出三次。发「接着」。',
+    '动手。群里发人机编队的包和操作手册，包拖进昨天那个对话，复制第 6 步一起发。没做完昨天的也能做，知识库不全的，开工单上自己补。四步，约 46 分钟。每一步做完 AI 会停下来，等我讲完下一步的要点，各位在对话里发「接着」。第 6 步，看板上先出一张开工单，AI 照知识库填好了，各位改错的，最后一栏最怕说错什么，只有各位知道，写一两条。点确认以后，一个 AI 直接给各位公司出一条试拍，一两分钟就在看板上，先看看成品什么样。',
+    '第 7 步之前讲一分钟。为什么挑错放在出片前面？看这三条：选题改一次几秒，脚本改一次一分钟，成片改一次要再等一两分钟、再花一次钱。所以错要在脚本上就拦下。为什么挑错要单独一个？它没看过脚本是怎么写出来的，才挑得出毛病。这一步脚本出来，各位也当一回挑错的，和它各挑各的，交了才揭晓：两边都挑出几处，谁漏了什么。队伍的片子出来，和刚才那条试拍打乱了各位挑，看一支队比一个 AI 直接出好在哪。发「接着」。',
     '第 8 步之前讲一分钟。片子不满意，别笼统说不好，找到是哪个队员说明书里的哪一句。先看成绩单：退回最多的是谁，各位写的哪里不行。各位先自己判断，交了以后队长的判断才揭晓，两边并排放。然后只调一处：改这一句，给挑错加一条红线，或者从 55 个现成的队员里换一个。一次只调一处，第二轮变好变坏，才知道是这一处起的作用；两轮打乱成甲乙，各位挑。发「接着」。',
     '上台展示，像路演。出了片的先上，放两轮的成片，再说三样：各位挑出、挑错漏了的那一处，调了哪一处，第二轮成绩单变了什么。其他人接着做。',
     '往上走：一条线跑完，从客户询价到收回货款；客户一来邮件，它们就开工；做完一单记下教训，下一单更顺。跑腿的事 AI 干，人去谈客户、想新品。',
@@ -1508,6 +1561,15 @@ CSS = r'''
 /* 11-06 TTZ：要切出去演示的页，右上角挂一枚牌子 */
 .live-cue{position:absolute;right:96px;top:150px;font-size:19px;font-weight:800;color:#0b0d0c;background:var(--c);border-radius:20px;padding:6px 16px}
 /* 11-07 人机编队：宣传片队流程、现成的技能和队员 */
+.ft{position:absolute;box-sizing:border-box;background:var(--m-card);border:1.5px solid var(--m-line2);border-radius:16px;padding:22px 28px}.ft b{display:block;font-size:28px;font-weight:900;color:var(--c);margin-bottom:14px;font-family:ui-monospace,Menlo,monospace}.ft p{display:flex;flex-direction:column;margin:0 0 14px}.ft code{font-family:ui-monospace,Menlo,monospace;font-size:24px;font-weight:700;color:var(--m-ink)}.ft span{font-size:20px;color:var(--m-mute);margin-top:2px}
+.fu{position:absolute;box-sizing:border-box;height:134px;background:var(--m-card);border:1.5px solid var(--m-line2);border-left:6px solid var(--c);border-radius:16px;padding:16px 24px 16px 70px}.fu i{position:absolute;left:24px;top:16px;font-style:normal;font-size:30px;font-weight:900;color:var(--c)}.fu b{display:block;font-size:28px;font-weight:900;margin-bottom:6px}.fu p{font-size:21px;line-height:1.45;color:var(--m-mute)}
+.ft-note{position:absolute;left:96px;right:96px;top:690px;font-size:21px;color:var(--m-mute);border-top:1.5px dashed var(--m-line2);padding-top:12px}.ft-note b{color:var(--c);margin-right:14px}
+.tl{position:absolute;left:96px;top:212px;width:1000px}.tl-r{display:grid;grid-template-columns:76px 120px 1fr;align-items:baseline;padding:6px 0;border-bottom:1px solid var(--m-line2);opacity:.62}.tl-r i{font-style:normal;font-size:19px;color:var(--m-mute);font-variant-numeric:tabular-nums}.tl-r b{font-size:21px}.tl-r p{font-size:21px;line-height:1.35}.tl-r.hu{opacity:1}.tl-r.hu b{color:var(--c)}
+.tl-side{position:absolute;left:1150px;right:96px;top:230px}.tl-side b{display:block;font-size:34px;font-weight:900;color:var(--c)}.tl-side p{font-size:22px;line-height:1.5;color:var(--m-mute);margin-top:6px}
+
+.fv{position:absolute;top:216px;width:282px;height:500px;border-radius:16px;overflow:hidden;background:#000;border:1.5px solid var(--m-line2)}.fv video{width:100%;height:100%;object-fit:cover;display:block}
+.fv-cap{position:absolute;top:728px;width:300px;font-size:19px;line-height:1.35;color:var(--m-mute)}.fv-cap b{display:block;font-size:24px;color:var(--m-ink)}
+.fv-n{position:absolute;top:700px;width:228px}.fv-n b{display:block;font-size:48px;font-weight:900;color:var(--c);font-variant-numeric:tabular-nums;line-height:1.1}.fv-n span{font-size:21px;color:var(--m-mute)}
 .tn-c{position:absolute;top:560px;width:688px;box-sizing:border-box;background:var(--m-card);border:1.5px solid var(--m-line2);border-left:6px solid var(--c);border-radius:16px;padding:20px 28px}.tn-c b{display:block;font-size:30px;font-weight:900;color:var(--c);margin-bottom:8px}.tn-c p{font-size:24px;line-height:1.5}
 .bt-c{position:absolute;top:236px;width:300px;height:220px;box-sizing:border-box;background:var(--m-card);border:1.5px solid var(--m-line2);border-top:6px solid var(--c);border-radius:18px;padding:18px 24px}.bt-c i{font-style:normal;font-size:20px;font-weight:800;color:var(--c)}.bt-c b{display:block;font-size:40px;font-weight:900;margin:4px 0 12px}.bt-c p{font-size:21px;color:var(--m-mute);line-height:1.5}
 .bt-ar{position:absolute;top:310px;width:42px;text-align:center;font-size:40px;color:var(--m-mute)}

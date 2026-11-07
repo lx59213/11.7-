@@ -1,0 +1,1 @@
+改源码后：在 scratchpad 或任意临时目录放一份本目录，npm install（或软链现成的 node_modules），再 npm run build，产物 dist/看板.html 覆盖上一级的 看板.html。node_modules 和 dist 不要留在工作台里。

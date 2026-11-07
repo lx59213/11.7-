@@ -21,7 +21,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 PY = "python 工作台"          # 打给 AI 看的命令前缀（AI 自己换成实际的 python 和路径）
 DATA = "看板数据.json"
 WAIT = int(os.environ.get("BIANDUI_WAIT", "240"))          # 等人一次最多等几秒，没等到就让 AI 再跑一次（软件的命令有时限）
-VIDEO_MAX = 3       # 一支队课上最多出几次片
+VIDEO_MAX = 4       # 一支队课上最多出几次片：试拍一次，两轮各一次，再多一次备用
 MAX_BACK = 2        # 同一轮最多退回几次，再不过就请人定
 VIDEO_API = "https://metaso.cn/api/minimax/v2/video_generation"
 VIDEO_QUERY = "https://metaso.cn/api/minimax/v2/query/video_generation?task_id="
@@ -164,7 +164,7 @@ def scorecard(d):
         if blind:
             b = blind[-1]
             bl = b["_对照"].get(b["选"], "差不多") if b["选"] in ("甲", "乙") else "差不多"
-            bl = {"改后": "挑中这一轮的", "改前": "挑中上一轮的"}.get(bl, bl)
+            bl = ({"改后": "挑中队伍出的", "改前": "挑中试拍"} if n == 1 else {"改后": "挑中这一轮的", "改前": "挑中上一轮的"}).get(bl, bl)
         rows.append({"轮": n, "调了什么": r.get("调了什么", ""), "用时分钟": max(1, round((end - r["开始"]) / 60)),
                      "交接": sum(1 for x in hs if not x.get("退回")), "退回": sum(1 for x in hs if x.get("退回")),
                      "出片": len(in_round(d, "成片", n)), "人说了几句": d.get("人说", []).count(n),
@@ -389,7 +389,6 @@ def confirm_sheet(team, d, sheet):
     for line in re.split(r"[\n；;]+", sheet["最怕说错"]):
         if line.strip():
             add_redline(team, d, line, "人")
-    start_round(d, "")
     return {"ok": True}
 
 
@@ -682,7 +681,7 @@ def pick_blind(team, i, choice, note):
                 x["选"], x["我说"] = choice, note or ""
                 said(d)
                 won = x["_对照"].get(choice, "") if choice in ("甲", "乙") else ""
-                feed(d, "人", f"盲挑：{choice}" + (f"（揭晓：是{'这一轮' if won == '改后' else '上一轮'}的）" if won else "") + (f"，{note}" if note else ""))
+                feed(d, "人", f"盲挑：{choice}" + (f"（揭晓：是{({'改后': '队伍出', '改前': '试拍'} if x.get('轮') == 1 else {'改后': '这一轮', '改前': '上一轮'})[won]}的）" if won else "") + (f"，{note}" if note else ""))
                 reason(d, "盲比")
                 return {"ok": True}
         return {"ok": False, "错": f"没有第 {i} 个盲比"}
@@ -858,6 +857,14 @@ def step_text(team, d):
                    f"然后对话里只写一句：「看板上有一张开工单，最后一栏『最怕说错什么』只有你知道，写一两条，点确认。」")
     if not s.get("确认"):
         return 6, f"等人在看板上改开工单、点确认。跑 {PY} 等开工单 {T}"
+    trial = [x for x in d.get("成片", []) if x.get("轮") == 0]
+    if d.get("步", 6) == 6 and not trial and not d.get("试拍跳过"):
+        if d.get("出片中"):
+            return 6, "试拍还在生成，等那条出片命令结束。"
+        return 6, (f"先给人看个成品：一个 AI 直接出一条试拍，不分工、不挑错。对话里说一句「先让一个 AI 直接给你出一条试拍，一两分钟，看板上看」。\n"
+                   f"照 开工单.md 写一段视频提示词存成 产出/试拍提示词.md（一段话：拍什么产品、在哪、谁在做什么、镜头怎么动、光；最后一行写不要画面里的字、商标、真人脸），跑：\n"
+                   f"  {PY} 出片 {T} --提示词 产出/试拍提示词.md --秒 6 --说明 \"试拍：一个 AI 直接出\"\n"
+                   f"出片失败两次就跑 {PY} 动态 {T} --谁 队长 --一句 \"试拍没出来，跳过\"，再跑 {PY} 跳过试拍 {T}")
     if d.get("步", 6) == 6:
         return 6, (f"第 6 步做完了。写结束三行，最后一行写「下一步：听讲师讲完，在对话里发『接着』」，然后停。人发来「接着」，跑 {PY} 进下一步 {T}")
     r = d["轮"][-1]
@@ -921,7 +928,10 @@ def step_text(team, d):
                             f"写好跑 {PY} 出片 {T} --提示词 产出/视频提示词.md --秒 6 --说明 \"〖选题一句〗\"（命令会等半分钟到两分钟，等它结束）")
     if d.get("出片中"):
         return 7 + round2, "出片还在生成，等那条出片命令结束。"
-    # 5 第二轮：盲比
+    # 5 第一轮：队伍出的和试拍盲比；第二轮：两轮盲比
+    trial = [x for x in d.get("成片", []) if x.get("轮") == 0]
+    if not round2 and shots and trial and not in_round(d, "盲比"):
+        return 7, (f"队伍的片子和开头那条试拍打乱了让人挑。跑 {PY} 盲比 {T} --说明 \"一个 AI 直接出的，和队伍接力出的\" --改后 {shots[-1]['文件']} --改前 {trial[-1]['文件']}")
     if round2:
         prev = os.path.join(T, "产出", f"第{n - 1}轮")
         if not in_round(d, "盲比"):
@@ -956,13 +966,22 @@ def step_text(team, d):
         return 9, f"跑 {PY} 请示 {T} --标 排班 --谁 队长 --问 \"这支队以后每周几自己出一条片子？\" --选项 \"每周一|每周三|每周五|先不排\" --建议 \"每周三\""
     if "放手" not in tags:
         return 9, f"跑 {PY} 请示 {T} --标 放手 --谁 队长 --问 \"挑错过了的片子，要不要先给你看再发？\" --选项 \"先给我看|挑错过了就发\" --建议 \"先给我看\""
-    return 9, "第 9 步做完了：照编队包第 9 步的收尾做（排班用这个软件自带的定时任务建；档案和昨天的看板照「文件放哪」改），写结束三行。这支队做完了。"
+    pb = next((x["拍板"] for x in d["请示单"] if x.get("标") == "排班"), "")
+    tip = "" if "先不排" in pb else f"对话里告诉人一句：回去在 WorkBuddy 的定时任务里建一个{pb}的任务，内容写「周间练习」；课上不建，每出一条片子都花钱。"
+    return 9, f"第 9 步做完了。排班和放手记进档案；{tip}档案和昨天的看板照「文件放哪」改，写结束三行，最后一行写「这支队做完了」。"
+
+
+def cmd_跳过试拍(a):
+    change(a.队伍, lambda d: d.update({"试拍跳过": True}))
+    say(f"记下了。接着：{PY} 下一步 {a.队伍}")
 
 
 def cmd_进下一步(a):
     def f(d):
         d["步"] = min(9, d.get("步", 6) + 1)
         feed(d, "队长", f"开始第 {d['步']} 步")
+        if d["步"] == 7 and not d.get("轮"):
+            start_round(d, "")
         return d["步"]
     n = change(a.队伍, f)
     say(f"第 {n} 步开始。跑 {PY} 下一步 {a.队伍}")
@@ -1142,6 +1161,7 @@ def main():
         return q
     c("下一步", cmd_下一步)
     c("进下一步", cmd_进下一步)
+    c("跳过试拍", cmd_跳过试拍)
     q = c("开工", cmd_开工, ("--从", {"default": "宣传片队"}), "--队名")
     q.add_argument("--重来", action="store_true")
     q = c("开", cmd_开, ("--端口", {"type": int, "default": 8765}))

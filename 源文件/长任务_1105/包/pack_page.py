@@ -183,7 +183,7 @@ def make_zip(PACK, dest):
     base = os.path.dirname(PACK)
     def add_dir(z, src, arc, skip=()):
         for root, dirs, files in os.walk(src):
-            dirs[:] = [d for d in dirs if not d.startswith(".") and d != "__pycache__"]
+            dirs[:] = [d for d in dirs if not d.startswith(".") and d not in ("__pycache__", "看板源码", "node_modules", "dist")]
             for f in files:
                 if f.startswith(".") or f in skip:
                     continue
@@ -194,7 +194,7 @@ def make_zip(PACK, dest):
         if top == "4_人机编队":
             z.writestr(f"{top}/AI先读这个.md",
                        "这是实操课的一个包。先完整读同一文件夹的 编队包.md，照里面的规矩做，别的先不做。\n"
-                       "学员这条消息里带着第几步，就做那一步。只拖了这个压缩包、哪一步都没发，才照 编队包.md 里\"# 路由\"第二条做。不问学员想让你做什么。\n"
+                       "学员说了第几步或「接着」，就跑 工作台/工作台.py 的 下一步 接着做；只拖了这个压缩包、什么都没说，照 编队包.md 里\"# 开场\"做。不问学员想让你做什么。\n"
                        "队伍菜单/、工作台/、现成的技能和队员/ 是做事要用的现成东西，用到再读，不用跟学员一一介绍。工作台/视频key.txt 不给学员看、不写进任何文件。\n")
             add_dir(z, os.path.join(PACK, "队伍菜单"), f"{top}/队伍菜单")
             add_dir(z, os.path.join(PACK, "工作台"), f"{top}/工作台", skip=("视频key.txt",))

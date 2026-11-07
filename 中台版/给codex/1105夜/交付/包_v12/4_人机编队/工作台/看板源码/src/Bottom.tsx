@@ -1,0 +1,148 @@
+import { useState } from "react";
+import { CheckIcon, LightbulbIcon } from "@phosphor-icons/react";
+import { useBoard } from "./hooks";
+import type { Any } from "./api";
+
+type Row = [string, (r: Any) => string, string | false];
+const ROWS: Row[] = [
+  ["调了什么", (r) => r.调了什么 || "第一次跑，没调", false],
+  ["用时", (r) => r.用时分钟 + " 分钟", "用时分钟"],
+  ["交接", (r) => r.交接 + " 次", "交接"],
+  ["退回", (r) => r.退回 + " 次", "退回"],
+  ["出片（每次都花钱）", (r) => r.出片 + " 次", "出片"],
+  ["我说了几句", (r) => r.人说了几句 + " 句", "人说了几句"],
+  ["挑错拦下", (r) => r.挑错拦下 + " 处", "挑错拦下"],
+  ["我挑出", (r) => r.人挑出 + " 处", "人挑出"],
+  ["两边都挑出", (r) => r.重合 + " 处", "重合"],
+  ["发不发", (r) => r.发不发 || "还没定", "发不发"],
+  ["盲挑", (r) => r.盲挑 || "还没挑", "盲挑"],
+];
+
+export function Score() {
+  const { S } = useBoard();
+  const rs: Any[] = S.成绩单 || [];
+  if (!rs.length) return <p className="kb-empty">开工以后，每一轮的成绩出现在这里。</p>;
+  return (
+    <>
+      <div className="kb-tablebox">
+        <table className="kb-table">
+          <thead>
+            <tr><th />{rs.map((r) => <th key={r.轮}>第 {r.轮} 轮{!r.结束了 && <><br /><small style={{ fontWeight: 400, color: "var(--zt-mute)" }}>进行中</small></>}</th>)}</tr>
+          </thead>
+          <tbody>
+            {ROWS.map(([name, fmt, key]) => (
+              <tr key={name}>
+                <th scope="row">{name}</th>
+                {rs.map((r, i) => {
+                  const diff = key && i > 0 && String(r[key]) !== String(rs[i - 1][key]);
+                  return <td key={r.轮} className={diff ? "diff" : ""}>{fmt(r)}</td>;
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div className="kb-legend"><i />有色底的格子，这一轮和上一轮不一样</div>
+    </>
+  );
+}
+
+const FIVE: [string, string][] = [
+  ["拆成几棒", "一件事拆成几棒，每个队员只干一棒。哪里出错，找得到是哪一棒。"],
+  ["写清交什么", "每一棒交什么、交给谁，写死在分工表上。"],
+  ["单独一个挑错的，放在花钱那一棒前面", "挑错的没看过脚本是怎么写的，才挑得出毛病；文字上拦下，不用等出片再发现。"],
+  ["人只停在要定的地方，最怕说错的写成红线", "队伍只在挑选题、成片发不发两处等人；最怕说错的几句交给挑错，每条片子都替这家公司查。"],
+  ["一次只调一处，再跑一轮比", "下一轮变好还是变坏，才知道是这一处起的作用。"],
+];
+const CN: Record<string, number> = { 一: 0, 二: 1, 三: 2, 四: 3, 五: 4 };
+export function fiveIdx(d: Any): number | null {
+  const g = /^五步之(.)/.exec(d.五步 || "");
+  return g && CN[g[1]] !== undefined ? CN[g[1]] : null;
+}
+export function MiniScore() {
+  const { S } = useBoard();
+  const rs: Any[] = S.成绩单 || [];
+  const cols = [1, 2].map((n) => rs.find((r) => r.轮 === n));
+  const rows: [string, (r: Any) => string][] = [["退回", (r) => r.退回 + " 次"], ["挑错拦下", (r) => r.挑错拦下 + " 处"], ["我挑出", (r) => r.人挑出 + " 处"], ["盲挑", (r) => r.盲挑 || "还没挑"]];
+  return (
+    <div className="kb-tablebox">
+      <table className="kb-table kb-mini">
+        <thead><tr><th />{[1, 2].map((n) => <th key={n}>第 {n} 轮</th>)}</tr></thead>
+        <tbody>
+          {rows.map(([name, fmt]) => (
+            <tr key={name}><th scope="row">{name}</th>{cols.map((r, i) => <td key={i} className={r && i > 0 && cols[0] && fmt(r) !== fmt(cols[0]) ? "diff" : ""}>{r ? fmt(r) : "—"}</td>)}</tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+export function Five({ fresh, compact }: { fresh: number | null; compact?: boolean }) {
+  const { S } = useBoard();
+  const m: Any[][] = [[], [], [], [], []];
+  const all: Any[] = [];
+  (S.道理 || []).forEach((d: Any) => {
+    const i = fiveIdx(d);
+    if (i !== null) m[i].push(d); else if (/^五步全部/.test(d.五步 || "")) all.push(d);
+  });
+  const [pick, setPick] = useState<number | null>(null);
+  let sel = pick;
+  if (sel == null) for (let i = 4; i >= 0; i--) if (m[i].length) { sel = i; break; }
+  return (
+    <>
+      <div className={`kb-five ${compact ? "compact" : ""}`}>
+        {FIVE.map((s, i) => {
+          const n = m[i].length;
+          return (
+            <button key={i} type="button" aria-pressed={sel === i} onClick={() => setPick(i)}
+              onMouseEnter={() => { if (window.matchMedia("(hover:hover)").matches) setPick(i); }}
+              className={`kb-fcell ${n ? "lit" : ""} ${sel === i ? "sel" : ""} ${fresh === i ? "flash" : ""}`}>
+              <em>{n ? <CheckIcon size={14} weight="bold" /> : null}第 {i + 1} 步{n ? " · 亮了" : ""}</em>
+              <b>{s[0]}</b>
+              <span>{n ? `已经出现 ${n} 次` : "还没出现"}</span>
+            </button>
+          );
+        })}
+      </div>
+      <div className={`kb-fsay ${compact ? "compact" : ""}`}>
+        {sel != null ? (
+          <>
+            <p><b>第 {sel + 1} 步：</b>{FIVE[sel][1]}</p>
+            {m[sel].length ? m[sel].map((d, i) => (
+              <p key={i} className="flex gap-2"><CheckIcon size={16} className="mt-1 flex-none text-kumo-success" /><span>{d.一句}<small>{d.五步}{d.出处 ? " · " + d.出处 : ""} · {d.时间}</small></span></p>
+            )) : <p className="text-kumo-subtle">队伍做到这一步时，这里会写出看板上发生了什么。</p>}
+          </>
+        ) : <p className="text-kumo-subtle">点一格，看这一步在这支队里怎么出现的。</p>}
+        {all.length > 0 && <div className="mt-2 flex gap-2 text-[15px] text-kumo-success"><CheckIcon size={16} className="mt-1 flex-none" />{all[all.length - 1].一句}</div>}
+      </div>
+    </>
+  );
+}
+
+export function Feed() {
+  const { S } = useBoard();
+  const d: Any[] = (S.动态 || []).slice().reverse().slice(0, 60);
+  return (
+    <ul className="kb-feed">
+      {d.length ? d.map((x, i) => (
+        <li key={d.length - i + x.时间 + x.一句}><time>{x.时间}</time><span className={`who ${x.谁 === "人" ? "me" : ""}`}>{x.谁}</span><span className="tx">{x.一句}</span></li>
+      )) : <li><span className="tx text-kumo-subtle">还没有动静</span></li>}
+    </ul>
+  );
+}
+
+export type Toast = { id: number; d: Any; out?: boolean };
+export function Toasts({ list }: { list: Toast[] }) {
+  return (
+    <div className="kb-toasts" role="status" aria-live="polite">
+      {list.map((t) => (
+        <div key={t.id} className={`kb-toast ${t.out ? "out" : ""}`}>
+          <span className="k"><LightbulbIcon size={16} />{t.d.五步 || "新道理"}</span>
+          <div className="mt-1 text-[15px] text-kumo-strong">{t.d.一句}</div>
+          {t.d.出处 && <small>{t.d.出处}</small>}
+        </div>
+      ))}
+    </div>
+  );
+}

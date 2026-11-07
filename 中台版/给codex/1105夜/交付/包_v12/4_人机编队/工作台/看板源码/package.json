@@ -1,0 +1,23 @@
+{
+  "name": "duiwu-kanban",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": { "build": "tsc --noEmit && vite build && node 内联.mjs" },
+  "dependencies": {
+    "@cloudflare/kumo": "^2.17.0",
+    "@phosphor-icons/react": "^2.1.10",
+    "marked": "^18.1.3",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.4",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.2.1",
+    "tailwindcss": "^4.3.4",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.5"
+  }
+}
