@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CheckIcon, LightbulbIcon } from "@phosphor-icons/react";
+import { CheckIcon, FlagIcon, LightbulbIcon } from "@phosphor-icons/react";
 import { useBoard } from "./hooks";
 import { cfgOf, type Any } from "./api";
 
@@ -15,12 +15,13 @@ const rowsOf = (cf: ReturnType<typeof cfgOf>): Row[] => [
   ["我挑出", (r) => r.人挑出 + " 处", "人挑出"],
   ["两边都挑出", (r) => r.重合 + " 处", "重合"],
   ["发不发", (r) => r.发不发 || "还没定", "发不发"],
-  ["盲挑", (r) => r.盲挑 || "还没挑", "盲挑"],
+  ["挑成品", (r) => r.盲挑 || "还没挑", "盲挑"],
 ];
 
 export function Score() {
   const { S } = useBoard();
-  const rs: Any[] = S.成绩单 || [];
+  const rs: Any[] = (Array.isArray(S.全部成绩单) && S.全部成绩单.length ? S.全部成绩单 : S.成绩单) || [];
+  const multi = new Set(rs.map((r) => r.队 || "")).size > 1;
   const ROWS = rowsOf(cfgOf(S));
   if (!rs.length) return <p className="kb-empty">开工以后，每一轮的成绩出现在这里。</p>;
   return (
@@ -28,7 +29,7 @@ export function Score() {
       <div className="kb-tablebox">
         <table className="kb-table">
           <thead>
-            <tr><th />{rs.map((r) => <th key={r.轮}>第 {r.轮} 轮{!r.结束了 && <><br /><small style={{ fontWeight: 400, color: "var(--zt-mute)" }}>进行中</small></>}</th>)}</tr>
+            <tr><th />{rs.map((r, i) => <th key={r.轮} className={multi && i > 0 && r.队 !== rs[i - 1].队 ? "newteam" : ""}>第 {r.轮} 轮{r.队 && <small className="team">{r.队}</small>}{!r.结束了 && <small style={{ display: "block", fontWeight: 400, color: "var(--zt-mute)" }}>进行中</small>}</th>)}</tr>
           </thead>
           <tbody>
             {ROWS.map(([name, fmt, key]) => (
@@ -36,20 +37,20 @@ export function Score() {
                 <th scope="row">{name}</th>
                 {rs.map((r, i) => {
                   const diff = key && i > 0 && String(r[key]) !== String(rs[i - 1][key]);
-                  return <td key={r.轮} className={diff ? "diff" : ""}>{fmt(r)}</td>;
+                  return <td key={r.轮} className={`${diff ? "diff" : ""} ${multi && i > 0 && r.队 !== rs[i - 1].队 ? "newteam" : ""}`}>{fmt(r)}</td>;
                 })}
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      <div className="kb-legend"><i />有色底的格子，这一轮和上一轮不一样</div>
+      <div className="kb-legend"><i />有色底的格子，这一轮和上一轮不一样{multi && "；粗竖线右边换了一支队"}</div>
     </>
   );
 }
 
-const fiveOf = (cf: ReturnType<typeof cfgOf>): [string, string][] => [
-  ["拆成几棒", "一件事拆成几棒，每个队员只干一棒。哪里出错，找得到是哪一棒。"],
+const fiveOf = (cf: ReturnType<typeof cfgOf>, nm: number): [string, string][] => [
+  [nm ? `拆成 ${nm} 棒` : "拆成几棒", "一件事拆成几棒，每个队员只干一棒。哪里出错，找得到是哪一棒。"],
   ["写清交什么", "每一棒交什么、交给谁，写死在分工表上。"],
   [cf.视频 ? "单独一个挑错的，放在花钱那一棒前面" : "单独一个挑错的，放在做成品那一棒前面",
     `挑错的没看过${cf.写短}是怎么写出来的，才挑得出毛病；${cf.写短}上拦下，不用等${cf.视频 ? "出片" : "做成" + cf.成品叫法}再发现。`],
@@ -63,16 +64,16 @@ export function fiveIdx(d: Any): number | null {
 }
 export function MiniScore() {
   const { S } = useBoard();
-  const rs: Any[] = S.成绩单 || [];
-  const cols = [1, 2].map((n) => rs.find((r) => r.轮 === n));
-  const rows: [string, (r: Any) => string][] = [["退回", (r) => r.退回 + " 次"], ["挑错拦下", (r) => r.挑错拦下 + " 处"], ["我挑出", (r) => r.人挑出 + " 处"], ["盲挑", (r) => r.盲挑 || "还没挑"]];
+  const rs: Any[] = (Array.isArray(S.全部成绩单) && S.全部成绩单.length ? S.全部成绩单 : S.成绩单) || [];
+  const cols = [1, 2, 3].map((n) => rs.find((r) => r.轮 === n));
+  const rows: [string, (r: Any) => string][] = [["退回", (r) => r.退回 + " 次"], ["挑错拦下", (r) => r.挑错拦下 + " 处"], ["我挑出", (r) => r.人挑出 + " 处"], ["挑成品", (r) => r.盲挑 || "还没挑"]];
   return (
     <div className="kb-tablebox">
       <table className="kb-table kb-mini">
-        <thead><tr><th />{[1, 2].map((n) => <th key={n}>第 {n} 轮</th>)}</tr></thead>
+        <thead><tr><th />{[1, 2, 3].map((n) => <th key={n}>第 {n} 轮</th>)}</tr></thead>
         <tbody>
           {rows.map(([name, fmt]) => (
-            <tr key={name}><th scope="row">{name}</th>{cols.map((r, i) => <td key={i} className={r && i > 0 && cols[0] && fmt(r) !== fmt(cols[0]) ? "diff" : ""}>{r ? fmt(r) : "—"}</td>)}</tr>
+            <tr key={name}><th scope="row">{name}</th>{cols.map((r, i) => <td key={i} className={r && i > 0 && cols[i - 1] && fmt(r) !== fmt(cols[i - 1]) ? "diff" : ""}>{r ? fmt(r) : "—"}</td>)}</tr>
           ))}
         </tbody>
       </table>
@@ -88,7 +89,7 @@ export function Five({ fresh, compact }: { fresh: number | null; compact?: boole
     const i = fiveIdx(d);
     if (i !== null) m[i].push(d); else if (/^五步全部/.test(d.五步 || "")) all.push(d);
   });
-  const FIVE = fiveOf(cfgOf(S));
+  const FIVE = fiveOf(cfgOf(S), (S.队员 || []).length);
   const [pick, setPick] = useState<number | null>(null);
   let sel = pick;
   if (sel == null) for (let i = 4; i >= 0; i--) if (m[i].length) { sel = i; break; }
@@ -129,7 +130,7 @@ export function Feed() {
   return (
     <ul className="kb-feed">
       {d.length ? d.map((x, i) => (
-        <li key={d.length - i + x.时间 + x.一句}><time>{x.时间}</time><span className={`who ${x.谁 === "人" ? "me" : ""}`}>{x.谁}</span><span className="tx">{x.一句}</span></li>
+        <li key={d.length - i + x.时间 + x.一句} className={/照你写的红线拦下/.test(x.一句) ? "hit" : ""}><time>{x.时间}</time><span className={`who ${x.谁 === "人" ? "me" : ""}`}>{x.谁}</span><span className="tx">{/照你写的红线拦下/.test(x.一句) && <FlagIcon size={14} weight="fill" className="hitic" />}{x.一句}</span></li>
       )) : <li><span className="tx text-kumo-subtle">还没有动静</span></li>}
     </ul>
   );

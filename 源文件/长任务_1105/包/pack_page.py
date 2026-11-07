@@ -21,7 +21,7 @@ def read(p):
 
 OVERALL = {"2_技能": "用上午的知识库，把你最拿手的一件事做成技能。同一份材料，两个没记忆的助手一个用技能、一个不用，各做一份，打乱了你挑：挑中用技能那份，技能才算做成；挑中另一份，技能就不行，改到你挑中它为止。",
            "3_智能体": "把一整件事交给一个 AI 下属：它自己查、自己做、自己检查，碰到该你定的停下来问你。它做的和不照说明书做的打乱了你挑，挑中它才算能用。第二天的人机编队另有一个包。",
-           "4_人机编队": "读你的知识库，推荐两支 AI 队伍，你挑一支（宣传片、商品主图、社媒图文、客户回信）：每支有策划、写、做、挑错这样几个队员，岗位说明书现成。开工前你写下最怕说错的话，交给挑错当红线；你和挑错各挑各的；成品不满意，找到是哪个队员哪一句，只调一处再跑一轮，两轮的成绩单并排比。队伍看板一直开着，看得见每个队员在干什么。"}
+           "4_人机编队": "编队参谋先用三句话帮你判断一件事值不值得组队，再从七支现成的队里配一支（上新、售后、周报、宣传片、招聘、方案、培训）。每轮你只在看板上点三处：开工前定规矩、挑方向、挑成品。一共三轮：第一轮和一个 AI 直接做的比，第二轮改一处再比，第三轮换一支队。"}
 HINT = {}    # 步号 → (拿到, 卡住)：学员页每步复制框上方那两行，课件预告屏也用
 STAGE = {}   # 步号 → 这一步开头要另起一段的标题（步骤文件里"段："那行），例如第二天上午
 
@@ -193,9 +193,13 @@ def make_zip(PACK, dest):
         z.write(os.path.join(PACK, f"{NAME[top]}包.md"), f"{top}/{NAME[top]}包.md")
         if top == "4_人机编队":
             z.writestr(f"{top}/AI先读这个.md",
-                       "这是实操课的一个包。先完整读同一文件夹的 编队包.md，照里面的规矩做，别的先不做。\n"
+                       "这是实操课的一个包。先完整读同一文件夹的 编队包.md 和 编队参谋/SKILL.md，你就是编队参谋，照它带学员，别的先不做。\n"
                        "学员说了第几步或「接着」，就跑 工作台/工作台.py 的 下一步 接着做；只拖了这个压缩包、什么都没说，照 编队包.md 里\"# 开场\"做。不问学员想让你做什么。\n"
                        "队伍菜单/、工作台/、示例知识库/、现成的技能和队员/ 是做事要用的现成东西，用到再读，不用跟学员一一介绍。工作台/视频key.txt 不给学员看、不写进任何文件。\n")
+            add_dir(z, os.path.join(PACK, "编队参谋"), f"{top}/编队参谋")
+            add_dir(z, os.path.join(PACK, "提示词"), f"{top}/提示词")
+            if os.path.exists(os.path.join(PACK, "回去以后.md")):
+                z.write(os.path.join(PACK, "回去以后.md"), f"{top}/回去以后.md")
             add_dir(z, os.path.join(PACK, "队伍菜单"), f"{top}/队伍菜单")
             add_dir(z, os.path.join(PACK, "工作台"), f"{top}/工作台", skip=("视频key.txt",))
             add_dir(z, os.path.join(PACK, "示例知识库"), f"{top}/示例知识库")
@@ -334,24 +338,31 @@ def build_page(PACK, title):
     weekly = [extra_file(os.path.join(P, f)) for f in sorted(os.listdir(P)) if f.startswith("周间_")]
     lost = extra_file(os.path.join(P, "换了对话.md"))
     name = os.path.basename(PACK)
+    BD = name == "4_人机编队"
     inner = (f'<p class="go"><b>整体：</b>{OVERALL[name]}</p>'
              f'<div class="go"><p><b>怎么做：</b></p><ol class="how">'
              f'<li>下载 <a href="{html.escape(drag_file(PACK))}" download><b>{html.escape(drag_file(PACK))}</b></a>，整个拖进{"昨天" if name == "4_人机编队" else "上午"}做知识库的那个对话（不用解压），再复制下面第 {steps[0][0]} 步，一起发出去。'
              f'<br><small>在微信里打开的下载不了：点右上角，用浏览器打开。苹果自带浏览器下完自动解开成了文件夹：把这个文件夹拖进去也行。</small></li>'
-             f'<li>AI 问你，就答自己工作里的事；问以前出过的事，说具体是哪一回；想不起来、不想写，直说，AI 会劝你多想一下，实在不想写也能往下走，看板上照实记。</li>'
-             f'<li>让你挑甲、乙，只看哪份你敢直接交出去，别猜是哪份。</li>'
-             f'<li>看到"第 N 步结束"，复制下一步发过去。</li></ol></div>')
+             + (f'<li>AI 问你，答一两句自家的事就行；看板右边待办亮了，就点一下。</li>'
+                f'<li>挑成品看三样：对得上知识库吗、像你家说的话吗、不改能发吗。</li>'
+                f'<li>讲师讲完一段，复制下一步那段发过去。</li>'
+                f'<li>换了对话：把包再拖进新对话，发「接着做人机编队」，AI 会从上次停的地方接着做。</li></ol></div>' if BD else
+                f'<li>AI 问你，就答自己工作里的事；问以前出过的事，说具体是哪一回；想不起来、不想写，直说，AI 会劝你多想一下，实在不想写也能往下走，看板上照实记。</li>'
+                f'<li>让你挑甲、乙，只看哪份你敢直接交出去，别猜是哪份。</li>'
+                f'<li>看到"第 N 步结束"，复制下一步发过去。</li></ol></div>'))
     for k, name, m, *_rest, body in steps:
         if STAGE.get(k):
             inner += f'<hr><h2>{html.escape(STAGE[k])}</h2>'
-        inner += f'<h2>第 {k} 步 · {html.escape(name)}<small> · 约 {m} 分钟</small></h2>' + hint(k) + box(body)
+        inner += f'<h2>第 {k} 步 · {html.escape(name)}<small> · 约 {m} 分钟</small></h2>' + hint(k) + (
+            box(body))
     inner += '<hr>'
-    for i, (name, use, body) in enumerate(weekly, 1):
+    for i, (name, use, body) in enumerate([] if BD else weekly, 1):
         inner += f'<h2>周间陪练 · {html.escape(name.replace("周间 · ", ""))}</h2><p>{html.escape(use)}</p>' + box(body)
     name, use, body = lost
-    inner += f'<h2>{html.escape(name)}</h2><p>{html.escape(use)}</p>' + box(body)
+    if not BD:
+        inner += f'<h2>{html.escape(name)}</h2><p>{html.escape(use)}</p>' + box(body)
     inner += after_class(PACK)
-    lead = "每一步：为了啥、做完拿到什么、卡住了怎么办，下面是要复制的那段。最后是换了对话、周间练习和回去以后。"
+    lead = ("六步，每步复制一段发给 AI，再到看板上点。最后是回去以后怎么用。" if BD else "每一步：为了啥、做完拿到什么、卡住了怎么办，下面是要复制的那段。最后是换了对话、周间练习和回去以后。")
     finish(PACK, steps, sheet(title, lead, inner))
 
 

@@ -1,6 +1,6 @@
 import { Fragment, useState } from "react";
 import { CheckIcon, FlagIcon, UserIcon } from "@phosphor-icons/react";
-import { Area, Button, Card, Err, FilePane, Opt, Row, Spin, Step, Tag, Txt } from "./ui";
+import { Area, Button, Card, Disclosure, Err, FilePane, Modal, Opt, Row, Spin, Step, Tag, Txt } from "./ui";
 import { useBoard, useLib, useManual, useSubmit } from "./hooks";
 import { cfgOf, 标名Of, type Any } from "./api";
 const Person = () => <UserIcon size={16} />;
@@ -30,6 +30,7 @@ export function SheetCard({ s }: { s: Any }) {
         <Area label="最怕说错什么" rows={4} value={v("最怕说错")} placeholder={"例如：\n不能说保温 24 小时\n不说医用级"} onChange={(x) => setEd({ ...ed, 最怕说错: x })} />
       </div>
       <div className="kb-btnrow"><Button variant="primary" size="lg" disabled={busy} onClick={go}>{busy ? "正在交……" : "确认，开工"}</Button></div>
+      <p className="kb-after">点了，队伍照这张单子开工；最怕说错的话交给挑错的队员去查。</p>
       <Err text={err} />
     </Card>
   );
@@ -39,12 +40,11 @@ export function SheetCard({ s }: { s: Any }) {
 export function AskCard({ q }: { q: Any }) {
   const { S } = useBoard();
   const 标名 = 标名Of(S);
-  const [sel, setSel] = useState<string | null>(() => (q.选项 || []).find((o: string) => q.建议 && (q.建议 === o || o.indexOf(q.建议) === 0)) || null);
+  const [sel, setSel] = useState<string | null>(null);
   const [free, setFree] = useState("");
   const [note, setNote] = useState("");
   const { busy, err, setErr, run } = useSubmit();
   const opts: string[] = q.选项 || [];
-  const isRec = (o: string) => q.建议 && (q.建议 === o || o.indexOf(q.建议) === 0);
   const go = () => {
     let choice = sel;
     if (opts.length) { if (!choice) { setErr("先点一个选项"); return; } }
@@ -53,16 +53,16 @@ export function AskCard({ q }: { q: Any }) {
     run("拍板", { id: q.id, 拍板: choice, 意见: note.trim() });
   };
   return (
-    <Card kind="need" meta={<><Person />请你定 · {标名[q.标] || q.标 || "拍板"}</>} right={`${q.谁 || "队长"} 问的 · ${q.时间 || ""}`}>
+    <Card kind="need" className="kb-big" meta={<><Person />{q.标 === "选题" ? "挑方向：三个挑一个" : q.标 === "发不发" ? "挑成品：哪份今天就敢发，哪里不行" : 标名[q.标] || q.标 || "请你定"}</>} right={`${q.谁 || "队长"} 问的 · ${q.时间 || ""}`}>
       <div className="kb-q">{q.问}</div>
       {opts.length ? (
         <div className="flex flex-col gap-2">
-          {opts.map((o) => <Opt key={o} on={sel === o} onClick={() => setSel(o)}>{isRec(o) && <Tag tone="brand">队长建议</Tag>}{o}</Opt>)}
+          {opts.map((o) => <Opt key={o} on={sel === o} onClick={() => setSel(o)}>{o}</Opt>)}
         </div>
       ) : <Txt label="写下你的决定" value={free} placeholder="写下你的决定" onChange={setFree} />}
-      {q.建议 && (!opts.length || opts.every((o) => !isRec(o))) && <p className="kb-sub">队长建议：{q.建议}</p>}
-      <div className="mt-3"><Txt label="补一句" value={note} placeholder="想补一句就写在这里（选填）" onChange={setNote} /></div>
-      <div className="kb-btnrow"><Button variant="primary" size="lg" disabled={busy} onClick={go}>{busy ? "正在交……" : "拍板"}</Button></div>
+      {q.标 !== "选题" && <div className="mt-3"><Txt label="补一句" value={note} placeholder={q.标 === "发不发" ? "哪里不行，写在这里（选填）" : "想补一句就写在这里（选填）"} onChange={setNote} /></div>}
+      <div className="kb-btnrow"><Button variant="primary" size="lg" disabled={busy} onClick={go}>{busy ? "正在交……" : q.标 === "选题" ? "就选这个" : "拍板"}</Button></div>
+      <p className="kb-after">{q.标 === "选题" ? "点了，写的队员照这个方向接着写。" : q.标 === "发不发" ? "点了，队伍照你定的收尾或重改；对话里会告诉你结果。" : "点了，队伍接着干；对话里会告诉你结果。"}</p>
       <Err text={err} />
     </Card>
   );
@@ -109,6 +109,7 @@ export function PickCard({ p }: { p: Any }) {
         <Button variant="primary" size="lg" disabled={busy} onClick={go}>{busy ? "正在交……" : "挑完了，交"}</Button>
         <span className="kb-hint">已标 <b className="zt-num">{n}</b> 处。一处都没标就交，意思是你没看出毛病。</span>
       </div>
+      <p className="kb-after">交了以后，等挑错的队员查完，两边挑到的一起亮出来。</p>
       <Err text={err} />
     </Card>
   );
@@ -121,12 +122,18 @@ export function Basis({ x }: { x: Any }) {
   const row = (S.成绩单 || []).find((r: Any) => r.轮 === n) || {};
   const rd = (S.轮 || []).find((r: Any) => r.n === n) || {};
   const backs = (S.交接 || []).filter((h: Any) => h.轮 === n && h.退回);
+  const cnt: Record<string, number> = {};
+  (S.交接 || []).filter((h: Any) => h.退回).forEach((h: Any) => { cnt[h.到] = (cnt[h.到] || 0) + 1; });
+  const top = Object.entries(cnt).sort((a, b) => b[1] - a[1])[0];
   return (
+    <Disclosure label="看依据：成绩、被退回最多的队员、理由" lazy={false}>
     <div className="kb-basis">
       <p><b>第 {n} 轮的成绩：</b>用时 {row.用时分钟 || 0} 分钟，交接 {row.交接 || 0} 次，退回 {row.退回 || 0} 次，{cfgOf(S).视频 ? "出片" : cfgOf(S).动词} {row.出片 || 0} {cfgOf(S).视频 ? "次" : "份"}；挑错拦下 {row.挑错拦下 || 0} 处，你挑出 {row.人挑出 || 0} 处，两边都挑出 {row.重合 || 0} 处。</p>
       <p><b>{cfgOf(S).拍板名[1]}时你写的话：</b>{rd.发不发 ? rd.发不发 : "这一轮没有写"}</p>
+      <p><b>被退回最多的队员：</b>{top ? `${top[0]}（${top[1]} 次）` : "还没有被退回的"}</p>
       <p><b>退回的理由：</b>{backs.length ? backs.map((b: Any) => `${b.从} 退给 ${b.到}：${b.为什么}`).join("；") : "这一轮没有退回"}</p>
     </div>
+    </Disclosure>
   );
 }
 
@@ -149,7 +156,7 @@ export function JudgeBoxes({ x }: { x: Any }) {
 }
 
 /** 从现成队员库里挑一位：搜名字或部门，按部门分组 */
-function LibPick({ lib, q, setQ, chosen, onPick }: { lib: Any; q: string; setQ: (v: string) => void; chosen?: Any; onPick: (r: Any) => void }) {
+export function LibPick({ lib, q, setQ, chosen, onPick }: { lib: Any; q: string; setQ: (v: string) => void; chosen?: Any; onPick: (r: Any) => void }) {
   const qq = q.trim();
   let last = "";
   return (
@@ -222,6 +229,7 @@ export function DiagCard({ x }: { x: Any }) {
           <Button variant="primary" size="lg" disabled={sub.busy} onClick={go}>{sub.busy ? "正在交……" : "交我的判断"}</Button>
           <span className="kb-hint">队长也在单独判断，你们交了以后一起揭晓。</span>
         </div>
+        <p className="kb-after">交了以后，队长交出他的判断，两边一起亮出来。</p>
         <Err text={sub.err} />
       </Card>
     );
@@ -306,6 +314,7 @@ export function DiagCard({ x }: { x: Any }) {
         <Button variant="primary" size="lg" disabled={!how || sub.busy} onClick={go}>{sub.busy ? "正在交……" : `就调这一处，跑第 ${nRound} 轮`}</Button>
         <span className="kb-hint">一次只调一处，下一轮变好变坏，才知道是这一处起的作用。</span>
       </div>
+      <p className="kb-after">点了，只改这一处，队伍马上跑下一轮。</p>
       <Err text={sub.err} />
     </Card>
   );
@@ -390,8 +399,9 @@ export function PreCard() {
           )}
           <div className="kb-btnrow">
             <Button variant="primary" size="lg" disabled={!how || sub.busy} onClick={go}>{sub.busy ? "正在交……" : label}</Button>
-            <span className="kb-hint">一次只改一处，之后盲比才看得出这一处有没有用。</span>
+            <span className="kb-hint">一次只改一处，之后挑成品才看得出这一处有没有用。</span>
           </div>
+          <p className="kb-after">点了，队伍带着这一处开工。</p>
         </>
       )}
       <Err text={sub.err} />
@@ -399,23 +409,30 @@ export function PreCard() {
   );
 }
 
-/* ---------- 盲比 ---------- */
+/* ---------- 挑成品 ---------- */
 export function BlindCard({ b }: { b: Any }) {
   const [sel, setSel] = useState<string | null>(null);
   const [say, setSay] = useState("");
+  const [big, setBig] = useState(false);
   const { busy, err, setErr, run } = useSubmit();
-  const side = (k: string) => (
-    <div className="kb-side" key={k}><header>{k}</header><div className="body"><FilePane src={b[k]} /></div></div>
+  const side = (k: string, maxH?: number) => (
+    <div className="kb-side" key={k}><header>{k}</header><div className="body"><FilePane src={b[k]} maxH={maxH} /></div></div>
   );
   const go = () => { if (!sel) { setErr("先选发甲、发乙或差不多"); return; } run("盲挑", { id: b.id, 选: sel, 我说: say.trim() }); };
   return (
-    <Card kind="need" meta={<><Person />请你盲挑：哪份更好</>} right={`第 ${b.轮} 轮 · 哪份是改过的，挑完才揭晓`} title={b.说明 || "甲和乙，你更愿意发哪一份"}>
-      <div className="kb-sides">{side("甲")}{side("乙")}</div>
-      <div className="mt-3 flex flex-col gap-2">
+    <Card kind="need" className="kb-big" meta={<><Person />挑成品</>} right={`第 ${b.轮} 轮 · 挑完才揭晓是谁做的`} title="甲和乙，哪份今天就敢发？哪里不行？">
+      <div className="kb-sides">{side("甲", 260)}{side("乙", 260)}</div>
+      <button type="button" className="kb-more" onClick={() => setBig(true)}>放大对照着看</button>
+      <Modal open={big} onClose={() => setBig(false)} title="甲和乙，哪份今天就敢发" wide>
+        <div className="kb-sides">{side("甲", 560)}{side("乙", 560)}</div>
+      </Modal>
+      <p className="kb-look3">看三样：对得上知识库吗、像你家说的话吗、不改能发吗。</p>
+      <div className="kb-opts3">
         {["甲", "乙", "差不多"].map((o) => <Opt key={o} on={sel === o} onClick={() => setSel(o)}>{o === "差不多" ? "差不多" : "发" + o}</Opt>)}
       </div>
-      <div className="mt-3"><Txt label="为什么" value={say} placeholder="用一句话说说为什么（选填）" onChange={setSay} /></div>
+      <div className="mt-3"><Txt label="哪里不行" value={say} placeholder="另一份哪里不行，用一句话说说（选填）" onChange={setSay} /></div>
       <div className="kb-btnrow"><Button variant="primary" size="lg" disabled={busy} onClick={go}>{busy ? "正在交……" : "交上去，看揭晓"}</Button></div>
+      <p className="kb-after">交了马上揭晓甲和乙各是谁做的，结果记进成绩单。</p>
       <Err text={err} />
     </Card>
   );

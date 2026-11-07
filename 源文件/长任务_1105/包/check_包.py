@@ -74,7 +74,7 @@ def check(PACK):
             runs.append([])
         runs[-1].append((int(k), int(x), rest))
         prev = int(k)
-    for run in runs:
+    for run in ([] if name == "4_人机编队" else runs):   # 人机编队的口播不用“第 N 步，M 分钟”写法，只对动手屏
         is_agent = any(re.search("岗位|说明书|队员|一支队", r) for _, _, r in run)
         if is_agent != (name == "3_智能体"):
             continue

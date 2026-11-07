@@ -2,8 +2,8 @@ import { FileTextIcon, FilmSlateIcon, ImageIcon, PlayIcon, UserIcon, WarningIcon
 import { Button, Spin, Tag } from "./ui";
 import { Five, MiniScore } from "./Bottom";
 
-import { cfgOf, fileUrl, isHtml, isMd, isVideo, type Any } from "./api";
-import { CardFrame } from "./ui";
+import { cfgOf, fileUrl, isHtml, isMd, isVideo, ratioFor, type Any } from "./api";
+import { CardFrame, Disclosure } from "./ui";
 import { Md } from "./Md";
 import { useEffect, useState } from "react";
 import { useBoard } from "./hooks";
@@ -31,7 +31,7 @@ export function Header({ goAsk }: { goAsk: () => void }) {
           <h1 className="m-0 text-[24px] leading-[1.25] font-semibold">{cf.队名 || S.队名 || "队伍看板"}<span className="kb-kind">{cf.成品叫法}</span></h1>
           <p className="mt-0.5 mb-0 text-[16px] text-kumo-subtle">{S.这件事 || "开工单确认后，这里会写清这支队要做什么"}</p>
           <div className="mt-2 flex flex-wrap gap-2">
-            <span className="kb-pill on">第 {S.步} 步{S.步 === 6 && S.开工单 && S.开工单.确认 && !(S.开工前改 && S.开工前改.调了) ? "：开工前改一处" : S.步 === 6 && S.开工单 && S.开工单.确认 ? "：" + cf.试 : STEP[S.步] ? "：" + STEP[S.步] : ""}</span>
+            <span className="kb-pill on">第 {S.步} 步{S.步 === 6 && S.改队 && S.改队.开 && !S.改队.完成 ? "：组队，开工前改一改" : S.步 === 6 && !S.改队 && S.开工单 && S.开工单.确认 && !(S.开工前改 && S.开工前改.调了) ? "：开工前改一处" : S.步 === 6 && S.开工单 && S.开工单.确认 ? "：" + cf.试 : STEP[S.步] ? "：" + STEP[S.步] : ""}</span>
             <span className="kb-pill">{r ? `第 ${r.n} 轮` : "还没开始跑"}</span>
             {r && r.调了什么 && <span className="kb-pill">{r.调了什么}</span>}
             {S.改交图卡 && <span className="kb-pill warn">视频没出，改交图卡</span>}
@@ -76,11 +76,11 @@ export function Stage({ pin, setPin, compact, fresh }: { pin: string | null; set
   const rounds: Any[] = S.轮 || [];
   const unit = cf.视频 ? "条" : "份";
   const make = cf.动词;
-  const label = (n: number) => (n === 0 ? `${cf.试}：一个 AI 直接${make}` : `第 ${n} 轮：队伍接力${make}`);
+  const label = (n: number) => (n === 0 ? `${cf.试}：一位队员单独${make}` : `第 ${n} 轮：队伍接力${make}`);
   const short = (n: number) => (n === 0 ? cf.试 : `第 ${n} 轮`);
   const showBusy = !!mid;
   const busyRound = rounds.length ? rounds[rounds.length - 1].n : 0;
-  const slotNs = Array.from(new Set([0, 1, 2, ...films.map((f) => f.轮)])).sort((a, b) => a - b);
+  const slotNs = Array.from(new Set([0, 1, 2, 3, ...films.map((f) => f.轮)])).sort((a, b) => a - b);
   const desc = mid
     ? `${mid.说明 || `正在${cf.动词}`}${mid.开始 ? "（" + mid.开始 + " 开始）" : ""}`
     : cur && cur.说明 && !cur.说明.startsWith("试拍") && !cur.说明.startsWith("试做") && !cur.说明.startsWith(`第 ${cur.轮} 轮`) ? cur.说明 : "";
@@ -99,7 +99,7 @@ export function Stage({ pin, setPin, compact, fresh }: { pin: string | null; set
         </div>
       )}
       {cur && isCard && (
-        <div className="kb-stage-media"><CardFrame key={cur.文件} src={cur.文件} ratio={(cur.比例 === "3:4" ? 0.75 : cur.比例 === "9:16" ? 0.5625 : 1)} maxH={compact ? 330 : 470} /></div>
+        <div className="kb-stage-media"><CardFrame key={cur.文件} src={cur.文件} ratio={ratioFor(cur)} maxH={compact ? 330 : 470} /></div>
       )}
       {cur && curMd && <div className="kb-paper"><Md text={txt === null ? "读取中……" : txt || "（文件是空的）"} /></div>}
       {!cur && (
@@ -120,7 +120,7 @@ export function Stage({ pin, setPin, compact, fresh }: { pin: string | null; set
         {desc && <p className="mt-1.5 mb-0 text-[16px] text-kumo-subtle">{desc}</p>}
         {showBusy && (S.动态 || []).length > 0 && <p className="mt-1 mb-0 text-[15px] text-kumo-subtle">刚刚：{(S.动态 as Any[])[(S.动态 as Any[]).length - 1].谁}，{(S.动态 as Any[])[(S.动态 as Any[]).length - 1].一句}</p>}
         {!rounds.length && cur && cur.轮 === 0 && !showBusy && (
-          <p className="mt-2 mb-0 text-[16px] text-kumo-strong">队伍还没开工。接下来分工接力，做第 1 轮，再和这份{cf.试}盲比，看分工有没有用。</p>
+          <p className="mt-2 mb-0 text-[16px] text-kumo-strong">队伍还没开工。接下来分工接力，做第 1 轮，再和这份{cf.试}挑成品对着看，看分工有没有用。</p>
         )}
         {cf.视频 && <p className="mt-2 mb-0 text-[15px] text-kumo-subtle">还能出 <b className="zt-num text-kumo-strong">{S.还能出片 == null ? "" : S.还能出片}</b> 次，每次都花钱</p>}
         <div className="kb-slots">
@@ -134,7 +134,7 @@ export function Stage({ pin, setPin, compact, fresh }: { pin: string | null; set
                   {isVideo(f.文件) ? <><video muted playsInline preload="metadata" src={fileUrl(f.文件) + "#t=0.5"} /><PlayIcon size={22} weight="fill" className="play" /></>
                     : isHtml(f.文件) ? <><ImageIcon size={26} /><i>{f.张数 || ""}{f.张数 ? " 张" : ""}</i></> : <FileTextIcon size={26} />}
                 </span>
-                <b>{short(n)}</b><small>{n === 0 ? "一个 AI" : "队伍接力"}</small>
+                <b>{short(n)}</b><small>{n === 0 ? "一位单独做" : "队伍接力"}</small>
               </button>
             ) : (
               <div key={n} className={`kb-slot empty ${busy ? "busy" : ""}`}>
@@ -146,10 +146,9 @@ export function Stage({ pin, setPin, compact, fresh }: { pin: string | null; set
         </div>
       </div>
       <div className="min-w-0">
-        <div className="kb-minihead">回去自己搭一支 AI 队伍，就这五步</div>
-        <Five fresh={fresh} compact />
-        <div className="kb-minihead" style={{ marginTop: 14 }}>两轮对着看</div>
+        <div className="kb-minihead">每轮对着看</div>
         <MiniScore />
+        <Disclosure label="回去自己搭一支这样的队伍，就这五步" lazy={false}><Five fresh={fresh} compact /></Disclosure>
       </div>
       </div>
     </section>

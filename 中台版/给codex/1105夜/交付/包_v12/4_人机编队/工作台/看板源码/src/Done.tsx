@@ -1,8 +1,9 @@
-import { CheckIcon, FileTextIcon, FilmSlateIcon, ImageIcon, PlayIcon, UserIcon } from "@phosphor-icons/react";
+import { BrowserIcon, CheckIcon, FileTextIcon, FilmSlateIcon, ImageIcon, PlayIcon, SparkleIcon, UserIcon } from "@phosphor-icons/react";
 import { Button, Card, Disclosure, FilePane, Row, Spin, Tag } from "./ui";
 import { useBoard } from "./hooks";
 import { JudgeBoxes } from "./Ask";
-import { cfgOf, kindName, 标名Of, type Any } from "./api";
+import { addRedLine, cfgOf, kindName, 标名Of, type Any } from "./api";
+import { useState } from "react";
 
 export function FilmList({ setPin }: { setPin: (f: string) => void }) {
   const { S } = useBoard();
@@ -10,7 +11,7 @@ export function FilmList({ setPin }: { setPin: (f: string) => void }) {
   const films: Any[] = S.成片 || [];
   const mid = S.出片中;
   return (
-    <Card kind="done" meta={<>{cf.成品 === "图卡" ? <ImageIcon size={16} /> : cf.成品 === "文字" ? <FileTextIcon size={16} /> : <FilmSlateIcon size={16} />}{cf.成品叫法}</>} right={cf.视频 ? `还能出 ${S.还能出片 == null ? "" : S.还能出片} 次，每次都花钱` : `已经做了 ${films.length} 份`}>
+    <Card kind="done" meta={<>{cf.成品 === "图卡" ? <ImageIcon size={16} /> : cf.成品 === "网页" ? <BrowserIcon size={16} /> : cf.成品 === "动效" ? <SparkleIcon size={16} /> : cf.成品 === "文字" ? <FileTextIcon size={16} /> : <FilmSlateIcon size={16} />}{cf.成品叫法}</>} right={cf.视频 ? `还能出 ${S.还能出片 == null ? "" : S.还能出片} 次，每次都花钱` : `已经做了 ${films.length} 份`}>
       {mid && (
         <div className="mt-2 flex items-center gap-3 rounded-lg bg-[var(--zt-brand-soft)] px-3 py-2">
           <Spin size={20} /><div className="text-[15px]">{mid.说明 || `正在${cf.动词}`}<small className="block text-[13px] text-kumo-subtle">开始于 {mid.开始 || ""}</small></div>
@@ -109,8 +110,21 @@ export function PickDone({ p, older }: { p: Any; older: Any[] }) {
           );
         })}
       </div>
-      {onlyH > 0 && <p className="kb-sub">有 {onlyH} 处只有你挑出，挑错没看到。人在队伍里补的是这一块。</p>}
-      {onlyA > 0 && <p className="kb-sub">有 {onlyA} 处你没挑出，挑错补上了。</p>}
+      <div className="kb-twocol">
+        <div className="mine">
+          <h4>你挑到、它没挑到<small>这是你家的经验</small></h4>
+          {hu.filter((x) => !A[x.行]).length ? hu.filter((x) => !A[x.行]).map((x) => (
+            <RedItem key={x.行} text={lines[x.行 - 1]} why={x.为什么} p={p} row={x.行} />
+          )) : <p className="none">这一轮没有，你挑到的它也都挑到了。</p>}
+        </div>
+        <div className="theirs">
+          <h4>它挑到、你没挑到<small>这是它对照知识库查出来的</small></h4>
+          {ai.filter((x) => !H[x.行]).length ? ai.filter((x) => !H[x.行]).map((x) => (
+            <div className="kb-reditem" key={x.行}><p className="ln">第 {x.行} 行：{lines[x.行 - 1]}</p><p className="wy">{x.为什么}</p></div>
+          )) : <p className="none">这一轮没有，它挑到的你也都挑到了。</p>}
+        </div>
+      </div>
+      {onlyH > 0 && <p className="kb-sub">左边这几条，要不要写成新红线？写了，下一轮看挑错能不能自己拦下。</p>}
       {p.意见 && <p className="mt-2 mb-0 text-[15px]">你补的一句：{p.意见}</p>}
       {older.length > 0 && (
         <Disclosure label={`更早的 ${older.length} 次`} lazy={false}>
@@ -121,6 +135,41 @@ export function PickDone({ p, older }: { p: Any; older: Any[] }) {
           })}
         </Disclosure>
       )}
+    </Card>
+  );
+}
+
+function RedItem({ text, why, p, row }: { text: string; why?: string; p: Any; row: number }) {
+  const { S, refresh } = useBoard();
+  const line = String(why || "").trim() || String(text || "").trim();
+  const wrote = (S.红线 || []).some((r: Any) => r.一句 === line);
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState("");
+  const go = async () => {
+    setBusy(true); setErr("");
+    const j = await addRedLine(line, { 来源: "人挑", 文件: p.文件, 行: row, 轮: p.轮 });
+    setBusy(false);
+    if (j.ok === false) setErr(j.错 || "没写成，再点一次"); else refresh();
+  };
+  return (
+    <div className="kb-reditem">
+      <p className="ln">第 {row} 行：{text}</p>
+      {why && <p className="wy">我说：{why}</p>}
+      <div className="act">
+        {wrote ? <Tag tone="ok"><CheckIcon size={13} />已写成红线</Tag>
+          : <Button variant="secondary" size="sm" disabled={busy} onClick={go}>{busy ? "正在写……" : "把这条写成红线"}</Button>}
+        {err && <span className="refuse inline">{err}</span>}
+      </div>
+    </div>
+  );
+}
+
+export function SaidDone({ list, big }: { list: Any[]; big?: boolean }) {
+  return (
+    <Card kind={big ? "need" : "done"} meta={<><UserIcon size={16} />你说过的话</>} right={`${list.length} 句`} title={big ? "这节课你自己定的，都在这里" : undefined}>
+      <ul className="kb-said">
+        {list.map((x, i) => <li key={i}><time>{x.时间}</time><div><p className="q">{x.问}</p><p className="a">{x.答}</p></div></li>)}
+      </ul>
     </Card>
   );
 }
@@ -146,7 +195,7 @@ export function BlindDone({ b }: { b: Any }) {
     </div>
   );
   return (
-    <Card kind="done" meta={<><UserIcon size={16} />盲挑揭晓</>} right={`第 ${b.轮} 轮`} title={b.说明}>
+    <Card kind="done" meta={<><UserIcon size={16} />挑成品揭晓</>} right={`第 ${b.轮} 轮`} title={b.说明}>
       <div className="kb-sides">{side("甲")}{side("乙")}</div>
       <p className="mt-3 mb-0 text-[16px]">
         {mine === "差不多" ? "你觉得两份差不多。" : <>你挑了 <b>{mine}</b>，是 <b>{lab(rv[mine])}</b>。</>}

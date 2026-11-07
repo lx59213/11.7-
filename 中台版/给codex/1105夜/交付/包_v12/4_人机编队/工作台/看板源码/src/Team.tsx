@@ -1,87 +1,21 @@
-import { useEffect, useState, type ComponentType } from "react";
-import type { IconProps } from "@phosphor-icons/react";
-import {
-  ArrowUUpLeftIcon, BookOpenTextIcon, CheckIcon, FileTextIcon, FilmSlateIcon, LightbulbIcon,
-  ImageIcon, MagnifyingGlassIcon, PenNibIcon, UserIcon,
-} from "@phosphor-icons/react";
-import { Card, Disclosure, FilePane, Tag } from "./ui";
+import { useEffect, useRef, useState } from "react";
+import { ArrowUUpLeftIcon, BookOpenTextIcon, CheckIcon, FileTextIcon, FlagIcon, HourglassIcon, LockIcon } from "@phosphor-icons/react";
+import { Disclosure, FilePane, Tag } from "./ui";
 import { useBoard, useManual } from "./hooks";
 import { cfgOf, type Any } from "./api";
+import { gatePending, gatesOf, roleIcon, whyOf, writeLookOn } from "./roles";
 
-/** 四棒的图标按位置给：想、写、挑错、做；做的图标看成品是什么 */
-const iconAt = (i: number, kind: string): ComponentType<IconProps> =>
-  [LightbulbIcon, PenNibIcon, MagnifyingGlassIcon, kind === "视频" ? FilmSlateIcon : kind === "图卡" ? ImageIcon : FileTextIcon][i] || UserIcon;
-
-/** 学员打开页面时已有的记录不再打字，只有新冒出的才打 */
+/** 学员打开页面时已有的记录不淡入，只有新冒出的才淡入 */
 const seen = new Set<string>();
 export const recKey = (m: Any, r: Any) => `${m.名}|${r.轮}|${r.时间}|${r.一句}`;
 export function seedSeen(S: Any) {
   (S.队员 || []).forEach((m: Any) => (m.记录 || []).forEach((r: Any) => seen.add(recKey(m, r))));
 }
 
-function Typed({ id, text }: { id: string; text: string }) {
-  const fresh = !seen.has(id);
-  const [n, setN] = useState(fresh ? 0 : text.length);
-  useEffect(() => {
-    if (!seen.has(id)) seen.add(id); else if (n >= text.length) return;
-    let i = 0;
-    const step = Math.max(18, Math.min(60, 900 / Math.max(1, text.length)));
-    const t = setInterval(() => { i++; setN(i); if (i >= text.length) clearInterval(t); }, step);
-    return () => clearInterval(t);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, text]);
-  return <span>{text.slice(0, n)}{n < text.length && <span className="kb-caret" />}</span>;
-}
-
-/** 按接力顺序排：想、写、挑错、做（顺序来自队伍配置），别的名字排在后面 */
-export const ordered = (ms: Any[], order: string[]): Any[] => ms.map((m, i) => ({ m, i, r: order.indexOf(m.名) })).sort((a, b) => (a.r < 0 ? 99 : a.r) - (b.r < 0 ? 99 : b.r) || a.i - b.i).map((x) => x.m);
-
-export function Pipeline() {
-  const { S } = useBoard();
-  const cf = cfgOf(S);
-  const ms: Any[] = ordered(S.队员 || [], cf.棒顺序);
-  if (ms.length < 4) return null;
-  const rs: Any[] = S.轮 || [];
-  const r = rs.length ? rs[rs.length - 1] : {};
-  const n = r.n;
-  const qs: Any[] = S.请示单 || [];
-  const from = r.从谁起;
-  const fromIdx = from ? ms.findIndex((m) => m.名 === from) : -1;
-  const pk = (S.人挑 || []).slice(-1)[0];
-  const mnode = (m: Any, i: number) => {
-    const st = m.状态;
-    let cls = st === "在干" ? "cur" : st === "退回了" ? "back" : st === "交出了" ? "fin" : "";
-    let sub = st;
-    if (!cls && fromIdx > 0 && i < fromIdx) { cls = "keep"; sub = "沿用上一轮"; }
-    if (m.名 === "挑错" && pk && !pk.人交了 && !pk.人不挑) sub += "，你也在挑";
-    return { name: m.名, cls, sub, human: false };
-  };
-  const hnode = (name: string, tag: string) => {
-    const pend = qs.some((q) => !q.拍板 && q.标 === tag);
-    let done = false;
-    if (tag === "选题") done = qs.some((q) => q.标 === "选题" && q.拍板 && q.轮 === n);
-    if (tag === "发不发") done = !!r.发不发;
-    let cls = pend ? "cur" : done ? "fin" : "";
-    let sub = pend ? "等你定" : done ? (tag === "发不发" ? String(r.发不发).split("（")[0] : "你定了") : "人停在这里";
-    if (!cls && fromIdx > 0 && tag === "选题") { cls = "keep"; sub = "沿用上一轮"; }
-    return { name, cls, sub, human: true };
-  };
-  const nodes = [mnode(ms[0], 0), hnode("你" + cf.拍板名[0], "选题"), mnode(ms[1], 1), mnode(ms[2], 2), mnode(ms[3], 3), hnode("你定发不发", "发不发")];
-  return (
-    <Card kind="done" meta="流水线" right={rs.length ? `第 ${n} 轮` : "队伍还没开工"}>
-      <ol className="kb-pipe mt-2">
-        {nodes.map((x, i) => (
-          <li key={i} className={`${x.cls} ${x.human ? "human" : ""}`}>
-            <span className="nd">
-              {x.cls === "fin" ? <CheckIcon size={13} weight="bold" /> : x.cls === "back" ? <ArrowUUpLeftIcon size={13} weight="bold" /> : x.human ? <UserIcon size={13} /> : <span className="zt-num text-[13px]">{i + 1 - (i > 1 ? 1 : 0) - (i > 4 ? 1 : 0)}</span>}
-            </span>
-            <span className="nm">{x.name}</span>
-            <span className="st">{x.sub}</span>
-          </li>
-        ))}
-      </ol>
-    </Card>
-  );
+function Line({ id, text }: { id: string; text: string }) {
+  const [fresh] = useState(() => !seen.has(id));
+  useEffect(() => { seen.add(id); }, [id]);
+  return <span className={fresh ? "kb-fadein" : ""}>{text}</span>;
 }
 
 function ManualBody({ name, ver }: { name: string; ver: Any }) {
@@ -95,41 +29,100 @@ function ManualBody({ name, ver }: { name: string; ver: Any }) {
   );
 }
 
-export function MemberCard({ m }: { m: Any }) {
+type Flow = { a: number; b: number; back: boolean } | null;
+
+/** 办公室：队员按顺序排开，数量不限；在干的亮着，记录一句句冒出来，交接时箭头流动 */
+export function Office() {
   const { S } = useBoard();
+  const cf = cfgOf(S);
+  const ms: Any[] = S.队员 || [];
+  const hs: Any[] = S.交接 || [];
   const rs: Any[] = S.轮 || [];
   const n = rs.length ? rs[rs.length - 1].n : 0;
-  const rec: Any[] = (m.记录 || []).filter((r: Any) => r.轮 === n).slice(-4).reverse();
-  const cf = cfgOf(S);
-  const Ic = iconAt(cf.棒顺序.indexOf(m.名), cf.成品);
-  const cls = m.状态 === "在干" ? "working" : m.状态 === "交出了" ? "gave" : m.状态 === "退回了" ? "sent" : "";
+  const idx = (name: string) => ms.findIndex((m) => m.名 === name);
+
+  /* 新交接来了：两卡之间的箭头流动 3 秒 */
+  const [flow, setFlow] = useState<Flow>(null);
+  const hlen = useRef<number | null>(null);
+  const tm = useRef<number | undefined>(undefined);
+  useEffect(() => {
+    if (hlen.current === null) { hlen.current = hs.length; return; }
+    if (hs.length > hlen.current) {
+      const h = hs[hs.length - 1];
+      const a = idx(h.从), b = idx(h.到);
+      if (a >= 0 && b >= 0 && a !== b) {
+        setFlow({ a: Math.min(a, b), b: Math.max(a, b), back: !!h.退回 || a > b });
+        window.clearTimeout(tm.current);
+        tm.current = window.setTimeout(() => setFlow(null), 3200);
+      }
+    }
+    hlen.current = hs.length;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hs.length]);
+  useEffect(() => () => window.clearTimeout(tm.current), []);
+
+  if (!ms.length) return null;
+  const last = hs[hs.length - 1];
+  const gates = gatesOf(ms, writeLookOn(S));
+  const cols = ms.length <= 5 ? ms.length : Math.ceil(ms.length / 2);
+  const lastBack = last && last.退回 && idx(last.从) > idx(last.到) && idx(last.到) >= 0;
+
   return (
-    <article className={`kb-card kb-mem ${cls}`} style={{ animation: "none" }}>
-      <div className="flex items-start gap-3">
-        <span className="tile"><Ic size={20} /></span>
-        <div className="min-w-0 flex-1">
-          <div className="flex items-baseline justify-between gap-2">
-            <span className="text-[18px] font-semibold text-kumo-strong">{m.名}</span>
-            <span className="zt-num text-[13.5px] text-kumo-subtle">第 {m.版本} 版</span>
-          </div>
-          <div className="mt-1">
-            {m.状态 === "在干" ? <Tag tone="brand"><span className="kb-dots"><i /><i /><i /></span>正在干</Tag>
-              : m.状态 === "交出了" ? <Tag tone="ok"><CheckIcon size={13} />交出了</Tag>
-              : m.状态 === "退回了" ? <Tag tone="bad"><ArrowUUpLeftIcon size={13} />被退回了</Tag>
-              : <Tag>等着</Tag>}
-          </div>
-        </div>
+    <section className="kb-office" aria-label="组队图">
+      <header className="kb-offhead">
+        <h2>这支队的分工<span className="n">{ms.length} 位</span></h2>
+        <small>{rs.length ? `第 ${n} 轮` : "队伍还没开工"}　红点是要你拍板的地方</small>
+      </header>
+      <div className="kb-offgrid" style={{ ["--cols" as Any]: cols }}>
+        {ms.map((m, i) => {
+          const Ic = roleIcon(m, cf.成品);
+          const cls = m.状态 === "在干" ? "working" : m.状态 === "交出了" ? "gave" : m.状态 === "退回了" ? "sent" : "";
+          const rec: Any[] = (m.记录 || []).filter((r: Any) => r.轮 === n).slice(-3).reverse();
+          /* 这位队员最近一次收到的交接；之后他又交出去了就不再显示 */
+          let inIdx = -1, outIdx = -1;
+          hs.forEach((h, k) => { if (h.到 === m.名) inIdx = k; if (h.从 === m.名) outIdx = k; });
+          const got = inIdx >= 0 && inIdx > outIdx ? hs[inIdx] : null;
+          const rowEnd = (i + 1) % cols === 0 && i < ms.length - 1;
+          const g = gates[i];
+          const pend = g ? gatePending(S, g.key) : false;
+          const inFlow = !!flow && i >= flow.a && i < flow.b;
+          const arrCls = `${inFlow ? "flow" : ""} ${(inFlow && flow!.back) || (!inFlow && lastBack && i >= idx(last.到) && i < idx(last.从)) ? "back" : ""}`;
+          return (
+            <article key={m.名} className={`kb-ocard ${cls} ${rowEnd ? "rowend" : ""}`}>
+              {i > 0 && gates[i - 1] && <span className={`gate-in ${gatePending(S, gates[i - 1].key) ? "pend" : ""}`}><i className="gate" />{gates[i - 1].label}</span>}
+              <div className="top">
+                <span className="tile"><Ic size={20} /></span>
+                <div className="min-w-0 flex-1">
+                  <b className="nm">{m.名}</b>
+                  {m.锁 ? <span className="kd"><LockIcon size={12} aria-label="不能移出" />不能移出</span> : null}
+                </div>
+                {m.状态 === "在干" ? <Tag tone="brand"><span className="kb-dots"><i /><i /><i /></span>在干</Tag>
+                  : m.状态 === "交出了" ? <Tag tone="ok"><CheckIcon size={13} />交出了</Tag>
+                  : m.状态 === "退回了" ? <Tag tone="bad"><ArrowUUpLeftIcon size={13} />被退回</Tag>
+                  : <Tag><HourglassIcon size={13} />等着</Tag>}
+              </div>
+              {m.干什么 && <p className="what">{m.干什么}</p>}
+              {whyOf(S, m) && <p className="kb-why2">为什么要他：{whyOf(S, m)}</p>}
+              {got && (got.退回
+                ? <p className="got bad"><ArrowUUpLeftIcon size={14} /><span>{got.从}退回了：{got.为什么 || got.交了什么}</span></p>
+                : <p className="got"><span>收到{got.从}交来的：{got.交了什么}</span></p>)}
+              <ul className="kb-log">
+                {rec.length ? rec.map((r) => <li key={recKey(m, r)} className={/照你写的红线拦下/.test(r.一句) ? "hit" : ""}><time>{r.时间}</time><Line id={recKey(m, r)} text={r.一句} /></li>)
+                  : <li><span>{m.状态 === "等着" || !m.状态 ? "还没轮到" : "这一轮还没动手"}</span></li>}
+              </ul>
+              <Disclosure icon={<FileTextIcon size={16} />} label="点开看产出"><FilePane src={m.产出} /></Disclosure>
+              <Disclosure icon={<BookOpenTextIcon size={16} />} label="看说明书"><ManualBody name={m.名} ver={m.版本} /></Disclosure>
+              {i < ms.length - 1 && (
+                <>
+                  <span className={`arr arr-r ${arrCls}`} aria-hidden="true">{g && <i className={`gate ${pend ? "pend" : ""}`} title={g.label} />}</span>
+                  <span className={`arr arr-d ${arrCls}`} aria-hidden="true">{g && <i className={`gate ${pend ? "pend" : ""}`} title={g.label} />}</span>
+                </>
+              )}
+              {i === ms.length - 1 && g && <span className={`gate-end ${pend ? "pend" : ""}`}><FlagIcon size={13} weight="fill" />{g.label}</span>}
+            </article>
+          );
+        })}
       </div>
-      {m.干什么 && <p className="mt-2.5 mb-0 text-[15px] text-kumo-strong">{m.干什么}</p>}
-      <p className="mt-1 mb-0 text-[14px] text-kumo-subtle">照着：{m.照着 || "自己写的"}</p>
-      {m.技能 && m.技能.length > 0 && <div className="mt-2 flex flex-wrap gap-1.5">{m.技能.map((s: string) => <span key={s} className="kb-skill">{s}</span>)}</div>}
-      <ul className="kb-log">
-        {rec.length ? rec.map((r, i) => (
-          <li key={recKey(m, r)}><time>{r.时间}</time><span><Typed id={recKey(m, r)} text={r.一句} /></span></li>
-        )) : <li><span>这一轮还没动手</span></li>}
-      </ul>
-      <Disclosure icon={<FileTextIcon size={16} />} label="点开看产出"><FilePane src={m.产出} /></Disclosure>
-      <Disclosure icon={<BookOpenTextIcon size={16} />} label="看说明书（只读）"><ManualBody name={m.名} ver={m.版本} /></Disclosure>
-    </article>
+    </section>
   );
 }

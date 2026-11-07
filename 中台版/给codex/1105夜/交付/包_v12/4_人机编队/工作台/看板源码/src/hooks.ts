@@ -2,7 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useRef, useState } f
 import { post, type Any } from "./api";
 
 /** 看板数据和「马上刷新」 */
-export const Ctx = createContext<{ S: Any; rev: number; refresh: () => void }>({ S: null, rev: 0, refresh: () => {} });
+export const Ctx = createContext<{ S: Any; rev: number; refresh: () => void; merge: (p: Any) => void }>({ S: null, rev: 0, refresh: () => {}, merge: () => {} });
 export const useBoard = () => useContext(Ctx);
 
 /** 点按钮交东西：交的时候按钮变灰，失败把返回的「错」写出来 */

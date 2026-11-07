@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Button, Input, InputArea } from "@cloudflare/kumo";
 import {
-  CaretDownIcon, CheckIcon, CircleNotchIcon, FlagIcon, UserIcon, WarningIcon,
+  CaretDownIcon, CheckIcon, CircleNotchIcon, FlagIcon, UserIcon, WarningIcon, XIcon,
 } from "@phosphor-icons/react";
 import { fileUrl, getText, isHtml, isMd, isVideo, type Any } from "./api";
 import { Md } from "./Md";
@@ -125,3 +125,22 @@ export const Warn = WarningIcon;
 
 export function useStick<T>(init: T) { const r = useRef(init); return r; }
 export type { Any };
+
+/** 弹层：点外面、按 Esc 都能关 */
+export function Modal({ open, onClose, title, children, wide }: { open: boolean; onClose: () => void; title?: ReactNode; children?: ReactNode; wide?: boolean }) {
+  useEffect(() => {
+    if (!open) return;
+    const f = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", f);
+    return () => window.removeEventListener("keydown", f);
+  }, [open, onClose]);
+  if (!open) return null;
+  return (
+    <div className="kb-modal" role="dialog" aria-modal="true" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+      <div className={`box ${wide ? "wide" : ""}`}>
+        <header><b>{title}</b><button type="button" aria-label="关掉" onClick={onClose}><XIcon size={18} /></button></header>
+        <div className="in">{children}</div>
+      </div>
+    </div>
+  );
+}

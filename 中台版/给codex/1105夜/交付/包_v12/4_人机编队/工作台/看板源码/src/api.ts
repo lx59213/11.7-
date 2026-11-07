@@ -4,6 +4,10 @@ export type Any = any;
 export const fileUrl = (p: string) => "/f/" + String(p).split("/").map(encodeURIComponent).join("/");
 export const isVideo = (p?: string) => /\.(mp4|webm|mov)$/i.test(p || "");
 export const isHtml = (p?: string) => /\.html?$/i.test(p || "");
+/** 成品的宽高比：图卡 1:1、3:4、9:16，网页 16:9 */
+export const ratioOf = (r?: string): number => (r === "3:4" ? 0.75 : r === "9:16" ? 0.5625 : r === "16:9" ? 16 / 9 : 1);
+/** 一份成品的宽高比：动效和网页没写比例就按 16:9 */
+export const ratioFor = (f?: Any): number => (f && f.比例 ? ratioOf(f.比例) : f && (f.类型 === "网页" || f.类型 === "动效") ? 16 / 9 : 1);
 export const isMd = (p?: string) => /\.(md|markdown)$/i.test(p || "");
 
 /** 看板数据里的队伍配置；老数据没有就按宣传片队 */
@@ -11,12 +15,13 @@ export type Cfg = { 队名: string; 成品: string; 成品叫法: string; 棒顺
 export function cfgOf(S: Any): Cfg {
   const c = (S && S.配置) || {};
   const vid = (c.成品 || "视频") === "视频";
-  const order: string[] = c.棒顺序 || ["策划", "编剧分镜", "挑错", "出片"];
+  const live: string[] = ((S && S.队员) || []).map((m: Any) => m.名);
+  const order: string[] = live.length ? live : c.棒顺序 || ["策划", "编剧分镜", "挑错", "出片"];
   return {
     队名: c.队名 || (S && S.队名) || "", 成品: c.成品 || "视频", 成品叫法: c.成品叫法 || "成片", 棒顺序: order,
-    拍板名: c.拍板名 || ["挑选题", "成片发不发"], 平台举例: c.平台举例 || "", 视频: vid, 试: vid ? "试拍" : "试做", 做: order[3],
-    动词: ({ 视频: "出片", 图卡: "出图", 文字: "定稿" } as Record<string, string>)[c.成品 || "视频"] || "出片",
-    写短: ((c.棒 && c.棒.写 && (c.棒.写.短 || String(c.棒.写.文件 || "").split("/").pop()!.replace(/\.[^.]+$/, ""))) as string) || "脚本",
+    拍板名: c.拍板名 || ["挑选题", "成片发不发"], 平台举例: c.平台举例 || "", 视频: vid, 试: vid ? "试拍" : "试做", 做: order[order.length - 1],
+    动词: ({ 视频: "出片", 图卡: "出图", 文字: "定稿", 网页: "出网页", 动效: "出动效" } as Record<string, string>)[c.成品 || "视频"] || "出片",
+    写短: ((c.棒 && c.棒.写 && (c.棒.写.短 || String(c.棒.写.文件 || "").split("/").pop()!.replace(/\.[^.]+$/, ""))) as string) || (vid ? "脚本" : "稿子"),
     单位: vid ? "条" : "份",
   };
 }
@@ -49,5 +54,9 @@ export const 标名Of = (S: Any): Record<string, string> => {
 export const kindName = (S: Any, f?: Any): string => {
   const cf = cfgOf(S);
   const t = (f && f.类型) || cf.成品;
-  return t === "视频" ? "成片" : t === "图卡" ? "图卡" : cf.成品 === "文字" ? cf.成品叫法 : "定稿";
+  return t === "视频" ? "成片" : t === "图卡" ? "图卡" : t === "网页" ? "网页" : t === "动效" ? "动效" : cf.成品 === "文字" ? cf.成品叫法 : "定稿";
 };
+
+/** 把一句话写成红线交给挑错。路由名等后端确认；这里改一处就行 */
+export const REDLINE_PATH = "加红线";
+export const addRedLine = (一句: string, 来源?: Any) => post(REDLINE_PATH, { 一句, ...(来源 || {}) });
