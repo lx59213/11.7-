@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { TooltipProvider } from "@cloudflare/kumo";
 import { Ctx } from "./hooks";
-import type { Any } from "./api";
+import { cfgOf, type Any } from "./api";
 import { Header, Stage } from "./Top";
 import { MemberCard, Pipeline, ordered, seedSeen } from "./Team";
-import { AskCard, BlindCard, DiagCard, PickCard, SheetCard } from "./Ask";
-import { AskDone, BlindDone, DiagDone, FilmList, PickDone, SheetDone } from "./Done";
+import { AskCard, BlindCard, DiagCard, PickCard, PreCard, SheetCard } from "./Ask";
+import { AskDone, BlindDone, DiagDone, FilmList, PickDone, PreDone, SheetDone } from "./Done";
 import { Feed, Five, Score, Toasts, fiveIdx, type Toast } from "./Bottom";
 import { Spin } from "./ui";
 
@@ -76,6 +76,7 @@ export default function App() {
     let n = 0;
     const s = S.开工单;
     if (s && !s.确认) n++;
+    if (S.开工前改 && !S.开工前改.调了) n++;
     n += (S.请示单 || []).filter((q: Any) => !q.拍板).length;
     const pk = (S.人挑 || []).slice(-1)[0];
     if (pk && !pk.人交了 && !pk.人不挑) n++;
@@ -95,6 +96,7 @@ export default function App() {
   const s = S.开工单;
   if (!s) ask.push({ key: "a-sheet0", node: <div className="kb-card wait"><div className="kb-wait"><Spin />队长在读知识库，马上填好开工单</div></div> });
   else if (!s.确认) ask.push({ key: "a-sheet", node: <SheetCard s={s} /> });
+  if (S.开工前改 && !S.开工前改.调了) ask.push({ key: "a-pre", node: <PreCard /> });
   (S.请示单 || []).filter((q: Any) => !q.拍板).forEach((q: Any) => ask.push({ key: "a-q" + q.id, node: <AskCard q={q} /> }));
   const pk = (S.人挑 || []).slice(-1)[0];
   if (pk && !pk.人交了 && !pk.人不挑) ask.push({ key: "a-p" + pk.id, node: <PickCard p={pk} /> });
@@ -106,6 +108,7 @@ export default function App() {
   const done: { key: string; node: React.ReactNode }[] = [];
   done.push({ key: "films", node: <FilmList setPin={setPin} /> });
   if (s && s.确认) done.push({ key: "b-sheet", node: <SheetDone s={s} /> });
+  if (S.开工前改 && S.开工前改.调了) done.push({ key: "b-pre", node: <PreDone x={S.开工前改} /> });
   const asks = (S.请示单 || []).filter((q: Any) => q.拍板);
   if (asks.length) done.push({ key: "b-ask", node: <AskDone list={asks.slice().reverse()} /> });
   const picks: Any[] = (S.人挑 || []).filter((p: Any) => p.人交了 || p.人不挑);
@@ -130,7 +133,7 @@ export default function App() {
               <ColHead title="在干" hint="一棒一个人，谁在干活一眼看得见" />
               <div className="kb-stack">
                 <Pipeline />
-                {ordered(S.队员 || []).map((m: Any) => <MemberCard key={m.名} m={m} />)}
+                {ordered(S.队员 || [], cfgOf(S).棒顺序).map((m: Any) => <MemberCard key={m.名} m={m} />)}
               </div>
             </section>
             <section className="kb-col kb-col-ask" ref={askRef} aria-label="等你定" aria-live="polite">

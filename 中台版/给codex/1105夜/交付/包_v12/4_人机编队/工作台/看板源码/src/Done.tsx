@@ -1,33 +1,32 @@
-import { CheckIcon, FilmSlateIcon, PlayIcon, UserIcon } from "@phosphor-icons/react";
+import { CheckIcon, FileTextIcon, FilmSlateIcon, ImageIcon, PlayIcon, UserIcon } from "@phosphor-icons/react";
 import { Button, Card, Disclosure, FilePane, Row, Spin, Tag } from "./ui";
 import { useBoard } from "./hooks";
 import { JudgeBoxes } from "./Ask";
-import type { Any } from "./api";
-
-const 标名: Record<string, string> = { 选题: "挑选题", 发不发: "成片发不发", 排班: "定排班", 放手: "定放手到哪" };
+import { cfgOf, kindName, 标名Of, type Any } from "./api";
 
 export function FilmList({ setPin }: { setPin: (f: string) => void }) {
   const { S } = useBoard();
+  const cf = cfgOf(S);
   const films: Any[] = S.成片 || [];
   const mid = S.出片中;
   return (
-    <Card kind="done" meta={<><FilmSlateIcon size={16} />成片</>} right={`还能出 ${S.还能出片 == null ? "" : S.还能出片} 次，每次都花钱`}>
+    <Card kind="done" meta={<>{cf.成品 === "图卡" ? <ImageIcon size={16} /> : cf.成品 === "文字" ? <FileTextIcon size={16} /> : <FilmSlateIcon size={16} />}{cf.成品叫法}</>} right={cf.视频 ? `还能出 ${S.还能出片 == null ? "" : S.还能出片} 次，每次都花钱` : `已经做了 ${films.length} 份`}>
       {mid && (
         <div className="mt-2 flex items-center gap-3 rounded-lg bg-[var(--zt-brand-soft)] px-3 py-2">
-          <Spin size={20} /><div className="text-[15px]">{mid.说明 || "正在出片"}<small className="block text-[13px] text-kumo-subtle">开始于 {mid.开始 || ""}</small></div>
+          <Spin size={20} /><div className="text-[15px]">{mid.说明 || `正在${cf.动词}`}<small className="block text-[13px] text-kumo-subtle">开始于 {mid.开始 || ""}</small></div>
         </div>
       )}
       {films.length ? (
         <ul className="m-0 mt-2 list-none p-0">
           {films.slice().reverse().map((f) => (
             <li key={f.文件} className="flex items-center gap-3 border-b border-[#efede7] py-2 last:border-0">
-              <Tag tone={f.轮 === 0 ? "warn" : "brand"}>{f.轮 === 0 ? "试拍" : `第 ${f.轮} 轮`}</Tag>
-              <span className="min-w-0 flex-1 text-[15px]">{f.说明}<span className="zt-num ml-2 text-[13px] text-kumo-subtle">{f.时间}</span></span>
+              <Tag tone={f.轮 === 0 ? "warn" : "brand"}>{f.轮 === 0 ? cf.试 : `第 ${f.轮} 轮`}</Tag>
+              <span className="min-w-0 flex-1 text-[15px]">{f.说明}<span className="ml-2 text-[13px] text-kumo-subtle">{kindName(S, f)}</span><span className="zt-num ml-2 text-[13px] text-kumo-subtle">{f.时间}</span></span>
               <Button variant="ghost" size="sm" icon={<PlayIcon />} onClick={() => { setPin(f.文件); window.scrollTo({ top: 0, behavior: "smooth" }); }}>放大看</Button>
             </li>
           ))}
         </ul>
-      ) : <p className="kb-sub">还没出片。</p>}
+      ) : <p className="kb-sub">{cf.视频 ? "还没出片。" : `还没做${cf.成品叫法}。`}</p>}
     </Card>
   );
 }
@@ -52,6 +51,8 @@ export function SheetDone({ s }: { s: Any }) {
 }
 
 export function AskDone({ list }: { list: Any[] }) {
+  const { S } = useBoard();
+  const 标名 = 标名Of(S);
   return (
     <Card kind="done" meta="你拍过的板" right={`${list.length} 张`}>
       {list.map((q) => (
@@ -135,7 +136,9 @@ export function DiagDone({ x }: { x: Any }) {
 
 export function BlindDone({ b }: { b: Any }) {
   const rv = b.揭晓 || {}, mine = b.选;
-  const lab = (w: string) => (b.轮 === 1 ? (w === "改后" ? "队伍出的" : "试拍") : w === "改后" ? "这一轮的" : "上一轮的");
+  const { S } = useBoard();
+  const cf = cfgOf(S);
+  const lab = (w: string) => (b.轮 === 1 ? (w === "改后" ? "队伍出的" : cf.试) : w === "改后" ? "这一轮的" : "上一轮的");
   const side = (k: string) => (
     <div className={`kb-side ${mine === k ? "mine" : ""}`} key={k}>
       <header>{k}<Tag tone={rv[k] === "改后" ? "ok" : "warn"}>{lab(rv[k])}</Tag>{mine === k && <Tag tone="brand">你发的这份</Tag>}</header>
@@ -149,6 +152,15 @@ export function BlindDone({ b }: { b: Any }) {
         {mine === "差不多" ? "你觉得两份差不多。" : <>你挑了 <b>{mine}</b>，是 <b>{lab(rv[mine])}</b>。</>}
         {b.我说 ? ` 你说：${b.我说}` : ""}
       </p>
+    </Card>
+  );
+}
+
+export function PreDone({ x }: { x: Any }) {
+  const j = x.调了;
+  return (
+    <Card kind="done" meta="开工前改的一处" right={j.时间} title={j.怎么调 === "不改" ? "开工前改了：没改，照现成的队开工" : `开工前改了：${j.说明}`}>
+      <p className="kb-sub">{j.怎么调 === "不改" ? "现成的队伍直接开工。" : `怎么改：${j.怎么调}。这支队从你改过的版本开始跑。`}</p>
     </Card>
   );
 }

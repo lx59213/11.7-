@@ -2,9 +2,7 @@ import { Fragment, useState } from "react";
 import { CheckIcon, FlagIcon, UserIcon } from "@phosphor-icons/react";
 import { Area, Button, Card, Err, FilePane, Opt, Row, Spin, Step, Tag, Txt } from "./ui";
 import { useBoard, useLib, useManual, useSubmit } from "./hooks";
-import type { Any } from "./api";
-
-const 标名: Record<string, string> = { 选题: "挑选题", 发不发: "成片发不发", 排班: "定排班", 放手: "定放手到哪" };
+import { cfgOf, 标名Of, type Any } from "./api";
 const Person = () => <UserIcon size={16} />;
 
 /* ---------- 开工单 ---------- */
@@ -39,7 +37,9 @@ export function SheetCard({ s }: { s: Any }) {
 
 /* ---------- 请示单 ---------- */
 export function AskCard({ q }: { q: Any }) {
-  const [sel, setSel] = useState<string | null>(null);
+  const { S } = useBoard();
+  const 标名 = 标名Of(S);
+  const [sel, setSel] = useState<string | null>(() => (q.选项 || []).find((o: string) => q.建议 && (q.建议 === o || o.indexOf(q.建议) === 0)) || null);
   const [free, setFree] = useState("");
   const [note, setNote] = useState("");
   const { busy, err, setErr, run } = useSubmit();
@@ -123,8 +123,8 @@ export function Basis({ x }: { x: Any }) {
   const backs = (S.交接 || []).filter((h: Any) => h.轮 === n && h.退回);
   return (
     <div className="kb-basis">
-      <p><b>第 {n} 轮的成绩：</b>用时 {row.用时分钟 || 0} 分钟，交接 {row.交接 || 0} 次，退回 {row.退回 || 0} 次，出片 {row.出片 || 0} 次；挑错拦下 {row.挑错拦下 || 0} 处，你挑出 {row.人挑出 || 0} 处，两边都挑出 {row.重合 || 0} 处。</p>
-      <p><b>发不发时你写的话：</b>{rd.发不发 ? rd.发不发 : "这一轮没有写"}</p>
+      <p><b>第 {n} 轮的成绩：</b>用时 {row.用时分钟 || 0} 分钟，交接 {row.交接 || 0} 次，退回 {row.退回 || 0} 次，{cfgOf(S).视频 ? "出片" : cfgOf(S).动词} {row.出片 || 0} {cfgOf(S).视频 ? "次" : "份"}；挑错拦下 {row.挑错拦下 || 0} 处，你挑出 {row.人挑出 || 0} 处，两边都挑出 {row.重合 || 0} 处。</p>
+      <p><b>{cfgOf(S).拍板名[1]}时你写的话：</b>{rd.发不发 ? rd.发不发 : "这一轮没有写"}</p>
       <p><b>退回的理由：</b>{backs.length ? backs.map((b: Any) => `${b.从} 退给 ${b.到}：${b.为什么}`).join("；") : "这一轮没有退回"}</p>
     </div>
   );
@@ -144,6 +144,31 @@ export function JudgeBoxes({ x }: { x: Any }) {
         )}
       </div>
       {b && <p className="kb-sub">{line ? "两边指向同一个队员的同一句。" : same ? "两边指向同一个队员，句子不同。" : "两边指向的队员不一样。"}</p>}
+    </>
+  );
+}
+
+/** 从现成队员库里挑一位：搜名字或部门，按部门分组 */
+function LibPick({ lib, q, setQ, chosen, onPick }: { lib: Any; q: string; setQ: (v: string) => void; chosen?: Any; onPick: (r: Any) => void }) {
+  const qq = q.trim();
+  let last = "";
+  return (
+    <>
+      <Txt label="搜名字或部门" value={q} placeholder="搜名字或部门" onChange={setQ} />
+      {chosen && <p className="mt-2 mb-0 text-[15px] font-semibold text-kumo-brand">已选：{chosen.名}（{chosen.部门}）</p>}
+      <div className="kb-rows scroll kb-lib">
+        {lib === null ? <p className="kb-sub p-3"><Spin size={14} /> 读队员库……</p>
+          : !Array.isArray(lib) ? <Err text={lib.错} />
+          : (() => {
+            const list = lib.filter((r: Any) => !qq || (r.名 + r.部门 + r.一句).indexOf(qq) >= 0);
+            if (!list.length) return <p className="kb-sub p-3">没有搜到</p>;
+            return list.map((r: Any) => {
+              const head = r.部门 !== last ? <h5 key={"h" + r.部门}>{r.部门}</h5> : null;
+              last = r.部门;
+              return <Fragment key={r.文件}>{head}<button type="button" className={chosen && chosen.文件 === r.文件 ? "on" : ""} onClick={() => onPick(r)}>{r.名}<small>{r.一句}</small></button></Fragment>;
+            });
+          })()}
+      </div>
     </>
   );
 }
@@ -249,8 +274,6 @@ export function DiagCard({ x }: { x: Any }) {
   };
   const hows: [string, string, string][] = [["改一句", "改一句", "改某个队员说明书里的一行"], ["加红线", "给挑错加一条红线", "写一句以后每条片子都要查的"], ["换人", "换人", "换成现成队员库里的另一位"]];
   const nRound = ((S.轮 || []).slice(-1)[0]?.n || 0) + 1;
-  const q = (tn.q || "").trim();
-  let last = "";
   return (
     <Card kind="need" meta={<><Person />请你定：调哪一处</>} right={`第 ${x.轮} 轮`} title="两边的判断出来了">
       <JudgeBoxes x={x} />
@@ -275,21 +298,7 @@ export function DiagCard({ x }: { x: Any }) {
       {how === "换人" && (
         <>
           <Step n={3}>换成谁</Step>
-          <Txt label="搜名字或部门" value={tn.q} placeholder="搜名字或部门" onChange={(v) => patch({ q: v })} />
-          {chosen && <p className="mt-2 mb-0 text-[15px] font-semibold text-kumo-brand">已选：{chosen.名}（{chosen.部门}）</p>}
-          <div className="kb-rows scroll kb-lib">
-            {lib === null ? <p className="kb-sub p-3"><Spin size={14} /> 读队员库……</p>
-              : !Array.isArray(lib) ? <Err text={lib.错} />
-              : (() => {
-                const list = lib.filter((r: Any) => !q || (r.名 + r.部门 + r.一句).indexOf(q) >= 0);
-                if (!list.length) return <p className="kb-sub p-3">没有搜到</p>;
-                return list.map((r: Any) => {
-                  const head = r.部门 !== last ? <h5 key={"h" + r.部门}>{r.部门}</h5> : null;
-                  last = r.部门;
-                  return <Fragment key={r.文件}>{head}<button type="button" className={chosen && chosen.文件 === r.文件 ? "on" : ""} onClick={() => patch({ lib: r })}>{r.名}<small>{r.一句}</small></button></Fragment>;
-                });
-              })()}
-          </div>
+          <LibPick lib={lib} q={tn.q || ""} setQ={(v) => patch({ q: v })} chosen={chosen} onPick={(r) => patch({ lib: r })} />
         </>
       )}
       {how && cap && cap.怎么调 === how && <div className="kb-btnrow"><Button variant="secondary" onClick={useCap}>用队长的写法</Button></div>}
@@ -297,6 +306,94 @@ export function DiagCard({ x }: { x: Any }) {
         <Button variant="primary" size="lg" disabled={!how || sub.busy} onClick={go}>{sub.busy ? "正在交……" : `就调这一处，跑第 ${nRound} 轮`}</Button>
         <span className="kb-hint">一次只调一处，下一轮变好变坏，才知道是这一处起的作用。</span>
       </div>
+      <Err text={sub.err} />
+    </Card>
+  );
+}
+
+/* ---------- 开工前改一处 ---------- */
+export function PreCard() {
+  const { S } = useBoard();
+  const ver = (n?: string) => (S.队员 || []).find((m: Any) => m.名 === n)?.版本;
+  const sugg: { 队员: string; 一句: string }[] = ((S.开工前改 && S.开工前改.建议) || []).filter((x: Any) => x && x.队员 && x.一句).slice(0, 3);
+  const [how, setHow] = useState<string | null>(null);
+  const [who, setWho] = useState<string | undefined>();
+  const [text, setText] = useState("");
+  const [idx, setIdx] = useState<number | undefined>();
+  const [q, setQ] = useState("");
+  const [pick, setPick] = useState<Any>(null);
+  const [more, setMore] = useState(!sugg.length);
+  const sub = useSubmit();
+  const man = useManual(how === "改一句" ? who : undefined, ver(who));
+  const lib = useLib(how === "换人");
+  const choose = (h: string) => { setHow(h); sub.setErr(""); };
+  const pickWho = (n: string) => { setWho(n); setIdx(undefined); };
+  const hows: [string, string, string][] = [
+    ["加一句", "自己写一句，加给某个队员", "写一句你家的经验，加到他的说明书里"],
+    ["换人", "换一个队员", "换成现成队员库里的另一位"],
+    ["改一句", "改一句", "改某个队员说明书里的一行"],
+    ["不改", "不改，照现成的开工", "先看现成的队做出来什么样"],
+  ];
+  const go = () => {
+    if (!how) { sub.setErr("先选一项"); return; }
+    if (how === "不改") { sub.run("开工前改", { 怎么调: "不改" }); return; }
+    if (!who) { sub.setErr("先选一个队员"); return; }
+    if (how === "加一句") {
+      if (!text.trim()) { sub.setErr("写一句你的经验"); return; }
+      sub.run("开工前改", { 怎么调: "加一句", 队员: who, 改后: text.trim() });
+    } else if (how === "改一句") {
+      if (!Array.isArray(man) || idx === undefined || !String(man[idx] || "").trim()) { sub.setErr("先点要改的那一行"); return; }
+      if (!text.trim()) { sub.setErr("再写这一行改成什么"); return; }
+      sub.run("开工前改", { 怎么调: "改一句", 队员: who, 改前: man[idx], 改后: text.trim() });
+    } else {
+      if (!pick) { sub.setErr("先从队员库里点一位"); return; }
+      sub.run("开工前改", { 怎么调: "换人", 队员: who, 改后: pick.文件 });
+    }
+  };
+  const label = how === "不改" ? "不改，开工" : "就这样，开工";
+  return (
+    <Card kind="need" meta={<><Person />请你定</>} right="点一下就行，只改一处" title="开工前改一处：用你家的经验改造这支现成的队"
+      sub={sugg.length ? "队长照你家的资料，想了几条你家自己的经验。点一条，这支队开工时就带上它。" : "这支队是现成的。改一处再开工，之后的结果就带上你家的做法。"}>
+      {sugg.length > 0 && (
+        <div className="kb-sugg">
+          {sugg.map((s, i) => (
+            <button key={i} type="button" disabled={sub.busy} onClick={() => sub.run("开工前改", { 怎么调: "加一句", 队员: s.队员, 改后: s.一句 })}>
+              <em>给{s.队员}加一句</em><b>{s.一句}</b><span><CheckIcon size={14} weight="bold" />点一下，就用这条开工</span>
+            </button>
+          ))}
+        </div>
+      )}
+      {sugg.length > 0 && (
+        <button type="button" className="kb-more" aria-expanded={more} onClick={() => setMore(!more)}>{more ? "收起其他办法" : "都不合适？自己写、换人或不改"}</button>
+      )}
+      {more && (
+        <>
+          <div className="kb-how kb-how4">
+            {hows.map(([v, t, d]) => (
+              <button key={v} type="button" className={how === v ? "on" : ""} aria-pressed={how === v} onClick={() => choose(v)}><b>{t}</b><span>{d}</span></button>
+            ))}
+          </div>
+          {how && how !== "不改" && <><Step n={1}>{how === "换人" ? "换掉谁" : "选一个队员"}</Step><MemberChips sel={who} onPick={pickWho} /></>}
+          {how === "加一句" && who && (
+            <><Step n={2}>写一句你自己的经验</Step><Area label="你的经验" rows={2} value={text} placeholder="例如：价格和承诺一定要和我们的价目表、售后规矩一致" onChange={setText} /></>
+          )}
+          {how === "改一句" && who && (
+            <>
+              <Step n={2}>点要改的那一行</Step>
+              <ManualPick name={who} ver={ver(who)} sel={idx} onPick={setIdx} />
+              <Step n={3}>改成什么</Step>
+              <Area label="改成什么" rows={2} value={text} placeholder="这一行改成的样子" onChange={setText} />
+            </>
+          )}
+          {how === "换人" && who && (
+            <><Step n={2}>换成谁</Step><LibPick lib={lib} q={q} setQ={setQ} chosen={pick} onPick={setPick} /></>
+          )}
+          <div className="kb-btnrow">
+            <Button variant="primary" size="lg" disabled={!how || sub.busy} onClick={go}>{sub.busy ? "正在交……" : label}</Button>
+            <span className="kb-hint">一次只改一处，之后盲比才看得出这一处有没有用。</span>
+          </div>
+        </>
+      )}
       <Err text={sub.err} />
     </Card>
   );

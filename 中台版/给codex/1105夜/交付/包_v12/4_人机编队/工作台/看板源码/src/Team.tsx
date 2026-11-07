@@ -2,13 +2,15 @@ import { useEffect, useState, type ComponentType } from "react";
 import type { IconProps } from "@phosphor-icons/react";
 import {
   ArrowUUpLeftIcon, BookOpenTextIcon, CheckIcon, FileTextIcon, FilmSlateIcon, LightbulbIcon,
-  MagnifyingGlassIcon, PenNibIcon, UserIcon,
+  ImageIcon, MagnifyingGlassIcon, PenNibIcon, UserIcon,
 } from "@phosphor-icons/react";
 import { Card, Disclosure, FilePane, Tag } from "./ui";
 import { useBoard, useManual } from "./hooks";
-import type { Any } from "./api";
+import { cfgOf, type Any } from "./api";
 
-const ICON: Record<string, ComponentType<IconProps>> = { 策划: LightbulbIcon, 编剧分镜: PenNibIcon, 挑错: MagnifyingGlassIcon, 出片: FilmSlateIcon };
+/** 四棒的图标按位置给：想、写、挑错、做；做的图标看成品是什么 */
+const iconAt = (i: number, kind: string): ComponentType<IconProps> =>
+  [LightbulbIcon, PenNibIcon, MagnifyingGlassIcon, kind === "视频" ? FilmSlateIcon : kind === "图卡" ? ImageIcon : FileTextIcon][i] || UserIcon;
 
 /** 学员打开页面时已有的记录不再打字，只有新冒出的才打 */
 const seen = new Set<string>();
@@ -31,13 +33,13 @@ function Typed({ id, text }: { id: string; text: string }) {
   return <span>{text.slice(0, n)}{n < text.length && <span className="kb-caret" />}</span>;
 }
 
-/** 按接力顺序排：策划、编剧分镜、挑错、出片，别的名字排在后面 */
-const ORDER = ["策划", "编剧分镜", "挑错", "出片"];
-export const ordered = (ms: Any[]): Any[] => ms.map((m, i) => ({ m, i, r: ORDER.indexOf(m.名) })).sort((a, b) => (a.r < 0 ? 99 : a.r) - (b.r < 0 ? 99 : b.r) || a.i - b.i).map((x) => x.m);
+/** 按接力顺序排：想、写、挑错、做（顺序来自队伍配置），别的名字排在后面 */
+export const ordered = (ms: Any[], order: string[]): Any[] => ms.map((m, i) => ({ m, i, r: order.indexOf(m.名) })).sort((a, b) => (a.r < 0 ? 99 : a.r) - (b.r < 0 ? 99 : b.r) || a.i - b.i).map((x) => x.m);
 
 export function Pipeline() {
   const { S } = useBoard();
-  const ms: Any[] = ordered(S.队员 || []);
+  const cf = cfgOf(S);
+  const ms: Any[] = ordered(S.队员 || [], cf.棒顺序);
   if (ms.length < 4) return null;
   const rs: Any[] = S.轮 || [];
   const r = rs.length ? rs[rs.length - 1] : {};
@@ -64,7 +66,7 @@ export function Pipeline() {
     if (!cls && fromIdx > 0 && tag === "选题") { cls = "keep"; sub = "沿用上一轮"; }
     return { name, cls, sub, human: true };
   };
-  const nodes = [mnode(ms[0], 0), hnode("你挑选题", "选题"), mnode(ms[1], 1), mnode(ms[2], 2), mnode(ms[3], 3), hnode("你定发不发", "发不发")];
+  const nodes = [mnode(ms[0], 0), hnode("你" + cf.拍板名[0], "选题"), mnode(ms[1], 1), mnode(ms[2], 2), mnode(ms[3], 3), hnode("你定发不发", "发不发")];
   return (
     <Card kind="done" meta="流水线" right={rs.length ? `第 ${n} 轮` : "队伍还没开工"}>
       <ol className="kb-pipe mt-2">
@@ -98,7 +100,8 @@ export function MemberCard({ m }: { m: Any }) {
   const rs: Any[] = S.轮 || [];
   const n = rs.length ? rs[rs.length - 1].n : 0;
   const rec: Any[] = (m.记录 || []).filter((r: Any) => r.轮 === n).slice(-4).reverse();
-  const Ic = ICON[m.名] || UserIcon;
+  const cf = cfgOf(S);
+  const Ic = iconAt(cf.棒顺序.indexOf(m.名), cf.成品);
   const cls = m.状态 === "在干" ? "working" : m.状态 === "交出了" ? "gave" : m.状态 === "退回了" ? "sent" : "";
   return (
     <article className={`kb-card kb-mem ${cls}`} style={{ animation: "none" }}>

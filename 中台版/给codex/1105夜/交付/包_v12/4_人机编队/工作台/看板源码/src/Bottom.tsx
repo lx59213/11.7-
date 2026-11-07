@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { CheckIcon, LightbulbIcon } from "@phosphor-icons/react";
 import { useBoard } from "./hooks";
-import type { Any } from "./api";
+import { cfgOf, type Any } from "./api";
 
 type Row = [string, (r: Any) => string, string | false];
-const ROWS: Row[] = [
+const rowsOf = (cf: ReturnType<typeof cfgOf>): Row[] => [
   ["调了什么", (r) => r.调了什么 || "第一次跑，没调", false],
   ["用时", (r) => r.用时分钟 + " 分钟", "用时分钟"],
   ["交接", (r) => r.交接 + " 次", "交接"],
   ["退回", (r) => r.退回 + " 次", "退回"],
-  ["出片（每次都花钱）", (r) => r.出片 + " 次", "出片"],
+  [cf.视频 ? "出片（每次都花钱）" : cf.动词, (r) => r.出片 + (cf.视频 ? " 次" : " 份"), "出片"],
   ["我说了几句", (r) => r.人说了几句 + " 句", "人说了几句"],
   ["挑错拦下", (r) => r.挑错拦下 + " 处", "挑错拦下"],
   ["我挑出", (r) => r.人挑出 + " 处", "人挑出"],
@@ -21,6 +21,7 @@ const ROWS: Row[] = [
 export function Score() {
   const { S } = useBoard();
   const rs: Any[] = S.成绩单 || [];
+  const ROWS = rowsOf(cfgOf(S));
   if (!rs.length) return <p className="kb-empty">开工以后，每一轮的成绩出现在这里。</p>;
   return (
     <>
@@ -47,11 +48,12 @@ export function Score() {
   );
 }
 
-const FIVE: [string, string][] = [
+const fiveOf = (cf: ReturnType<typeof cfgOf>): [string, string][] => [
   ["拆成几棒", "一件事拆成几棒，每个队员只干一棒。哪里出错，找得到是哪一棒。"],
   ["写清交什么", "每一棒交什么、交给谁，写死在分工表上。"],
-  ["单独一个挑错的，放在花钱那一棒前面", "挑错的没看过脚本是怎么写的，才挑得出毛病；文字上拦下，不用等出片再发现。"],
-  ["人只停在要定的地方，最怕说错的写成红线", "队伍只在挑选题、成片发不发两处等人；最怕说错的几句交给挑错，每条片子都替这家公司查。"],
+  [cf.视频 ? "单独一个挑错的，放在花钱那一棒前面" : "单独一个挑错的，放在做成品那一棒前面",
+    `挑错的没看过${cf.写短}是怎么写出来的，才挑得出毛病；${cf.写短}上拦下，不用等${cf.视频 ? "出片" : "做成" + cf.成品叫法}再发现。`],
+  ["人只停在要定的地方，最怕说错的写成红线", `队伍只在${cf.拍板名[0]}、${cf.拍板名[1]}两处等人；最怕说错的几句交给挑错，每${cf.单位}${cf.视频 ? "片子" : cf.成品叫法}都替这家公司查。`],
   ["一次只调一处，再跑一轮比", "下一轮变好还是变坏，才知道是这一处起的作用。"],
 ];
 const CN: Record<string, number> = { 一: 0, 二: 1, 三: 2, 四: 3, 五: 4 };
@@ -86,6 +88,7 @@ export function Five({ fresh, compact }: { fresh: number | null; compact?: boole
     const i = fiveIdx(d);
     if (i !== null) m[i].push(d); else if (/^五步全部/.test(d.五步 || "")) all.push(d);
   });
+  const FIVE = fiveOf(cfgOf(S));
   const [pick, setPick] = useState<number | null>(null);
   let sel = pick;
   if (sel == null) for (let i = 4; i >= 0; i--) if (m[i].length) { sel = i; break; }

@@ -3,7 +3,8 @@ import { Button, Input, InputArea } from "@cloudflare/kumo";
 import {
   CaretDownIcon, CheckIcon, CircleNotchIcon, FlagIcon, UserIcon, WarningIcon,
 } from "@phosphor-icons/react";
-import { fileUrl, getText, isVideo, type Any } from "./api";
+import { fileUrl, getText, isHtml, isMd, isVideo, type Any } from "./api";
+import { Md } from "./Md";
 import { useBoard } from "./hooks";
 
 export { Button };
@@ -76,18 +77,36 @@ export function Disclosure({ icon, label, children, lazy = true }: { icon?: Reac
   );
 }
 
-/** 打开一个文件：mp4 放视频，别的当文字。视频元素不重建，正在播的不会被打断。 */
-export function FilePane({ src, className = "" }: { src?: string; className?: string }) {
+/** 图卡：自包含的 html 放进 iframe，按卡片比例撑开，能左右翻。页面自己报比例。 */
+export function CardFrame({ src, ratio = 1, maxH = 440 }: { src: string; ratio?: number; maxH?: number }) {
+  const ref = useRef<HTMLIFrameElement>(null);
+  const [r, setR] = useState(ratio);
+  useEffect(() => {
+    const f = (e: MessageEvent) => {
+      if (e.source === ref.current?.contentWindow && e.data && e.data.kind === "card-ratio" && e.data.r > 0) setR(e.data.r);
+    };
+    window.addEventListener("message", f);
+    return () => window.removeEventListener("message", f);
+  }, []);
+  return (
+    <div className="kb-cardbox" style={{ aspectRatio: String(r), width: `min(100%, ${Math.round(maxH * r)}px)` }}>
+      <iframe ref={ref} key={src} title="图卡" sandbox="allow-scripts" src={fileUrl(src)} />
+    </div>
+  );
+}
+
+/** 打开一个文件：视频放视频，html 放图卡，md 排成文字，别的当纯文字。视频、图卡元素不重建，不会被轮询打断。 */
+export function FilePane({ src, className = "", ratio, maxH }: { src?: string; className?: string; ratio?: number; maxH?: number }) {
   const { rev } = useBoard();
   const [txt, setTxt] = useState<string | null>(null);
   const [bad, setBad] = useState(false);
-  const vid = isVideo(src);
+  const vid = isVideo(src), htm = isHtml(src);
   useEffect(() => {
-    if (!src || vid) return;
+    if (!src || vid || htm) return;
     let live = true;
     getText(src).then((t) => { if (live) { setTxt(t); setBad(false); } }).catch(() => { if (live) setBad(true); });
     return () => { live = false; };
-  }, [src, vid, rev]);
+  }, [src, vid, htm, rev]);
   useEffect(() => { setBad(false); }, [src]);
   if (!src) return <p className="kb-sub">还没有这个文件</p>;
   if (vid) {
@@ -95,8 +114,10 @@ export function FilePane({ src, className = "" }: { src?: string; className?: st
       ? <p className="kb-sub">这个视频打不开</p>
       : <video key={src} className={`kb-video ${className}`} controls playsInline preload="metadata" src={fileUrl(src)} onError={() => setBad(true)} />;
   }
+  if (htm) return <CardFrame src={src} ratio={ratio} maxH={maxH} />;
   if (bad && txt === null) return <p className="kb-sub">文件还没有</p>;
   if (txt === null) return <p className="kb-sub"><Spin size={14} /> 读取中……</p>;
+  if (isMd(src)) return <div className={`kb-mdbox ${className}`}><Md text={txt || "（文件是空的）"} /></div>;
   return <pre className={`kb-pre ${className}`}>{txt || "（文件是空的）"}</pre>;
 }
 
