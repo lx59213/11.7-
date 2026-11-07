@@ -16,8 +16,7 @@ JOBS = [
   # 浅色版 11-04 起不再更新，文件留在仓库里
   # ('开场.html', '课程骨架_浅色版.html', 'light', "'off'", '/* ======================= 进度条 / 翻页 / 讲师视图'),
   ('开场_v2细胞版_备份.html', '正式课件-完善中.html', 'dark', "'hidden'", '/* ================= 进度条 ================= */'),
-  # 11-07 TTZ：人机编队单开一个网页：只留封面和人机编队那一块
-  ('开场_v2细胞版_备份.html', '人机编队课件.html', 'dark', "'hidden'", '/* ================= 进度条 ================= */'),
+  # 11-07 晚 TTZ：人机编队不另开网址，放回正式课件 03 的后半段（单开那份不再出）
 ]
 for src, dst, theme, w, js_anchor in JOBS:
     solo = dst == '人机编队课件.html'
@@ -48,7 +47,7 @@ for src, dst, theme, w, js_anchor in JOBS:
     assert '上午做的知识库' in l1, '技能第 1 拍不再是分享，挪动规则要改'
     rest = rest.replace(l1, '', 1).replace(l0, l1 + l0, 1)
     # 11-06 靖锋：第二天开始到收尾前先隐藏（画面和口播都还在 modules.html 里，清空这个名单就放回来）
-    HIDE_CH = ['第二天', '工作流', '组织', '收尾', '人机编队']   # 11-07 TTZ：人机编队挪去单独的网页
+    HIDE_CH = ['第二天', '工作流', '组织', '收尾']   # 11-07 晚 TTZ：人机编队放回 03 后半段
     if solo:
         HIDE_CH = [c for c in HIDE_CH if c != '人机编队']
     rest = ''.join(l for l in rest.splitlines(True) if not any(f"ch:'{c}'" in l for c in HIDE_CH))
