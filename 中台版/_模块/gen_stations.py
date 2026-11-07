@@ -1403,21 +1403,45 @@ BD_TEAM = [('策划', '抖音策略师', '三个选题'), ('编剧分镜', '视�
 bd_team = ''.join(f'<div class="bt-c pop" style="--d:{.3+i*.35:.2f}s;left:{96+i*360}px"><i>{i+1}</i><b>{n}</b><p>照着：{w}</p><p>交出：{o}</p></div>'
                   + (f'<div class="bt-ar pop" style="--d:{.5+i*.35:.2f}s;left:{96+i*360+318}px">→</div>' if i < 3 else '') for i, (n, w, o) in enumerate(BD_TEAM))
 bd_team += ('<div class="bt-back pop" style="--d:1.9s">挑错不过，退回给写的那个队员，最多退两次</div>'
-            '<div class="bt-hu pop" style="--d:2.3s;left:96px"><b>人拍板 ①</b>三个选题挑一个</div>'
-            '<div class="bt-hu pop" style="--d:2.6s;left:816px"><b>人拍板 ②</b>成片发不发</div>'
-            '<div class="bt-note pop" style="--d:3.0s">四个队员的岗位说明书现成的，AI 照各位知识库里的公司和产品填好</div>')
+            + ''.join(f'<div class="bt-hu pop" style="--d:{2.3+i*.3:.1f}s;left:{96+i*480}px"><b>人 {i+1}</b>{s}</div>' for i, s in enumerate(['写下最怕说错的，交给挑错', '挑选题，和挑错一起挑脚本', '看成片，定发不发']))
+            + '<div class="bt-note pop" style="--d:3.2s">四个队员的岗位说明书现成的，AI 照各位知识库里的公司和产品填好</div>')
 bd_board = (_shot(96, 216, 896, 560, '编队_队伍看板.webp', '队伍看板：四个队员谁在干、一棒一棒的交接、被退回的那棒标红写为什么、右边请示单等人拍板', .2)
             + live_cue('WorkBuddy 宣传片队')
-            + '<div class="sx-next" style="left:1048px;right:96px;top:236px"><b>盯着它看</b>'
-            + ''.join(f'<p class="pop" style="--d:{.8+i*.4:.1f}s">{s}</p>' for i, s in enumerate(['谁在干，谁在等', '一棒交给了谁', '被退回的那棒，为什么', '哪件事等人拍板', '成片出来没有']))
+            + '<div class="sx-next" style="left:1048px;right:96px;top:236px"><b>看得见，点得了</b>'
+            + ''.join(f'<p class="pop" style="--d:{.8+i*.4:.1f}s">{s}</p>' for i, s in enumerate(['开工单：写下最怕说错的', '每个队员在干什么，一句句冒出来', '和挑错各挑各的，交了才揭晓', '请示单：点一下就拍板', '成绩单：两轮并排比']))
             + '</div>')
 BD_LIB = [('21 个技能', ['出 Word、Excel、PPT、PDF', '去 AI 味、翻译、排版', '周报、方案、会议分析', '信息图、小红书图卡']),
           ('55 个队员', ['老板和高管、宣传和内容', '电商和销售、客服和售后', '财务和法务、人事和培训', '采购和供应链、调研和管理']),
           ('7 支队伍', ['宣传片、小红书图文', '竞品周报、客户回信', '招聘初筛、会议跟进', '报表分析'])]
 bd_lib = ''.join(f'<div class="bl-c pop" style="--d:{.3+i*.4:.1f}s;left:{96+i*482}px"><b>{h}</b>' + ''.join(f'<p>{s}</p>' for s in ls) + '</div>' for i, (h, ls) in enumerate(BD_LIB))
 bd_lib += '<div class="bl-src pop" style="--d:1.8s">都在包里，网络不通也能用。来自 GitHub：Anthropic 官方技能、宝玉、歸藏、agency-agents 中文版等，原作者和许可证都留着</div>'
-bd_do = steps_page([('组队，\n填进自家的事', '8 分钟'), ('出片，\n只批请示单', '22 分钟'), ('改一处，\n重做再盲挑', '8 分钟'), ('排班，\n每周一条', '8 分钟')],
-                   ['一条自家宣传片', '队伍看板和交接单', '每周自己出片的定时任务'], 'var(--ag)', talk=1, say='AI：它们开始干了，你盯着队伍看板', first=6)
+bd_do = steps_page([('组队，\n写下最怕说错的', '8 分钟'), ('出片，\n和挑错一起挑错', '22 分钟'), ('调一处，\n再跑一轮比', '8 分钟'), ('收尾，\n存进知识库', '8 分钟')],
+                   ['一条自家宣传片', '两轮并排的成绩单', '知识库里一页这节课定的'], 'var(--ag)', talk=0, say='看板上先填一张开工单', first=6)
+# 11-07 晚 TTZ：要站在高处给方法，照提示词那页的样子出一页，学员拍下来回去照着搭
+BD5 = [('拆成几棒', '一件事拆成几棒，每个队员只干一棒', '选题、脚本、出片、挑错，四个队员各一棒'),
+       ('写清交什么', '每一棒交什么、交给谁，写进分工表', '脚本三到四个镜头，每镜写画面、字幕、几秒，交给挑错'),
+       ('单独一个挑错的', '只挑不改，放在花钱那一棒前面', '脚本先过挑错再出片；挑错不看脚本是怎么写出来的'),
+       ('人只停在要定的地方', '挑方向、定发不发；最怕说错的写成红线', '红线「不能说保温 24 小时」，每条片子都查一遍'),
+       ('一次只调一处', '看成绩单，调一处再跑一轮，打乱了挑', '退回最多的是编剧，只改它说明书一句，再跑一轮比')]
+bd_five = ''.join(f'<div class="pe-row pop" style="--d:{.3+i*.3:.2f}s;top:{226+i*108}px"><i>{i+1}</i><b>{h}</b><div><em>{a}</em><q>例：{b}</q></div></div>' for i, (h, a, b) in enumerate(BD5))
+_cost = [('选题', 140, '改一次：几秒，不花钱'), ('脚本', 300, '改一次：一分钟左右，不花钱'), ('成片', 820, '改一次：再等半分钟到两分钟，再花一次钱')]
+_o = ''
+for i, (lab, w, ss) in enumerate(_cost):
+    y = 240 + i*100
+    _o += txt(96, y+44, lab, 34, 'var(--m-ink)', 'start', cls='pop', d=.3+i*.4, w=900)
+    _o += f'<rect class="pop" style="--d:{.4+i*.4:.1f}s" x="230" y="{y}" width="{w}" height="64" rx="12" fill="{"var(--c)" if i == 2 else "var(--m-line2)"}"/>'
+    _o += txt(230+w+24, y+42, ss, 26, 'var(--m-ink)', 'start', cls='pop', d=.5+i*.4, w=700)
+_o += '<line class="pop" style="--d:1.7s" x1="200" y1="422" x2="1500" y2="422" stroke="#e07a5f" stroke-width="3" stroke-dasharray="10 8"/>'
+_o += txt(1500, 410, '挑错在这条线上拦', 24, '#e07a5f', 'end', cls='pop', d=1.8, w=800)
+bd_pre7 = svg(_o) + ''.join(f'<div class="tn-c pop" style="--d:{2.1+i*.3:.1f}s;left:{96+i*720}px;top:560px"><b>{h}</b><p>{ss}</p></div>' for i, (h, ss) in enumerate([
+    ('挑错要单独一个', '它没看过脚本是怎么写出来的，才挑得出毛病。写的人自己查，容易替自己找理由。'),
+    ('各位也是挑错的', '和挑错各挑各的，交了才揭晓谁漏了什么。')])) + '<div class="bl-src pop" style="--d:2.8s;top:742px">借：Seedance 视频制作流程，文字上能发现的错不留到画面上；饼干哥哥的写作系统，审稿交给单独的智能体</div>'
+bd_pre8 = ''.join(f'<div class="bt-c pop" style="--d:{.3+i*.4:.1f}s;left:{96+i*480}px;width:448px;height:200px"><i>{i+1}</i><b>{h}</b><p>{s}</p></div>'
+                  + (f'<div class="bt-ar pop" style="--d:{.5+i*.4:.1f}s;left:{96+i*480+452}px;top:310px;width:28px;font-size:32px">→</div>' if i < 2 else '') for i, (h, s) in enumerate([
+    ('看成绩单', '退回最多的是谁，各位写的哪里不行'), ('找到那一句', '那个队员的岗位说明书里，是哪一句让它这么干'), ('只调一处', '三选一：改这一句；给挑错加一条红线；换一个现成的队员')]))
+bd_pre8 += ''.join(f'<div class="tn-c pop" style="--d:{1.7+i*.3:.1f}s;left:{96+i*720}px;top:500px"><b>{h}</b><p>{s}</p></div>' for i, (h, s) in enumerate([
+    ('先自己判断，再看队长的', '各位交了判断，队长的才揭晓，两边并排放。'),
+    ('一次只调一处', '下一轮变好变坏，才知道是这一处起的作用。两轮打乱了挑，看不出哪份是改过的再挑。')]))
 SUB['m4'] = {
     "我们自己每天用的 <em>AI 队伍</em>": "左边飞书里派活，右边中台上看谁在干",
     "一个人带一支 <em>AI 队伍</em>": "看板上看得见谁在干、交给了谁",
@@ -1425,9 +1449,12 @@ SUB['m4'] = {
     "AI 店长配了个 <em>AI 老板</em>，还是得有人拦": "Anthropic 在自家办公室开的小卖部",
     "七个 AI 审一份代码，<em>人只放行 0.6%</em>": "Cloudflare，全球最大的网络服务商之一",
     "今天做：一支 <em>宣传片队</em>": "给自家公司出一条 8 到 15 秒竖屏视频",
-    "看得见队伍在动：<em>队伍看板</em>": "没有飞书和中台，这页一直开着就行",
+    "在队伍看板上<em>拍板</em>": "没有飞书和中台，填红线、挑错、拍板、盲挑都在这页上点",
+    "回去自己搭一支 AI 队伍，<em>就这五步</em>": "三个例子都是这样搭的；拿一件常做的事，照着搭",
+    "出片之前：错在<em>脚本上</em>拦下最便宜": "第 7 步开始前",
+    "调一处之前：先找到<em>哪个队员哪一句</em>": "第 8 步开始前",
     "不用从零写：<em>现成的技能和队员</em>": "GitHub 上口碑好的，课前挑好放进包里",
-    "动手：组一支 <em>宣传片队</em>": "发人机编队的包，拖进昨天那个对话，第 6 到 9 步，约 46 分钟",
+    "动手：组一支 <em>宣传片队</em>": "人机编队的包拖进昨天那个对话，第 6 到 9 步，约 46 分钟；每步做完听讲完再发「接着」",
     "上台展示：<em>放成片</em>": "",
 }
 m4_pages = [
@@ -1437,13 +1464,16 @@ m4_pages = [
     ('七个 AI 审一份代码，<em>人只放行 0.6%</em>', bd_case3, 0, ''),
     # 11-06 TTZ：放我们自己的例子（飞书加 AI 中台），课上再切屏演示
     ('我们自己每天用的 <em>AI 队伍</em>', our_team(), 0, ''),
+    ('回去自己搭一支 AI 队伍，<em>就这五步</em>', bd_five, 0, ''),
     ('今天做：一支 <em>宣传片队</em>', bd_team, 1, ''),
-    ('看得见队伍在动：<em>队伍看板</em>', bd_board, 1, ''),
+    ('在队伍看板上<em>拍板</em>', bd_board, 1, ''),
     ('不用从零写：<em>现成的技能和队员</em>', bd_lib, 1, ''),
     ('动手：组一支 <em>宣传片队</em>', bd_do, 2, ''),
+    ('出片之前：错在<em>脚本上</em>拦下最便宜', bd_pre7, 2, ''),
+    ('调一处之前：先找到<em>哪个队员哪一句</em>', bd_pre8, 2, ''),
     ('上台展示：<em>放成片</em>', stage_show(4, '放各位的成片'), 3, ''),
     up_page('m4'),
-    ('回去接着做', notes([('每周', '定时出一条片子<br>只看选题和成片<br>谁老被退回，改它一句'), ('换件事', '从队伍菜单挑一支<br>竞品周报、客户回信<br>招聘初筛、报表分析'), ('永远交人', '发出去<br>花钱<br>对外承诺')], 'var(--wf)').replace('class="sx-nt"', 'class="sx-nt bigc"', 1), 3, ''),
+    ('回去接着做', notes([('每周', '定时出一条片子<br>只看选题和成片<br>谁老被退回，调它一处'), ('换件事', '从队伍菜单挑一支<br>竞品周报、客户回信<br>招聘初筛、报表分析'), ('永远交人', '发出去<br>花钱<br>对外承诺')], 'var(--wf)').replace('class="sx-nt"', 'class="sx-nt bigc"', 1), 3, ''),
 ]
 PV_BEATS.pop('m4', None)   # 11-06 TTZ：步骤页全是字，和技能、智能体一样删掉
 sec('m4', '--ag', m4_pages)   # 11-07：人机编队单开网页，build.py 另出一份 人机编队课件.html
@@ -1453,13 +1483,16 @@ beats('m4', '人机编队', [
     '第二个，Anthropic 在自己办公室开了个小卖部，让 AI 当店长，进货定价都是它。后来给它配了个 AI 老板，定目标、复核，乱打折少了八成左右，店从一家开到三家。可 AI 店长差点签下一份洋葱期货合同，这在美国从 1958 年起就违法，是员工拦下的；AI 老板批松口的请求，是拒绝的八倍。所以挑错的要单独一个，最后拍板的是人。',
     '第三个，Cloudflare，全球最大的网络服务商之一。每份代码改动交给七个 AI 审，各查一样，一个协调的 AI 汇总，不过就退回。30 天审了四万八千多次，一次三分多钟，不到一美元。人只保留一个按钮：强制放行，30 天用了 288 次，占 0.6%。一个写、几个查，人只按放行那一下。',
     '这是我们公司自己每天在用的。左边是飞书：中台机器人把到期的事推给每个人，点一下就处理，要拍板的也在这里批。右边是中台上的 AI 团队：12 位 AI 同事照工作流接力，调研、写稿、审校，谁在干、交给了谁、卡在哪，一眼看清；人只在要拍板的地方出手。',
-    '今天每人做一支宣传片队，给自家公司出一条 8 到 15 秒的竖屏视频，什么行业都能做。四个队员：策划出三个选题，编剧写脚本和分镜，出片写视频提示词、生成视频，挑错的只挑不改，不过就退回。各位只拍板两次：挑选题，看成片发不发。四个队员的岗位说明书是现成的，照 GitHub 上口碑好的岗位说明书改的，AI 照各位知识库里的公司和产品填好就能干。',
-    '没有飞书和中台，看什么？看这个队伍看板。包里带着，组好队它就打开，一直开着：谁在干、一棒交给了谁、被退回的那棒为什么、哪件事等各位拍板、成片出来没有，每四秒自己刷新。我现在切到 WorkBuddy，现场跑一遍给各位看。',
-    '这次的包里还放了现成的东西，网络不通也能用：21 个技能，出 Word、Excel、PPT，去 AI 味，写周报，出信息图；55 个岗位说明书，从老板、营销、销售到财务、人事、采购都有；还有 7 支现成的队伍，宣传片、竞品周报、客户回信、招聘初筛……回去换件事，挑一支就能组。昨天技能、智能体比输了的，也可以从这里借一个最贴的，把自己说过的做法加进去，再比一次。',
-    '动手。群里发人机编队的包和操作手册，包拖进昨天那个对话，复制第 6 步一起发。四步，约 46 分钟：组队，出片，改一处，排班。出片那步最长，生成视频要几分钟，各位别打字，盯着队伍看板；请示单都同意就回「都照建议」。出视频按秒花钱，课上一条片子最多生成两次。',
-    '上台展示，像路演。出了片的先上，直接放成片，再说一句挑错的拦下了什么、各位一共说了几句话。其他人接着做。',
+    '三个例子加我们自己的，搭法都一样，就这五步，各位可以拍下来。第一，拆成几棒，每个队员只干一棒，出了错才找得到是哪一棒。第二，写清每一棒交什么、交给谁，下一棒收到的东西是定的。第三，单独放一个挑错的，只挑不改，放在花钱那一棒前面；写的人自己查，容易替自己找理由。第四，人只停在要定的地方。朱元璋一天要批四百多件奏折，批得过来，是因为只有要他定的才送到他面前；最怕说错的话，写成红线交给挑错，它每一条都替各位查。第五，一次只调一处，看成绩单，调了再跑一轮，打乱了挑。今天这一块，各位在看板上把这五步各碰一次，回去拿一件常做的事，照着搭第二支队。',
+    '今天每人做一支宣传片队，给自家公司出一条 8 到 15 秒的竖屏视频，什么行业都能做。四个队员：策划出三个选题，编剧写脚本和分镜，出片写视频提示词、生成视频，挑错的只挑不改，不过就退回。各位是队伍里的一环，出手三次：开工前写下最怕说错的话，交给挑错；挑选题，脚本出来和挑错一起挑；最后看成片，定发不发。四个队员的岗位说明书是现成的，照 GitHub 上口碑好的岗位说明书改的。',
+    '没有飞书和中台，在哪出手？在这个队伍看板上。包里带着，组好队 AI 就把它打开。最上面是要各位做的：开工单、请示单、挑错、盲挑。下面四个队员，每个在干什么一句一句冒出来，交给了谁、被谁退回，当场就变。最下面是成绩单，第一轮第二轮并排。全是真的，各位点了它们才往下走。我现在切到 WorkBuddy，现场跑一遍给各位看。',
+    '这次的包里还放了现成的东西，网络不通也能用：21 个技能，出 Word、Excel、PPT，去 AI 味，写周报，出信息图；55 个岗位说明书，从老板、营销、销售到财务、人事、采购都有；还有 7 支现成的队伍，宣传片、竞品周报、客户回信、招聘初筛……回去换件事，挑一支就能组。第 8 步要换一个队员，也是从这 55 个里挑。',
+    '动手。群里发人机编队的包和操作手册，包拖进昨天那个对话，复制第 6 步一起发。没做完昨天的也能做，知识库不全的，开工单上自己补。四步，约 46 分钟。每一步做完 AI 会停下来，等我讲完下一步的要点，各位在对话里发「接着」。第 6 步，看板上先出一张开工单，AI 照知识库填好了，各位改错的，最后一栏最怕说错什么，只有各位知道，写一两条。',
+    '第 7 步之前讲一分钟。为什么挑错放在出片前面？看这三条：选题改一次几秒，脚本改一次一分钟，成片改一次要再等一两分钟、再花一次钱。所以错要在脚本上就拦下。为什么挑错要单独一个？它没看过脚本是怎么写出来的，才挑得出毛病。这一步脚本出来，各位也当一回挑错的，和它各挑各的，交了才揭晓：两边都挑出几处，谁漏了什么。视频一条半分钟到两分钟，课上一支队最多出三次。发「接着」。',
+    '第 8 步之前讲一分钟。片子不满意，别笼统说不好，找到是哪个队员说明书里的哪一句。先看成绩单：退回最多的是谁，各位写的哪里不行。各位先自己判断，交了以后队长的判断才揭晓，两边并排放。然后只调一处：改这一句，给挑错加一条红线，或者从 55 个现成的队员里换一个。一次只调一处，第二轮变好变坏，才知道是这一处起的作用；两轮打乱成甲乙，各位挑。发「接着」。',
+    '上台展示，像路演。出了片的先上，放两轮的成片，再说三样：各位挑出、挑错漏了的那一处，调了哪一处，第二轮成绩单变了什么。其他人接着做。',
     '往上走：一条线跑完，从客户询价到收回货款；客户一来邮件，它们就开工；做完一单记下教训，下一单更顺。跑腿的事 AI 干，人去谈客户、想新品。',
-    '回去之后：每周定时出一条片子，各位只看选题和成片；谁老被退回，就改它一句。换件事，从队伍菜单里挑一支。发出去、花钱、对外承诺，永远人拍板。',
+    '回去之后：每周定时出一条片子，各位只看选题和成片；谁老被退回，就调它一处。换件事，从队伍菜单里挑一支，照那五步搭。发出去、花钱、对外承诺，永远人拍板。',
 ])
 
 # ======================= 04 组织（泽洲讲，屏由他定） =======================
@@ -1475,11 +1508,12 @@ CSS = r'''
 /* 11-06 TTZ：要切出去演示的页，右上角挂一枚牌子 */
 .live-cue{position:absolute;right:96px;top:150px;font-size:19px;font-weight:800;color:#0b0d0c;background:var(--c);border-radius:20px;padding:6px 16px}
 /* 11-07 人机编队：宣传片队流程、现成的技能和队员 */
+.tn-c{position:absolute;top:560px;width:688px;box-sizing:border-box;background:var(--m-card);border:1.5px solid var(--m-line2);border-left:6px solid var(--c);border-radius:16px;padding:20px 28px}.tn-c b{display:block;font-size:30px;font-weight:900;color:var(--c);margin-bottom:8px}.tn-c p{font-size:24px;line-height:1.5}
 .bt-c{position:absolute;top:236px;width:300px;height:220px;box-sizing:border-box;background:var(--m-card);border:1.5px solid var(--m-line2);border-top:6px solid var(--c);border-radius:18px;padding:18px 24px}.bt-c i{font-style:normal;font-size:20px;font-weight:800;color:var(--c)}.bt-c b{display:block;font-size:40px;font-weight:900;margin:4px 0 12px}.bt-c p{font-size:21px;color:var(--m-mute);line-height:1.5}
 .bt-ar{position:absolute;top:310px;width:42px;text-align:center;font-size:40px;color:var(--m-mute)}
 .bt-back{position:absolute;left:96px;right:96px;top:480px;text-align:center;font-size:24px;color:#e07a5f;border-top:2px dashed #e07a5f;padding-top:12px}
-.bt-hu{position:absolute;top:560px;width:688px;box-sizing:border-box;background:var(--m-card2);border-radius:16px;padding:18px 26px;font-size:28px}.bt-hu b{color:var(--c);margin-right:18px}
-.bt-note{position:absolute;left:96px;top:690px;font-size:22px;color:var(--m-mute)}
+.bt-hu{position:absolute;top:560px;width:448px;box-sizing:border-box;background:var(--m-card2);border-radius:16px;padding:18px 24px;font-size:24px}.bt-hu b{color:var(--c);margin-right:18px}
+.bt-note{position:absolute;left:96px;top:700px;font-size:22px;color:var(--m-mute)}
 .bl-c{position:absolute;top:236px;width:444px;height:430px;box-sizing:border-box;background:var(--m-card);border:1.5px solid var(--m-line2);border-top:6px solid var(--c);border-radius:20px;padding:26px 32px}.bl-c b{display:block;font-size:52px;font-weight:900;color:var(--c);margin-bottom:18px}.bl-c p{font-size:25px;line-height:1.5;margin-bottom:12px}
 .bl-src{position:absolute;left:96px;right:96px;top:700px;font-size:21px;color:var(--m-mute)}
 /* 11-06 TTZ：技能、智能体两块换页的淡入也快 1.2 倍 */

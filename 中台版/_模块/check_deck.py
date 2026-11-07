@@ -5,7 +5,7 @@
 结果：截图目录里 01.png、02.png……，加 检查.json（每屏的重叠和出界）。"""
 import os, sys, json, re, subprocess, tempfile, shutil, pathlib
 HERE = pathlib.Path(__file__).resolve().parent
-DECK = HERE.parent / '正式课件-完善中.html'
+DECK = pathlib.Path(os.environ['DECK']) if os.environ.get('DECK') else HERE.parent / '正式课件-完善中.html'
 CH = os.path.expanduser('~/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell')
 WAIT = 1200  # 每屏载入后等一会再量（虚拟时间，毫秒）
 # 无界面 chrome 截图时关键帧动画不走，这里把各种动画直接定在演完的样子

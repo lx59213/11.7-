@@ -1,0 +1,1027 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>队伍看板</title>
+<style>
+:root{--底:#f6f4ef;--卡:#fff;--字:#21262b;--灰:#58616b;--线:#dad6cc;--线深:#b9b3a6;
+--主:#1d6a72;--主深:#134e55;--主浅:#e6f1f1;--主中:#cfe4e5;
+--红:#b3392b;--红浅:#fbece8;--绿:#3a7845;--绿浅:#ebf4ec;--黄:#85570a;--黄浅:#faf1dc}
+*{box-sizing:border-box}
+html{scrollbar-gutter:stable}
+body{margin:0;background:var(--底);color:var(--字);font:17px/1.6 -apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;overflow-wrap:anywhere}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+[hidden]{display:none!important}
+.页{max-width:1440px;margin:0 auto;padding:20px 24px 64px}
+.图标{width:1.15em;height:1.15em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.2em;flex:none}
+.空{color:var(--灰);margin:0;padding:6px 0}
+:focus-visible{outline:3px solid var(--主);outline-offset:2px}
+
+/* 顶栏 */
+header{display:flex;justify-content:space-between;align-items:flex-end;gap:16px 32px;flex-wrap:wrap;padding-bottom:16px;border-bottom:2px solid var(--字)}
+.标题 h1{margin:0;font-size:32px;line-height:1.25}
+.标题 .事{font-size:18px;margin-top:4px}
+.标题 .位{margin-top:6px;display:flex;flex-wrap:wrap;gap:8px}
+.位 span{font-size:15px;border:1px solid var(--线深);border-radius:4px;padding:0 10px;background:#fff}
+.位 span.亮{background:var(--主);border-color:var(--主);color:#fff}
+.数{display:flex;gap:28px;flex-wrap:wrap}
+.数 div{text-align:right}
+.数 b{display:block;font-size:40px;line-height:1.1;font-variant-numeric:tabular-nums}
+.数 span{font-size:15px;color:var(--灰);white-space:nowrap}
+.数 .退 b{color:var(--红)}
+.数 .钱 b{color:var(--黄)}
+
+.条{margin-top:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 16px;border-left:6px solid var(--主);background:var(--主浅);font-size:18px}
+.条.停{border-left-color:var(--红);background:var(--红浅)}
+.条 .字{flex:1;min-width:200px}
+.条 button{border:1px solid var(--主);background:#fff;color:var(--主深);border-radius:6px;padding:4px 16px;font-size:16px}
+.条.停 button{border-color:var(--红);color:var(--红)}
+.断{margin-top:14px;padding:10px 16px;border-left:6px solid var(--黄);background:var(--黄浅)}
+
+section{margin-top:28px}
+h2{margin:0 0 12px;font-size:22px;display:flex;align-items:center;flex-wrap:wrap;gap:4px 12px}
+h2 small{font-size:15px;font-weight:400;color:var(--灰)}
+.角标{font-size:15px;font-weight:700;color:#fff;background:var(--主);border-radius:12px;padding:0 12px}
+
+/* 按钮和输入 */
+.主钮{background:var(--主);color:#fff;border:0;border-radius:6px;padding:8px 26px;font-size:18px;font-weight:700;white-space:nowrap}
+.主钮:hover{background:var(--主深)}
+.主钮:disabled{opacity:.55;cursor:default}
+.次钮{background:#fff;color:var(--字);border:1px solid var(--线深);border-radius:6px;padding:6px 16px;font-size:16px}
+.次钮:hover{border-color:var(--主);color:var(--主)}
+input[type=text],textarea{border:1px solid var(--线深);border-radius:6px;padding:8px 12px;background:#fff;width:100%;font-size:17px;line-height:1.5}
+textarea{resize:vertical}
+input[type=text]:focus,textarea:focus{outline:2px solid var(--主);outline-offset:-1px;border-color:var(--主)}
+.错{color:var(--红);font-size:16px;margin-top:8px;min-height:0}
+.错:empty{display:none}
+.底行{display:flex;align-items:center;gap:12px 20px;flex-wrap:wrap;margin-top:14px}
+.底行 .说{color:var(--灰);font-size:16px;flex:1;min-width:200px}
+
+/* 卡 */
+.卡区{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,560px),1fr));gap:16px;align-items:start}
+.卡{background:var(--卡);border:1px solid var(--线);border-left:6px solid var(--线深);padding:16px 20px;min-width:0}
+.卡.做{border-left-color:var(--主);background:var(--主浅);border-color:var(--主中);animation:提示 2.4s ease-in-out infinite}
+.卡.候{border-left-color:var(--黄)}
+.卡.完{border-left-color:var(--绿)}
+.卡.宽{grid-column:1/-1}
+@keyframes 提示{0%,100%{box-shadow:0 0 0 0 rgba(29,106,114,0)}50%{box-shadow:0 0 0 6px rgba(29,106,114,.14)}}
+.卡 h3{margin:0;font-size:20px;line-height:1.4;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.卡 .前{font-size:15px;color:var(--灰);display:flex;justify-content:space-between;gap:8px 12px;flex-wrap:wrap}
+.卡 .前 b{color:var(--主深)}
+.卡 .副{color:var(--灰);font-size:16px;margin:2px 0 12px}
+.转圈{display:inline-block;width:20px;height:20px;border:3px solid var(--主中);border-top-color:var(--主);border-radius:50%;animation:转 .9s linear infinite;vertical-align:-4px;margin-right:8px}
+@keyframes 转{to{transform:rotate(360deg)}}
+.等字{display:flex;align-items:center;gap:4px;padding:8px 0;color:var(--黄);font-size:17px}
+.标签{font-size:15px;border-radius:4px;padding:0 8px;display:inline-block;white-space:nowrap}
+.标签.主{background:var(--主);color:#fff}
+.标签.绿{background:var(--绿);color:#fff}
+.标签.黄{background:var(--黄);color:#fff}
+.标签.红{background:var(--红);color:#fff}
+.标签.灰{background:#e9e6df;color:var(--灰)}
+
+/* 开工单 */
+.格组{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px 16px}
+.格 span{display:block;font-size:16px;color:var(--灰);margin-bottom:2px}
+.怕{margin-top:16px;border:2px solid var(--主);background:#fff;padding:12px 16px}
+.怕 label>span{font-size:20px;font-weight:700;color:var(--主深);display:block}
+.怕 .说{font-size:16px;color:var(--灰);margin:2px 0 8px}
+.怕 textarea{min-height:120px;font-size:18px}
+
+/* 请示 */
+.问{font-size:21px;font-weight:700;margin:6px 0 12px;line-height:1.5}
+.选项{display:flex;flex-wrap:wrap;gap:10px}
+.项{border:2px solid var(--线深);border-radius:8px;padding:6px 16px;background:#fff;font-size:18px;display:inline-flex;align-items:center;gap:8px;text-align:left}
+.项:hover{border-color:var(--主)}
+.项 i{font-style:normal;font-size:15px;font-weight:700;color:#fff;background:var(--主);border-radius:4px;padding:0 6px}
+.项.选{border-color:var(--主);background:var(--主);color:#fff}
+.项.选 i{background:#fff;color:var(--主)}
+.建议{font-size:16px;color:var(--主深);margin-top:10px}
+.写{margin-top:12px}
+
+/* 带行号的原文 */
+.行表{border:1px solid var(--线);background:#fff;margin-top:8px}
+.行{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;border:0;border-bottom:1px solid #eeebe4;background:#fff;padding:6px 12px;font-size:17px;line-height:1.6}
+.行:last-child{border-bottom:0}
+.行 .号{flex:none;width:2.2em;color:var(--灰);font-variant-numeric:tabular-nums;text-align:right}
+.行 .文{flex:1;min-width:0;white-space:pre-wrap}
+.行 .钩{flex:none;width:1.2em;color:var(--主)}
+button.行:hover{background:var(--主浅)}
+.行.标{background:var(--主中)}
+.行.空行{color:#a7a79f}
+.行.空行 .文{min-height:1.6em}
+.行注{padding:6px 12px 10px 3.8em;background:var(--主中);border-bottom:1px solid #eeebe4}
+.行 .说{display:block;font-size:16px;margin-top:2px}
+.行.两{background:var(--绿浅)}
+.行.挑{background:var(--黄浅)}
+.行.我{background:var(--主浅)}
+.行 .里{flex:1;min-width:0}
+.行 .里 .说{color:var(--字)}
+.行 .里 .说 b{color:var(--灰);font-weight:600}
+.三数{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:8px 0}
+.三数 div{border:1px solid var(--线);background:#fff;padding:8px 12px;text-align:center}
+.三数 b{display:block;font-size:34px;line-height:1.2}
+.三数 span{font-size:16px;color:var(--灰)}
+.三数 .两 b{color:var(--绿)}
+.三数 .挑 b{color:var(--黄)}
+.三数 .我 b{color:var(--主)}
+
+/* 诊断 */
+.依据{background:#fff;border:1px solid var(--线);padding:10px 16px;margin:8px 0 14px}
+.依据 p{margin:4px 0}
+.依据 b{color:var(--灰);font-weight:600}
+.步名{font-weight:700;margin:14px 0 6px;font-size:18px}
+.步名 em{font-style:normal;display:inline-block;width:1.6em;height:1.6em;line-height:1.6em;text-align:center;border-radius:50%;background:var(--主);color:#fff;margin-right:8px;font-size:16px}
+.芯{display:flex;flex-wrap:wrap;gap:8px}
+.芯 button{border:2px solid var(--线深);border-radius:8px;background:#fff;padding:4px 16px;font-size:17px}
+.芯 button:hover{border-color:var(--主)}
+.芯 button.选{border-color:var(--主);background:var(--主);color:#fff}
+.滚{max-height:300px;overflow:auto}
+.并两{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.一份{background:#fff;border:1px solid var(--线);padding:10px 14px;min-width:0}
+.一份 h4{margin:0 0 4px;font-size:18px}
+.一份 p{margin:4px 0}
+.一份 p b{color:var(--灰);font-weight:600}
+.怎调{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:10px}
+.怎调 button{border:2px solid var(--线深);border-radius:8px;background:#fff;padding:10px 14px;text-align:left}
+.怎调 button b{display:block;font-size:18px}
+.怎调 button span{font-size:16px;color:var(--灰)}
+.怎调 button:hover{border-color:var(--主)}
+.怎调 button.选{border-color:var(--主);background:var(--主浅);box-shadow:inset 0 0 0 1px var(--主)}
+.库表{border:1px solid var(--线);background:#fff;margin-top:8px}
+.库表 h5{margin:0;padding:2px 12px;font-size:15px;background:#eeebe4;color:var(--灰)}
+.库表 button{display:block;width:100%;text-align:left;border:0;border-bottom:1px solid #eeebe4;background:#fff;padding:6px 12px}
+.库表 button:hover{background:var(--主浅)}
+.库表 button.选{background:var(--主);color:#fff}
+.库表 button small{display:block;font-size:15px;opacity:.8}
+.已选{margin-top:6px;color:var(--主深);font-weight:600}
+
+/* 盲比 */
+.并排{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
+.份{border:2px solid var(--线);background:#fff;min-width:0;display:flex;flex-direction:column}
+.份头{display:flex;align-items:center;gap:12px;padding:6px 14px;font-size:20px;font-weight:700;background:#eeebe4;border-bottom:1px solid var(--线)}
+.份.我选{border-color:var(--主);box-shadow:0 0 0 2px var(--主)}
+.份 .文件体{padding:10px 14px}
+.份 pre,.抽 pre{margin:0;white-space:pre-wrap;word-break:break-word;font:inherit;line-height:1.7;max-height:300px;overflow:auto}
+.文件体 video{display:block;width:100%;max-height:420px;background:#000}
+.果{font-size:19px;margin-top:12px}
+.果 b{color:var(--主深)}
+
+/* 流水线 */
+.线{display:flex;flex-wrap:wrap;align-items:stretch;gap:6px 0;margin-bottom:12px}
+.节{flex:1 1 130px;min-width:0;border:2px solid var(--线);background:#fff;padding:6px 12px;text-align:center;position:relative}
+.节 b{display:block;font-size:18px}
+.节 span{display:block;font-size:15px;color:var(--灰)}
+.节.人{border-style:dashed}
+.节.完{border-color:var(--绿);background:var(--绿浅)}
+.节.完 b{color:var(--绿)}
+.节.当{border-color:var(--主);background:var(--主);color:#fff;animation:提示 1.8s ease-in-out infinite}
+.节.当 span{color:#e0eff0}
+.节.退{border-color:var(--红);background:var(--红);color:#fff}
+.节.退 span{color:#fbe3de}
+.节.沿{border-color:var(--线);color:var(--灰);background:#f0eee8}
+.箭{flex:0 0 28px;display:flex;align-items:center;justify-content:center;color:var(--灰)}
+
+/* 队员 */
+#队员{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px;align-items:start}
+.员{background:#fff;border:1px solid var(--线);border-top:6px solid #b9b3a6;padding:12px 16px 14px;min-width:0}
+.员 .名行{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.员 .名{font-size:22px;font-weight:700}
+.员 .版{font-size:15px;color:var(--灰)}
+.员 .态{display:flex;align-items:center;gap:8px;font-size:17px;font-weight:700;margin:2px 0 6px}
+.点{display:inline-flex;gap:3px;align-items:center}
+.点 i{width:8px;height:8px;border-radius:50%;background:currentColor;display:block}
+.员.在干 .点 i{animation:跳 1s ease-in-out infinite}
+.员.在干 .点 i:nth-child(2){animation-delay:.15s}
+.员.在干 .点 i:nth-child(3){animation-delay:.3s}
+@keyframes 跳{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-5px);opacity:1}}
+.员.等着 .态{color:var(--灰)}
+.员.在干{border-top-color:var(--主);animation:提示 1.8s ease-in-out infinite} .员.在干 .态{color:var(--主)}
+.员.交出了{border-top-color:var(--绿)} .员.交出了 .态{color:var(--绿)}
+.员.退回了{border-top-color:var(--红);background:var(--红浅)} .员.退回了 .态{color:var(--红)}
+.员 .干{margin:0 0 6px}
+.员 .照{font-size:16px;color:var(--灰)}
+.员 .签{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+.员 .签 span{font-size:15px;border:1px solid var(--线);background:#faf9f5;border-radius:4px;padding:0 8px;color:var(--灰)}
+.记录{list-style:none;margin:8px 0;padding:0;border-top:1px solid var(--线)}
+.记录 li{padding:5px 0;border-bottom:1px solid #eeebe4;font-size:16px;display:flex;gap:10px}
+.记录 li time{flex:none;color:var(--灰);font-variant-numeric:tabular-nums}
+.记录 li:first-child{font-weight:600}
+.记录 li.旧{color:var(--灰)}
+.光标{display:inline-block;width:2px;height:1em;background:var(--主);vertical-align:-2px;margin-left:2px;animation:闪 .8s steps(1) infinite}
+@keyframes 闪{50%{opacity:0}}
+details.抽{border-top:1px solid var(--线);margin-top:6px}
+details.抽>summary{cursor:pointer;padding:6px 0;font-size:16px;color:var(--主深);list-style:none;display:flex;align-items:center;gap:6px}
+details.抽>summary::-webkit-details-marker{display:none}
+details.抽>summary .图标{transition:transform .15s}
+details.抽[open]>summary .图标{transform:rotate(180deg)}
+details.抽 .说明书体{max-height:280px;overflow:auto;border:1px solid var(--线);background:#faf9f5}
+.说明书体 .行{padding:2px 10px;font-size:16px}
+.说明书体 .行 .号{width:2em}
+
+/* 成片、成绩单 */
+.双{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:28px;align-items:start}
+.片组{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:14px}
+.片{margin:0;background:#fff;border:1px solid var(--线);min-width:0}
+.片 .位{background:#16191c;display:flex;justify-content:center;align-items:center;min-height:200px}
+.片 video{display:block;max-width:100%;max-height:min(60vh,520px)}
+.片 figcaption{padding:6px 12px;font-size:16px}
+.片 figcaption b{font-size:18px}
+.无片{border:1px dashed var(--线深);padding:30px 16px;text-align:center;color:var(--灰);background:#fff}
+.出片中{display:flex;align-items:center;gap:12px;background:var(--主浅);border-left:6px solid var(--主);padding:10px 16px;margin-bottom:12px}
+.出片中 small{display:block;color:var(--灰);font-size:15px}
+.余{font-size:16px;color:var(--灰);margin-top:8px}
+.表框{overflow-x:auto;background:#fff;border:1px solid var(--线)}
+table{border-collapse:collapse;width:100%}
+th,td{padding:7px 12px;text-align:left;vertical-align:top;border-bottom:1px solid #eeebe4;font-size:16px}
+thead th{background:#eeebe4;font-size:16px}
+tbody th{font-weight:600;color:var(--灰);width:34%}
+td.变{background:var(--黄浅);font-weight:700;box-shadow:inset 4px 0 0 var(--黄)}
+.例{font-size:15px;color:var(--灰);margin-top:6px}
+.例 i{display:inline-block;width:14px;height:14px;background:var(--黄浅);box-shadow:inset 4px 0 0 var(--黄);vertical-align:-2px;margin-right:4px}
+
+/* 五步 */
+.五格{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.格五{text-align:left;border:2px solid var(--线);background:#fff;padding:10px 12px;color:var(--灰);min-height:112px;display:flex;flex-direction:column;gap:4px}
+.格五 em{font-style:normal;font-size:15px;font-weight:700}
+.格五 b{font-size:17px;line-height:1.45;font-weight:600}
+.格五 span{font-size:15px;margin-top:auto}
+.格五.亮{border-color:var(--主);background:var(--主浅);color:var(--字)}
+.格五.亮 em{color:var(--主)}
+.格五.亮 b{font-weight:700}
+.格五.中{box-shadow:0 0 0 3px var(--主中)}
+.格五.闪{animation:亮起 1.6s ease-out}
+@keyframes 亮起{0%{background:var(--主);color:#fff}100%{background:var(--主浅)}}
+.五说{margin-top:10px;background:#fff;border:1px solid var(--线);padding:10px 16px;min-height:60px}
+.五说 p{margin:0 0 6px}
+.五说 small{display:block;font-size:15px;color:var(--灰)}
+.总括{margin-top:8px;font-size:16px;color:var(--绿)}
+
+/* 动态 */
+.动{list-style:none;margin:0;padding:0;background:#fff;border:1px solid var(--线)}
+.动 li{display:flex;gap:12px;padding:6px 14px;border-bottom:1px solid #eeebe4;align-items:baseline;flex-wrap:wrap}
+.动 li:last-child{border-bottom:0}
+.动 time{font-size:15px;color:var(--灰);font-variant-numeric:tabular-nums;flex:none}
+.动 .谁{font-weight:700;flex:none;min-width:4.5em}
+.动 .谁.人{color:var(--主)}
+.动 .句{flex:1 1 240px;min-width:0}
+
+/* 弹出的道理 */
+#吐{position:fixed;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));width:min(480px,calc(100vw - 32px));z-index:20;pointer-events:none}
+.吐{pointer-events:auto;background:var(--字);color:#fff;padding:12px 16px;margin-top:8px;border-left:6px solid #6fc3c9;animation:冒 .4s ease-out}
+.吐 small{display:block;font-size:15px;color:#c9d3d6;margin-top:4px}
+.吐 .步{font-size:15px;font-weight:700;color:#8fd6db}
+@keyframes 冒{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+
+@media (max-width:1100px){.双{grid-template-columns:1fr}.五格{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:700px){
+ .页{padding:14px 16px 64px}
+ .标题 h1{font-size:26px}
+ .数 b{font-size:30px}.数{gap:18px}.数 div{text-align:left}
+ .箭{display:none}.节{flex:1 1 44%;margin:0 3px}
+ .并排,.并两{grid-template-columns:1fr}
+ .五格{grid-template-columns:1fr}.格五{min-height:0}
+ .卡{padding:14px}
+ .卡区{grid-template-columns:1fr}
+ .行 .号{width:1.8em}
+ .行注{padding-left:3em}
+ tbody th{width:30%}
+ th,td{padding:6px 8px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></symbol>
+<symbol id="i-person" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></symbol>
+<symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h16M14 6l6 6-6 6"/></symbol>
+<symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6zM14 3v4h4"/></symbol>
+<symbol id="i-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3l10 18H2zM12 10v5M12 18v.5"/></symbol>
+<symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4M5 4h12l-2 4 2 4H5"/></symbol>
+<symbol id="i-undo" viewBox="0 0 24 24"><path d="M9 14L4 9l5-5M4 9h10a6 6 0 010 12h-3"/></symbol>
+<symbol id="i-down" viewBox="0 0 24 24"><path d="M12 4v14M6 13l6 6 6-6"/></symbol>
+</svg>
+<div class="页">
+<header id="顶"></header>
+<div id="等条"></div>
+<div id="断" class="断" hidden>看板连不上本机的服务，正在重试。服务关了的话，回 WorkBuddy 对话里让队长重新打开看板。</div>
+
+<section id="做区" aria-live="polite"><h2 id="做头"></h2><div class="卡区" id="做"></div></section>
+<section>
+ <h2>四个队员 <small>一棒一个人，谁在干活一眼看得见</small></h2>
+ <div class="线" id="线"></div>
+ <div id="队员"></div>
+</section>
+
+<section id="果区"><h2>已经定下和已经揭晓的 <small>你填的、拍的、挑的，队伍都收到了</small></h2><div class="卡区" id="果"></div></section>
+
+<div class="双">
+ <section style="margin-top:28px"><h2>成片 <small id="余"></small></h2><div id="出片中"></div><div class="片组" id="成片"></div></section>
+ <section style="margin-top:28px"><h2>成绩单 <small>两轮对着看，有色底的格子两轮不一样</small></h2><div id="成绩"></div></section>
+</div>
+
+<section>
+ <h2>回去自己搭一支 AI 队伍，就这五步 <small>队伍做到哪一步，哪一格就亮</small></h2>
+ <div class="五格" id="五格"></div>
+ <div class="五说" id="五说"></div>
+</section>
+
+<section>
+ <h2>动态 <small>最近的在上面</small></h2>
+ <ul class="动" id="动"></ul>
+</section>
+</div>
+<div id="吐" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+'use strict';
+/* ---------- 小工具 ---------- */
+var $=function(id){return document.getElementById(id)};
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function ic(n){return '<svg class="图标" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-'+n+'"/></svg>'}
+function furl(p){return '/f/'+String(p).split('/').map(encodeURIComponent).join('/')}
+function isVid(p){return /\.mp4$/i.test(p||'')}
+function attr(s){return esc(s)}
+
+var S=null, lastRaw='', SIG=false, firstLoad=true, fails=0;
+var ui={f:{},marks:{},sel:{},diag:{},tune:{},open:{},manual:{},lib:null,rev:{},err:{},typed:{},step:null,toastSeen:0,busy:{}};
+var keepCache={};
+
+/* 签名模式：算「结构签名」时，输入框里学员打的字不算，这样轮询不会把正在填的框重画 */
+function val(k,def){if(SIG)return '\u0001'+(def==null?'':def);return ui.f[k]!==undefined?ui.f[k]:(def==null?'':def)}
+function errOf(key){return SIG?'':(ui.err[key]||'')}
+function bump(key){ui.rev[key]=(ui.rev[key]||0)+1}
+
+/* ---------- 同步一组带 key 的卡片，没变的不动 ---------- */
+function build(html){var t=document.createElement('template');t.innerHTML=html.trim();return t.content.firstElementChild}
+function sync(box,items){
+  var old={},want=[];
+  Array.prototype.forEach.call(box.children,function(e){old[e.dataset.key]=e});
+  items.forEach(function(it){
+    SIG=true;var sig;try{sig=it.make()+'#'+(ui.rev[it.key]||0)}finally{SIG=false}
+    var el=old[it.key];delete old[it.key];
+    if(!el||el.dataset.sig!==sig){el=place(box,el,it.make(),it.key,sig)}
+    want.push(el);
+  });
+  Object.keys(old).forEach(function(k){old[k].remove()});
+  want.forEach(function(el,i){if(box.children[i]!==el)box.insertBefore(el,box.children[i]||null)});
+}
+function place(box,oldEl,html,key,sig){
+  var fk=null,ss=0,se=0,scr=[];
+  if(oldEl){
+    var a=document.activeElement;
+    if(a&&oldEl.contains(a)&&a.dataset&&a.dataset.k){fk=a.dataset.k;try{ss=a.selectionStart;se=a.selectionEnd}catch(e){}}
+    scr=Array.prototype.map.call(oldEl.querySelectorAll('.滚'),function(x){return x.scrollTop});
+  }
+  var n=build(html);n.dataset.key=key;n.dataset.sig=sig;
+  if(oldEl)box.replaceChild(n,oldEl);else box.appendChild(n);
+  Array.prototype.forEach.call(n.querySelectorAll('[data-keep]'),function(ph){
+    var k=ph.dataset.keep,c=keepCache[k];
+    if(c&&c!==ph){c.dataset.src=ph.dataset.src||'';c.className=ph.className;ph.replaceWith(c)}else keepCache[k]=ph;
+  });
+  Array.prototype.forEach.call(n.querySelectorAll('.滚'),function(x,i){if(scr[i])x.scrollTop=scr[i]});
+  if(fk){var t=n.querySelector('[data-k="'+fk.replace(/"/g,'\\"')+'"]');if(t){t.focus();try{t.setSelectionRange(ss,se)}catch(e){}}}
+  return n;
+}
+function setHTML(el,html){if(el.dataset.sig!==html){el.innerHTML=html;el.dataset.sig=html}}
+
+/* ---------- 取数据 ---------- */
+function curRound(){var r=S.轮||[];return r.length?r[r.length-1]:null}
+function curN(){var r=curRound();return r?r.n:0}
+function member(name){return (S.队员||[]).filter(function(m){return m.名===name})[0]}
+
+function post(path,body){
+  return fetch('/api/'+path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(r){
+    return r.json().catch(function(){return {ok:false,错:'服务没有正常回话（'+r.status+'）'}}).then(function(j){if(!r.ok&&j.ok!==false)j.ok=false;if(j.ok===false&&!j.错)j.错='没做成，再点一次';return j});
+  }).catch(function(){return {ok:false,错:'连不上看板服务，过一会儿再点一次'}});
+}
+function showErr(card,msg){
+  if(!card)return;ui.err[card.dataset.key]=msg||'';
+  var e=card.querySelector('.错');if(e)e.textContent=msg||'';
+}
+/* 点按钮提交的通用流程 */
+function submit(btn,path,body,onOk){
+  var card=btn.closest('[data-key]'),old=btn.textContent;
+  if(ui.busy[card.dataset.key])return;ui.busy[card.dataset.key]=1;
+  btn.disabled=true;btn.textContent='正在交……';showErr(card,'');
+  post(path,body).then(function(j){
+    ui.busy[card.dataset.key]=0;
+    if(j.ok===false){btn.disabled=false;btn.textContent=old;showErr(card,j.错);return}
+    if(onOk)onOk(j);
+    pollNow();
+  });
+}
+
+/* ---------- 顶栏 ---------- */
+var STEP={6:'组队',7:'出片',8:'调一处',9:'收尾'};
+function renderHeader(){
+  var c=S.计数||{},r=curRound();
+  var h='<div class="标题"><h1>'+esc(S.队名||'队伍看板')+'</h1><div class="事">'+esc(S.这件事||'开工单确认后，这里会写清这支队要做什么')+'</div>'+
+   '<div class="位"><span class="亮">第 '+esc(S.步)+' 步'+(STEP[S.步]?'：'+STEP[S.步]:'')+'</span>'+(r?'<span>第 '+r.n+' 轮</span>':'<span>还没开始跑</span>')+(r&&r.调了什么?'<span>'+esc(r.调了什么)+'</span>':'')+'</div></div>'+
+   '<div class="数"><div><b>'+(c.人说了几句||0)+'</b><span>你说了几句</span></div><div><b>'+(c.交接||0)+'</b><span>交接</span></div><div class="退"><b>'+(c.退回||0)+'</b><span>退回</span></div><div><b>'+(c.拍板||0)+'</b><span>拍板</span></div><div class="钱"><b>'+(c.出片||0)+'</b><span>出片（花钱）</span></div></div>';
+  setHTML($('顶'),h);
+  var w=S.队长在等||'',el=$('等条'),t='';
+  if(w==='停了')t='<div class="条 停"><span class="字">'+ic('alert')+' 队长没等到，已经停下了。在看板上点完以后，到 WorkBuddy 对话里发一句「好了」。</span><button data-act="goA" type="button">去看要做的</button></div>';
+  else if(w)t='<div class="条"><span class="字">'+ic('person')+' 队长在等你：'+esc(w)+'</span><button data-act="goA" type="button">去做</button></div>';
+  setHTML(el,t);
+}
+
+/* ---------- 等你做的 ---------- */
+function sheetCard(){
+  var s=S.开工单;
+  if(!s)return '<article class="卡 候"><div class="等字"><span class="转圈"></span>队长在读知识库，马上填好开工单</div></article>';
+  function f(k,label){return '<label class="格"><span>'+label+'</span><input type="text" data-k="sheet.'+k+'" value="'+attr(val('sheet.'+k,s[k]))+'"></label>'}
+  return '<article class="卡 做 宽"><div class="前"><b>'+ic('person')+' 请你先确认</b><span>队长照知识库预填好了，不对的直接改</span></div>'+
+   '<h3>开工单：确认以后，队伍才开工</h3><div class="副"></div>'+
+   '<div class="格组">'+f('公司','公司叫什么')+f('卖什么','卖什么')+f('卖给谁','卖给谁')+f('发在哪','发在哪')+'</div>'+
+   '<div class="怕"><label><span>最怕说错什么</span><div class="说">这一栏只有你知道，写下的每一条都会交给挑错当红线。一行写一条。</div>'+
+   '<textarea data-k="sheet.最怕说错" placeholder="例如：&#10;不能说保温 24 小时&#10;不说医用级">'+esc(val('sheet.最怕说错',s.最怕说错))+'</textarea></label></div>'+
+   '<div class="底行"><button class="主钮" type="button" data-act="sheet">确认，开工</button></div><div class="错">'+esc(errOf('a-sheet'))+'</div></article>';
+}
+var 标名={选题:'挑选题',发不发:'成片发不发',排班:'定排班',放手:'定放手到哪'};
+function askCard(q){
+  var sel=ui.sel['q'+q.id],opts=q.选项||[];
+  var h='<article class="卡 做"><div class="前"><b>'+ic('person')+' 请你定 · '+esc(标名[q.标]||q.标||'拍板')+'</b><span>'+esc(q.谁||'队长')+' 问的 · '+esc(q.时间||'')+'</span></div><div class="问">'+esc(q.问)+'</div>';
+  if(opts.length){
+    h+='<div class="选项">'+opts.map(function(o){var rec=q.建议&&(q.建议===o||o.indexOf(q.建议)===0);
+      return '<button type="button" class="项'+(sel===o?' 选':'')+'" data-act="opt" data-id="'+q.id+'" data-v="'+attr(o)+'">'+(rec?'<i>队长建议</i>':'')+esc(o)+'</button>'}).join('')+'</div>';
+    if(q.建议&&opts.every(function(o){return !(q.建议===o||o.indexOf(q.建议)===0)}))h+='<div class="建议">队长建议：'+esc(q.建议)+'</div>';
+  }else{
+    h+='<input type="text" data-k="ask.'+q.id+'.free" placeholder="写下你的决定" value="'+attr(val('ask.'+q.id+'.free',''))+'">';
+    if(q.建议)h+='<div class="建议">队长建议：'+esc(q.建议)+'</div>';
+  }
+  h+='<div class="写"><input type="text" data-k="ask.'+q.id+'.note" placeholder="想补一句就写在这里（选填）" value="'+attr(val('ask.'+q.id+'.note',''))+'"></div>'+
+     '<div class="底行"><button class="主钮" type="button" data-act="ask" data-id="'+q.id+'">拍板</button></div><div class="错">'+esc(errOf('a-q'+q.id))+'</div></article>';
+  return h;
+}
+function lineRows(lines,opt){
+  return lines.map(function(t,i){
+    var ln=i+1,blank=!String(t).trim();
+    return opt(t,ln,blank);
+  }).join('');
+}
+function pickCard(p){
+  var mk=ui.marks[p.id]||{},n=Object.keys(mk).length;
+  var h='<article class="卡 做 宽"><div class="前"><b>'+ic('person')+' 请你挑错：你和挑错各挑各的</b><span>第 '+p.轮+' 轮 · '+esc(p.文件)+'</span></div>'+
+   '<h3>点一行就标上，写一句哪里不对</h3><div class="副">挑错没看过你标了什么，你也看不到它的。你交了以后，等它查完，两边一起揭晓。'+(p.AI挑完?'挑错已经查完，只等你交。':'挑错还在查。')+'</div>'+
+   '<div class="行表">';
+  h+=lineRows(p.行||[],function(t,ln,blank){
+    if(blank)return '<div class="行 空行"><span class="号">'+ln+'</span><span class="文"> </span></div>';
+    var on=!!mk[ln];
+    return '<button type="button" class="行'+(on?' 标':'')+'" data-act="mark" data-id="'+p.id+'" data-ln="'+ln+'" aria-pressed="'+on+'"><span class="号">'+ln+'</span><span class="文">'+esc(t)+'</span><span class="钩">'+(on?ic('flag'):'')+'</span></button>'+
+      (on?'<div class="行注"><input type="text" data-k="m.'+p.id+'.'+ln+'" placeholder="第 '+ln+' 行哪里不对" value="'+attr(val('m.'+p.id+'.'+ln,''))+'"></div>':'');
+  });
+  h+='</div><div class="写"><input type="text" data-k="pick.'+p.id+'.note" placeholder="整体上还想说一句（选填）" value="'+attr(val('pick.'+p.id+'.note',''))+'"></div>'+
+   '<div class="底行"><button class="主钮" type="button" data-act="pick" data-id="'+p.id+'">挑完了，交</button><span class="说">已标 '+n+' 处。一处都没标就交，意思是你没看出毛病。</span></div><div class="错">'+esc(errOf('a-p'+p.id))+'</div></article>';
+  return h;
+}
+
+function manualLines(name){
+  var m=member(name);if(!m)return null;
+  var key=name+'@'+m.版本,v=ui.manual[key];
+  return v;
+}
+function loadManual(name){
+  var m=member(name);if(!m)return;
+  var key=name+'@'+m.版本;if(ui.manual[key])return;
+  ui.manual[key]='读取中';
+  post('说明书',{队员:name}).then(function(j){
+    ui.manual[key]=j.ok===false?{错:j.错}:j.行;
+    renderAll();
+  });
+}
+function defaultIdx(v,who,x){
+  var t=ui.tune;if(t.idx!==undefined)return t.idx;
+  if(!Array.isArray(v))return undefined;
+  var c=x.AI,want=t.capLine&&c&&who===c.队员?t.capLine:(who===x.人.队员?x.人.哪句:null);
+  if(want==null)return undefined;
+  want=String(want).trim();
+  var i=v.findIndex(function(s){return s.trim()===want});
+  if(i<0&&t.capLine)i=v.findIndex(function(s){return s.indexOf(want)>=0});
+  return i>=0?i:undefined;
+}
+function chosenLib(){
+  var t=ui.tune;if(t.lib)return t.lib;
+  if(t.libFile&&Array.isArray(ui.lib))return ui.lib.filter(function(r){return r.文件===t.libFile})[0];
+}
+function manualList(name,selIdx,act,extra){
+  var v=manualLines(name);
+  if(v==null||v==='读取中')return '<p class="空"><span class="转圈"></span>读 '+esc(name)+' 的说明书……</p>';
+  if(v.错)return '<p class="错" style="display:block">'+esc(v.错)+'</p>';
+  return '<div class="行表 滚">'+v.map(function(t,i){
+    if(!String(t).trim())return '';
+    var on=selIdx===i;
+    return '<button type="button" class="行'+(on?' 标':'')+'" data-act="'+act+'" data-i="'+i+'" aria-pressed="'+on+'"><span class="号">'+(i+1)+'</span><span class="文">'+esc(t)+'</span><span class="钩">'+(on?ic('check'):'')+'</span></button>';
+  }).join('')+'</div>';
+}
+function memberChips(act,selName){
+  return '<div class="芯">'+(S.队员||[]).map(function(m){return '<button type="button" class="'+(selName===m.名?'选':'')+'" data-act="'+act+'" data-n="'+attr(m.名)+'">'+esc(m.名)+'</button>'}).join('')+'</div>';
+}
+function basis(x){
+  var n=x.轮,row=(S.成绩单||[]).filter(function(r){return r.轮===n})[0]||{},rd=(S.轮||[]).filter(function(r){return r.n===n})[0]||{};
+  var backs=(S.交接||[]).filter(function(h){return h.轮===n&&h.退回});
+  var h='<div class="依据"><p><b>第 '+n+' 轮的成绩：</b>用时 '+(row.用时分钟||0)+' 分钟，交接 '+(row.交接||0)+' 次，退回 '+(row.退回||0)+' 次，出片 '+(row.出片||0)+' 次；挑错拦下 '+(row.挑错拦下||0)+' 处，你挑出 '+(row.人挑出||0)+' 处，两边都挑出 '+(row.重合||0)+' 处。</p>';
+  h+='<p><b>发不发时你写的话：</b>'+(rd.发不发?esc(rd.发不发):'这一轮没有写')+'</p>';
+  h+='<p><b>退回的理由：</b>'+(backs.length?backs.map(function(b){return esc(b.从)+' 退给 '+esc(b.到)+'：'+esc(b.为什么)}).join('；'):'这一轮没有退回')+'</p></div>';
+  return h;
+}
+function judgeBoxes(x){
+  var a=x.人,b=x.AI;
+  var h='<div class="并两"><div class="一份"><h4>'+ic('person')+' 你的判断</h4><p><b>队员：</b>'+esc(a.队员)+'</p><p><b>哪一句：</b>'+esc(a.哪句)+'</p><p><b>为什么：</b>'+esc(a.为什么||'没写')+'</p></div>';
+  h+=b?'<div class="一份"><h4>队长的判断</h4><p><b>队员：</b>'+esc(b.队员)+'</p><p><b>哪一句：</b>'+esc(b.哪句)+'</p><p><b>怎么调：</b>'+esc(b.怎么调)+(b.改成?'，改成：'+esc(b.改成):'')+'</p><p><b>为什么：</b>'+esc(b.为什么||'')+'</p></div>':'';
+  h+='</div>';
+  if(b){var same=a.队员===b.队员,line=same&&String(a.哪句).trim()===String(b.哪句).trim();
+    h+='<p class="例" style="margin-top:8px">'+(line?'两边指向同一个队员的同一句。':same?'两边指向同一个队员，句子不同。':'两边指向的队员不一样。')+'</p>';}
+  return h;
+}
+function diagCard(x){
+  var id=x.id,key='z'+id,dg=ui.diag[id]||(ui.diag[id]={});
+  if(!x.人){
+    var lines=dg.队员?manualLines(dg.队员):null;
+    var h='<article class="卡 做 宽"><div class="前"><b>'+ic('person')+' 请你判断：问题出在哪</b><span>第 '+x.轮+' 轮已经跑完</span></div><h3>先看依据，再指出要调的那一句</h3>'+basis(x);
+    h+='<div class="步名"><em>1</em>选一个队员</div>'+memberChips('dm',dg.队员);
+    h+='<div class="步名"><em>2</em>'+(dg.队员?'点 '+esc(dg.队员)+' 说明书里的一行，当作「哪一句」':'点说明书里的一行，当作「哪一句」')+'</div>'+(dg.队员?manualList(dg.队员,dg.idx,'dl'):'<p class="空">先在上面选一个队员，他的说明书会出现在这里。</p>');
+    h+='<div class="步名"><em>3</em>写为什么</div><textarea data-k="diag.'+id+'.why" rows="2" placeholder="这一句为什么是问题所在">'+esc(val('diag.'+id+'.why',''))+'</textarea>'+
+     '<div class="底行"><button class="主钮" type="button" data-act="diag" data-id="'+id+'">交我的判断</button><span class="说">队长也在单独判断，你们交了以后一起揭晓。</span></div><div class="错">'+esc(errOf('a-'+key))+'</div></article>';
+    return h;
+  }
+  if(!x.AI){
+    return '<article class="卡 候 宽"><div class="前"><b>你的判断交了</b><span>第 '+x.轮+' 轮</span></div><h3><span class="转圈"></span>队长还在判断，好了一起揭晓</h3>'+
+      '<div class="一份" style="margin-top:8px"><h4>你的判断</h4><p><b>队员：</b>'+esc(x.人.队员)+'</p><p><b>哪一句：</b>'+esc(x.人.哪句)+'</p><p><b>为什么：</b>'+esc(x.人.为什么||'没写')+'</p></div></article>';
+  }
+  /* 揭晓了，轮到调一处 */
+  var tn=ui.tune,how=tn.how,who=tn.队员||x.人.队员;
+  var h2='<article class="卡 做 宽"><div class="前"><b>'+ic('person')+' 请你定：调哪一处</b><span>第 '+x.轮+' 轮</span></div><h3>两边的判断出来了</h3>'+judgeBoxes(x);
+  h2+='<div class="步名"><em>1</em>怎么调</div><div class="怎调">'+
+    [['改一句','改一句','改某个队员说明书里的一行'],['加红线','给挑错加一条红线','写一句以后每条片子都要查的'],['换人','换人','换成现成队员库里的另一位']].map(function(o){
+      return '<button type="button" data-act="th" data-v="'+o[0]+'" class="'+(how===o[0]?'选':'')+'"><b>'+o[1]+'</b><span>'+o[2]+'</span></button>'}).join('')+'</div>';
+  var cap=x.AI;
+  if(how==='改一句'||how==='换人'){h2+='<div class="步名"><em>2</em>改谁</div>'+memberChips('tm',who)}
+  if(how==='改一句'){
+    var v=manualLines(who),idx=defaultIdx(v,who,x);
+    h2+='<div class="步名"><em>3</em>点要改的那一行</div>'+manualList(who,idx,'tl')+
+      '<div class="步名"><em>4</em>改成什么</div><textarea data-k="tune.after" rows="2" placeholder="这一行改成的样子">'+esc(val('tune.after',''))+'</textarea>';
+  }else if(how==='加红线'){
+    h2+='<div class="步名"><em>2</em>红线写一句</div><textarea data-k="tune.red" rows="2" placeholder="例如：不能说保温 24 小时">'+esc(val('tune.red',''))+'</textarea>';
+  }else if(how==='换人'){
+    var pick=chosenLib();
+    h2+='<div class="步名"><em>3</em>换成谁</div><input type="text" data-k="tune.q" placeholder="搜名字或部门" value="'+attr(val('tune.q',''))+'">'+(pick?'<div class="已选">已选：'+esc(pick.名)+'（'+esc(pick.部门)+'）</div>':'')+'<div class="库表 滚" id="库表">'+libHTML(SIG?'':ui.f['tune.q'])+'</div>';
+  }
+  if(how){
+    var canCap=cap&&cap.怎么调===how;
+    h2+='<div class="底行">'+(canCap?'<button class="次钮" type="button" data-act="cap">用队长的写法</button>':'')+'</div>';
+  }
+  h2+='<div class="底行"><button class="主钮" type="button" data-act="tune" '+(how?'':'disabled')+'>就调这一处，跑第 '+(curN()+1)+' 轮</button><span class="说">一次只调一处，下一轮变好变坏，才知道是这一处起的作用。</span></div><div class="错">'+esc(errOf('a-'+key))+'</div></article>';
+  return h2;
+}
+function libHTML(q){
+  var lib=ui.lib;if(lib===null)return '<p class="空" style="padding:8px 12px"><span class="转圈"></span>读队员库……</p>';
+  if(lib.错)return '<p class="错" style="display:block;padding:8px 12px">'+esc(lib.错)+'</p>';
+  q=(q||'').trim();var cl0=chosenLib(),sel=cl0&&cl0.文件,out='',last='';
+  lib.filter(function(r){return !q||(r.名+r.部门+r.一句).indexOf(q)>=0}).forEach(function(r){
+    if(r.部门!==last){out+='<h5>'+esc(r.部门)+'</h5>';last=r.部门}
+    out+='<button type="button" data-act="lp" data-f="'+attr(r.文件)+'" class="'+(sel===r.文件?'选':'')+'">'+esc(r.名)+'<small>'+esc(r.一句)+'</small></button>';
+  });
+  return out||'<p class="空" style="padding:8px 12px">没有搜到</p>';
+}
+function filePane(key,src,label){
+  return '<div class="文件体" data-keep="'+attr(key)+'" data-src="'+attr(src||'')+'"></div>';
+}
+function blindCard(b){
+  var sel=ui.sel['b'+b.id];
+  function side(k){return '<div class="份"><div class="份头">'+k+'</div>'+filePane('blind.'+b.id+'.'+k,b[k])+'</div>'}
+  return '<article class="卡 做 宽"><div class="前"><b>'+ic('person')+' 请你盲挑：哪份更好</b><span>第 '+b.轮+' 轮 · 哪份是改过的，挑完才揭晓</span></div><h3>'+esc(b.说明||'甲和乙，你更愿意发哪一份')+'</h3>'+
+   '<div class="并排">'+side('甲')+side('乙')+'</div>'+
+   '<div class="选项" style="margin-top:12px">'+['甲','乙','差不多'].map(function(o){return '<button type="button" class="项'+(sel===o?' 选':'')+'" data-act="bs" data-id="'+b.id+'" data-v="'+o+'">'+(o==='差不多'?'差不多':'发'+o)+'</button>'}).join('')+'</div>'+
+   '<div class="写"><input type="text" data-k="blind.'+b.id+'.say" placeholder="用一句话说说为什么（选填）" value="'+attr(val('blind.'+b.id+'.say',''))+'"></div>'+
+   '<div class="底行"><button class="主钮" type="button" data-act="blind" data-id="'+b.id+'">交上去，看揭晓</button></div><div class="错">'+esc(errOf('a-b'+b.id))+'</div></article>';
+}
+
+function renderA(){
+  var items=[],need=0;
+  var s=S.开工单;
+  if(!s||!s.确认){items.push({key:'a-sheet',make:sheetCard});if(s)need++}
+  (S.请示单||[]).filter(function(q){return !q.拍板}).forEach(function(q){need++;items.push({key:'a-q'+q.id,make:function(){return askCard(q)}})});
+  var pk=(S.人挑||[]).slice(-1)[0];
+  if(pk&&!pk.人交了&&!pk.人不挑){need++;items.push({key:'a-p'+pk.id,make:function(){return pickCard(pk)}})}
+  var dx=(S.诊断||[]).slice(-1)[0];
+  if(dx&&!dx.调了){
+    if(!dx.人||(dx.AI))need++;
+    items.push({key:'a-z'+dx.id,make:function(){return diagCard(dx)}});
+    if(dx.人&&dx.AI&&ui.tune.how==='换人'&&ui.lib===null)loadLib();
+    if(!dx.人&&ui.diag[dx.id]&&ui.diag[dx.id].队员)loadManual(ui.diag[dx.id].队员);
+    if(dx.人&&dx.AI&&ui.tune.how==='改一句')loadManual(ui.tune.队员||dx.人.队员);
+  }
+  (S.盲比||[]).filter(function(b){return !b.选}).forEach(function(b){need++;items.push({key:'a-b'+b.id,make:function(){return blindCard(b)}})});
+  sync($('做'),items);
+  $('做头').innerHTML=need?'等你做的 <span class="角标">'+need+'</span>':'等你做的 <small>现在没有要你动手的，队伍在自己干活</small>';
+  var sec=$('做区');sec.classList.toggle('静',!items.length);
+  sec.hidden=false;
+  $('做').hidden=!items.length;
+  document.title=(need?'（'+need+'）':'')+'队伍看板';
+}
+
+/* ---------- 已经定下和揭晓的 ---------- */
+function sheetDone(){
+  var s=S.开工单;
+  var h='<article class="卡 完"><div class="前"><b>开工单（你确认过）</b><span>'+esc(s.确认时间||'')+'</span></div><h3>'+esc(s.公司)+'</h3>'+
+    '<p style="margin:4px 0">卖什么：'+esc(s.卖什么)+'</p><p style="margin:4px 0">卖给谁：'+esc(s.卖给谁)+'；发在哪：'+esc(s.发在哪)+'</p>';
+  var red=S.红线||[];
+  h+='<div class="步名" style="margin-top:10px">交给挑错的红线（'+red.length+' 条）</div>'+(red.length?'<ul style="margin:0;padding-left:1.3em">'+red.map(function(r){return '<li>'+esc(r.一句)+' <span class="标签 '+(r.谁==='人'?'主':'灰')+'">'+esc(r.谁==='人'?'你写的':r.谁)+(r.轮?' · 第 '+r.轮+' 轮':'')+'</span></li>'}).join('')+'</ul>':'<p class="空">还没有红线</p>');
+  return h+'</article>';
+}
+function pickDone(p,older){
+  var ai=p.AI||[],hu=p.人||[];
+  var h='<article class="卡 宽 '+(p.AI挑完&&p.AI?'完':'候')+'"><div class="前"><b>你和挑错各挑各的</b><span>第 '+p.轮+' 轮 · '+esc(p.文件)+'</span></div>';
+  if(!p.AI挑完||!p.AI){
+    var mk={};hu.forEach(function(x){mk[x.行]=x});
+    h+='<h3><span class="转圈"></span>你挑出 '+hu.length+' 处，等挑错查完一起揭晓</h3><div class="行表">'+lineRows(p.行||[],function(t,ln,blank){
+      if(blank)return '<div class="行 空行"><span class="号">'+ln+'</span><span class="文"> </span></div>';
+      return '<div class="行'+(mk[ln]?' 我':'')+'"><span class="号">'+ln+'</span><div class="里"><span class="文">'+esc(t)+'</span>'+(mk[ln]?'<span class="说"><b>我：</b>'+esc(mk[ln].为什么)+'</span>':'')+'</div></div>';
+    })+'</div></article>';
+    return h;
+  }
+  var A={},H={};ai.forEach(function(x){A[x.行]=x});hu.forEach(function(x){H[x.行]=x});
+  var both=0,onlyA=0,onlyH=0;
+  Object.keys(A).forEach(function(k){if(H[k])both++;else onlyA++});Object.keys(H).forEach(function(k){if(!A[k])onlyH++});
+  h+='<h3>揭晓：两边挑得一样不一样</h3><div class="三数"><div class="两"><b>'+both+'</b><span>两边都挑出</span></div><div class="挑"><b>'+onlyA+'</b><span>只有挑错挑出</span></div><div class="我"><b>'+onlyH+'</b><span>只有我挑出</span></div></div>';
+  h+='<div class="行表">'+lineRows(p.行||[],function(t,ln,blank){
+    if(blank)return '<div class="行 空行"><span class="号">'+ln+'</span><span class="文"> </span></div>';
+    var a=A[ln],b=H[ln],cls='',tag='',why='';
+    if(a&&b){cls=' 两';tag='<span class="标签 绿">两边都挑出</span>'}
+    else if(a){cls=' 挑';tag='<span class="标签 黄">只有挑错挑出</span>'}
+    else if(b){cls=' 我';tag='<span class="标签 主">只有我挑出</span>'}
+    if(a)why+='<span class="说"><b>挑错：</b>'+esc(a.为什么)+'</span>';
+    if(b)why+='<span class="说"><b>我：</b>'+esc(b.为什么)+'</span>';
+    return '<div class="行'+cls+'"><span class="号">'+ln+'</span><div class="里"><span class="文">'+esc(t)+'</span> '+tag+why+'</div></div>';
+  })+'</div>';
+  if(onlyH)h+='<p class="例" style="font-size:16px">有 '+onlyH+' 处只有你挑出，挑错没看到。人在队伍里补的是这一块。</p>';
+  if(onlyA)h+='<p class="例" style="font-size:16px">有 '+onlyA+' 处你没挑出，挑错补上了。</p>';
+  if(p.意见)h+='<p style="margin:8px 0 0">你补的一句：'+esc(p.意见)+'</p>';
+  if(older&&older.length)h+='<details class="抽" data-dk="pk-old"'+(ui.open['pk-old']?' open':'')+'><summary>更早的 '+older.length+' 次'+ic('chev')+'</summary>'+older.map(function(o){
+    var oa=(o.AI||[]),oh=(o.人||[]),oc=oa.filter(function(x){return oh.some(function(y){return y.行===x.行})}).length;
+    return '<p style="margin:4px 0">第 '+o.轮+' 轮 · '+esc(o.文件)+(o.人不挑?'：只有挑错查，挑出 '+oa.length+' 处':'：挑错挑出 '+oa.length+' 处，我挑出 '+oh.length+' 处，两边都挑出 '+oc+' 处')+'</p>'}).join('')+'</details>';
+  return h+'</article>';
+}
+function diagDone(x){
+  var h='<article class="卡 宽 完"><div class="前"><b>诊断和调一处</b><span>第 '+x.轮+' 轮之后</span></div><h3>这一处已经调了：'+esc(x.调了.说明)+'</h3>'+judgeBoxes(x)+
+    '<p style="margin:10px 0 0">'+ic('check')+' 怎么调：'+esc(x.调了.怎么调)+'。已经开了第 '+(x.轮+1)+' 轮重跑。</p></article>';
+  return h;
+}
+function blindDone(b){
+  var rv=b.揭晓||{},mine=b.选;
+  function side(k){var w=rv[k],lab=w==='改后'?'这一轮的':'上一轮的';
+    return '<div class="份'+(mine===k?' 我选':'')+'"><div class="份头">'+k+' <span class="标签 '+(w==='改后'?'绿':'黄')+'">'+lab+'</span>'+(mine===k?' <span class="标签 主">你发的这份</span>':'')+'</div>'+filePane('blind.'+b.id+'.'+k,b[k])+'</div>'}
+  var res=mine==='差不多'?'你觉得两份差不多。':'你挑了 <b>'+mine+'</b>，是<b>'+(rv[mine]==='改后'?'这一轮的':'上一轮的')+'</b>。';
+  return '<article class="卡 宽 完"><div class="前"><b>盲挑揭晓</b><span>第 '+b.轮+' 轮</span></div><h3>'+esc(b.说明||'')+'</h3><div class="并排">'+side('甲')+side('乙')+'</div><div class="果">'+res+(b.我说?' 你说：'+esc(b.我说):'')+'</div></article>';
+}
+function askDone(list){
+  return '<article class="卡 完"><div class="前"><b>你拍过的板</b><span>'+list.length+' 张</span></div>'+list.map(function(q){
+    return '<p style="margin:6px 0"><span class="标签 灰">'+esc(标名[q.标]||q.标||'拍板')+'</span> '+esc(q.问)+' <b>'+esc(q.拍板)+'</b>'+(q.意见?'<span style="color:var(--灰)">（'+esc(q.意见)+'）</span>':'')+'</p>'}).join('')+'</article>';
+}
+function renderB(){
+  var items=[];
+  if(S.开工单&&S.开工单.确认)items.push({key:'b-sheet',make:sheetDone});
+  var asks=(S.请示单||[]).filter(function(q){return q.拍板});
+  if(asks.length)items.push({key:'b-ask',make:function(){return askDone(asks.slice().reverse())}});
+  var picks=(S.人挑||[]).filter(function(p){return p.人交了||p.人不挑});
+  var showP=picks.filter(function(p){return p.人交了}).slice(-1)[0];
+  if(showP)items.push({key:'b-pick',make:function(){return pickDone(showP,picks.filter(function(p){return p!==showP}).reverse())}});
+  var dd=(S.诊断||[]).filter(function(x){return x.调了&&x.人}).slice(-1)[0];
+  if(dd)items.push({key:'b-diag',make:function(){return diagDone(dd)}});
+  var bd=(S.盲比||[]).filter(function(b){return b.选}).slice(-1)[0];
+  if(bd)items.push({key:'b-blind',make:function(){return blindDone(bd)}});
+  sync($('果'),items);
+  $('果区').hidden=!items.length;
+}
+
+/* ---------- 流水线和队员 ---------- */
+function pipeline(){
+  var ms=S.队员||[];if(ms.length<4)return '';
+  var r=curRound()||{},n=r.n,qs=S.请示单||[];
+  var from=r.从谁起,fromIdx=from?ms.findIndex(function(m){return m.名===from}):-1;
+  function mnode(m,i){
+    var st=m.状态,cls=st==='在干'?'当':st==='退回了'?'退':st==='交出了'?'完':'';
+    var sub=st;
+    if(!cls&&fromIdx>0&&i<fromIdx){cls='沿';sub='沿用上一轮'}
+    if(m.名==='挑错'){var pk=(S.人挑||[]).slice(-1)[0];if(pk&&!pk.人交了&&!pk.人不挑)sub+='，你也在挑'}
+    return {名:m.名,cls:cls,sub:sub,人:false};
+  }
+  function hnode(name,tag){
+    var pend=qs.filter(function(q){return !q.拍板&&q.标===tag}).length>0;
+    var done=false,sub='轮到你';
+    if(tag==='选题')done=qs.some(function(q){return q.标==='选题'&&q.拍板&&q.轮===n});
+    if(tag==='发不发')done=!!r.发不发;
+    var cls=pend?'当':done?'完':'',s=pend?'等你定':done?(tag==='发不发'?r.发不发.split('（')[0]:'你定了'):'人停在这里';
+    if(!cls&&fromIdx>0&&tag==='选题')cls='沿',s='沿用上一轮';
+    return {名:name,cls:cls,sub:s,人:true};
+  }
+  var ns=[mnode(ms[0],0),hnode('你挑选题','选题'),mnode(ms[1],1),mnode(ms[2],2),mnode(ms[3],3),hnode('你定发不发','发不发')];
+  return ns.map(function(x,i){
+    return (i?'<div class="箭">'+ic('arrow')+'</div>':'')+'<div class="节 '+(x.人?'人 ':'')+x.cls+'"><b>'+(x.人?ic('person')+' ':'')+esc(x.名)+'</b><span>'+esc(x.sub)+'</span></div>';
+  }).join('');
+}
+function memberCard(m){
+  var n=curN(),rec=(m.记录||[]).filter(function(r){return r.轮===n}).slice(-4).reverse();
+  var h='<article class="员 '+esc(m.状态)+'"><div class="名行"><span class="名">'+esc(m.名)+'</span><span class="版">第 '+m.版本+' 版</span></div>'+
+    '<div class="态">'+(m.状态==='在干'?'<span class="点"><i></i><i></i><i></i></span> 正在干':m.状态==='退回了'?ic('undo')+'被退回了':m.状态==='交出了'?ic('check')+'交出了':'等着')+'</div>'+
+    '<p class="干">'+esc(m.干什么||'')+'</p><div class="照">照着：'+esc(m.照着||'自己写的')+'</div>'+
+    (m.技能&&m.技能.length?'<div class="签">'+m.技能.map(function(s){return '<span>'+esc(s)+'</span>'}).join('')+'</div>':'');
+  h+='<ul class="记录">'+(rec.length?rec.map(function(r,i){
+    var k=m.名+'|'+r.轮+'|'+r.时间+'|'+r.一句,typing=!SIG&&i===0&&!ui.typed[k];
+    return '<li class="'+(i?'旧':'')+'"><time>'+esc(r.时间)+'</time><span'+(typing?' data-new="'+attr(k)+'" data-full="'+attr(r.一句)+'"':'')+'>'+esc(r.一句)+'</span></li>';
+  }).join(''):'<li class="旧">这一轮还没动手</li>')+'</ul>';
+  var ok1='o.'+m.名,ok2='s.'+m.名,v=manualLines(m.名);
+  h+='<details class="抽" data-dk="'+attr(ok1)+'"'+(ui.open[ok1]?' open':'')+'><summary>看产出'+ic('chev')+'</summary>'+filePane('out.'+m.名,m.产出)+'</details>';
+  h+='<details class="抽" data-dk="'+attr(ok2)+'" data-n="'+attr(m.名)+'"'+(ui.open[ok2]?' open':'')+'><summary>看说明书（只读）'+ic('chev')+'</summary>';
+  if(ui.open[ok2]){
+    h+=(v==null||v==='读取中')?'<p class="空">读取中……</p>':v.错?'<p class="错" style="display:block">'+esc(v.错)+'</p>':'<div class="说明书体">'+v.map(function(t,i){return '<div class="行"><span class="号">'+(i+1)+'</span><span class="文">'+esc(t)+'</span></div>'}).join('')+'</div>';
+  }
+  return h+'</details></article>';
+}
+function renderTeam(){
+  setHTML($('线'),pipeline());
+  var items=(S.队员||[]).map(function(m){return {key:'m-'+m.名,make:function(){return memberCard(m)}}});
+  sync($('队员'),items);
+}
+
+/* ---------- 成片 ---------- */
+function renderFilm(){
+  var cl=S.成片||[],mid=S.出片中;
+  setHTML($('出片中'),mid?'<div class="出片中"><span class="转圈"></span><div>'+esc(mid.说明||'正在出片')+'<small>开始于 '+esc(mid.开始||'')+'</small></div></div>':'');
+  $('余').textContent='还能出 '+(S.还能出片==null?'':S.还能出片)+' 次，每次都花钱';
+  var items=cl.map(function(c){return {key:'v-'+c.文件,make:function(){
+    return '<figure class="片"><div class="位">'+filePane('vid.'+c.文件,c.文件)+'</div><figcaption><b>第 '+c.轮+' 轮</b> · '+esc(c.说明||'')+'</figcaption></figure>'}}});
+  sync($('成片'),items);
+  var box=$('成片'),emp=box.querySelector('.无片');
+  if(!cl.length){if(!emp)box.innerHTML='<div class="无片">还没出片。脚本过了挑错这一关，才会出片。</div>'}else if(emp)emp.remove();
+}
+
+/* ---------- 成绩单 ---------- */
+var ROWS=[
+ ['调了什么',function(r){return r.调了什么||'第一次跑，没调'},false],
+ ['用时',function(r){return r.用时分钟+' 分钟'},'用时分钟'],
+ ['交接',function(r){return r.交接+' 次'},'交接'],
+ ['退回',function(r){return r.退回+' 次'},'退回'],
+ ['出片（每次都花钱）',function(r){return r.出片+' 次'},'出片'],
+ ['我说了几句',function(r){return r.人说了几句+' 句'},'人说了几句'],
+ ['挑错拦下',function(r){return r.挑错拦下+' 处'},'挑错拦下'],
+ ['我挑出',function(r){return r.人挑出+' 处'},'人挑出'],
+ ['两边都挑出',function(r){return r.重合+' 处'},'重合'],
+ ['发不发',function(r){return r.发不发||'还没定'},'发不发'],
+ ['盲挑',function(r){return r.盲挑||'还没挑'},'盲挑']
+];
+function renderScore(){
+  var rs=S.成绩单||[];
+  if(!rs.length){setHTML($('成绩'),'<p class="空">开工以后，每一轮的成绩出现在这里。</p>');return}
+  var h='<div class="表框"><table><thead><tr><th></th>'+rs.map(function(r){return '<th>第 '+r.轮+' 轮'+(r.结束了?'':'<br><small style="font-weight:400;color:var(--灰)">进行中</small>')+'</th>'}).join('')+'</tr></thead><tbody>';
+  ROWS.forEach(function(row){
+    h+='<tr><th scope="row">'+esc(row[0])+'</th>'+rs.map(function(r,i){
+      var diff=row[2]&&i>0&&String(r[row[2]])!==String(rs[i-1][row[2]]);
+      return '<td'+(diff?' class="变"':'')+'>'+esc(row[1](r))+'</td>'}).join('')+'</tr>';
+  });
+  setHTML($('成绩'),h+'</tbody></table></div><div class="例"><i></i>有色底的格子，这一轮和上一轮不一样</div>');
+}
+
+/* ---------- 五步 ---------- */
+var FIVE=[['拆成几棒','一件事拆成几棒，每个队员只干一棒。哪里出错，找得到是哪一棒。'],['写清交什么','每一棒交什么、交给谁，写死在分工表上。'],['单独一个挑错的，放在花钱那一棒前面','挑错的没看过脚本是怎么写的，才挑得出毛病；文字上拦下，不用等出片再发现。'],['人只停在要定的地方，最怕说错的写成红线','队伍只在挑选题、成片发不发两处等人；最怕说错的几句交给挑错，每条片子都替这家公司查。'],['一次只调一处，再跑一轮比','下一轮变好还是变坏，才知道是这一处起的作用。']];
+var CN={一:0,二:1,三:2,四:3,五:4};
+function fiveMap(){
+  var m=[[],[],[],[],[]],all=[];
+  (S.道理||[]).forEach(function(d){var g=/^五步之(.)/.exec(d.五步||'');if(g&&CN[g[1]]!==undefined)m[CN[g[1]]].push(d);else if(/^五步全部/.test(d.五步||''))all.push(d)});
+  return {m:m,all:all};
+}
+function renderFive(){
+  var f=fiveMap(),sel=ui.step;
+  if(sel==null){for(var i=4;i>=0;i--)if(f.m[i].length){sel=i;break}}
+  var fresh=ui.freshStep;
+  var h=FIVE.map(function(s,i){var n=f.m[i].length;
+    return '<button type="button" class="格五'+(n?' 亮':'')+(sel===i?' 中':'')+(fresh===i?' 闪':'')+'" data-act="step" data-i="'+i+'" aria-pressed="'+(sel===i)+'"><em>第 '+(i+1)+' 步'+(n?' · 亮了':'')+'</em><b>'+esc(s[0])+'</b><span>'+(n?'已经出现 '+n+' 次':'还没出现')+'</span></button>'}).join('');
+  setHTML($('五格'),h);
+  var p='';
+  if(sel!=null){
+    p+='<p><b>第 '+(sel+1)+' 步：</b>'+esc(FIVE[sel][1])+'</p>';
+    p+=f.m[sel].length?f.m[sel].map(function(d){return '<p>'+ic('check')+' '+esc(d.一句)+'<small>'+esc(d.五步)+(d.出处?' · '+esc(d.出处):'')+' · '+esc(d.时间)+'</small></p>'}).join(''):'<p class="空">队伍做到这一步时，这里会写出看板上发生了什么。</p>';
+  }else p='<p class="空">点一格，看这一步在这支队里怎么出现的。</p>';
+  if(f.all.length)p+='<div class="总括">'+ic('check')+' '+esc(f.all[f.all.length-1].一句)+'</div>';
+  setHTML($('五说'),p);
+}
+
+/* ---------- 动态 ---------- */
+function renderFeed(){
+  var d=(S.动态||[]).slice().reverse().slice(0,60);
+  setHTML($('动'),d.length?d.map(function(x){return '<li><time>'+esc(x.时间)+'</time><span class="谁'+(x.谁==='人'?' 人':'')+'">'+esc(x.谁)+'</span><span class="句">'+esc(x.一句)+'</span></li>'}).join(''):'<li><span class="句 空">还没有动静</span></li>');
+}
+
+/* ---------- 新道理冒出来 ---------- */
+var toastQ=[],toasting=false;
+function checkReasons(){
+  var rs=S.道理||[];
+  if(firstLoad){ui.toastSeen=rs.length;return}
+  if(rs.length>ui.toastSeen){
+    var f=fiveMap();
+    rs.slice(ui.toastSeen).forEach(function(d){toastQ.push(d);var g=/^五步之(.)/.exec(d.五步||'');if(g&&CN[g[1]]!==undefined){ui.freshStep=CN[g[1]];setTimeout(function(){ui.freshStep=null;if(S)renderFive()},2000)}});
+    ui.toastSeen=rs.length;nextToast();
+  }
+}
+function nextToast(){
+  if(toasting||!toastQ.length)return;
+  var d=toastQ.shift();toasting=true;
+  var el=document.createElement('div');el.className='吐';
+  el.innerHTML='<span class="步">'+esc(d.五步||'')+'</span><div>'+esc(d.一句)+'</div>'+(d.出处?'<small>'+esc(d.出处)+'</small>':'');
+  $('吐').appendChild(el);
+  setTimeout(function(){el.style.transition='opacity .5s';el.style.opacity='0';setTimeout(function(){el.remove();toasting=false;nextToast()},520)},7500);
+}
+
+/* ---------- 读文件（产出、盲比的甲乙、成片） ---------- */
+function hydrate(){
+  Array.prototype.forEach.call(document.querySelectorAll('.文件体'),function(n){
+    var det=n.closest('details');if(det&&!det.open)return;
+    var src=n.dataset.src||'';
+    if(!src){if(n.dataset.cur!=='-'){n.innerHTML='<p class="空">还没有这个文件</p>';n.dataset.cur='-'}return}
+    if(isVid(src)){
+      if(n.dataset.cur!==src){
+        n.dataset.cur=src;n.dataset.txt='';n.innerHTML='';
+        var v=document.createElement('video');v.controls=true;v.playsInline=true;v.preload='metadata';v.src=furl(src);
+        v.addEventListener('error',function(){if(v.parentNode){var p=document.createElement('p');p.className='空';p.style.color='#ddd';p.style.padding='12px';p.textContent='这个视频打不开';v.parentNode.appendChild(p)}});
+        n.appendChild(v);
+      }
+    }else{
+      if(n.dataset.busy==='1')return;n.dataset.busy='1';
+      fetch(furl(src),{cache:'no-store'}).then(function(r){return r.ok?r.text():Promise.reject()}).then(function(t){
+        if(n.dataset.cur!==src||n.dataset.txt!==t){
+          n.dataset.cur=src;n.dataset.txt=t;
+          var pre=n.firstElementChild;if(!pre||pre.tagName!=='PRE'){n.innerHTML='<pre></pre>';pre=n.firstElementChild}
+          pre.textContent=t||'（文件是空的）';
+        }
+      }).catch(function(){if(n.dataset.cur!=='-'){n.innerHTML='<p class="空">文件还没有</p>';n.dataset.cur='-';n.dataset.txt=''}}).then(function(){n.dataset.busy='0'});
+    }
+  });
+  /* 队长刚写下的那句，打字出现 */
+  Array.prototype.forEach.call(document.querySelectorAll('[data-new]'),function(el){
+    var k=el.dataset.new,full=el.dataset.full;el.removeAttribute('data-new');
+    if(ui.typed[k])return;ui.typed[k]=1;
+    var i=0,cur=document.createElement('span');cur.className='光标';
+    el.textContent='';el.appendChild(document.createTextNode(''));el.appendChild(cur);
+    var tn=el.firstChild;
+    var tm=setInterval(function(){
+      if(!el.isConnected){clearInterval(tm);return}
+      i++;tn.nodeValue=full.slice(0,i);
+      if(i>=full.length){clearInterval(tm);setTimeout(function(){cur.remove()},600)}
+    },Math.max(18,Math.min(60,900/Math.max(1,full.length))));
+  });
+}
+
+function loadLib(){
+  if(ui.lib!==null||ui.libLoading)return;ui.libLoading=1;
+  fetch('/api/队员库').then(function(r){return r.json()}).then(function(j){ui.lib=Array.isArray(j)?j:{错:(j&&j.错)||'队员库读不到'}}).catch(function(){ui.lib={错:'队员库读不到'}}).then(function(){ui.libLoading=0;renderAll()});
+}
+
+/* ---------- 总渲染 ---------- */
+function safe(f){try{f()}catch(e){if(window.console)console.error(e)}}
+function renderAll(){
+  if(!S||S.错)return;
+  safe(renderHeader);safe(renderA);safe(renderB);safe(renderTeam);safe(renderFilm);safe(renderScore);safe(renderFive);safe(renderFeed);
+  hydrate();
+}
+
+/* ---------- 点击和输入 ---------- */
+var ACT={
+  goA:function(){var t=$('做区');if(!t.hidden)t.scrollIntoView({behavior:'smooth',block:'start'})},
+  sheet:function(b){
+    var card=b.closest('[data-key]'),body={};
+    ['公司','卖什么','卖给谁','发在哪','最怕说错'].forEach(function(k){body[k]=card.querySelector('[data-k="sheet.'+k+'"]').value});
+    if(!body.公司.trim()||!body.卖什么.trim()){showErr(card,'公司叫什么、卖什么，至少这两样要写');return}
+    submit(b,'开工单',body);
+  },
+  opt:function(b){ui.sel['q'+b.dataset.id]=b.dataset.v;renderA()},
+  ask:function(b){
+    var id=+b.dataset.id,q=(S.请示单||[]).filter(function(x){return x.id===id})[0],card=b.closest('[data-key]');
+    var choice=ui.sel['q'+id],note=(card.querySelector('[data-k="ask.'+id+'.note"]').value||'').trim();
+    if(q&&(q.选项||[]).length){if(!choice){showErr(card,'先点一个选项');return}}
+    else{choice=(card.querySelector('[data-k="ask.'+id+'.free"]').value||'').trim();if(!choice){showErr(card,'先写下你的决定');return}}
+    if(/写一句/.test(choice)&&!note){showErr(card,'这一项要在下面补一句，写清哪里不行');return}
+    submit(b,'拍板',{id:id,拍板:choice,意见:note});
+  },
+  mark:function(b){
+    var id=b.dataset.id,ln=b.dataset.ln,mk=ui.marks[id]||(ui.marks[id]={});
+    if(mk[ln])delete mk[ln];else mk[ln]=true;
+    renderA();
+    if(mk[ln]){var t=document.querySelector('[data-k="m.'+id+'.'+ln+'"]');if(t)t.focus()}
+  },
+  pick:function(b){
+    var id=+b.dataset.id,card=b.closest('[data-key]'),mk=ui.marks[id]||{};
+    var rows=Object.keys(mk).map(Number).sort(function(a,c){return a-c}).map(function(ln){var e=card.querySelector('[data-k="m.'+id+'.'+ln+'"]');return {行:ln,为什么:e?e.value.trim():''}});
+    var note=card.querySelector('[data-k="pick.'+id+'.note"]').value.trim();
+    submit(b,'人挑',{id:id,行:rows,意见:note});
+  },
+  dm:function(b){var x=(S.诊断||[]).slice(-1)[0],dg=ui.diag[x.id];dg.队员=b.dataset.n;dg.idx=undefined;loadManual(b.dataset.n);renderA()},
+  dl:function(b){var x=(S.诊断||[]).slice(-1)[0];ui.diag[x.id].idx=+b.dataset.i;renderA()},
+  diag:function(b){
+    var x=(S.诊断||[]).slice(-1)[0],dg=ui.diag[x.id]||{},card=b.closest('[data-key]');
+    var v=dg.队员?manualLines(dg.队员):null;
+    if(!dg.队员){showErr(card,'先选一个队员');return}
+    if(!Array.isArray(v)||dg.idx==null||!String(v[dg.idx]||'').trim()){showErr(card,'再点说明书里的一行，当作「哪一句」');return}
+    var why=card.querySelector('[data-k="diag.'+x.id+'.why"]').value.trim();
+    if(!why){showErr(card,'再写一句为什么');return}
+    submit(b,'诊断',{队员:dg.队员,哪句:v[dg.idx],为什么:why});
+  },
+  th:function(b){ui.tune.how=b.dataset.v;if(b.dataset.v==='换人'){loadLib()}renderA();if(b.dataset.v!=='换人')ensureTuneManual()},
+  tm:function(b){ui.tune.队员=b.dataset.n;ui.tune.idx=undefined;ui.tune.capLine=null;ensureTuneManual();renderA()},
+  tl:function(b){ui.tune.idx=+b.dataset.i;renderA()},
+  lp:function(b){var r=(ui.lib||[]).filter(function(x){return x.文件===b.dataset.f})[0];ui.tune.lib=r;renderA()},
+  cap:function(b){
+    var x=(S.诊断||[]).slice(-1)[0],c=x.AI,t=ui.tune;
+    if(c.怎么调==='改一句'){t.how='改一句';t.队员=c.队员;t.idx=undefined;t.capLine=c.哪句;ui.f['tune.after']=c.改成||'';loadManual(c.队员)}
+    else if(c.怎么调==='加红线'){t.how='加红线';ui.f['tune.red']=c.改成||''}
+    else if(c.怎么调==='换人'){t.how='换人';t.队员=c.队员;t.lib=undefined;loadLib();t.libFile=c.改成}
+    bump('a-z'+x.id);renderA();
+  },
+  tune:function(b){
+    var x=(S.诊断||[]).slice(-1)[0],t=ui.tune,card=b.closest('[data-key]'),body={怎么调:t.how};
+    if(!t.how){showErr(card,'先选怎么调');return}
+    var who=t.队员||x.人.队员;
+    if(t.how==='改一句'){
+      var v=manualLines(who),idx=defaultIdx(v,who,x);
+      var after=card.querySelector('[data-k="tune.after"]').value.trim();
+      if(!Array.isArray(v)||idx===undefined||!String(v[idx]||'').trim()){showErr(card,'先点要改的那一行');return}
+      if(!after){showErr(card,'再写这一行改成什么');return}
+      body.队员=who;body.改前=v[idx];body.改后=after;
+    }else if(t.how==='加红线'){
+      var red=card.querySelector('[data-k="tune.red"]').value.trim();
+      if(!red){showErr(card,'红线是空的，写一句');return}
+      body.队员='挑错';body.改后=red;
+    }else{
+      var cl=chosenLib();
+      if(!cl){showErr(card,'先从队员库里点一位');return}
+      body.队员=who;body.改后=cl.文件;
+    }
+    submit(b,'调一处',body,function(){ui.tune={};ui.f['tune.after']=undefined;ui.f['tune.red']=undefined});
+  },
+  bs:function(b){ui.sel['b'+b.dataset.id]=b.dataset.v;renderA()},
+  blind:function(b){
+    var id=+b.dataset.id,card=b.closest('[data-key]'),ch=ui.sel['b'+id];
+    if(!ch){showErr(card,'先选发甲、发乙或差不多');return}
+    submit(b,'盲挑',{id:id,选:ch,我说:card.querySelector('[data-k="blind.'+id+'.say"]').value.trim()});
+  },
+  step:function(b){ui.step=+b.dataset.i;renderFive()}
+};
+function ensureTuneManual(){
+  var x=(S.诊断||[]).slice(-1)[0];if(!x||!x.人)return;
+  if(ui.tune.how==='改一句')loadManual(ui.tune.队员||x.人.队员);
+}
+document.addEventListener('click',function(e){
+  var b=e.target.closest('[data-act]');if(!b)return;
+  var f=ACT[b.dataset.act];if(f){e.preventDefault();f(b)}
+});
+document.addEventListener('mouseover',function(e){
+  var b=e.target.closest&&e.target.closest('[data-act="step"]');
+  if(b&&ui.step!==+b.dataset.i&&window.matchMedia('(hover:hover)').matches){ui.step=+b.dataset.i;renderFive()}
+});
+document.addEventListener('input',function(e){
+  var t=e.target;if(!t.dataset||t.dataset.k===undefined)return;
+  ui.f[t.dataset.k]=t.value;
+  if(t.dataset.k==='tune.q'){var box=$('库表');if(box)box.innerHTML=libHTML(t.value)}
+});
+document.addEventListener('toggle',function(e){
+  var d=e.target;if(!d.dataset||!d.dataset.dk)return;
+  var was=ui.open[d.dataset.dk];ui.open[d.dataset.dk]=d.open;
+  if(d.open&&!was){
+    if(d.dataset.n){loadManual(d.dataset.n);renderTeam()}
+    hydrate();
+  }
+},true);
+
+/* ---------- 轮询 ---------- */
+var timer=null,inflight=false;
+function onState(){
+  if(firstLoad){
+    (S.队员||[]).forEach(function(m){(m.记录||[]).forEach(function(r){ui.typed[m.名+'|'+r.轮+'|'+r.时间+'|'+r.一句]=1})});
+  }
+  checkReasons();
+  /* 说明书版本变了就重新读 */
+  renderAll();
+  firstLoad=false;
+}
+function tick(){
+  if(inflight)return;inflight=true;
+  fetch('/api/state',{cache:'no-store'}).then(function(r){return r.text()}).then(function(t){
+    fails=0;$('断').hidden=true;
+    if(t!==lastRaw){
+      var j=JSON.parse(t);
+      if(j&&j.错){$('断').hidden=false;$('断').textContent='看板数据读不出来：'+j.错;return}
+      lastRaw=t;S=j;onState();
+    }
+  }).catch(function(){if(++fails>=3){$('断').hidden=false}}).then(function(){inflight=false});
+}
+function pollNow(){setTimeout(tick,200)}
+tick();timer=setInterval(tick,1500);
+window.__看板={ui:ui,S:function(){return S}};
+})();
+</script>
+</body>
+</html>
