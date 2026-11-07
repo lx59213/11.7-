@@ -260,6 +260,24 @@ def change(team, fn):
         return r
 
 
+TECH_RE = re.compile(r"cqw|\d\s*px|vw\b|vh\b|误报|复验|静态|overflow|控制台|报错|\bDOM\b|\bCSS\b|JSON|json|渲染|程序|stack|undefined|null\b")
+
+
+def plain_only(text, field, tech=""):
+    """工作台写进看板的话要老板看得懂：有技术词就拒绝，让 AI 重写；技术细节放进 检查日志。"""
+    m = TECH_RE.search(text or "")
+    if m:
+        raise SystemExit(f"「{field}」里有技术词「{m.group(0)}」，会直接显示在看板上。改成老板看得懂的话再跑一次，例如「第 2 张卡字太多，放不下，要删短」；"
+                         f"想留技术细节，加 --技术说明 \"…\"，它只进 检查日志.md，不上看板。")
+
+
+def tech_log(team, who, where, tech):
+    if not (tech or "").strip():
+        return
+    with open(os.path.join(team, "检查日志.md"), "a", encoding="utf-8") as f:
+        f.write(f"- {now(True)} {who} · {where}：{tech.strip()}\n")
+
+
 def feed(d, who, line):
     d.setdefault("动态", []).append({"时间": now(), "谁": who, "一句": line})
     d["动态"] = d["动态"][-200:]
@@ -291,6 +309,20 @@ def touch(d, name, err=None):
                     m["错"] = err
                 else:
                     m.pop("错", None)
+
+
+def close_round(d, rr):
+    """这一轮挑完成品：本轮队员都标交出了，本轮的问题清掉。"""
+    if rr is not None and not rr.get("结束"):
+        rr["结束"] = time.time()
+    for m in d.get("队员", []):
+        m["状态"] = "交出了"
+        m.pop("错", None)
+    d["出片失败"] = ""
+    d["出片失败次数"] = 0
+    d["出片中"] = None
+    d["问题"] = []
+    d["队长在等"] = ""
 
 
 def said(d):
@@ -593,7 +625,8 @@ def agent_md_text(C, spec, idx):
                  "事实：产品名、规格、数字、价格、承诺，逐个和知识库原文对；对不上就退回。", "格式：字数、条数、交的东西和分工表写的是不是一回事。",
                  "5. 〖这家公司以前出过的岔子〗：第 6 步问来的那条，写在这里。"]
         how = ["收到东西，照上面一条条查，写清：查了哪几条、哪条没过、在哪。", f"全过：交给{nxt}。有没过的：退回给写的那个队员（成品有问题就退回给做的那个），写清哪条、在哪、往哪改。只退回，不自己改。",
-               "同一样东西最多退两次。第三次还不过，写进请示单，等人拍板。"]
+               "同一样东西最多退两次。第三次还不过，写进请示单，等人拍板。",
+               "写给老板看，不写技术词（像素、cqw、误报、复验、程序、静态这类）：退回理由和结论都写成『第 2 张卡字太多，放不下，要删短』这样的话；要留技术细节，跑命令时放进 --技术说明。"]
         chk, hand = "每一条退回都说得出依据：知识库哪一页，或上面哪一条。说不出依据的不退。", "只挑不改。能不能用，人定。"
     else:
         guard = [f"只用挑错放过的{C['棒'].get('写', {}).get('谁', '上游')}交来的字和数字，不改、不加。", "不用「最」「第一」这类广告法不让说的词，不用 emoji。",
@@ -749,6 +782,8 @@ def cmd_等开工单(a):
 
 # ---------- 干活、交接 ----------
 def cmd_干活(a):
+    plain_only(a.一句, "一句")
+
     def f(d):
         m = member(d, a.队员)
         m["状态"] = "在干"
@@ -763,6 +798,11 @@ def cmd_干活(a):
 
 
 def cmd_交接(a, back=False):
+    plain_only(a.交了什么, "交了什么")
+    if back:
+        plain_only(a.为什么, "为什么")
+    tech_log(a.队伍, a.从, ("退回给" if back else "交给") + a.到, getattr(a, "技术说明", ""))
+
     def f(d):
         rec = {"时间": now(), "从": a.从, "到": a.到, "交了什么": a.交了什么 if not back else (a.交了什么 or "退回"),
                "文件": a.文件 or "", "退回": back, "为什么": a.为什么 if back else "", "轮": cur(d)}
@@ -819,7 +859,7 @@ def decide(team, i, choice, note):
                 if x.get("标") == "发不发" and d.get("轮"):
                     r = d["轮"][-1]
                     r["发不发"] = choice + (f"（{note}）" if note else "")
-                    r["结束"] = time.time()
+                    close_round(d, r)
                 if x.get("标", "").startswith("进第"):
                     d["步"] = int(re.sub(r"\D", "", x["标"]) or d.get("步", 6))
                 return {"ok": True}
@@ -856,6 +896,9 @@ def cmd_请人挑(a):
 
 
 def cmd_挑出(a):
+    plain_only(a.为什么, "为什么")
+    tech_log(a.队伍, "挑错", f"第 {a.行} 行", getattr(a, "技术说明", ""))
+
     def f(d):
         p = next((x for x in d["人挑"] if x["id"] == int(a.id)), None)
         if not p:
@@ -1330,6 +1373,8 @@ def cmd_提改队(a):
     """队长给看板上的「开工前定规矩」卡写一条建议（每轮一条）；第 2、3 轮开工前也用它重新打开改队。
     建议格式 {动作: 加|删|换|加一句, 名, 一句?, 多等?, 例子?, 问?, 照着?}。"""
     def f(d):
+        if not (d.get("开工单") or {}).get("确认"):
+            raise SystemExit(f"开工单还没确认。顺序是：先等开工单确认（{PY} 等开工单 {a.队伍}），确认后再给改队建议")
         g = d.get("改队")
         if g is None:
             raise SystemExit("这支队是旧的改法，没有改队")
@@ -1555,7 +1600,7 @@ def pick_blind(team, i, choice, note):
                 wn = ({"改后": "队伍出的", "改前": "试做"} if n == 1 else {"改后": "这一轮的", "改前": "上一轮的"}).get(won, "差不多") if won else "差不多"
                 if rr and not rr.get("结束"):
                     rr["发不发"] = f"挑了{wn}" + (f"；哪里不行：{note}" if note else "")
-                    rr["结束"] = time.time()
+                    close_round(d, rr)
                 d.setdefault("学员说", []).append({"时间": now(), "时刻": "挑成品", "问": "哪份今天就敢发，哪里不行", "答": f"挑了{choice}" + (f"：{note}" if note else ""), "轮": n})
                 feed(d, "人", f"挑了：{choice}" + (f"（揭晓：是{({'改后': '队伍出', '改前': '试拍'} if x.get('轮') == 1 else {'改后': '这一轮', '改前': '上一轮'})[won]}的）" if won else "") + (f"，{note}" if note else ""))
                 reason(d, "盲比")
@@ -1573,6 +1618,7 @@ def cmd_改一句(a):
 
 
 def cmd_动态(a):
+    plain_only(a.一句, "一句")
     change(a.队伍, lambda d: feed(d, a.谁, a.一句))
     say("记下了")
 
@@ -1707,6 +1753,9 @@ def cmd_出片(a):
         m["状态"] = "交出了"
         touch(d, who, "")
         m["产出"] = rel
+        if cur(d) == 0 and not d.get("对照完成"):
+            d["对照完成"] = True
+            feed(d, "队长", "对照那份做好了")
         feed(d, who, f"第 {n} 次成片好了")
     change(team, done)
     say({"成片": rel, "第几次": n, "还能出几次": VIDEO_MAX - n, "接着": f"{PY} 下一步 {team}"})
@@ -1910,6 +1959,9 @@ def add_product(team, rel, typ, note, extra, check=None):
         if typ == "图卡" and R["视频"]:
             d["改交图卡"] = True
             feed(d, R["做"], "视频没出，改交图卡")
+        if cur(d) == 0 and not d.get("对照完成"):
+            d["对照完成"] = True
+            feed(d, "队长", "对照那份做好了")
         feed(d, R["做"], f"{os.path.basename(rel)} 好了" + (f"（{extra['张数']} 张）" if extra.get("张数") else ""))
         reason(d, "出片")
     change(team, f)
@@ -2243,6 +2295,9 @@ def upstream(C, d, upto):
     return [m.get("文件") or (C["队员"][i].get("文件") if i < len(C["队员"]) else "") for i, m in enumerate(d["队员"][:upto]) if m["类"] in ("查", "想")]
 
 
+PLAIN_HINT = "退回理由和挑出的原因写给老板看，不写技术词（像素、cqw、误报、复验、程序），例如『第 2 张卡字太多，放不下，要删短』；技术细节放 --技术说明，只进检查日志，不上看板。"
+
+
 def prev_said(d, n):
     """学员第 n 轮说过的话：挑成品时写的哪里不行、对话里答的。"""
     out = []
@@ -2353,9 +2408,10 @@ def step_text(team, d):
         return 6, (f"第 {1 + off} 轮 · 开工前定规矩（第一问：你家这件事最怕出什么错）。先读知识库：我的知识库.md、wiki/index.md、讲公司产品客户的页，把开工单填好（知识库没写的留空，不编）：\n"
                    f"  {PY} 填表 {T} --公司 \"〖公司叫什么〗\" --卖什么 \"〖一句〗\" --卖给谁 \"〖一句〗\" --发在哪 \"〖{C['平台举例']}〗\" --最怕说错 \"〖知识库里写着的忌讳；没有就留空〗\"\n"
                    f"要请学员定：开工单最后一栏『最怕说错什么』写 1 到 2 条，点确认。例子取知识库里 2 到 3 个带数的（写明哪一页）：客户投诉过什么、平台罚过什么。学员答不上来给 2 到 3 个方向（价格、承诺、交期），不替他写。\n"
+                   f"顺序：先等开工单确认，确认后再给改队建议，别提前跑 建议改队。\n"
                    f"下一条命令：{PY} 等开工单 {T}")
     if not s.get("确认"):
-        return 6, f"第 {1 + off} 轮 · 开工前定规矩。等学员在看板上改开工单、点确认。跑 {PY} 等开工单 {T}"
+        return 6, f"第 {1 + off} 轮 · 开工前定规矩。等学员在看板上改开工单、点确认；确认之前不要给改队建议，确认后再给。跑 {PY} 等开工单 {T}"
     g = d.get("改队")
     if g is not None and not g.get("完成"):
         nxt = g.get("下一轮") or 1
@@ -2370,6 +2426,7 @@ def step_text(team, d):
         return 6, f"等学员在看板上选开工前改哪一处（或不改）。跑 {PY} 等开工前改 {T}"
     trial = [x for x in d.get("成片", []) if x.get("轮") == 0]
     if d.get("步", 6) == 6 and not trial and not d.get("试拍跳过"):
+        d["_要记对照开始"] = True
         if d.get("出片中"):
             return 6, "试拍还在生成，等那条出片命令结束。"
         if vid:
@@ -2479,10 +2536,10 @@ def step_text(team, d):
                 go = FINISH_VERB[R["类型"]]
                 return ST, (f"{tag} · 队伍接力 · {WS}已退回 {MAX_BACK} 次，还有 {total} 处。要请学员定：照这版{go}，还是再退一次。跑：\n  {PY} 请示 {T} --标 退回到数 --谁 {R['挑']} --问 \"{WS}退了 {MAX_BACK} 次，还有 {total} 处。照这版{go}，还是再退一次？\" --选项 \"照这版{go}|再退一次\" --建议 \"照这版{go}\"\n"
                             f"选照这版{go}：跑 交接 --从 {R['挑']} --到 {R['做']} --交了什么 \"学员定照这版做\" --文件 {WF}；选再退一次：跑 退回。")
-            return ST, (f"{tag} · 队伍接力 · 挑错挑出 {total} 处（下面三组）。写成一条退回理由（哪一行、哪里不对、往哪改），跑：\n"
+            return ST, (f"{tag} · 队伍接力 · 挑错挑出 {total} 处（下面三组）。写成一条退回理由（哪一行、哪里不对、往哪改；{PLAIN_HINT}），跑：\n"
                         f"  {PY} 退回 {T} --从 {R['挑']} --到 {R['写']} --为什么 \"〖一句话写全〗\" --文件 {WF}\n" + json.dumps(o, ensure_ascii=False))
         if not acts or acts[-1]["退回"]:
-            return ST, (f"{tag} · 队伍接力 · 挑错查{WS}。{rl_s}跑 {PY} 请人挑 {T} --文件 {WF} --只挑错 是，照它打出来的做")
+            return ST, (f"{tag} · 队伍接力 · 挑错查{WS}。{rl_s}{PLAIN_HINT}跑 {PY} 请人挑 {T} --文件 {WF} --只挑错 是，照它打出来的做")
     # 4 做
     shots = in_round(d, "成片")
     fails = d.get("出片失败次数", 0)
@@ -2529,7 +2586,7 @@ def step_text(team, d):
             what += f"。带行号的是动效片里读者看得到的字（{F}），对着知识库查数字和说法；动效片本身是 {last_s['文件']}（{last_s.get('模板', '')}，约 25 秒自动播放）：能开浏览器就打开从头放到尾，网址后加 ?t=秒 定格几个时刻，看有没有字出界、重叠、控制台报错；开不了就只查文字版"
         if ppk is None:
             if len(backs_m) < MAX_BACK:
-                return ST, f"{tag} · 队伍接力 · {R['做']}交了 {last_s['文件']}。挑错单独查成品，查{what}。跑 {PY} 请人挑 {T} --文件 {F} --只挑错 是，照它打出来的做"
+                return ST, f"{tag} · 队伍接力 · {R['做']}交了 {last_s['文件']}。挑错单独查成品，查{what}。{PLAIN_HINT}跑 {PY} 请人挑 {T} --文件 {F} --只挑错 是，照它打出来的做"
         elif not ppk.get("AI挑完"):
             return ST, f"{tag} · 队伍接力 · 挑错还没查完第 {ppk['id']} 次。接着：{PY} 挑出 {T} {ppk['id']} --行 N --为什么 \"...\"，查完跑 {PY} 挑完 {T} {ppk['id']}"
         else:
@@ -2537,7 +2594,7 @@ def step_text(team, d):
             total = sum(len(v) for v in o.values())
             passed = [x for x in hs if x["从"] == R["挑"] and x["到"] == "人" and x.get("文件") == F]
             if total and len(backs_m) < MAX_BACK:
-                return ST, (f"{tag} · 队伍接力 · 挑错查出 {total} 处（下面三组）。写成一条退回理由（哪一张或哪一行、哪里不对、往哪改），跑：\n"
+                return ST, (f"{tag} · 队伍接力 · 挑错查出 {total} 处（下面三组）。写成一条退回理由（哪一张或哪一行、哪里不对、往哪改；{PLAIN_HINT}），跑：\n"
                             f"  {PY} 退回 {T} --从 {R['挑']} --到 {R['做']} --为什么 \"〖一句话写全〗\" --文件 {F}\n" + json.dumps(o, ensure_ascii=False))
             if not total and not passed:
                 return ST, f"{tag} · 队伍接力 · {R['叫法']}挑错全过。跑 {PY} 交接 {T} --从 {R['挑']} --到 人 --交了什么 \"{R['叫法']}过了\" --文件 {F}"
@@ -2677,6 +2734,8 @@ def cmd_下一步(a):
         return
     d = load(team)
     step, text = step_text(team, d)
+    if d.pop("_要记对照开始", False) and not d.get("对照开始"):
+        change(team, lambda x: (x.update({"对照开始": True}), feed(x, "队长", "另一个 AI 正在直接做一份当对照")))
     say((f"【{step_label(d)}】" if step else "") + text)
 
 
@@ -2862,14 +2921,14 @@ def main():
     c("填表", cmd_填表, "--公司", "--卖什么", "--卖给谁", "--发在哪", "--最怕说错")
     c("等开工单", cmd_等开工单)
     c("干活", cmd_干活, "队员", "--一句", "--文件")
-    c("交接", cmd_交接, "--从", "--到", "--交了什么", "--文件")
-    c("退回", lambda a: cmd_交接(a, True), "--从", "--到", "--为什么", "--交了什么", "--文件")
+    c("交接", cmd_交接, "--从", "--到", "--交了什么", "--文件", "--技术说明")
+    c("退回", lambda a: cmd_交接(a, True), "--从", "--到", "--为什么", "--交了什么", "--文件", "--技术说明")
     q = c("请示", cmd_请示, "--谁", "--问", "--选项", "--建议", "--标")
     q.add_argument("--不等", action="store_true")
     c("等拍板", cmd_等拍板, "id")
     c("拍板", cmd_拍板, "id", "--拍板", "--意见")
     c("请人挑", cmd_请人挑, "--文件", "--只挑错")
-    c("挑出", cmd_挑出, "id", "--行", "--为什么", "--红线")
+    c("挑出", cmd_挑出, "id", "--行", "--为什么", "--红线", "--技术说明")
     c("挑完", cmd_挑完, "id")
     c("等人挑", cmd_等人挑, "id")
     c("请人诊断", cmd_请人诊断)

@@ -222,3 +222,9 @@
 /* 宽屏不需要收起待办；窄屏才给这个按钮 */
 .kb-tabs .narrow-only { display: none; }
 @media (max-width: 1280px) { .kb-tabs .narrow-only { display: inline-block; } }
+
+/* 挑成品时待办栏变宽，甲乙两份放大并排 */
+@media (min-width: 1281px) {
+  .kb-body.widetodo { grid-template-columns: 240px minmax(0, 1fr) min(48vw, 860px); }
+  .kb-body.widetodo.noroster { grid-template-columns: minmax(0, 1fr) min(48vw, 860px); }
+}

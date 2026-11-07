@@ -61,7 +61,7 @@ export function AskCard({ q }: { q: Any }) {
         </div>
       ) : <Txt label="写下你的决定" value={free} placeholder="写下你的决定" onChange={setFree} />}
       {q.标 !== "选题" && <div className="mt-3"><Txt label="补一句" value={note} placeholder={q.标 === "发不发" ? "哪里不行，写在这里（选填）" : "想补一句就写在这里（选填）"} onChange={setNote} /></div>}
-      <div className="kb-btnrow"><Button variant="primary" size="lg" disabled={busy} onClick={go}>{busy ? "正在交……" : q.标 === "选题" ? "就选这个" : "拍板"}</Button></div>
+      <div className="kb-btnrow"><Button variant="primary" size="lg" disabled={busy} onClick={go}>{busy ? "正在交……" : q.标 === "选题" ? "就选这个" : "就这样定"}</Button></div>
       <p className="kb-after">{q.标 === "选题" ? "点了，写的队员照这个方向接着写。" : q.标 === "发不发" ? "点了，队伍照你定的收尾或重改；对话里会告诉你结果。" : "点了，队伍接着干；对话里会告诉你结果。"}</p>
       <Err text={err} />
     </Card>
@@ -413,7 +413,8 @@ export function PreCard() {
 export function BlindCard({ b }: { b: Any }) {
   const [sel, setSel] = useState<string | null>(null);
   const [say, setSay] = useState("");
-  const [big, setBig] = useState(false);
+  /* 宽屏在待办栏里直接放大并排看；窄屏放不下，一进来就打开放大对照 */
+  const [big, setBig] = useState(() => { try { return window.matchMedia("(max-width: 1280px)").matches; } catch { return false; } });
   const { busy, err, setErr, run } = useSubmit();
   const side = (k: string, maxH?: number) => (
     <div className="kb-side" key={k}><header>{k}</header><div className="body"><FilePane src={b[k]} maxH={maxH} /></div></div>
@@ -421,7 +422,7 @@ export function BlindCard({ b }: { b: Any }) {
   const go = () => { if (!sel) { setErr("先选发甲、发乙或差不多"); return; } run("盲挑", { id: b.id, 选: sel, 我说: say.trim() }); };
   return (
     <Card kind="need" className="kb-big" meta={<><Person />挑成品</>} right={`第 ${b.轮} 轮 · 挑完才揭晓是谁做的`} title="甲和乙，哪份今天就敢发？哪里不行？">
-      <div className="kb-sides">{side("甲", 260)}{side("乙", 260)}</div>
+      <div className="kb-sides">{side("甲", 520)}{side("乙", 520)}</div>
       <button type="button" className="kb-more" onClick={() => setBig(true)}>放大对照着看</button>
       <Modal open={big} onClose={() => setBig(false)} title="甲和乙，哪份今天就敢发" wide>
         <div className="kb-sides">{side("甲", 560)}{side("乙", 560)}</div>

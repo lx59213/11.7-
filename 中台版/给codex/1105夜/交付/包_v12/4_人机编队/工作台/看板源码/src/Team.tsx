@@ -71,7 +71,7 @@ export function Office() {
     <section className="kb-office" aria-label="组队图">
       <header className="kb-offhead">
         <h2>这支队的分工<span className="n">{ms.length} 位</span></h2>
-        <small>{rs.length ? `第 ${n} 轮` : "队伍还没开工"}　红点是要你拍板的地方</small>
+        <small>{rs.length ? `第 ${n} 轮` : "队伍还没开工"}　红点是要你定的地方</small>
       </header>
       <div className="kb-offgrid" style={{ ["--cols" as Any]: cols }}>
         {ms.map((m, i) => {

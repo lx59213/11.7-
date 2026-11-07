@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { CheckIcon, FlagIcon, LightbulbIcon } from "@phosphor-icons/react";
 import { useBoard } from "./hooks";
+import { plain } from "./Board";
 import { cfgOf, type Any } from "./api";
 
 type Row = [string, (r: Any) => string, string | false];
@@ -37,7 +38,7 @@ export function Score() {
                 <th scope="row">{name}</th>
                 {rs.map((r, i) => {
                   const diff = key && i > 0 && String(r[key]) !== String(rs[i - 1][key]);
-                  return <td key={r.轮} className={`${diff ? "diff" : ""} ${multi && i > 0 && r.队 !== rs[i - 1].队 ? "newteam" : ""}`}>{fmt(r)}</td>;
+                  return <td key={r.轮} className={`${diff ? "diff" : ""} ${multi && i > 0 && r.队 !== rs[i - 1].队 ? "newteam" : ""}`}>{plain(fmt(r))}</td>;
                 })}
               </tr>
             ))}

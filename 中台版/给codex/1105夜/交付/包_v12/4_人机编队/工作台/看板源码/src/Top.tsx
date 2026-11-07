@@ -21,7 +21,7 @@ export function Header({ goAsk }: { goAsk: () => void }) {
     ["你说了几句", c.人说了几句 || 0, ""],
     ["交接", c.交接 || 0, ""],
     ["退回", c.退回 || 0, c.退回 ? "text-kumo-danger" : ""],
-    ["拍板", c.拍板 || 0, ""],
+    ["你定的", c.拍板 || 0, ""],
     cf.视频 ? ["出片（花钱）", c.出片 || 0, c.出片 ? "text-kumo-warning" : ""] : [cf.动词, c.出片 || 0, ""],
   ];
   return (

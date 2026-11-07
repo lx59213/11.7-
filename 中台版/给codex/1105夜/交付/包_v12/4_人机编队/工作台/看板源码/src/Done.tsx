@@ -55,9 +55,9 @@ export function AskDone({ list }: { list: Any[] }) {
   const { S } = useBoard();
   const 标名 = 标名Of(S);
   return (
-    <Card kind="done" meta="你拍过的板" right={`${list.length} 张`}>
+    <Card kind="done" meta="你定的" right={`${list.length} 张`}>
       {list.map((q) => (
-        <p key={q.id} className="my-2 text-[15px]"><Tag>{标名[q.标] || q.标 || "拍板"}</Tag> {q.问} <b>{q.拍板}</b>{q.意见 && <span className="text-kumo-subtle">（{q.意见}）</span>}</p>
+        <p key={q.id} className="my-2 text-[15px]"><Tag>{标名[q.标] || q.标 || "你定的"}</Tag> {q.问} <b>{q.拍板}</b>{q.意见 && <span className="text-kumo-subtle">（{q.意见}）</span>}</p>
       ))}
     </Card>
   );

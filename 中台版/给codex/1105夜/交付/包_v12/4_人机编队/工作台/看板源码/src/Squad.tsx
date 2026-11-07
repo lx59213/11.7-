@@ -217,7 +217,7 @@ export function SquadBuilder() {
       <header className="kb-sqhead">
         <div>
           <h2>这支队的分工</h2>
-          <p>每位队员干一棒，箭头是交接。红点是队伍停下来等你拍板的地方。想改队伍可以点右边，不改也能直接开工。</p>
+          <p>每位队员干一棒，箭头是交接。红点是队伍停下来等你定的地方。想改队伍可以点右边，不改也能直接开工。</p>
         </div>
         <div className="flex items-center gap-2"><span className="chg">{n ? `已改 ${n} 处` : "还没改"}</span><Button variant={edit ? "secondary" : "primary"} onClick={() => setEdit(!edit)}>{edit ? "收起" : "改一改队伍"}</Button></div>
       </header>
