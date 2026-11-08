@@ -5,7 +5,7 @@ import { cfgOf, type Any } from "./api";
 import { Stage } from "./Top";
 import { Chat, Header, Kanban, Roster, Todo, jobsOf, problemsOf, whereNow } from "./Board";
 import { Office, seedSeen } from "./Team";
-import { RuleCard, SquadBuilder, SquadStrip, squadOpen } from "./Squad";
+import { RuleCard, SquadBuilder, SquadStrip, squadOpen, squadReady } from "./Squad";
 import { AskCard, BlindCard, DiagCard, PickCard, PreCard, SheetCard } from "./Ask";
 import { AskDone, BlindDone, DiagDone, FilmList, PickDone, PreDone, SaidDone, SheetDone } from "./Done";
 import { Five, Score, Toasts, fiveIdx, type Toast } from "./Bottom";
@@ -72,7 +72,7 @@ export default function App() {
     const s = S.开工单;
     if (s && !s.确认) n++;
     if (!S.改队 && S.开工前改 && !S.开工前改.调了) n++;
-    if (squadOpen(S)) n++;
+    if (squadReady(S)) n++;
     n += (S.请示单 || []).filter((q: Any) => !q.拍板).length;
     const pk = (S.人挑 || []).slice(-1)[0];
     if (pk && !pk.人交了 && !pk.人不挑) n++;
@@ -101,7 +101,7 @@ export default function App() {
   const s = S.开工单;
   if (!s) ask.push({ key: "a-sheet0", node: <div className="kb-card wait"><div className="kb-wait"><Spin />队长在读知识库，马上填好开工单</div></div> });
   else if (!s.确认) ask.push({ key: "a-sheet", node: <SheetCard s={s} /> });
-  if (squadOpen(S)) ask.push({ key: "a-rule", node: <RuleCard /> });
+  if (squadOpen(S)) ask.push({ key: squadReady(S) ? "a-rule" : "a-rule-wait", node: <RuleCard /> });
   if (!S.改队 && S.开工前改 && !S.开工前改.调了) ask.push({ key: "a-pre", node: <PreCard /> });
   (S.请示单 || []).filter((q: Any) => !q.拍板).forEach((q: Any) => ask.push({ key: "a-q" + q.id, node: <AskCard q={q} /> }));
   const pk = (S.人挑 || []).slice(-1)[0];
@@ -132,7 +132,7 @@ export default function App() {
   const jobs = jobsOf(S);
   const nProb = problemsOf(S).length;
   const where = whereNow(S, ask[0] && ask[0].key);
-  const hot = ask.length > 0 && ask[0].key !== "a-sheet0";
+  const hot = ask.length > 0 && ask[0].key !== "a-sheet0" && ask[0].key !== "a-rule-wait";
 
   return (
     <Ctx.Provider value={ctx}>

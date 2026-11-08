@@ -1,6 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { ArrowUUpLeftIcon, CheckIcon, CopyIcon, FlagIcon, LockIcon, WarningIcon } from "@phosphor-icons/react";
 import { useBoard } from "./hooks";
+import { squadReady } from "./Squad";
 import { cfgOf, isHtml, ratioFor, type Any } from "./api";
 import { FilePane, Modal } from "./ui";
 
@@ -254,7 +255,7 @@ export function Chat() {
 export type Problem = { k: string; who: string; what: string; say: string };
 /** 队伍是不是停在等人：这时候没动静是正常的 */
 export const waitingHuman = (S: Any): boolean =>
-  !!(S.改队 && S.改队.开 && !S.改队.完成) || (S.请示单 || []).some((q: Any) => !q.拍板) || (S.盲比 || []).some((b: Any) => !b.选)
+  squadReady(S) || (S.请示单 || []).some((q: Any) => !q.拍板) || (S.盲比 || []).some((b: Any) => !b.选)
   || (S.开工单 && !S.开工单.确认) || !!S.队长在等;
 export function problemsOf(S: Any): Problem[] {
   const out: Problem[] = [];
@@ -314,11 +315,12 @@ export function Todo({ ask, collapsed }: { ask: { key: string; node: ReactNode }
   const { S } = useBoard();
   const probs = problemsOf(S);
   if (collapsed) return null;
+  const nAsk = ask.filter((a) => a.key !== "a-sheet0" && a.key !== "a-rule-wait").length;
   return (
     <aside className="kb-panel kb-todo" aria-label="待办">
-      <h2 className="kb-ptitle">待办<em>{ask.length + probs.length ? `${ask.length + probs.length} 件` : "没有"}</em></h2>
+      <h2 className="kb-ptitle">待办<em>{nAsk + probs.length ? `${nAsk + probs.length} 件` : "没有"}</em></h2>
       <div className="sec">
-        <h3 className={ask.length ? "hot" : ""}>要你定{ask.length > 0 && <span className="n">{ask.length}</span>}</h3>
+        <h3 className={nAsk ? "hot" : ""}>要你定{nAsk > 0 && <span className="n">{nAsk}</span>}</h3>
         {ask.length ? (
           <>
             <div className="kb-askwrap" key={ask[0].key}>{ask[0].node}</div>
@@ -340,6 +342,7 @@ export function Todo({ ask, collapsed }: { ask: { key: string; node: ReactNode }
 export function whereNow(S: Any, firstAsk?: string): string {
   if (firstAsk) {
     if (firstAsk === "a-rule") return "开工前定规矩";
+    if (firstAsk === "a-rule-wait") return "队长在问最怕出什么错";
     if (firstAsk.startsWith("a-q")) {
       const q = (S.请示单 || []).find((x: Any) => "a-q" + x.id === firstAsk);
       return q && q.标 === "选题" ? "挑方向" : q && q.标 === "发不发" ? "挑成品" : "等你定一件事";

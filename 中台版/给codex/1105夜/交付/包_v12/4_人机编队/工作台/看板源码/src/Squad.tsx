@@ -35,6 +35,14 @@ const pageName = (p: string) => String(p).split("/").pop()!.replace(/\.[^.]+$/, 
 /** 改队是否在开着：开了、还没完成 */
 export const squadOpen = (S: Any): boolean => !!(S && S.改队 && S.改队.开 && !S.改队.完成);
 
+/** 改队开着、而且队长这一轮的建议已经挂上来了（没挂上来之前不出开工按钮，免得人点早了跳过这一环） */
+export const squadReady = (S: Any): boolean => {
+  if (!squadOpen(S)) return false;
+  const g: Any = S.改队; const sg: Any = g.建议 || {}; const nxt = g.下一轮 || 1;
+  if (sg.名) return (sg.轮 || nxt) === nxt;
+  return nxt === 1 && (g.经验 || []).length > 0;
+};
+
 function Reads({ list }: { list?: string[] }) {
   const l = Array.isArray(list) ? list : [];
   if (!l.length) return null;
@@ -261,7 +269,7 @@ export function SquadBuilder() {
         </button> : <span className="kb-hint">不改也行，按下面的提示开工。</span>}
         <div className="go">
           <span className="cnt">改了 {n} 处</span>
-          <Button variant="primary" size="lg" disabled={!ms.length || starting} onClick={start}>{starting ? "正在开工……" : <><FlagIcon size={18} weight="fill" />就这样，开工</>}</Button>
+          <Button variant="primary" size="lg" disabled={!ms.length || starting || !squadReady(S)} onClick={start}>{starting ? "正在开工……" : !squadReady(S) ? "等队长问完再开工" : <><FlagIcon size={18} weight="fill" />就这样，开工</>}</Button>
         </div>
       </footer>
       <Err text={bigErr} />
@@ -293,6 +301,39 @@ export function SquadStrip() {
 
 /** 开工前定规矩：知识库里的例子加一句问题，下面跟 AI 建议的一处改动，加或不加。两个都不预选 */
 export function RuleCard() {
+  const { S } = useBoard();
+  const [late, setLate] = useState(false);
+  useEffect(() => { const t = setTimeout(() => setLate(true), 120000); return () => clearTimeout(t); }, []);
+  if (squadReady(S)) return <RuleAsk />;
+  return (
+    <article className="kb-card wait">
+      <div className="kb-wait"><Spin />队长在对话里问你最怕出什么错，问完这里出它的建议</div>
+      {late && <RuleSkip />}
+    </article>
+  );
+}
+
+/** 等了两分钟还没有建议：给一个不等了的口子，免得卡死 */
+function RuleSkip() {
+  const { refresh, merge } = useBoard();
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState("");
+  const go = async () => {
+    setBusy(true); setErr("");
+    const j = await post("改队", { 动作: "开工" });
+    if (j.ok === false) { setErr(j.错 || "没做成，再点一次"); setBusy(false); return; }
+    if (j.改队) merge({ 改队: j.改队, ...(j.队员 ? { 队员: j.队员 } : {}) });
+    setBusy(false); refresh();
+  };
+  return (
+    <div className="kb-btnrow" style={{ marginTop: 10 }}>
+      <Button variant="secondary" size="sm" disabled={busy} onClick={go}>{busy ? "正在开工……" : "不等建议，照现成的开工"}</Button>
+      <Err text={err} />
+    </div>
+  );
+}
+
+function RuleAsk() {
   const { S, refresh, merge } = useBoard();
   const dq: Any = S.改队 || {};
   const sg: Any = dq.建议 || {};
