@@ -1665,6 +1665,147 @@ beats('m4', '人机编队', [
     '最后发第 6 步收尾，两支队写进知识库的队伍花名册，排成每周几自己跑。刚才那段对话，是照一个人坐在旁边带各位设计的，这页可以拍下来。它先拿各位知识库里的例子，再问一句，答不上来才给选项，答案始终是各位自己的；每次只建议改一处，点头才改；定规矩、挑方向、挑成品这三处留给人。回去在同一个对话里说一句就行：梳理我家业务，它一件件问，写成一页业务地图，哪件写技能、哪件交给智能体、哪件组队；再配一支队；复盘一下；每周检查。发出去、花钱、对外承诺，永远人拍板。',
 ])
 
+# ======================= 总结：四层，都在云上（11-08 靖锋） =======================
+# 一张画面跨 5 拍，讲师按 5 下，从下往上一层层亮：云和知识库 → 技能库 → Agent 执行层 → 工作空间 → 界面映射出来
+# 左边是各位的电脑，做好的东西传上云；云里四层；右边是人看得见的界面
+ZJ_T = ('最后，<em>都放到云上</em>', '四层，从下往上搭')
+ZJ_N = 5
+ZJ_X0, ZJ_X1 = 380, 1050
+# 每层：名字、一句话、颜色、上沿、下沿
+ZJ_L = [('企业知识库', '资料洗干净，带出处', 'var(--kb)', 616, 700),
+        ('企业技能库', '比过了才留的做法', 'var(--sk)', 520, 596),
+        ('Agent 执行层', '企业级，往下连知识、技能', 'var(--ag)', 394, 498),
+        ('Agent 工作空间', '企业级：派活、看进度、拍板', 'var(--ag)', 290, 372)]
+ZJ_RX = [680, 785, 890, 995]    # 四个 Agent；竖线从这里往下，穿过技能库的缝，落到知识库
+ZJ_CX = [732, 837, 942]         # 技能卡、知识库图标放在竖线之间
+ZJ_CLOUD = ('M360 760 H1070 A60 60 0 0 0 1118 680 A80 80 0 0 0 1112 540 A90 90 0 0 0 1060 380 '
+            'A110 110 0 0 0 900 268 A150 150 0 0 0 640 236 A120 120 0 0 0 440 298 A90 90 0 0 0 340 420 '
+            'A90 90 0 0 0 322 590 A90 90 0 0 0 360 760 Z')
+
+def _zj_slab(i):
+    name, sub, col, y0, y1 = ZJ_L[i]
+    cy = (y0 + y1) / 2
+    return (f'<rect x="{ZJ_X0}" y="{y0}" width="{ZJ_X1-ZJ_X0}" height="{y1-y0}" rx="16" fill="var(--m-card)" fill-opacity=".92" stroke="{col}" stroke-opacity=".55" stroke-width="1.5"/>'
+            f'<rect x="{ZJ_X0}" y="{y0+14}" width="6" height="{y1-y0-28}" rx="3" fill="{col}"/>'
+            + txt(404, cy - 4, name, 25, col, 'start', w=900) + txt(404, cy + 24, sub, 16, 'var(--m-mute)', 'start', w=600))
+
+def _zj_up(d, col, n=2, dur=2.2):
+    """一条往云里送的线，上面有几块小方块在走"""
+    o = f'<path d="{d}" fill="none" stroke="{col}" stroke-opacity=".45" stroke-width="2.5"/>'
+    for j in range(n):
+        o += (f'<rect x="-7" y="-7" width="14" height="14" rx="3" fill="{col}">'
+              f'<animateMotion dur="{dur}s" begin="{j*dur/n:.2f}s" repeatCount="indefinite" path="{d}"/></rect>')
+    return o
+
+def _zj_screen(x, y, w, h, lab):
+    return (f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="14" fill="var(--m-card)" stroke="var(--m-line2)" stroke-width="1.5"/>'
+            + txt(x + 18, y + 26, lab, 16, 'var(--m-ink)', 'start', w=800)
+            + f'<line x1="{x}" y1="{y+38}" x2="{x+w}" y2="{y+38}" stroke="var(--m-line2)" stroke-width="1.2"/>')
+
+def zj_page(k0):
+    N = ZJ_N
+    a = lambda n: f' data-in="{k0+n}" data-out="{k0+N}"'
+    css = ('.zj .zjL{opacity:0;transform:translateY(26px);transition:opacity .6s ease,transform .7s cubic-bezier(.2,.8,.2,1)}'
+           '.zj .zjL.vis{opacity:1;transform:none}'
+           '.zj .zjF{opacity:0;transition:opacity .8s ease .2s}.zj .zjF.vis{opacity:1}'
+           '.zj .zjflow{stroke-dasharray:4 12;animation:zjFlow 1.1s linear infinite}'
+           '@keyframes zjFlow{to{stroke-dashoffset:-32}}'
+           '.zj .zjspin{animation:zjSpin 5s linear infinite}'
+           '@keyframes zjSpin{to{transform:rotate(360deg)}}')
+    o = f'<style>{css}</style><defs>'
+    o += ('<radialGradient id="zjGlow" cx=".5" cy=".45" r=".6"><stop offset="0" stop-color="var(--ag)" stop-opacity=".13"/>'
+          '<stop offset="1" stop-color="var(--ag)" stop-opacity="0"/></radialGradient>'
+          '<linearGradient id="zjBeam" x1="0" x2="1"><stop offset="0" stop-color="var(--ag)" stop-opacity=".16"/>'
+          '<stop offset="1" stop-color="var(--ag)" stop-opacity=".03"/></linearGradient></defs><g class="zj">')
+
+    # 第 1 拍：云、各位的电脑、知识库
+    g = f'<path d="{ZJ_CLOUD}" fill="url(#zjGlow)"/>'
+    g += f'<path d="{ZJ_CLOUD}" fill="var(--m-card)" fill-opacity=".28" stroke="var(--ag)" stroke-opacity=".38" stroke-width="2"/>'
+    g += txt(730, 268, '云上', 20, 'var(--m-mute)', w=800)
+    # 电脑
+    g += ('<rect x="80" y="468" width="140" height="94" rx="10" fill="var(--m-card)" stroke="var(--m-line2)" stroke-width="2"/>'
+          '<rect x="92" y="480" width="116" height="70" rx="4" fill="var(--m-card2)"/>'
+          '<rect x="104" y="494" width="44" height="12" rx="3" fill="var(--ag)" opacity=".85"/>'
+          '<rect x="104" y="513" width="64" height="12" rx="3" fill="var(--sk)" opacity=".85"/>'
+          '<rect x="104" y="532" width="84" height="12" rx="3" fill="var(--kb)" opacity=".85"/>'
+          '<path d="M62 566 H238 L226 582 H74 Z" fill="var(--m-card2)" stroke="var(--m-line2)" stroke-width="2"/>')
+    g += txt(150, 616, '各位的电脑', 20, 'var(--m-ink)', w=800) + txt(150, 644, '做好的，传上云', 16, 'var(--m-mute)')
+    g += _zj_up('M238 538 C310 538,310 658,380 658', 'var(--kb)')
+    g += _zj_slab(0)
+    g += f'<g transform="translate({ZJ_CX[0]} 658) scale(.8)">' + db(0, 0, 50, 46) + '</g>'
+    for x in ZJ_CX[1:]:
+        g += f'<g transform="translate({x-7} 662) scale(.72) rotate(-8)">{I_DOC}</g><g transform="translate({x+9} 656) scale(.72) rotate(6)">{I_DOC}</g>'
+    o += f'<g class="zjL"{a(0)}>{g}</g>'
+
+    # 第 2 拍：技能库
+    g = _zj_up('M238 522 C310 522,310 558,380 558', 'var(--sk)')
+    g += _zj_slab(1)
+    for x, t in zip(ZJ_CX, ['报价', '回询价', '写方案']):
+        g += f'<rect x="{x-42}" y="540" width="84" height="36" rx="10" fill="var(--m-card2)" stroke="var(--sk)" stroke-width="2"/>' + txt(x, 565, t, 18, 'var(--sk)', w=800)
+    o += f'<g class="zjL"{a(1)}>{g}</g>'
+
+    # 第 3 拍：Agent 执行层，往下连到技能库和知识库；每个 Agent 外面一圈在转：一轮一轮跑
+    g = _zj_up('M238 506 C310 506,310 446,380 446', 'var(--ag)')
+    for x in ZJ_RX:   # 竖线画在层下面，Agent 盖在上面
+        g += f'<line x1="{x}" y1="484" x2="{x}" y2="632" stroke="var(--ag)" stroke-opacity=".3" stroke-width="2"/>'
+        g += f'<path class="zjflow" d="M{x} 632 V484" stroke="var(--ag)" stroke-width="2.5" fill="none"/>'
+        g += f'<circle cx="{x}" cy="558" r="5" fill="var(--sk)"/><circle cx="{x}" cy="632" r="5" fill="var(--kb)"/>'
+    g += _zj_slab(2)
+    for x in ZJ_RX:
+        g += f'<circle class="zjspin" cx="{x}" cy="446" r="38" fill="none" stroke="var(--ag)" stroke-opacity=".55" stroke-width="2" stroke-dasharray="40 14"/>'
+        g += robot(x, 452, .6, 'var(--ag)')
+    o += f'<g class="zjL"{a(2)}>{g}</g>'
+
+    # 第 4 拍：工作空间——小看板，一张卡从待办走到等拍板，人在最右边拍板
+    g = _zj_slab(3)
+    for i, (x, t) in enumerate(zip([700, 815, 930], ['待办', '在干', '等拍板'])):
+        g += txt(x, 316, t, 15, 'var(--m-mute)', w=700)
+        g += f'<rect x="{x-46}" y="326" width="92" height="14" rx="4" fill="var(--m-card2)" stroke="var(--m-line2)"/>'
+        if i < 2: g += f'<rect x="{x-46}" y="346" width="92" height="14" rx="4" fill="var(--m-card2)" stroke="var(--m-line2)"/>'
+    g += ('<rect x="-46" y="-7" width="92" height="14" rx="4" fill="var(--sk)">'
+          '<animateMotion dur="4.5s" repeatCount="indefinite" keyPoints="0;0;.5;.5;1;1" keyTimes="0;.15;.4;.55;.8;1" calcMode="linear" path="M700 353 H930"/></rect>')
+    g += person(1012, 345, .62, 'var(--sk)')
+    o += f'<g class="zjL"{a(3)}>{g}</g>'
+
+    # 第 5 拍：映射到人看得见的界面
+    g = ''
+    for p in ['1050,300 1050,362 1210,378 1210,250', '1050,300 1050,362 1210,532 1210,404', '1050,300 1050,362 1320,760 1320,560']:
+        g += f'<polygon points="{p}" fill="url(#zjBeam)"/>'
+    for d in ['M1050 331 L1210 314', 'M1050 331 L1210 468', 'M1050 331 L1320 660']:
+        g += f'<path class="zjflow" d="{d}" stroke="var(--ag)" stroke-opacity=".7" stroke-width="2" fill="none"/>'
+    g += txt(1370, 228, '人在这些界面上看', 18, 'var(--m-mute)', w=700)
+    # 飞书：一条提醒、一个“同意”
+    g += _zj_screen(1210, 250, 320, 128, '飞书')
+    g += '<rect x="1228" y="302" width="200" height="26" rx="8" fill="var(--m-card2)"/><rect x="1228" y="336" width="150" height="26" rx="8" fill="var(--m-card2)"/>'
+    g += '<rect x="1446" y="336" width="66" height="26" rx="8" fill="var(--sk)"/>' + txt(1479, 355, '同意', 15, '#0b0d0c', w=800)
+    # 看板：三列卡
+    g += _zj_screen(1210, 404, 320, 128, '看板')
+    for i in range(3):
+        cx = 1232 + i * 98
+        for j in range(3 - i):
+            g += f'<rect x="{cx}" y="{454+j*22}" width="82" height="14" rx="4" fill="{"var(--sk)" if (i, j) == (2, 0) else "var(--m-card2)"}"/>'
+    # 手机：一条消息、一个“拍板”
+    g += f'<rect x="1320" y="560" width="110" height="200" rx="20" fill="var(--m-card)" stroke="var(--m-line2)" stroke-width="1.5"/>'
+    g += '<rect x="1360" y="570" width="30" height="5" rx="2.5" fill="var(--m-line2)"/>'
+    g += txt(1375, 604, '手机', 16, 'var(--m-ink)', w=800)
+    g += '<rect x="1334" y="620" width="82" height="22" rx="7" fill="var(--m-card2)"/><rect x="1334" y="650" width="64" height="22" rx="7" fill="var(--m-card2)"/>'
+    g += '<rect x="1334" y="712" width="82" height="30" rx="9" fill="var(--sk)"/>' + txt(1375, 733, '拍板', 15, '#0b0d0c', w=800)
+    o += f'<g class="zjF"{a(4)}>{g}</g>'
+    o += '</g>'
+    return svg(o)
+
+SUB.setdefault('mz', {})[ZJ_T[0]] = ZJ_T[1]
+sec('mz', '--sk', [(ZJ_T[0], zj_page(0), None, '')])
+assert H[-1].count('data-in="0" data-out="1"') == 2
+H[-1] = H[-1].replace('data-in="0" data-out="1"', f'data-in="0" data-out="{ZJ_N}"')   # 标题和画面留到第 5 拍
+beats('mz', '总结', [
+    '最后，用一张图把这两天收个尾。这两天各位做的东西，都在自己电脑上：Obsidian 里的知识库，文件夹里的技能、岗位说明书。回到公司，下一步就是把它们传上云。最底下一层，企业知识库：每个人理好的资料汇到一处，洗干净、带出处，谁能看什么按部门分好。',
+    '往上一层，企业技能库。各岗位比过了、确实好用的做法传上来，一个人做的，全公司都能用；规矩变了，改一处，大家跟着变。',
+    '再往上，是 Agent 的执行层，也是企业级的。一个岗位一个 Agent，它往下连着两层：要知识，去知识库查；要做法，去技能库拿。活儿在云上一轮一轮地跑，做完一单记一笔，下一单更顺，不用谁开着电脑守着。',
+    '最上面，是整个 Agent 的工作空间，同样是企业级的。谁派了什么活、哪个 Agent 在干、卡在哪、哪件等人拍板，都在这一层。',
+    '那人在哪看？就在这些界面上：飞书里收提醒，点一下就批；看板上看进度；手机上也能拍板。东西全在云上，Agent 在云上循环干活、越干越好，界面只是把它映射出来给人看。这两天各位亲手搭的，就是这张图的底子。',
+])
+
 # ======================= 04 组织（泽洲讲，屏由他定） =======================
 sec('m6', '--wf', [('AI 进来以后，<em>组织怎么跟着变</em>', ph(200, 230, 1200, 560, '泽洲', '泽洲的内容放这里'), None, '')],
     ('04', '组织', 'AI 进来以后，组织怎么跟着变', '<i></i><i></i><i></i><i class="on"></i>'))
