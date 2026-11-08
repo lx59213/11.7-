@@ -282,10 +282,14 @@ def box(text):
             f'<button class="copy-btn" title="复制" aria-label="复制" onclick="copyPrompt(this)">{ICON}</button></div>')
 
 
+# 11-08 TTZ 定的样式：纸面底、步骤时间线、轻动效（只加样式和小脚本，不动文字）
+POLISH = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "学员页样式.html"), encoding="utf-8").read()
+
+
 def sheet(title, lead, inner):
     return (f'<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">'
             f'<meta name="viewport" content="width=device-width,initial-scale=1"><title>{html.escape(title)}</title>'
-            f'<style>{CSS2}</style></head><body><main><h1>{html.escape(title)}</h1><p>{lead}</p><hr>'
+            f'<style>{CSS2}</style>{POLISH}</head><body><main><h1>{html.escape(title)}</h1><p>{lead}</p><hr>'
             f'{inner}</main><script>{JS2}</script></body></html>')
 
 
