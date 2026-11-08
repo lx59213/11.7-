@@ -26,7 +26,144 @@ code{font-family:"SF Mono",Menlo,Consolas,"PingFang SC",monospace;font-size:.86e
 hr{border:none;text-align:center;margin:2.8em 0}
 hr::after{content:"\00b7 \00b7 \00b7";color:var(--ink-light);letter-spacing:.8em;font-size:.9em}
 @media (max-width:600px){main{padding:36px 18px 72px}body{font-size:16px}}
-</style></head><body><main><h1>操作手册 · 智能体</h1><p>每一步：为了啥、做完拿到什么、卡住了怎么办，下面是要复制的那段。最后是换了对话、周间练习和回去以后。</p><hr><p class="go"><b>整体：</b>把一整件事交给一个 AI 下属：它自己查、自己做、自己检查，碰到该你定的停下来问你。它做的和不照说明书做的打乱了你挑，挑中它才算能用。第二天的人机编队另有一个包。</p><div class="go"><p><b>怎么做：</b></p><ol class="how"><li>下载 <a href="3_智能体.zip" download><b>3_智能体.zip</b></a>，整个拖进上午做知识库的那个对话（不用解压），再复制下面第 1 步，一起发出去。<br><small>在微信里打开的下载不了：点右上角，用浏览器打开。苹果自带浏览器下完自动解开成了文件夹：把这个文件夹拖进去也行。</small></li><li>AI 问你，就答自己工作里的事；问以前出过的事，说具体是哪一回；想不起来、不想写，直说，AI 会劝你多想一下，实在不想写也能往下走，看板上照实记。</li><li>让你挑甲、乙，只看哪份你敢直接交出去，别猜是哪份。</li><li>看到"第 N 步结束"，复制下一步发过去。</li></ol></div><h2>第 1 步 · 定岗位，挑第一件事<small> · 约 6 分钟</small></h2><div class="hints"><p class="hint"><b>为了啥：</b>给 AI 下属定个岗位，先交一件你最熟的事。一般就是下午做技能的那件，往外扩成一整件。</p><p class="hint"><b>做完拿到：</b>岗位四句（它叫什么、服务谁、交给它什么、做成了算什么），和第一件要交给它的事。</p><p class="hint"><b>卡住了：</b>四句不对：直接说哪句改成什么。</p></div><div class="prompt-box"><pre><code># 第 1 步：定岗位，挑第一件事
+</style><style id="xy-polish">
+/* 学员页样式样张 11-08：纸面底、暖光、颗粒；步骤时间线；轻动效。只加样式和少量脚本，不动文字 */
+:root{--paper:#f8f5ee;--card:#fffdf8;--accent:#b35c37;--sage:#5d7a69;--line:#e7e0d1;--shadow:0 1px 0 rgba(60,40,20,.04),0 10px 28px -16px rgba(60,40,20,.22)}
+html{background:var(--paper)}
+body{background:transparent;position:relative;min-height:100vh}
+body::before{content:"";position:fixed;inset:-10vmax;z-index:-2;pointer-events:none;
+  background:radial-gradient(42vmax 32vmax at 88% 6%,rgba(179,92,55,.11),transparent 62%),
+             radial-gradient(38vmax 30vmax at 4% 58%,rgba(93,122,105,.09),transparent 64%),
+             radial-gradient(30vmax 24vmax at 70% 96%,rgba(214,170,96,.08),transparent 66%);
+  animation:xy-drift 48s ease-in-out infinite alternate}
+body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.55;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .32 0 0 0 0 .25 0 0 0 0 .18 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+@keyframes xy-drift{from{transform:translate3d(0,0,0)}to{transform:translate3d(-3vmax,2vmax,0)}}
+
+#xy-prog{position:fixed;top:0;left:0;right:0;height:2px;z-index:50;transform-origin:0 50%;transform:scaleX(0);
+  background:linear-gradient(90deg,var(--accent),#d08a55)}
+
+main{max-width:720px;padding-top:72px}
+h1{font-size:2em;letter-spacing:.01em;position:relative;padding-bottom:.35em}
+h1::after{content:"";position:absolute;left:0;bottom:0;height:3px;width:56px;border-radius:2px;background:var(--accent);transform-origin:0 50%;animation:xy-grow .9s .15s cubic-bezier(.2,.7,.2,1) both}
+@keyframes xy-grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+main>p:first-of-type{font-size:1.05em;color:#5f5a52}
+hr+hr{display:none}
+
+/* 总述两张卡 */
+.go{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:1em 1.2em}
+p.go{margin:1.2em 0}
+.go a[download]{display:inline-flex;align-items:center;gap:.4em;padding:.15em .8em .15em .65em;margin:0 .15em;border-radius:999px;
+  background:var(--accent);color:#fff;text-decoration:none;position:relative;overflow:hidden;vertical-align:baseline;
+  box-shadow:0 6px 16px -8px rgba(179,92,55,.7);transition:transform .2s ease,box-shadow .2s ease}
+.go a[download] b{font-weight:600}
+.go a[download] svg{width:15px;height:15px;flex:none}
+.go a[download]::after{content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);animation:xy-shine 5.5s 1.2s ease-in-out infinite}
+.go a[download]:hover{transform:translateY(-1px);box-shadow:0 10px 20px -8px rgba(179,92,55,.75)}
+@keyframes xy-shine{0%,70%{left:-60%}100%{left:130%}}
+
+/* 步骤：左边一条时间线，序号点随读到哪一步点亮 */
+.xy-step{position:relative;padding-left:58px;margin-top:2.6em}
+.xy-step::before{content:"";position:absolute;left:17px;top:44px;bottom:-2.6em;width:2px;background:linear-gradient(var(--line),var(--line))}
+.xy-step:last-of-type::before{display:none}
+.xy-step::after{content:"";position:absolute;left:17px;top:44px;width:2px;height:0;background:var(--accent);transition:height 1.1s cubic-bezier(.2,.7,.2,1)}
+.xy-step.done::after{height:calc(100% + 2.6em - 44px)}
+.xy-num{position:absolute;left:0;top:2px;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;
+  font:600 16px/1 "PingFang SC",sans-serif;color:var(--accent);background:var(--card);border:1.5px solid #e2c9b8;
+  transition:background .4s ease,color .4s ease,border-color .4s ease,box-shadow .4s ease}
+.xy-step.on .xy-num{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 0 0 6px rgba(179,92,55,.12)}
+.xy-step h2{margin:0 0 .7em;padding-top:0;border-top:none;font-size:1.3em}
+.xy-step h2 .xy-eye{display:block;font-size:.62em;font-weight:500;color:var(--ink-light);letter-spacing:.06em;margin-bottom:.15em}
+
+.hints{background:rgba(179,92,55,.045);border-left:2px solid rgba(179,92,55,.55);border-radius:0 10px 10px 0;padding:.7em 1em}
+
+/* 提示词卡 */
+.prompt-box{margin:1.2em 0 0}
+pre{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:20px 22px;
+  transition:box-shadow .25s ease,border-color .25s ease,transform .25s ease}
+.prompt-box:hover pre{border-color:#dccfb9;box-shadow:0 1px 0 rgba(60,40,20,.04),0 16px 34px -18px rgba(60,40,20,.3)}
+pre code .xy-t{display:block;font-weight:600;color:var(--ink);padding-bottom:.55em;margin-bottom:.55em;border-bottom:1px dashed var(--line);padding-right:90px}
+.prompt-box.flash pre{animation:xy-flash .9s ease}
+@keyframes xy-flash{0%{border-color:var(--accent);box-shadow:0 0 0 3px rgba(179,92,55,.18),var(--shadow)}100%{}}
+.copy-btn{width:auto;height:32px;padding:0 12px 0 10px;gap:6px;border-radius:999px;font:500 13px/1 "PingFang SC",sans-serif;top:14px;right:14px;opacity:1;background:#fff}
+.copy-btn:active{transform:scale(.94)}
+.copy-btn::after{content:"复制"}
+.copy-btn.copied::after{content:"已复制"}
+.copy-btn.copied{background:#eef5ef}
+
+/* 回去以后 */
+main>h2:last-of-type{margin-top:3em}
+main ul li{margin:.4em 0}
+
+/* 进场：往上浮一点点 */
+html.xy-js .xy-rv{opacity:0;transform:translateY(14px)}
+html.xy-js .xy-rv.in{opacity:1;transform:none;transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+
+@media (max-width:600px){
+  main{padding-top:48px}
+  .xy-step{padding-left:0}
+  .xy-step::before,.xy-step::after{display:none}
+  .xy-num{position:static;display:inline-grid;width:30px;height:30px;font-size:14px;margin-bottom:.4em}
+  pre{padding:18px 16px 16px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  html.xy-js .xy-rv{opacity:1;transform:none}
+}
+</style>
+<script>
+document.documentElement.classList.add('xy-js');
+document.addEventListener('DOMContentLoaded',function(){
+  var main=document.querySelector('main'); if(!main) return;
+  /* 进度条 */
+  var bar=document.createElement('div'); bar.id='xy-prog'; document.body.appendChild(bar);
+  function prog(){var h=document.documentElement.scrollHeight-innerHeight; bar.style.transform='scaleX('+(h>0?Math.min(1,scrollY/h):0)+')';}
+  addEventListener('scroll',prog,{passive:true}); prog();
+  /* 下载按钮加图标 */
+  var dl=main.querySelector('a[download]');
+  if(dl) dl.insertAdjacentHTML('afterbegin','<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>');
+  /* 把每一步包成一段：序号点、小标题 */
+  [].slice.call(main.querySelectorAll('h2')).forEach(function(h){
+    var m=h.textContent.match(/^第\s*(\d+)\s*步\s*·\s*([^·]+?)\s*(?:·\s*(.+))?$/); if(!m) return;
+    var sec=document.createElement('section'); sec.className='xy-step xy-rv';
+    h.parentNode.insertBefore(sec,h);
+    var n=h.nextSibling, list=[h];
+    while(n && !(n.nodeType===1 && (n.tagName==='H2'||n.tagName==='HR'))){list.push(n); n=n.nextSibling;}
+    list.forEach(function(x){sec.appendChild(x);});
+    h.innerHTML='<span class="xy-eye">第 '+m[1]+' 步'+(m[3]?' · '+m[3]:'')+'</span>'+m[2];
+    sec.insertAdjacentHTML('afterbegin','<span class="xy-num">'+m[1]+'</span>');
+  });
+  /* 提示词第一行做成卡头 */
+  [].slice.call(main.querySelectorAll('pre code')).forEach(function(c){
+    var t=c.textContent, i=t.indexOf('\n'); c.parentNode.setAttribute('data-raw',t); if(i<0) return;
+    var head=document.createElement('span'); head.className='xy-t'; head.textContent=t.slice(0,i);
+    c.textContent=t.slice(i+1).replace(/^\n+/,''); c.insertBefore(head,c.firstChild);
+  });
+  /* 复制照原文（卡头拆出来以后 textContent 会粘在一起） */
+  var orig=window.copyPrompt;
+  window.copyPrompt=function(btn){var pre=btn.parentNode.querySelector('pre'), raw=pre.getAttribute('data-raw');
+    if(raw===null) return orig(btn); var c=pre.cloneNode(false); c.textContent=raw; var keep=pre.textContent;
+    pre.parentNode.replaceChild(c,pre); orig(btn); c.parentNode.replaceChild(pre,c);};
+  /* 复制时整张卡闪一下 */
+  [].slice.call(main.querySelectorAll('.copy-btn')).forEach(function(b){
+    b.addEventListener('click',function(){var p=b.parentNode; p.classList.remove('flash'); void p.offsetWidth; p.classList.add('flash');});
+  });
+  /* 其余块进场 */
+  [].slice.call(main.children).forEach(function(x){ if(x.tagName!=='SECTION' && x.tagName!=='HR' && x.tagName!=='H1') x.classList.add('xy-rv'); });
+  var rv=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in'); rv.unobserve(e.target);}});},{rootMargin:'0px 0px -8% 0px'});
+  [].slice.call(main.querySelectorAll('.xy-rv')).forEach(function(x){rv.observe(x);});
+  /* 读到哪一步：那一步序号点亮，读过的步骤线填色 */
+  var steps=[].slice.call(main.querySelectorAll('.xy-step'));
+  function at(){
+    var y=innerHeight*0.42, cur=-1;
+    steps.forEach(function(s,i){ if(s.getBoundingClientRect().top<y) cur=i; });
+    steps.forEach(function(s,i){ s.classList.toggle('on',i===cur); s.classList.toggle('done',i<cur); });
+  }
+  addEventListener('scroll',at,{passive:true}); at();
+});
+</script>
+</head><body><main><h1>操作手册 · 智能体</h1><p>每一步：为了啥、做完拿到什么、卡住了怎么办，下面是要复制的那段。最后是换了对话、周间练习和回去以后。</p><hr><p class="go"><b>整体：</b>把一整件事交给一个 AI 下属：它自己查、自己做、自己检查，碰到该你定的停下来问你。它做的和不照说明书做的打乱了你挑，挑中它才算能用。第二天的人机编队另有一个包。</p><div class="go"><p><b>怎么做：</b></p><ol class="how"><li>下载 <a href="3_智能体.zip" download><b>3_智能体.zip</b></a>，整个拖进上午做知识库的那个对话（不用解压），再复制下面第 1 步，一起发出去。<br><small>在微信里打开的下载不了：点右上角，用浏览器打开。苹果自带浏览器下完自动解开成了文件夹：把这个文件夹拖进去也行。</small></li><li>AI 问你，就答自己工作里的事；问以前出过的事，说具体是哪一回；想不起来、不想写，直说，AI 会劝你多想一下，实在不想写也能往下走，看板上照实记。</li><li>让你挑甲、乙，只看哪份你敢直接交出去，别猜是哪份。</li><li>看到"第 N 步结束"，复制下一步发过去。</li></ol></div><h2>第 1 步 · 定岗位，挑第一件事<small> · 约 6 分钟</small></h2><div class="hints"><p class="hint"><b>为了啥：</b>给 AI 下属定个岗位，先交一件你最熟的事。一般就是下午做技能的那件，往外扩成一整件。</p><p class="hint"><b>做完拿到：</b>岗位四句（它叫什么、服务谁、交给它什么、做成了算什么），和第一件要交给它的事。</p><p class="hint"><b>卡住了：</b>四句不对：直接说哪句改成什么。</p></div><div class="prompt-box"><pre><code># 第 1 步：定岗位，挑第一件事
 照 3_智能体/智能体包.md 里的规矩做。先找包：这条消息或这个对话里带的 3_智能体.zip（或解开的 3_智能体 文件夹），或已解开的 知识库/_参考/课程/3_智能体/智能体包.md，读完再做这一步。
 这一步守三条：
 ① 只做这一步，后面的步骤不做；对我说话照规则 5，大白话，不念你查了什么。
